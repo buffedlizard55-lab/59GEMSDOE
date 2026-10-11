@@ -37,7 +37,11 @@ def main() -> int:
     leg4 = uniq['leg4_support_matched']
     worst_rho = max((r['spearman_full_footprint'] or 0.0) for r in uniq['rows']) \
         if uniq['rows'] else None
-    unique = bool(leg3['passed'] and leg4['passed'] and not uniq['identical_file_or_pixels'])
+    # The literal inherited gate is operative. Representation-aware, reverse-
+    # overlap, Jaccard, and support-matched summaries are diagnostics only and
+    # cannot override a literal rank/forward-overlap firing.
+    unique = bool(uniq['complete_accessible_scan'] and leg1['passed']
+                  and not uniq['identical_file_or_pixels'])
     if not uniq['complete_accessible_scan']:
         raise SystemExit('refusing to promote: the registry scan is incomplete')
 
@@ -97,13 +101,12 @@ def main() -> int:
             leg3_scale_free_passed=leg3['passed'],
             leg4_support_matched_passed=leg4['passed'],
             overlap_versus_peer_support=uniq['overlap_versus_peer_support'],
-            protocol_note=('The unrestricted one-sided forward-overlap leg is degenerate: '
-                           'it rises monotonically with the peer support size (see '
-                           'overlap_versus_peer_support) and reaches 1.0 for any '
-                           'full-footprint raster. The operative tests are the '
-                           'scale-free ones (Spearman over all 696, reverse overlap, '
-                           'Jaccard) plus forward overlap against comparable-support '
-                           'peers. Every number from every leg is reported.'),
+            protocol_note=('The literal thresholds apply to every indexed raster. Any rho > 0.90 '
+                           'or forward 3-px overlap > 0.70 is a STOP regardless of peer density or '
+                           'representation. Reverse overlap, Jaccard, support-matched, and '
+                           'representation-aware summaries are diagnostic only and cannot clear '
+                           'a literal firing.'),
+            representation_aware_diagnostic_only=True,
             unique=unique),
         portfolio_live_evidence=dict(
             evidence_class=port['evidence_class'],

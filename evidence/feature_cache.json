@@ -1,0 +1,154 @@
+{
+  "evidence_class": "DATA-MEASUREMENT",
+  "source_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+  "shape": [
+    3730,
+    3292
+  ],
+  "crs": "EPSG:32611",
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ],
+  "count": 19,
+  "bands": [
+    {
+      "band": 1,
+      "description": "mag_anom - Magnetic anomaly - deviation from expected Earth's magnetic field",
+      "cache_file": ".cache/features/band-01.npy",
+      "missing_pixels": 7113308,
+      "sha256": "c3c9ff7be463e80a2215d897b5f543f462c405375d0779516a25ef3ab0882fed"
+    },
+    {
+      "band": 2,
+      "description": "rtp - Reduced to pole magnetic data - magnetic anomaly corrected for latitude effects",
+      "cache_file": ".cache/features/band-02.npy",
+      "missing_pixels": 7113308,
+      "sha256": "032b1f28be6adb74f8fc9a7af00538b669bac86fafc6bb3e28d8d04c86a6fb32"
+    },
+    {
+      "band": 3,
+      "description": "tmi_hg - Total magnetic intensity horizontal gradient - rate of change in horizontal direction",
+      "cache_file": ".cache/features/band-03.npy",
+      "missing_pixels": 7113308,
+      "sha256": "f4e8056b307e6057f32c3204e41b66629b9e64a1141f28ba140b41c4929979bf"
+    },
+    {
+      "band": 4,
+      "description": "geod_2ndinv - Geodetic second invariant - measure of strain rate tensor magnitude",
+      "cache_file": ".cache/features/band-04.npy",
+      "missing_pixels": 7113308,
+      "sha256": "00bd2f792614ce5419765ce9b6ea8e89f059392bba8564d3daba4d45f26c2c05"
+    },
+    {
+      "band": 5,
+      "description": "iso_grav_anom_slope - Isostatic gravity anomaly slope - gradient of gravity after isostatic correction",
+      "cache_file": ".cache/features/band-05.npy",
+      "missing_pixels": 7113308,
+      "sha256": "f59f8010b0edc814606090d016cd2a22d7b08585e97a32a2b394921a9b212b0e"
+    },
+    {
+      "band": 6,
+      "description": "tc - Tilt angle or total curvature - magnetic field derivative for edge detection",
+      "cache_file": ".cache/features/band-06.npy",
+      "missing_pixels": 7113320,
+      "sha256": "952921832eb7a55dc069bbd2628210e2a9e6e2e7ab5aca934ce433716d230681"
+    },
+    {
+      "band": 7,
+      "description": "geod_shearrate - Geodetic shear rate - rate of angular deformation from GPS/InSAR",
+      "cache_file": ".cache/features/band-07.npy",
+      "missing_pixels": 7113308,
+      "sha256": "5b74daa1d4cb84bcc599c2466dd24b531e4b282a798772ea41aba13d3f446def"
+    },
+    {
+      "band": 8,
+      "description": "geod_dilaterate - Geodetic dilatation rate - rate of volumetric strain (expansion/contraction)",
+      "cache_file": ".cache/features/band-08.npy",
+      "missing_pixels": 7113308,
+      "sha256": "367451caeb817a83b946130ab17680927de75f784681c2832946e7cfbce09e82"
+    },
+    {
+      "band": 9,
+      "description": "tmi_vg - Total magnetic intensity vertical gradient - rate of change in vertical direction",
+      "cache_file": ".cache/features/band-09.npy",
+      "missing_pixels": 7113308,
+      "sha256": "0389aeacf19c532857e834149d70c1919c7851caa459ff965d73cfd67f6a40ec"
+    },
+    {
+      "band": 10,
+      "description": "deq_n100a15 - Distance to earthquake (n=100km radius, a=15\u00b0 azimuth parameters)",
+      "cache_file": ".cache/features/band-10.npy",
+      "missing_pixels": 7113308,
+      "sha256": "c326f37826cff179a18bc4416b512ef1cda1cbe0c6a115b0fc835141bcaa08dd"
+    },
+    {
+      "band": 11,
+      "description": "iso_grav_anom_vg - Isostatic gravity anomaly vertical gradient - vertical rate of change",
+      "cache_file": ".cache/features/band-11.npy",
+      "missing_pixels": 7113308,
+      "sha256": "3117dd59e58d63f55209343ba6738375bf182c564230516ebb556b4004aeb7dd"
+    },
+    {
+      "band": 12,
+      "description": "det_elev - Detrended elevation - topography with regional trends removed",
+      "cache_file": ".cache/features/band-12.npy",
+      "missing_pixels": 7113308,
+      "sha256": "739d6373125abf164e0f56163b8d9d02f651eb8d622decfe0360882085a0de32"
+    },
+    {
+      "band": 13,
+      "description": "iso_grav_anom - Isostatic gravity anomaly - gravity after compensating for topographic mass",
+      "cache_file": ".cache/features/band-13.npy",
+      "missing_pixels": 7113308,
+      "sha256": "a4de05be78cb6e03be15f976e9f7ad31dd7b290c3fdca29c20d2c4d6f88a215f"
+    },
+    {
+      "band": 14,
+      "description": "tmi - Total magnetic intensity - total strength of magnetic field",
+      "cache_file": ".cache/features/band-14.npy",
+      "missing_pixels": 7113308,
+      "sha256": "5c1ba32be4821d1a3038c455378026ea5f0cbf022713d47c974f98acddf3f4cf"
+    },
+    {
+      "band": 15,
+      "description": "depth_to_base_surf - Depth to basement surface - thickness of sedimentary cover",
+      "cache_file": ".cache/features/band-15.npy",
+      "missing_pixels": 7113308,
+      "sha256": "5507230ae758d0c347c2b9e42850b2742b01754f8683e6d84e0655021225a300"
+    },
+    {
+      "band": 16,
+      "description": "ieq_n100a15 - Earthquake intensity or density (n=100km radius, a=15\u00b0 parameters)",
+      "cache_file": ".cache/features/band-16.npy",
+      "missing_pixels": 7113308,
+      "sha256": "27a54f645c7f7f6da155434e10f324eb873bdff3075eb897507ceebab50670b7"
+    },
+    {
+      "band": 17,
+      "description": "cond_surf - Conductivity surface - electrical conductivity of subsurface",
+      "cache_file": ".cache/features/band-17.npy",
+      "missing_pixels": 7113308,
+      "sha256": "7261a2f3ca9dab07af4186b92a1f4346a6f71dead76689795c38ee1792fbd767"
+    },
+    {
+      "band": 18,
+      "description": "iso_grav_anom_hg - Isostatic gravity anomaly horizontal gradient - horizontal rate of change",
+      "cache_file": ".cache/features/band-18.npy",
+      "missing_pixels": 7113308,
+      "sha256": "e747b424131c9462a2c7c434bc7e64585e262f2fcc99f5d52d71878517e85080"
+    },
+    {
+      "band": 19,
+      "description": "det_elev_slope - Detrended elevation slope - gradient of elevation after detrending",
+      "cache_file": ".cache/features/band-19.npy",
+      "missing_pixels": 7113308,
+      "sha256": "47cc1cb1472c123c5b8069dc07f6e2f8fbc7e2c688e228a3fe50b2438314c934"
+    }
+  ],
+  "provenance": "hash-verified third-party bridge; official origin not independently authenticated"
+}

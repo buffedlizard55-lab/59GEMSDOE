@@ -36,6 +36,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from gems59 import evaluate_holdout as EH                      # noqa: E402
 from gems59 import intensity as INT                            # noqa: E402
+from gems59.gates import lane_uniqueness_report, write_report  # noqa: E402
 from gems59.grid import load_grid                              # noqa: E402
 from gems59.holdout import FOLD_NAMES, buffered_component_draw  # noqa: E402
 from gems59.metric import dti_exact                            # noqa: E402
@@ -67,17 +68,55 @@ def main() -> int:
     ap.add_argument("--break-even", type=float, default=1.0,
                     help="minimum expected new-fault pixels per 1 km block to tile")
     ap.add_argument("--experiments", type=int, default=3)
+    ap.add_argument("--registry", default="evidence/registry_refreshed_20261010T2001.json",
+                    help="latest pinned registry inventory; cache errors fail closed")
     a = ap.parse_args()
+    if not INT.TARGET_GROUP_BACKGROUND_IMPLEMENTED:
+        raise SystemExit(
+            "STOP: the requested independent Phillips et al. target-group background is not "
+            "implemented or pinned. No new experiment may run until an independent same-effort "
+            "source is established and wired into the shared holdout fit."
+        )
     start = time.monotonic()
 
-    grid = load_grid()
+    data_dir = ROOT / "data/official"
+    grid = load_grid(data_dir)
+    registry_path = Path(a.registry)
+    if not registry_path.is_absolute():
+        registry_path = ROOT / registry_path
+    if not registry_path.is_file():
+        raise SystemExit(f"strict holdout gate requires the registry inventory: {registry_path}")
+    registry_index = json.loads(registry_path.read_text(encoding="utf-8"))
+
+    def require_lane_gate(values: np.ndarray, phase: str, label: str) -> None:
+        values = np.asarray(values, dtype=np.float32)
+        if phase == "surface":
+            peak = float(values[fp].max())
+            if not np.isfinite(peak) or peak <= 0.0:
+                raise SystemExit(f"invalid {label} surface; no holdout dots may be placed")
+            if peak > 1.0:
+                values = values / peak
+        report = lane_uniqueness_report(
+            values, fp, sample=data_dir / "sample_submission.tif",
+            registry_index=registry_index, phase=phase,
+        )
+        path = ROOT / "evidence/intensity_holdout_registry" / f"{label}_{phase}.json"
+        write_report(path, report)
+        if not report["ok"]:
+            raise SystemExit(
+                f"STRICT {phase.upper()} REGISTRY GATE FAILED for {label}; stop before placement/scoring. "
+                f"See {path.relative_to(ROOT)}."
+            )
+
     fp = grid.footprint
     cat = grid.catalogue
-    prior = float(cat.sum() / fp.sum())
 
     # ---- shared holdout draw (same seed as the published Session-5 arms) ----
     folds, quad = buffered_component_draw(grid, seed=a.seed)
     visible = folds[0]["visible"]
+    # The case-control prior is estimated from training-visible presences only;
+    # using the full catalogue prevalence would leak withheld label mass.
+    prior = float(visible.sum() / fp.sum())
     hidden = folds[0]["hidden_all"]
     masked_known = folds[0]["masked_known"]
     domain_all = np.logical_or.reduce([f["region"] for f in folds]) & ~masked_known
@@ -116,12 +155,15 @@ def main() -> int:
                                            prior=prior, seed=59 + q)
                 lam = INT.predict_logit(planes, fit.names, fit.beta, fit.intercept, fp)
                 lam = INT.effort_correct(lam, planes, spec["gamma"], fp)
+                gate_label = f"exp1_{name}_fold{q + 1}"
+                require_lane_gate(lam, "surface", gate_label)
                 lambdas[name] = lam
                 n_b, n_b_cell = INT.zone_new_fault_density(lam, masked_known)
                 classes = np.where(n_b >= a.break_even, 1, 0).astype(np.int32)
                 anchors = INT.block_anchors(lam, allowed)
                 dots = INT.tile_blocks(n_b_cell, lam, allowed, 3.0, classes=classes,
                                        anchors=anchors)
+                require_lane_gate(dots.astype(np.float32), "dots", gate_label)
                 res, t = EH.evaluate(dots.astype(np.float32), fold, fp)
                 terms[name] = t if terms[name] is None else terms[name] + t
                 per_fold.append(dict(arm=name, fold=FOLD_NAMES[q],
@@ -212,6 +254,8 @@ def main() -> int:
         with threadpool_limits(limits=2):
             fit, _ = INT.fit_intensity(planes, (rows, cols), fp, prior=prior, seed=59 + q)
             lam = INT.predict_logit(planes, fit.names, fit.beta, fit.intercept, fp)
+            gate_label = f"exp2_fold{q + 1}"
+            require_lane_gate(lam, "surface", gate_label)
             n_b, n_b_cell = INT.zone_new_fault_density(lam, masked_known)
             sel = n_b >= a.break_even
             vals = n_b[sel]
@@ -221,6 +265,7 @@ def main() -> int:
             anchors = INT.block_anchors(lam, allowed)
             rest3 = INT.tile_blocks(n_b_cell, lam, allowed, 3.0, classes=cls_block.astype(np.int32),
                                     anchors=anchors)
+            require_lane_gate(rest3.astype(np.float32), "dots", gate_label + "_base_s3")
             res, t = EH.evaluate(rest3.astype(np.float32), fold, fp)
             base_terms = t if base_terms is None else base_terms + t
             for ci, cn in enumerate(cls_names, start=1):
@@ -238,6 +283,7 @@ def main() -> int:
                         dots = INT.tile_blocks(n_b_cell, lam, allowed, 3.0,
                                                classes=np.where(cls_block != ci, cls_block, 0).astype(np.int32),
                                                anchors=anchors)
+                    require_lane_gate(dots.astype(np.float32), "dots", gate_label + f"_{cn}_{key}")
                     res, t = EH.evaluate(dots.astype(np.float32), fold, fp)
                     terms3[f"{cn}__{key}"] = t if terms3[f"{cn}__{key}"] is None \
                         else terms3[f"{cn}__{key}"] + t
@@ -281,6 +327,8 @@ def main() -> int:
         with threadpool_limits(limits=2):
             fit, _ = INT.fit_intensity(planes, (rows, cols), fp, prior=prior, seed=59 + q)
             lam = INT.predict_logit(planes, fit.names, fit.beta, fit.intercept, fp)
+            gate_label = f"exp3_fold{q + 1}"
+            require_lane_gate(lam, "surface", gate_label)
             n_b, n_b_cell = INT.zone_new_fault_density(lam, masked_known)
             sel = n_b >= a.break_even
             vals = n_b[sel]
@@ -299,6 +347,7 @@ def main() -> int:
                     classes = np.where(cls_block == ci, ci, 0).astype(np.int32)
                     dots |= INT.tile_blocks(n_b_cell, lam, elig, sp, classes=classes,
                                             anchors=anchors)
+                require_lane_gate(dots.astype(np.float32), "dots", gate_label + f"_{cname}")
                 res, t = EH.evaluate(dots.astype(np.float32), fold, fp)
                 terms4[cname] = t if terms4[cname] is None else terms4[cname] + t
                 print(f"[exp3] {FOLD_NAMES[q]} {cname}: DTI {res['dti']:.5f} dots {int(dots.sum())}",

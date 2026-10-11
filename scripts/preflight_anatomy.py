@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Fail-closed pre-placement gate: an immutable prior can block ALL nonempty dots.
+"""Fail-closed pre-placement gate for the historical universal-witness claim.
 
-This is not a new submission generator and does not alter the 70% rule. One
-universal witness is enough to stop; no private definition of a soft 'dot'.
-The witness is pinned in the existing indexed public registry AND checked at
-its current GitHub main path. This proves an impossibility for the literal
-rule, not that every private or future submission is in the index.
+This is not a submission generator and does not alter the 70% rule. A previous
+session reported a universal witness, but its TIFF and verification receipts are
+absent from the current checkout. Do not treat that claim as confirmed until this
+tool successfully revalidates the pinned SHA and public source. Even a successful
+witness check proves only a blocker under the literal rule for this dated public
+inventory; private or future submissions remain outside its scope.
 """
 from __future__ import annotations
 

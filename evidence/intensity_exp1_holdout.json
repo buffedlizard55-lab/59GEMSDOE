@@ -1027,5 +1027,17 @@
    "note": "HOLDOUT-STRUCTURE diagnostic; not a score; SGMC proxy bias per IR-57-INSTR-01"
   }
  ],
- "prior_mapped_fraction": 0.011802515514169385
+ "prior_mapped_fraction": 0.011802515514169385,
+ "protocol_qualification": {
+  "qualified": false,
+  "status": "EXPLORATORY ONLY; not eligible for candidate promotion or slot selection",
+  "failures": [
+   "historical case-control prevalence used the full catalogue, including withheld label mass; the runner was corrected to visible-only prevalence but was not rerun",
+   "independent target-group background requested by Phillips et al. (2009) was not implemented; only uniform background and catalogue-derived proxies were used",
+   "historical final-dot literal registry check found 85 forward-overlap firings above 0.70 on 695 rasters; latest saved 696-raster index was not scanned against the candidate",
+   "historical candidate surface was not checked by the pre-placement literal registry gate"
+  ],
+  "budget_status": "three experiments used; no further experiment authorized in this run",
+  "reviewed_utc": "2026-10-11"
+ }
 }

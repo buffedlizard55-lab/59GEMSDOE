@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from gems59 import intensity as INT                            # noqa: E402
+from gems59.gates import lane_uniqueness_report, write_report  # noqa: E402
 from gems59.grid import load_grid                              # noqa: E402
 from gems59.submission_writer import write_submission          # noqa: E402
 
@@ -41,17 +42,72 @@ def main() -> int:
     ap.add_argument("--geo-only", action="store_true",
                     help="fit on geophysical covariates only (no effort features)")
     ap.add_argument("--out", default="downloads/gems59-h59i-intensity-lattice.tif")
+    ap.add_argument("--registry", default="evidence/registry_refreshed_20261010T2001.json",
+                    help="pinned complete accessible raster inventory; missing cache rows fail closed")
     ap.add_argument("--name", default="gems59-h59i-intensity-lattice-20261011")
     ap.add_argument("--note", default=(
         "H59-I intensity lane: MaxEnt/Poisson point-process intensity with effort "
         "covariates, 1 km new-fault-density zoning, holdout-derived break-even tiling."))
     a = ap.parse_args()
     start = time.monotonic()
+    if not INT.TARGET_GROUP_BACKGROUND_IMPLEMENTED:
+        raise SystemExit(
+            "STOP: target-group background is not implemented; no candidate construction "
+            "or submission export is permitted."
+        )
 
-    grid = load_grid()
+    # Fail before constructing anything unless the selected held-out candidate
+    # clears the comparable published reference. This is HOLDOUT evidence, not a
+    # portal score and not permission to consume a competition slot.
+    holdout_path = ROOT / "evidence/intensity_exp3_final.json"
+    holdout = json.loads(holdout_path.read_text(encoding="utf-8"))
+    if (holdout.get("evidence_class") != "HOLDOUT-DTI"
+            or holdout.get("evaluator_version") != "gems57-pooled-hide-v2"):
+        raise SystemExit("holdout gate missing/mismatched; refusing submission construction")
+    if holdout.get("protocol_qualification", {}).get("qualified") is not True:
+        raise SystemExit("HOLDOUT-DTI is exploratory or lacks required leakage/target-group qualification")
+    holdout_score = holdout["pooled"]["scores"].get("final_c2")
+    reference = holdout.get("published_reference", {}).get("relay_bend_anatomy_dti")
+    if not holdout_score or reference is None:
+        raise SystemExit("holdout gate lacks final-collar score or comparable reference")
+    if (holdout_score.get("withheld_positive_pixels") != 11321
+            or holdout_score["dti"] <= reference):
+        raise SystemExit(
+            "HOLDOUT GATE FAILED — selected H59-I final_c2 did not beat the comparable "
+            f"holdout reference ({holdout_score.get('dti'):.6f} vs {reference:.6f}); "
+            "no TIF was created and no slot was used."
+        )
+    if a.gamma != 0.0 or a.collar != 2 or a.geo_only:
+        raise SystemExit("build settings differ from the holdout-selected H59-I arm (gamma=0, collar=2, full features)")
+
+    data_dir = ROOT / "data/official"
+    grid = load_grid(data_dir)
     fp = grid.footprint
     cat = grid.catalogue
     prior = float(cat.sum() / fp.sum())
+    registry_path = Path(a.registry)
+    if not registry_path.is_absolute():
+        registry_path = ROOT / registry_path
+    if not registry_path.is_file():
+        raise SystemExit(f"strict lane gate requires the registry inventory: {registry_path}")
+    registry_index = json.loads(registry_path.read_text(encoding="utf-8"))
+
+    def require_lane_gate(values: np.ndarray, phase: str) -> None:
+        report = lane_uniqueness_report(
+            values,
+            fp,
+            sample=data_dir / "sample_submission.tif",
+            registry_index=registry_index,
+            phase=phase,
+        )
+        receipt_path = ROOT / f"evidence/intensity_{phase}_gate.json"
+        write_report(receipt_path, report)
+        if not report["ok"]:
+            raise SystemExit(
+                f"STRICT {phase.upper()} REGISTRY GATE FAILED — STOP before output. "
+                f"See {receipt_path.relative_to(ROOT)}; no submission slot or TIFF was created."
+            )
+
     names = GEO_ONLY if a.geo_only else INT.FEATURE_NAMES
 
     utility = json.loads((ROOT / a.utility).read_text())
@@ -70,6 +126,7 @@ def main() -> int:
     fit, _ = INT.fit_intensity(planes, (rows, cols), fp, names=names, prior=prior, seed=59)
     lam = INT.predict_logit(planes, fit.names, fit.beta, fit.intercept, fp)
     lam = INT.effort_correct(lam, planes, a.gamma, fp)
+    require_lane_gate(lam, "surface")
     n_b, n_b_cell = INT.zone_new_fault_density(lam, cat)
     sel = n_b >= a.break_even
     vals = n_b[sel]
@@ -94,9 +151,10 @@ def main() -> int:
     pred = dots.astype(np.float32)
     pred[~fp] = 0.0
     print(f"[build] dots {int(pred.sum())} ({time.monotonic()-start:.0f}s)", flush=True)
+    require_lane_gate(pred, "dots")
 
     receipt = write_submission(
-        ROOT / a.out, pred, ROOT / "data/bridge/sample_submission.tif", fp,
+        ROOT / a.out, pred, data_dir / "sample_submission.tif", fp,
         note=a.note, name=a.name, catalogue=cat,
         metadata=dict(
             lane="intensity", hypothesis="H59-I", gamma=a.gamma, collar_px=a.collar,

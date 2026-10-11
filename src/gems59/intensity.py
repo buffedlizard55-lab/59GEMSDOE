@@ -8,10 +8,15 @@ Scientific basis (references verified against publisher records; see
   point pattern; the intensity ``lambda(x)`` is fitted by logistic regression
   on presence/background cells.  MaxEnt and Poisson point-process models are
   equivalent in form (Fithian & Hastie, *Annals of Applied Statistics* 2013).
-* **Sample-selection (mapping-effort) bias** is handled per Phillips et al.
-  (*Ecological Applications* 2009): the catalogue is a biased sample of the
-  fault population, so effort covariates enter the intensity and the
-  background stands for where mapping occurred (target-group background).
+* **Sample-selection bias is not fully addressed in this prototype.** The
+  evaluated fit used uniform background cells plus catalogue-derived trace-
+  density and relief covariates. It did **not** use a target-group background:
+  no independent, spatially matched, same-effort non-target mapping inventory
+  is pinned. These two methods are not interchangeable, and the current
+  results must not be described as target-group-background corrected. Phillips
+  et al. (*Ecological Applications* 2009) motivate the requested correction;
+  a defensible target-group source and a fresh split-safe validation are still
+  required.
 * The zoning unit is the **1 km block**, which deliberately exceeds the
   ~400 m catalogue registration error quoted in the lane brief (Hermant et
   al., as quoted in the standing competition brief; not independently
@@ -43,7 +48,8 @@ BLOCK_PX = 10                      # 1 km zoning block at the 100 m grid
 SPACINGS = (3.0, 4.0, 6.0)         # candidate lattice spacings (px = 100 m)
 DENSITY_CLASSES = 4                # quartiles of block new-fault density
 EFFORT_WINDOWS_PX = (10, 50)       # 1 km and 5 km mapping-effort windows
-N_BACKGROUND = 120_000             # uniform background cells for the MaxEnt fit
+N_BACKGROUND = 120_000             # uniform background cells in the historical prototype
+TARGET_GROUP_BACKGROUND_IMPLEMENTED = False
 MAX_ITER = 400
 C_REG = 1.0
 
@@ -241,13 +247,14 @@ def fit_intensity(planes: dict[str, np.ndarray], presence_idx, footprint: np.nda
                   seed: int = 59, prior: float | None = None) -> tuple[IntensityFit, np.ndarray]:
     """MaxEnt-form (== Poisson point-process) logistic fit on presence/background.
 
-    Presence cells are the mapped catalogue; background cells are drawn
-    uniformly over the footprint, which stands for the region of inference.
-    Mapping-effort bias is corrected by the effort covariates themselves
-    (Phillips et al. 2009 allow either effort covariates or a target-group
-    background; the catalogue *is* the effort record here, so a
-    catalogue-density-weighted background would be circular and is not used --
-    see evidence/irregularities_intensity.json IR-59-EFFORT-01).
+    Presence cells are the mapped catalogue; background cells in this
+    historical prototype are drawn uniformly over the footprint. The fitted
+    trace-density/relief variables are only proxies, not an independently
+    measured mapping-effort surface. No target-group background is implemented
+    because there is no pinned, independent, spatially matched mapping inventory.
+    A target-group background derived from the response catalogue itself would
+    be circular. Therefore neither the fit nor its reported holdout result is
+    a completed Phillips et al. (2009) correction; see IR-59-EFFORT-01.
 
     ``prior`` (the mapped-fault fraction of the footprint) applies the standard
     case-control (priority-score) correction so the returned probabilities are
@@ -282,13 +289,14 @@ def fit_intensity(planes: dict[str, np.ndarray], presence_idx, footprint: np.nda
 
 def effort_correct(lam: np.ndarray, planes: dict[str, np.ndarray], gamma: float,
                    footprint: np.ndarray) -> np.ndarray:
-    """Phillips-style mapping-effort bias correction of the fitted intensity.
+    """Exploratory power reweighting by the catalogue-density effort proxy.
 
-    ``lam_true(x) = lam_obs(x) / ehat(x)**gamma`` with ``ehat`` the 1 km-window
-    mapping-density covariate normalised to unit mean inside the footprint, so
-    the correction moves probability mass from well-mapped to under-mapped
-    terrain while preserving the total.  ``gamma = 0`` is the uncorrected
-    control.
+    ``lam(x) = lam_obs(x) / ehat(x)**gamma`` with ``ehat`` a normalized,
+    winsorized 1 km-window density of the response catalogue. This is not a
+    measured survey-effort surface and is not a target-group background. The
+    weights are not renormalized to preserve total intensity. ``gamma=0`` is
+    the no-reweighting control; the old holdout winner used gamma=0 and thus
+    supplies no evidence that this correction improves DTI.
     """
     if gamma == 0.0:
         return lam

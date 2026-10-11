@@ -1,7 +1,9 @@
 {
- "schema": "gems59.feature-bank.v1",
+ "evidence_class": "FEATURE-CACHE-MEASUREMENT",
+ "schema": "gems59.feature-bank.v2",
  "source_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
  "source_bytes": 418912844,
+ "source_provenance": "hash-verified public GitHub bridge; organizer origin is not independently authenticated",
  "bands": [
   "mag_anom",
   "rtp",
@@ -173,6 +175,13 @@
   "cat_dens_15"
  ],
  "extra": [
-  "dtip_f32.npy (distance to nearest mapped-fragment tip)"
- ]
+  "dtip_f32.npy (distance to nearest mapped-fragment tip; full-catalogue only)"
+ ],
+ "full_catalogue_connected_components": 3199,
+ "holdout_warning": "geo_f32.npy and dtip_f32.npy were derived from the full catalogue and are not valid inside a hide-and-recover fold; rebuild from visible faults only.",
+ "cache_files": {
+  "bank_u8.npy": "out/features/bank_u8.npy",
+  "geo_f32.npy": "out/features/geo_f32.npy",
+  "dtip_f32.npy": "out/features/dtip_f32.npy"
+ }
 }

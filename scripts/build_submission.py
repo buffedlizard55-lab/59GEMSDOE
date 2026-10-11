@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""Retired submission publisher; it creates no files and performs no model work.
+"""Retired legacy submission publisher; it creates no files and does no model work.
 
-Current status is HOLD — NOT OK TO DOWNLOAD OR SUBMIT. The indexed local
-registry cache is 0/679, and the SHA-verified universal-overlap witness blocks
-every nonempty candidate under the unchanged literal 3-pixel / 70% rule. The
-public owner-repository inventory is not organizer-complete. No current
-clearance receipt or selector decision exists. Do not re-enable this publisher,
-fit a model, download registry rasters, or write a candidate GeoTIFF without
-renewed authorization and a complete, independently reviewed clearance process.
+This script's historical status text and registry counts are not the current H59-I
+record. Consult ``evidence/run_card.json`` and ``README.md``: the existing TIFF is
+download-valid for inspection only, not cleared to submit; 85 literal historical
+overlap firings require STOP, and the latest 696-row index was not scanned against
+that candidate. The prior universal-witness verification artifact is absent from
+this checkout and must not be treated as confirmed. No slot was used or authorized.
 """
 import sys
 

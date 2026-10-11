@@ -7,7 +7,8 @@ import rasterio
 from affine import Affine
 
 from gems59.uniqueness import (JACCARD_LIMIT, OVERLAP_LIMIT, RHO_LIMIT,
-                               compare_array_to_registry, dot_overlap, surface_rho)
+                               compare_array_to_registry, dot_overlap, surface_rho,
+                               two_phase_summary)
 
 SHAPE = (400, 400)
 
@@ -79,6 +80,26 @@ def test_full_footprint_rho_is_the_degenerate_one():
     b = _sparse(8, 3000).astype(np.float32)
     r = surface_rho(a, b, np.ones(SHAPE, bool))
     assert abs(r["spearman_full_footprint"]) < 0.05
+
+
+def test_representation_diagnostic_cannot_override_literal_dense_overlap():
+    candidate = np.zeros(SHAPE, dtype=np.float32)
+    candidate[::10, ::10] = 1.0
+    dense_surface = np.ones(SHAPE, dtype=np.float32)
+    rows = [{
+        "submission": "fixture:dense-surface",
+        "their_dots": int(np.count_nonzero(dense_surface)),
+        "my_dots_within_3px_of_theirs": 1.0,
+        "their_dots_within_3px_of_mine": 1.0,
+        "spearman_full_footprint": 0.0,
+        "jaccard_dot_sets": float(candidate.sum() / dense_surface.size),
+    }]
+    summary = two_phase_summary(rows, int(np.prod(SHAPE)), expected_rasters=1)
+    assert summary["literal_reading"]["duplicate"] is True
+    assert summary["literal_reading"]["operative"] is True
+    assert summary["like_for_like_reading"]["duplicate"] is False
+    assert summary["like_for_like_reading"]["operative"] is False
+    assert summary["like_for_like_reading"]["diagnostic_only"] is True
 
 
 def test_jaccard_above_diagnostic_threshold_does_not_add_a_stop_rule(tmp_path):

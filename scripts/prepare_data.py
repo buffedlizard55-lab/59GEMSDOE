@@ -141,8 +141,19 @@ def main() -> int:
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--cache-bands", action="store_true")
     a = ap.parse_args()
-    receipt = dict(evidence_class="DATA-MEASUREMENT", files=[], provenance="public bridge, not organizer receipt")
+    receipt = dict(
+        evidence_class="DATA-MEASUREMENT",
+        files=[],
+        provenance="hash-verified public bridge, not an organizer receipt",
+        feature_cache_ready=False,
+    )
     ok = True
+
+    def save_receipt() -> None:
+        (ROOT / "evidence").mkdir(exist_ok=True)
+        (ROOT / "evidence/data_preparation.json").write_text(
+            json.dumps(receipt, indent=2, allow_nan=False) + "\n"
+        )
     for relative, digest in PIN.items():
         path = ROOT / relative
         try:
@@ -164,10 +175,47 @@ def main() -> int:
             receipt["files"].append(dict(path=relative, verified=False, error=str(error)))
             print(f"[data] FAILED {relative}: {error}", file=sys.stderr, flush=True)
     receipt["all_pins_verified"] = bool(ok)
-    (ROOT / "evidence/data_preparation.json").write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n")
+    save_receipt()
     if ok and a.cache_bands:
-        report = cache_bands(ROOT)
-        print(f"[data] cached {report['count']} bands (ignored by Git)")
+        try:
+            report = cache_bands(ROOT)
+            print(f"[data] cached {report['count']} float32 bands (ignored by Git)", flush=True)
+            # The intensity lane consumes bank_u8.npy, not the separate float32
+            # band cache. Build both here so the documented one-command setup is
+            # actually sufficient for holdout/inference, without a private fork.
+            proc = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/prep_feature_stack.py")],
+                cwd=ROOT, capture_output=True, text=True, timeout=1800, check=False,
+            )
+            if proc.returncode != 0:
+                raise RuntimeError(
+                    "rank/edge feature-bank preparation failed: "
+                    + (proc.stderr or proc.stdout)[-2000:]
+                )
+            bank = json.loads((ROOT / "evidence/feature_bank.json").read_text())
+            receipt["feature_cache"] = dict(
+                float32_band_count=report["count"],
+                rank_bank_schema=bank.get("schema"),
+                rank_bank_shape=bank.get("bank_shape"),
+                rank_bank_source_sha256=bank.get("source_sha256"),
+                rank_bank_cache_files=bank.get("cache_files"),
+                holdout_warning=bank.get("holdout_warning"),
+            )
+            receipt["feature_cache_ready"] = bool(
+                bank.get("source_sha256") == PIN["data/official/training_features.tif"]
+                and (ROOT / "out/features/bank_u8.npy").is_file()
+            )
+            if not receipt["feature_cache_ready"]:
+                raise RuntimeError("feature bank receipt does not match the pinned input")
+            save_receipt()
+            print("[data] rank/edge feature bank ready (catalogue-derived planes must be fold-rebuilt)",
+                  flush=True)
+        except Exception as error:  # preserve the pin result, but fail cache setup visibly
+            receipt["feature_cache_error"] = str(error)
+            receipt["feature_cache_ready"] = False
+            save_receipt()
+            print(f"[data] FEATURE CACHE FAILED: {error}", file=sys.stderr, flush=True)
+            return 2
     print("[data] " + ("ALL PINS VERIFIED" if ok else "PIN CHECK FAILED"))
     return 0 if ok else 1
 

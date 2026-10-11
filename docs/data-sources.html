@@ -38,12 +38,15 @@ stored.</p>
 <tr><td>INGENIOUS compilation (GDR 1391)</td><td><a href="https://gdr.openei.org/submissions/1391">gdr.openei.org/submissions/1391</a></td><td>Catalogue provenance, licensing review</td></tr>
 <tr><td>EPSG:32611</td><td><a href="https://epsg.io/32611">epsg.io/32611</a></td><td>Grid CRS</td></tr>
 <tr><td>Phillips et al. 2009</td><td><a href="https://doi.org/10.1890/07-2153.1">doi:10.1890/07-2153.1</a> (Ecol. Appl. 19:181–197)</td><td>Sample-selection bias / target-group background</td></tr>
-<tr><td>Fithian &amp; Hastie 2013</td><td><a href="https://doi.org/10.1214/13-AOAS610">doi:10.1214/13-AOAS610</a> (Ann. Appl. Stat. 7)</td><td>MaxEnt ≡ Poisson point-process equivalence</td></tr>
+<tr><td>Fithian &amp; Hastie 2013</td><td><a href="https://doi.org/10.1214/13-AOAS667">doi:10.1214/13-AOAS667</a> (Ann. Appl. Stat. 7(4))</td><td>Finite-sample equivalence in presence-only models; not a target-group-background receipt.</td></tr>
 </table>
+<h2>Target-group background / mapping-effort status</h2>
+<p>The user-requested Phillips et al. (2009) target-group background is <strong>NOT IMPLEMENTED</strong>. The pinned package has the response fault traces, an external state-fault compilation, fault attributes and GeoDAWN geophysical rasters, but no independently verified, spatially matched same-effort inventory of non-target mapped structures. The response catalogue cannot be reused as its own target group. USGS reliability-of-location, road-access and official GeoDAWN acquisition-block layers are not pinned. The State Geologic Map Compilation is a fault map, not a defensible neutral mapping-effort sample.</p>
 <p class="small">Verification status: every hash above was recomputed from the bytes in this repository
-(<code>scripts/prepare_data.py --fetch</code> verifies on restore). Scientific citations were checked against
-publisher records. Sandbox egress is limited to GitHub, npm and PyPI hosts, so no external data were
-downloaded this session.</p>
+(<code>scripts/prepare_data.py --fetch</code> verifies on restore). This authenticates the bridge bytes, not
+organizer provenance. Sandbox egress is limited to GitHub, npm and PyPI hosts; ScienceBase / DrivenData
+were not accessed. Any future target-group source requires a separate provenance, license, coverage and
+coordinate audit before modeling.</p>
 </main>
 </body>
 </html>

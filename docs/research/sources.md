@@ -11,7 +11,7 @@ the sandbox could not reach it, so it is **not** verified and must not be relied
 | DrivenData competition page | <https://www.drivendata.org/competitions/306/competition-doe-gems/> | fetched | overview, prize structure |
 | Problem description (metric, format) | <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/> | fetched | the DTI formula, kernel R = 300 m, CRS/format requirements |
 | Official rules PDF (NLR, FY26 OSTI 96647) | <https://docs.nlr.gov/docs/fy26osti/96647.pdf> | fetched | prize phases, eligibility, submission process |
-| Leaderboard | <https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/> | fetched | #1 0.3774, #8 0.3195, #22 0.2778 (participant names as shown) |
+| Leaderboard | <https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/> | snapshot saved 2026-10-11 in `evidence/leaderboard_snapshot_2026-10-11.json` | participant-level public values #1 0.3774, #8 DARD 0.3195, #22 extradr19 0.2778; no file-linked submission-page receipt captured |
 | Data download page | <https://www.drivendata.org/competitions/306/competition-doe-gems/data/> | fetched; redirects to login | confirms login is required |
 | Staff clarification on masking of known faults (2026-09-16) | <https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516> | fetched | "Pixels corresponding to known USGS/INGENIOUS faults are masked / excluded from evaluation" |
 | Reference solution (GitHub) | <https://github.com/drivendataorg/gems-prize-reference-solution> | cloned; notebook read | grid facts: EPSG:32611, 100 m, width 3292, height 3730; output written with labels.tif CRS and transform; sigmoid outputs in [0,1] |
@@ -39,7 +39,7 @@ the sandbox could not reach it, so it is **not** verified and must not be relied
 
 | Repo | URL | Check | Notes |
 | --- | --- | --- | --- |
-| GEMSDOE32 | <https://github.com/buffedlizard55-lab/GEMSDOE32> | cloned, README and registry read | candidate file for the 0.2778 figure (participant mapping unconfirmed). Its README says catalogue pixels are masked from scoring **and** that catalogue dots "cost α"; these two statements contradict each other, and staff's answer supports the masking half. See irregularities IR-1. |
+| GEMSDOE32 | <https://github.com/buffedlizard55-lab/GEMSDOE32> | owner site/audit read at commit `3ae286af599fdf86dbb0f333591f8273efcee806` | The owner page labels H33-2-B2 UNSCORED and says no organizer score exists for any artifact in that repo; its audit's `predicted_leaderboard_dti` is a projection. The 0.2778 leaderboard participant-to-file mapping is unverified. See `leaderboard-analysis.md`. |
 | GEMSDOE36 | <https://github.com/buffedlizard55-lab/GEMSDOE36> | cloned, hypotheses read | H1–H6 registry |
 | GEMSDOE46 | <https://github.com/buffedlizard55-lab/GEMSDOE46> | cloned, hypotheses read | used GeoDAWN K/Th/U radiometric grids (not novel for us) |
 | GEMSDOE | <https://github.com/buffedlizard55-lab/GEMSDOE> | listed | contains `data/bridge/` copies of competition files (see irregularities) |

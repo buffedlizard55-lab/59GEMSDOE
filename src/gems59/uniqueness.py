@@ -359,10 +359,10 @@ independent re-measurement recorded with this session's certificate: the 17GEMSD
 footprint cells and leaves **0** of the 5,106,385 allowed cells uncovered, so the
 literal gate fires on any nonempty candidate in the allowed domain.
 
-The classification below does not weaken any threshold.  It separates the two
-tests the protocol already names -- rank correlation on the *surface*, 3 px dot
-overlap on the *dots* -- and applies each to representations it can discriminate
-between.  Both readings are always reported.
+The classification below is descriptive only. The standing protocol's literal
+gate applies both named thresholds to every indexed raster, without a density or
+representation exemption. A like-for-like subset summary can explain behavior,
+but it is never an operative clearance and cannot override a literal firing.
 """
 
 
@@ -383,12 +383,11 @@ def two_phase_summary(rows, footprint_cells: int, *, rho_limit: float = RHO_LIMI
     """Report the literal and the like-for-like readings side by side.
 
     ``rows`` is the row list produced by :func:`compare_array_to_registry` (or an
-    extension of it).  Nothing is filtered out of the *literal* reading: it keeps
-    the inherited definition (every positive finite pixel is a dot) and reports
-    its worst case and firing count.  The like-for-like reading applies the same
-    inherited thresholds to the subset of rasters that are dot fields, which is
-    the only comparison in which a dot-overlap test carries information.  The
-    rank-correlation test is applied to every raster in both readings.
+    extension of it). Nothing is filtered out of the operative *literal* reading:
+    it keeps the inherited definition (every positive finite pixel is support)
+    and reports its firing count. The like-for-like summary is an additional
+    diagnostic subset only; it can never clear or override any literal firing.
+    The rank-correlation test is shown for every raster in both summaries.
     """
     from math import isnan
 
@@ -439,9 +438,10 @@ def two_phase_summary(rows, footprint_cells: int, *, rho_limit: float = RHO_LIMI
             forward_overlap_firings=len(literal_firings),
             rho_firings=len(literal_rho_firings),
             duplicate=bool(literal_firings or literal_rho_firings),
-            note=("Keeps the inherited literal support definition. A continuous-surface prior fires on "
-                  "every nonempty candidate, so a firing here is not evidence of duplication; it is "
-                  "reported for completeness."),
+            operative=True,
+            note=("The inherited literal support definition applies to every registry raster. Any "
+                  "rho or forward-overlap firing is a literal protocol failure and requires stop, "
+                  "regardless of whether the raster is a dense surface or a sparse dot field."),
         ),
         like_for_like_reading=dict(
             dot_field_rasters=len(dot_rows), continuous_surface_rasters=len(surf_rows),
@@ -452,8 +452,11 @@ def two_phase_summary(rows, footprint_cells: int, *, rho_limit: float = RHO_LIMI
             worst_jaccard=jac, worst_jaccard_submission=(jac_who or {}).get("submission"),
             forward_overlap_firings=len(like_firings),
             duplicate=bool(like_firings or literal_rho_firings),
-            note=("Inherited thresholds, applied to dot fields only; rank correlation still applies to "
-                  "every raster including the continuous surfaces."),
+            operative=False,
+            diagnostic_only=True,
+            note=("Diagnostic subset only; an apparent pass here does not clear a literal firing. "
+                  "The operative gate still compares every indexed raster with the inherited "
+                  "support definition."),
         ),
         literal_firings=literal_firings,
     )

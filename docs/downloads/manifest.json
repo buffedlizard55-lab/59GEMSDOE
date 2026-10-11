@@ -1,1 +1,19 @@
-{"files": []}
+{
+  "evidence_class": "LOCAL-DELIVERY-MANIFEST",
+  "status": "download-valid for inspection only; not cleared to submit",
+  "files": [
+    {
+      "file": "gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+      "zip": "gems59-h59i-intensity-lattice-20261011T000000Z.zip",
+      "receipt": "gems59-h59i-intensity-lattice-20261011T000000Z.json",
+      "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+      "bytes": 142754,
+      "download_valid_for_inspection": true,
+      "local_validator_passed": true,
+      "registry_literal_gate_passed": false,
+      "cleared_to_submit": false,
+      "weekly_slots_used": 0,
+      "reason": "85 literal forward-overlap firings in historical 695-raster scan; latest 696-raster index not checked against this artifact."
+    }
+  ]
+}
