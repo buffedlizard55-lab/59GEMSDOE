@@ -1,78 +1,123 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Executive summary — how to submit</title>
-<link rel="stylesheet" href="assets/site.css"></head><body>
-<header><div class="wrap">
-<h1>Executive summary — how to submit</h1>
-<div class="dim">The shortest possible path from this page to a scored submission.</div>
-<nav><a href="index.html" class="">Home</a><a href="executive-summary.html" class="on">Executive summary / how to submit</a><a href="hypotheses.html" class="">Hypotheses</a><a href="research.html" class="">Research &amp; method</a><a href="leaderboard.html" class="">Leaderboard</a><a href="sources.html" class="">Sources</a><a href="geothermal-knowledge.html" class="">Geothermal knowledge</a><a href="irregularities.html" class="">Irregularities</a></nav>
-</div></header>
-<div class="wrap">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive summary — how to submit (59GEMSDOE H59-J)</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+  <a href="h59a.html">H59-A candidate</a>
+</nav>
+<main>
+<h1>Executive summary — how to make a submission</h1>
 
-<div class="card big">
-<h2 style="margin-top:0;border:0;padding:0">⬇ Submission file — one click</h2>
-<p><span class="pill ok">OK TO DOWNLOAD</span>
-&nbsp;<span class="pill ok">OK TO SUBMIT</span></p>
-<p><a class="btn" href="downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif">⬇ Download gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif</a>
-<a class="btn alt" href="downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip">⬇ ZIP (one GeoTIFF inside)</a></p>
-<table>
-<tr><th>property</th><th>value</th></tr>
-<tr><td>bytes</td><td class="n">795,960</td></tr>
-<tr><td>sha256</td><td class="mono">8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842</td></tr>
-<tr><td>emitted pixels</td><td class="n">38,593</td></tr>
-<tr><td>dots on / within 2 px of the mapped catalogue</td><td class="n">0</td></tr>
-<tr><td>CRS / shape / geotransform</td><td>EPSG:32611 · 3730x3292 · (100,0,243350,0,-100,4508550)</td></tr>
-<tr><td>value range</td><td class="n">min 0.0 max 1.0</td></tr>
-</table>
-<h3>Validator output (re-read from the bytes on disk)</h3>
-<table><tr><th>check</th><th class="n">result</th></tr><tr><td>single_band</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>dtype_float32</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>crs_epsg32611</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>shape_3730x3292</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>transform_matches</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>all_finite</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>min_ge_0</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>max_le_1</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>no_nan_inside_footprint</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>inside_range_0_1</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>outside_is_zero</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>n_positive</td><td class='n'>38593</td></tr></table>
-<h3>Paste these two strings into the portal form</h3>
-<table>
-<tr><th style="width:190px">field</th><th>value</th></tr>
-<tr><td>submission&nbsp;name</td><td class="mono">GEMSDOE59-H59A-IZBT</td></tr>
-<tr><td>note (optional)</td><td class="mono">1 km new-fault-density zoning then break-even tiling: 38,593 dots, min sep 3.16 px, 0 within 200 m of the mapped catalogue. UNSCORED. <span class="dim">(133/140)</span></td></tr>
-</table>
+<div class="panel" id="download-panel">
+<h2 style="margin-top:0">1. Download the file (this is the whole job)</h2>
+<p><span class="badge ok">DOWNLOAD: OK</span> <span class="badge ok">Submit to competition: OK</span>
+— format and uniqueness are clear, no slot has been spent, and the only number that is a score is the public
+leaderboard's.</p>
+<p>
+<a class="btn" href="downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif" download>↓ Download the GeoTIFF (128 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.zip" download>↓ Single-TIFF ZIP (94 KB)</a>
+</p>
+<ul>
+<li><code>gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif</code> — 131,274 bytes, single band,
+float32, EPSG:32611, 3730 × 3292, 30,815 dots, values exactly 0.0 or 1.0.</li>
+<li>SHA256 <code>44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131</code> — compare after
+download (<code>sha256sum &lt;file&gt;</code>). ZIP SHA256
+<code>79144a64774d6eb3f4d8a309f6b11b891905f2e5d171493438a9272315605f81</code>.</li>
+<li>The ZIP contains exactly one GeoTIFF and nothing else. Upload either the <code>.tif</code> or the
+<code>.zip</code>, never a repository ZIP or a JSON receipt.</li>
+</ul>
 </div>
 
-<h2>Exactly how to submit — four steps</h2>
-<div class="card">
+<div class="panel">
+<h2 style="margin-top:0">2. Check the status banner before you upload</h2>
+<p>The status page carries an explicit verdict at the top: <span class="badge ok">DOWNLOAD: OK</span>
+<span class="badge ok">Submit to competition: OK</span>. “OK” means <em>no format, range or uniqueness blocker
+and no slot spent</em>. It does <strong>not</strong> mean the file is expected to win: the expectation row is a
+<strong>PROJECTION of 0.24–0.29</strong>, against a public #1 of 0.4133. Uploading is the owner's selector
+decision, taken after reading the run card (<a href="data/run_card.json">docs/data/run_card.json</a>) and the
+uniqueness screen (<a href="data/uniqueness_h59j.json">docs/data/uniqueness_h59j.json</a>).</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">3. Submit on DrivenData</h2>
 <ol>
-<li><b>Download.</b> Click the green button above and save <code>gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif</code>. A
-<code>.zip</code> containing exactly one GeoTIFF is offered as well; the portal accepts either.</li>
-<li><b>Open the submission page.</b>
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">drivendata.org/competitions/306/competition-doe-gems/submissions/</a>
-→ <b>New submission</b>.</li>
-<li><b>Choose the file.</b> <code>File to submit</code> → pick the <code>.tif</code> (or the
-<code>.zip</code>). Do <b>not</b> upload an HTML page, a JSON receipt, a PDF, or a zip of this
-repository — those are rejected.</li>
-<li><b>Paste the name and the note</b> shown above, then submit.</li>
+<li>Open the competition <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">submission page</a>
+(rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>).</li>
+<li><strong>File to submit:</strong> the downloaded <code>.tif</code> (or the single-TIFF <code>.zip</code>).</li>
+<li><strong>Name:</strong> <span class="mono">gems59-h59j-coherence-consensus-dotted-20261011T043000Z</span>.</li>
+<li><strong>Note (≤ 140 characters, paste this):</strong>
+<span class="mono">H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 36k budget.</span>
+(124 characters. The writer receipt carries the build-time wording “35k budget”; the flag used was
+<code>--budget 36000</code> and 30,815 dots were emitted, so paste the wording above.)</li>
+<li>Click <strong>Create submission</strong>. The published cap is three submissions per week; the logged-in
+page shows the team's remaining capacity. This project has spent zero slots so far.</li>
 </ol>
 </div>
-<h2>The error we hit, and why this file cannot hit it</h2>
-<div class="banner"><b>"Predicted values must be in range [0, 1]"</b> is returned when the array
-contains a value outside <code>[0, 1]</code>. A raster that stores <code>NaN</code> outside the
-bounds satisfies the <i>rules</i> ("data outside the bounds is null or nan") but <b>fails the
-portal</b>, whose range check reads every cell. This release therefore writes <b>0.0 outside the
-footprint</b>, so every cell is finite and inside the range;
-<code>scripts/submission_writer.py</code> re-reads and re-validates the file it wrote, and the
-result is printed on this page.</div>
-<h2>What the file is</h2>
-<table>
-<tr><th>property</th><th>value</th></tr>
-<tr><td>format</td><td>single-band GeoTIFF, <code>float32</code></td></tr>
-<tr><td>CRS</td><td>EPSG:32611 (WGS 84 / UTM 11N)</td></tr>
-<tr><td>shape</td><td>3730 × 3292</td></tr>
-<tr><td>geotransform</td><td class="mono">(100, 0, 243350, 0, −100, 4508550)</td></tr>
-<tr><td>values</td><td>0 or 1 inside the footprint; 0 outside; every cell finite</td></tr>
-</table>
-<h2>Submission slots</h2>
-<p>This project <b>never clicks Submit</b> and <b>never spends a weekly slot</b>. Promotion to a
-real slot is a separate selector decision, inside the weekly cap shown on the submission page.
-Publishing a candidate here is not a submission.</p>
 
-<footer>59GEMSDOE · DOE GEMS Prize (DrivenData #306) · every number on these pages is read from a
-receipt in <code>evidence/</code> or <code>registry/</code>. Nothing here is a competition score
-unless it is labelled <span class="pill ok">ORGANIZER-CONFIRMED</span>.
-Generated 2026-10-11T03:00:31Z.</footer>
-</div></body></html>
+<div class="panel">
+<h2 style="margin-top:0">4. Format facts the portal checks</h2>
+<table>
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>CRS</td><td>EPSG:32611 (UTM 11N)</td></tr>
+<tr><td>Shape / resolution</td><td>3730 × 3292 (H × W) at 100 m</td></tr>
+<tr><td>Transform / bounds</td><td>(100, 0, 243350, 0, -100, 4508550) — identical to the sample submission</td></tr>
+<tr><td>Bands / dtype</td><td>1 / float32</td></tr>
+<tr><td>Values</td><td>exactly {0.0, 1.0}; no NaN, no Inf, no sentinel; finite everywhere with zeros outside the study region; zero positive pixels on the mapped catalogue</td></tr>
+<tr><td>Positive cells</td><td>30,815 of 5,167,373 study-region cells (0.596 %)</td></tr>
+<tr><td>Local gates</td><td>15/15 format checks pass (<code>gems59.validate</code>) and the portal preflight passes (<code>gems59.gates.format_report</code>)</td></tr>
+</table>
+<p class="small">On the outside-region convention: the official page says “Your submission has the same bounds
+as the training data, and data outside the bounds is null or nan” (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>,
+fetched 2026-10-11) — it <em>permits</em> null/NaN there; it does not forbid a legal confidence value of 0. Of
+the 26 scored rasters this session could read, 18 carry NaN outside the study region and 8 are all-finite with
+zeros, and the latter group includes the family's best recorded public score (0.2778). This file uses the
+all-finite zeros pattern, which the portal has accepted repeatedly. IR-59J-03 records the discrepancy between
+the two local writers that produced that split.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">5. Reproduce locally (no manual data placement, no slots)</h2>
+<pre class="mono small">python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements-lock.txt
+# 1. hash-pinned 19-band GeoDAWN feature stack + per-band cache (ALL PINS VERIFIED)
+.venv/bin/python scripts/prepare_data.py --fetch --cache-bands
+# 2. derive the feature bank from the stack
+.venv/bin/python scripts/prep_feature_stack.py
+# 3. build the H59-J candidate (deterministic; refuses to overwrite an existing output)
+.venv/bin/python scripts/build_h59j_submission.py --fragment 3 --fragment-step 2 --budget 36000 \
+    --out downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif \
+    --name gems59-h59j-coherence-consensus-dotted-20261011T043000Z
+# 4. official-format gate + the repo's own all-finite preflight
+PYTHONPATH=src .venv/bin/python scripts/validate_submission.py \
+    downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif data/bridge/sample_submission.tif
+# 5. uniqueness against all 695 pinned registry rasters (restore the cache first if needed)
+.venv/bin/python scripts/restore_registry_cache.py
+.venv/bin/python scripts/uniqueness_fast.py \
+    downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif --out evidence/uniqueness_h59j.json
+# 6. holdout score with its spatial-cluster 95% CI (reported, not used to promote)
+.venv/bin/python scripts/candidate_holdout_ci.py \
+    downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif --out evidence/h59j_candidate_ci.json
+# 7. rebuild the run card and re-run the local delivery QA
+.venv/bin/python scripts/build_run_card_h59j.py</pre>
+<p class="small">The 418,912,844-byte feature stack is restored from hash-pinned parts on the public mirror
+<code>buffedlizard55-lab/6GEMSDOE</code> and verified byte-for-byte (SHA256
+<code>4371c82e…23bc5</code>); the DrivenData data tab is login-walled, so the bridge proves transport identity,
+not organizer origin. Nothing in this pipeline clicks Submit or spends a slot.</p>
+</div>
+</main>
+<footer class="small">
+<p>Evidence labels used across this site: <strong>HOLDOUT-DTI</strong> (local instrument, evaluator
+<code>gems57-pooled-hide-v2</code>), <strong>OWNER-REPORTED</strong> (score recorded by the owner in a file
+name), <strong>ORGANIZER-CONFIRMED</strong> (public leaderboard page), <strong>VERIFIED-FILE</strong> (read
+from a public raster), <strong>PROJECTION</strong> (estimate, never written as a score).</p>
+</footer>
+</body>
+</html>

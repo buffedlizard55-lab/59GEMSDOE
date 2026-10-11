@@ -1,0 +1,63 @@
+{
+  "evidence_class": "DATA-MEASUREMENT",
+  "files": [
+    {
+      "path": "data/official/labels.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "expected_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "verified": true,
+      "bytes": 425830
+    },
+    {
+      "path": "data/official/existing_faults.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "expected_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "verified": true,
+      "bytes": 425830
+    },
+    {
+      "path": "data/official/sample_submission.tif",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "expected_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "verified": true,
+      "bytes": 1599597
+    },
+    {
+      "path": "data/official/training_features.tif",
+      "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+      "expected_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+      "verified": true,
+      "bytes": 418912844
+    },
+    {
+      "path": "data/external/sgmc_faults_100m.tif",
+      "sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+      "expected_sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+      "verified": true,
+      "bytes": 213034
+    },
+    {
+      "path": "data/external/derived_sgmc_faults_100m.tif",
+      "sha256": "643cbe992ef4ba37588fb469163ed8291e3ceb23d6c1f78a3cfaa462430c2da0",
+      "expected_sha256": "643cbe992ef4ba37588fb469163ed8291e3ceb23d6c1f78a3cfaa462430c2da0",
+      "verified": true,
+      "bytes": 198602
+    },
+    {
+      "path": "data/external/trace_segments_utm11.csv",
+      "sha256": "c5edf9df3e0e1413c52784884fc38e5b9ca54627b27c6f8baf7713e908f48513",
+      "expected_sha256": "c5edf9df3e0e1413c52784884fc38e5b9ca54627b27c6f8baf7713e908f48513",
+      "verified": true,
+      "bytes": 5283577
+    },
+    {
+      "path": "data/external/qfault_attributes.csv",
+      "sha256": "3b8745f0086a57b8255f6679afa1bf1168c10b5573491666c75cf53217029507",
+      "expected_sha256": "3b8745f0086a57b8255f6679afa1bf1168c10b5573491666c75cf53217029507",
+      "verified": true,
+      "bytes": 5786456
+    }
+  ],
+  "provenance": "public bridge, not organizer receipt",
+  "all_pins_verified": true
+}

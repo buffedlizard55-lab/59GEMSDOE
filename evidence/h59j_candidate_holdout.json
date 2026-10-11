@@ -1,0 +1,62 @@
+{
+ "evidence_class": "HOLDOUT-DTI + OWNER-REPORTED",
+ "generated_utc": "2026-10-11T01:56:58Z",
+ "evaluator_version": "gems57-pooled-hide-v2",
+ "evaluator_hashes": {
+  "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+  "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+  "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+  "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+ },
+ "holdout_split": "buffered-whole-components-loqo-v2",
+ "seed": 20,
+ "alpha": 0.2,
+ "beta": 0.8,
+ "kernel_radius_px": 3.0,
+ "n_files": 1,
+ "n_labelled": 0,
+ "spearman_holdout_vs_live": {
+  "rho": null,
+  "p_value": null,
+  "n": 0
+ },
+ "spearman_holdout_vs_live_name_tier": {
+  "rho": null,
+  "p_value": null,
+  "n": 0
+ },
+ "spearman_log_emitted_vs_live": {
+  "rho": null,
+  "p_value": null,
+  "n": 0
+ },
+ "spearman_log_emitted_vs_live_name_tier": {
+  "rho": null,
+  "p_value": null,
+  "n": 0
+ },
+ "spearman_emitted_vs_live": {
+  "rho": null,
+  "p_value": null,
+  "n": 0
+ },
+ "rows": [
+  {
+   "key": "h59j_candidate",
+   "file": "h59j_candidate__44c54063.tif",
+   "live_score": null,
+   "holdout_dti": 0.019123682439540355,
+   "tp": 279.5722227887023,
+   "fp": 27532.240697283472,
+   "fn": 11041.427777211295,
+   "n_truth": 11321,
+   "emitted": 30815,
+   "mean_value": 0.005963378296863803
+  }
+ ],
+ "labels": {
+  "holdout_dti": "HOLDOUT-DTI (local instrument, evaluator gems57-pooled-hide-v2, draw seed 20) -- NOT an organizer score",
+  "live_score": "OWNER-REPORTED: score recorded by the owner in a sibling-repo file name (GEMSDOE48/data/raw/scored, 7GEMSDOE/external/scored); no organizer receipt is reachable from this session"
+ },
+ "note": "This is an instrument-calibration measurement, not a submission score."
+}

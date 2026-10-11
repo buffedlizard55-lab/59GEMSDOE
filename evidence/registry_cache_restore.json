@@ -1,0 +1,13 @@
+{
+  "evidence_class": "REGISTRY-MEASUREMENT",
+  "generated_utc": "2026-10-11T01:56:27Z",
+  "index": "/home/user/59GEMSDOE/evidence/registry_refreshed.json",
+  "index_rasters": 695,
+  "restored": 695,
+  "already_cached": 0,
+  "errors": [],
+  "n_errors": 0,
+  "complete": true,
+  "seconds": 82.3,
+  "note": "Cache restore only; no scoring, fitting or promotion performed here."
+}

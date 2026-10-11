@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>59GEMSDOE — submission status</title><style>
+:root{--bg:#0f1216;--card:#171c22;--ink:#e8edf2;--dim:#9fb0c0;--ok:#2fbf71;--warn:#e8a33d;
+--bad:#e0574f;--line:#26303a;--link:#7cc4ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header,main,footer{max-width:1000px;margin:0 auto;padding:0 20px}
+nav{background:#12171c;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:22px}
+nav a{color:var(--dim);margin-right:16px;text-decoration:none;font-size:14px}
+nav a.on,nav a:hover{color:var(--ink)}
+h1{font-size:26px;margin:18px 0 6px}h2{font-size:20px;margin:30px 0 8px}
+h3{font-size:16px;margin:20px 0 6px}
+p,li{color:var(--ink)}small,.dim{color:var(--dim)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:600;font-size:13px}
+.ok{background:rgba(47,191,113,.15);color:var(--ok);border:1px solid rgba(47,191,113,.4)}
+.warn{background:rgba(232,163,61,.15);color:var(--warn);border:1px solid rgba(232,163,61,.4)}
+.bad{background:rgba(224,87,79,.15);color:var(--bad);border:1px solid rgba(224,87,79,.4)}
+a{color:var(--link)}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:600}
+code,pre{background:#0b0e11;border:1px solid var(--line);border-radius:6px;padding:2px 5px;font-size:13px}
+pre{padding:12px;overflow:auto}
+.dl{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.button{display:inline-block;background:var(--ok);color:#08120c;font-weight:700;padding:10px 16px;
+border-radius:8px;text-decoration:none}
+.button.alt{background:#2b3b49;color:var(--ink)}
+footer{color:var(--dim);font-size:13px;padding:30px 20px}
+</style></head><body>
+<nav><header><a href="index.html" class=on>Overview</a><a href="executive-summary.html">Download &amp; submit</a><a href="evidence.html">Evidence</a><a href="audit.html">Audit</a><a href="sources.html">Sources</a></header></nav><main><h1>59GEMSDOE — intensity lane</h1>
+<p class="dim">DrivenData “DOE GEMS” competition #306. New-fault density zoned in 1 km blocks,
+presence-only point-process intensity with mapping-effort (target-group) background, emitted as a
+sparse 3 px lattice above break-even.</p>
+<div class="card"><table><tr><th style="width:26%">Download</th><td><span class="pill ok">OK</span> — validated GeoTIFF, one-TIFF ZIP and receipt in <a href="executive-summary.html">Download &amp; submit</a></td></tr><tr><th style="width:26%">Submit</th><td><span class="pill warn">NO</span> — the release's own instruments dominate it on both frames (verdict <code>negative</code>); <b>0 competition slots used by this repository</b></td></tr><tr><th style="width:26%">File</th><td><code>59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif</code></td></tr><tr><th style="width:26%">SHA256</th><td><code>d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c</code> · 79,553 bytes</td></tr><tr><th style="width:26%">Form</th><td>50,651 binary dots · float32 · all-finite · values in [0, 1] · EPSG:32611 · 0 dots on the mapped catalogue · 0 dots outside the footprint</td></tr><tr><th style="width:26%">Holdout (catalogue frame)</th><td>HOLDOUT-DTI <b>0.03339</b> [0.02282, 0.04447] (gems57-pooled-hide-v2, 11,354 withheld pixels) vs proximity control 0.23490, random blocks 0.01678, uniform 0.03468</td></tr><tr><th style="width:26%">Holdout (off-catalogue frame)</th><td>HOLDOUT-DTI <b>0.04399</b> [0.03231, 0.05601] vs proximity 0.03914 — this frame is the arbiter (the scored target is faults <i>absent</i> from the catalogue)</td></tr><tr><th style="width:26%">Decile check (lane requirement)</th><td>densest 1 km-block decile holds <b>0.488×</b> chance of the withheld positives (below chance); the catalogue-distance and catalogue-density rankings reach 8.46× and 8.26×; random-ranking calibration 0.92×</td></tr><tr><th style="width:26%">Leakage canary</th><td>worst single-feature AUC <b>0.5299</b> (neg_deq) — limit 0.90, no flags</td></tr><tr><th style="width:26%">Uniqueness</th><td>710 registry rasters · worst rank correlation <b>0.1142</b> (limit 0.9) · worst overlap against comparable peers <b>0.5129</b> (limit 0.7) — no drift trip; <a href="evidence.html">Evidence</a></td></tr></table></div>
+<div class="card"><h2>Download the submission</h2>
+<div class="dl">
+<a class="button" href="../downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif">TIFF (79,553 bytes)</a>
+<a class="button alt" href="../downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.zip">ZIP (one TIFF)</a>
+<a class="button alt" href="../downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.json">Validator receipt (JSON)</a>
+</div>
+<p class="dim">Local validator: locally validated within separately recorded inventory scope; not organizer acceptance or slot approval. A local PASS is not organizer acceptance.</p></div>
+<div class="grid">
+<div class="card"><h2>What this file is</h2><p>A binary dot field. Dots sit on a 3 px lattice in
+1 km blocks the model ranks highest for <i>unmapped</i> fault density, with the mapped catalogue
+masked out. It is not a probability map and not a copy of any earlier raster.</p></div>
+<div class="card"><h2>What it is not</h2><p>Not an organizer-confirmed score. Both holdout frames
+are proxies; the catalogue frame is structurally biased toward near-catalogue placement and the
+off-catalogue frame is a different public catalogue, not the organizer's hidden truth.</p></div>
+</div>
+<h2>Why the verdict is <span class="pill warn">NO</span></h2>
+<p>Three measurements, all on this page's own instruments:</p>
+<ol>
+<li><b>The catalogue frame ranks the release last of three.</b> HOLDOUT-DTI
+gems57-pooled-hide-v2: release <b>0.03339</b> [0.02282, 0.04447] vs
+proximity-only 0.23490 and uniform-same-count
+0.03468.</li>
+<li><b>The decile check the lane asked for is below chance.</b> The densest decile of 1 km blocks
+holds 0.0495 of the withheld positives for
+0.1014 of the area — a lift of
+0.488, where a random ranking gives
+0.92 and the
+catalogue-distance/catalogue-density rankings give
+8.46 and
+8.26.</li>
+<li><b>On the off-catalogue frame the release is not distinguishable from the proximity
+control.</b> 0.04399
+ [0.03231, 0.05601] vs proximity
+0.03914 — paired difference
+0.00485
+[-0.00814, 0.01893],
+i.e. not significant, so this frame does not rescue the release either.</li>
+</ol>
+<p>Reading: the evidence-only field is not merely catalogue-free by construction (that is the lane),
+it is <i>anti-aligned</i> with the trunk corridors at 1 km block scale, and when the truth is spread
+it is beaten by spreading the same dot budget. Both frames therefore reject the <i>emission</i>, not
+just the ranking.</p>
+<p>What the release does have: a structure that matches the owner-reported winning profile —
+50,651 dots, median distance to the catalogue <b>19.72 px</b>
+(the owner-reported high scorers sit at ≈19 px), 6.34 %
+of dots within 2 px of the catalogue, 0 on it — and a clean uniqueness result. That is why it is
+labelled a research artifact and not a submission.</p>
+<p><b>Next step (not done here, budget spent):</b> a holdout whose truth is a band 1–3 km from the
+traces — the scored target is newly mapped geometry beside existing systems, and the owner-reported
+structure puts winning dots at ≈19 px — plus an emission that spreads its budget inside corridors
+instead of tiling the top 10 % of blocks. Recorded as <b>IR-59-FRAME-01</b>.</p>
+<h2>The frames disagree, at a matched budget (44,000 dots)</h2>
+<table><tr><th>field</th><th>dots</th><th>catalogue frame</th><th>off-catalogue frame (arbiter)</th></tr>
+<tr><td>proximity_only</td><td>44,004</td><td>0.23426</td><td><b>0.03548</b></td></tr><tr><td>catalogue_family</td><td>44,001</td><td>0.23234</td><td><b>0.03556</b></td></tr><tr><td>ground_family</td><td>44,002</td><td>0.03165</td><td><b>0.05708</b></td></tr>
+</table>
+<p class="dim">Full receipts and the irregularities list: <a href="evidence.html">Evidence</a> ·
+<a href="audit.html">Audit</a>.</p></main>
+<footer>59GEMSDOE intensity lane · built 2026-10-11 01:31 UTC from
+the JSON receipts in <a href="data/run_card_lane_v1.json">docs/replication/data/</a> (one file per gate) · every number carries its evidence class ·
+no competition slot was used by this repository.</footer></body></html>

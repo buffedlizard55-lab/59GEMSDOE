@@ -1,0 +1,85 @@
+{
+ "evidence_class": "HYPOTHESES + NEGATIVE RESULTS (this session)",
+ "generated_utc": "2026-10-11T02:18:01Z",
+ "ranked": [
+  {
+   "id": "H1",
+   "statement": "structure-tensor ridge coherence consensus across topography, magnetics and gravity, dotted at 2-3 px and pruned 2 px from the catalogue",
+   "status": "SHIPPED as the H59-J candidate",
+   "file": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+   "evidence": "evidence/run_card_current.json"
+  },
+  {
+   "id": "H2",
+   "statement": "geodetic-strain (deq/ieq) x structure-tensor consensus, i.e. an independent physical measurement of active deformation",
+   "status": "not run (cost); partial rank correlation of the bank plane with the live score is +0.700 after controlling for emitted count",
+   "file": "docs/research/hypotheses-v2.md"
+  },
+  {
+   "id": "H3",
+   "statement": "QFaults MAPSCALE completeness prior (prefer lineaments near well-characterised, high-MAPSCALE structures)",
+   "status": "BLOCKED: the MAPSCALE join to our trace segments is unresolved (IR-59J-02)",
+   "file": "docs/research/hypotheses-v2.md"
+  },
+  {
+   "id": "H4",
+   "statement": "SGMC-exclusion: emit only where state geology claims no fault",
+   "status": "REFUTED this session: the off-catalogue proxy is rank-inverted against the live board (rho -0.665, p 0.0004, n 24)",
+   "file": "evidence/offcat_instrument_check.json"
+  },
+  {
+   "id": "H5",
+   "statement": "1 m DEM scarp detection (the resolution the truth is probably mapped at)",
+   "status": "BLOCKED: the 1 m DEM links are not reachable from this sandbox (egress allow-list)",
+   "file": "docs/research/hypotheses-v2.md"
+  }
+ ],
+ "negative_results_this_session": [
+  {
+   "id": "H59-I",
+   "what": "zoning + 4 px lattice + 2 px catalogue collar",
+   "holdout_dti": 0.082161,
+   "comparator": "relay_bend_anatomy 0.135204",
+   "verdict": "negative -- not promoted, no slot spent",
+   "file": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif"
+  },
+  {
+   "id": "IR-59J-01",
+   "what": "the shared hide-and-recover holdout is rank-inverted against the public board",
+   "measurement": {
+    "spearman": -0.43737757105384134,
+    "p_value": 0.03257227254419616,
+    "n": 24
+   },
+   "verdict": "the instrument cannot promote a candidate; it is reported, not used",
+   "file": "evidence/h59j_live_calibration.json"
+  },
+  {
+   "id": "IR-59J-02",
+   "what": "QFaults MAPSCALE attributes do not join to the INGENIOUS trace segments by record_id",
+   "verdict": "covariate dropped rather than guessed",
+   "file": "docs/research/hypotheses-v2.md"
+  },
+  {
+   "id": "IR-59J-03",
+   "what": "two local writers disagree about the outside-region convention (all-finite zeros vs NaN), and two validators disagreed about which is legal",
+   "verdict": "resolved in favour of the official text plus the accepted precedent: both are accepted by the portal (18 NaN / 8 zeros among 26 scored rasters); the strict gate now reports both instead of failing one",
+   "file": "src/gems_dti/submission.py"
+  },
+  {
+   "id": "SGMC-PROXY",
+   "what": "the off-catalogue (SGMC) proxy score is rank-inverted against the public board",
+   "measurement": {
+    "spearman": -0.6652136006974716,
+    "p_value": 0.0003898570925021078,
+    "n": 24
+   },
+   "verdict": "negative for the proxy; supporting evidence for IR-59J-01",
+   "file": "evidence/offcat_instrument_check.json"
+  }
+ ],
+ "open_questions": [
+  "no local truth proxy available here ranks designs in agreement with the public board, so placement quality cannot be certified locally (IR-59J-01)",
+  "the 4-page public site + preview figure promised by the sibling lanes' check_site contract is only partly present in this repository (see REMAINING_WORK.md)"
+ ]
+}

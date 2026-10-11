@@ -1,110 +1,198 @@
-"""Grid helpers: canonical raster I/O for the DOE GEMS (DrivenData #306) lane.
+"""Study-area grid: CRS, shape, geotransform and the scored footprint.
 
-Every reader here is byte-verified against the pinned files in
-``registry/data_manifest.json``.  The canonical grid is fixed by
-``data/sample_submission.tif``: EPSG:32611, 100 m, 3730 x 3292,
-transform (100, 0, 243350, 0, -100, 4508550).
+Every constant here is read from the two bridged files committed in
+``data/bridge/`` and re-verified by ``scripts/run_lane.py verify`` (writes ``evidence/verify_grid.json``):
+
+* ``existing_faults.tif``  sha256 ``7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093``
+  (byte-identical to the ``labels.tif`` recorded in
+  ``GEMSDOE32/data/restore_receipt.json``, sha256 ``7ba308cc...`` -- i.e. the
+  public "labels" raster *is* the mapped-fault catalogue; the scored truth is
+  not published.)
+* ``sample_submission.tif`` sha256 ``2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc``
+
+Verified properties
+-------------------
+CRS ``EPSG:32611`` (UTM zone 11N), shape ``3730 x 3292``, transform
+``(100, 0, 243350, 0, -100, 4508550)``, 100 m pixels, bounds
+``(243350, 4135550) - (572550, 4508550)``.  The sample submission carries
+``nodata = NaN`` with 7,111,787 NaN cells and 5,167,373 finite cells; the finite
+cells define our bridge-relative footprint. Official-origin identity is not
+independently authenticated by the bridge hashes.
 """
+
 from __future__ import annotations
 
-import hashlib
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
 import rasterio
+from affine import Affine
 
-ROOT = Path(__file__).resolve().parents[2]
-DATA = ROOT / "data"
+EPSG = 32611
+HEIGHT = 3730
+WIDTH = 3292
+TRANSFORM = Affine(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)
+PIXEL_M = 100.0
 
-FEATURE_NODATA = -3.4028234663852886e38
+# --- names the earlier lanes' modules (gates.py, submission_writer.py) import ---
+# Added at merge time so those modules keep working unchanged rather than being
+# forked. Same six pinned numbers, same measured shape; no second source of truth.
+SHAPE = (HEIGHT, WIDTH)
+CELL_M = PIXEL_M
+CRS_EPSG = f"EPSG:{EPSG}"
 
-# 19 official float32 bands of ``training_features.tif``, in file order.
-OFFICIAL_BANDS = [
-    "mag_anom", "rtp", "tmi_hg", "geod_2ndinv", "iso_grav_anom_slope", "tc",
-    "geod_shearrate", "geod_dilaterate", "tmi_vg", "deq_n100a15",
-    "iso_grav_anom_vg", "det_elev", "iso_grav_anom", "tmi",
-    "depth_to_base_surf", "ieq_n100a15", "cond_surf", "iso_grav_anom_hg",
-    "det_elev_slope",
-]
+SHA256_EXISTING_FAULTS = "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+SHA256_SAMPLE_SUBMISSION = "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
 
-# external uint8 stacks, in file order
-RAD_BANDS = ["K", "Th", "U", "TC"]
-EXT_BANDS = ["ThK", "UK", "UTh", "TMI_up150"]
-LIDAR_BANDS = ["ex_max", "ex_mean", "step_max", "lapneg_max", "lappos_max",
-               "downface_max", "upface_max", "cross_max", "relief", "coh100",
-               "strike", "valid"]
-
-
-def sha256_file(p: Path) -> str:
-    h = hashlib.sha256()
-    with Path(p).open("rb") as f:
-        for chunk in iter(lambda: f.read(1 << 22), b""):
-            h.update(chunk)
-    return h.hexdigest()
+REPO_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = REPO_ROOT / "data" / "bridge"
 
 
-def canonical_profile() -> dict:
-    """The submission grid, read from the organizer's own sample submission."""
-    with rasterio.open(DATA / "sample_submission.tif") as src:
-        p = src.profile
-    return {"driver": "GTiff", "dtype": "float32", "count": 1, "crs": p["crs"],
-            "transform": p["transform"], "width": p["width"], "height": p["height"],
-            "nodata": float("nan")}
+@dataclass(frozen=True)
+class Grid:
+    footprint: np.ndarray      # bool, scored study-area cells (sample_submission finite)
+    catalogue: np.ndarray      # bool, mapped USGS/INGENIOUS fault cells inside the footprint
+    crs: object
+    transform: object
+    height: int
+    width: int
+
+    @property
+    def shape(self) -> tuple[int, int]:
+        return (self.height, self.width)
 
 
-def read_footprint() -> np.ndarray:
-    """True where the organizer's sample submission is finite (inside the bounds)."""
-    with rasterio.open(DATA / "sample_submission.tif") as src:
-        a = src.read(1)
-    return np.isfinite(a)
+def _check(src, what: str) -> None:
+    if str(src.crs) != f"EPSG:{EPSG}":
+        raise ValueError(f"{what}: CRS is {src.crs}, expected EPSG:{EPSG}")
+    if (src.height, src.width) != (HEIGHT, WIDTH):
+        raise ValueError(f"{what}: shape {src.height}x{src.width}, expected {HEIGHT}x{WIDTH}")
+    if tuple(src.transform)[:6] != tuple(TRANSFORM)[:6]:
+        raise ValueError(f"{what}: transform {tuple(src.transform)}, expected {tuple(TRANSFORM)}")
 
 
-def read_labels() -> np.ndarray:
-    """Existing (published) fault catalogue rasterised: True where label == 1."""
-    with rasterio.open(DATA / "labels.tif") as src:
-        a = src.read(1)
-    return a == 1
+def load_grid(data_dir: Path | None = None) -> Grid:
+    d = Path(data_dir) if data_dir else DATA_DIR
+    with rasterio.open(d / "existing_faults.tif") as src:
+        _check(src, "existing_faults.tif")
+        cat = src.read(1)
+    with rasterio.open(d / "sample_submission.tif") as src:
+        _check(src, "sample_submission.tif")
+        sub = src.read(1)
+    footprint = np.isfinite(sub)
+    catalogue = (cat > 0) & footprint
+    return Grid(footprint=footprint, catalogue=catalogue, crs=src.crs,
+                transform=TRANSFORM, height=HEIGHT, width=WIDTH)
 
 
-def read_stack(path: Path) -> tuple[np.ndarray, np.ndarray]:
-    """Return (bands, finite_mask) for a multi-band raster, honouring its nodata tag."""
-    with rasterio.open(path) as src:
-        arr = src.read()
-        nod = src.nodata
-    if arr.dtype == np.uint8:
-        finite = np.ones(arr.shape[1:], bool) if nod is None else (arr[0] != nod)
-        if nod is not None:
-            for i in range(arr.shape[0]):
-                finite &= (arr[i] != nod)
-        return arr, finite
-    finite = np.isfinite(arr)
-    if nod is not None:
-        finite &= arr != nod
-    return arr, finite.all(axis=0)
+def write_submission(path: Path, values: np.ndarray, *, mode: str = "zeros") -> dict:
+    """Serialize a pre-normalized array on the pinned grid without repairing it.
 
+    ``mode="zeros"`` is the only submission-compatible mode: callers must pass
+    an all-finite field already in ``[0,1]`` (normally with cells outside the
+    footprint explicitly set to zero). Out-of-range and non-finite values are
+    rejected; nothing is clipped or silently replaced.
 
-def read_official() -> tuple[np.ndarray, np.ndarray]:
-    """19-band float32 official feature stack -> (bands[H,W], finite[H,W])."""
-    return read_stack(DATA / "training_features.tif")
-
-
-def write_geotiff(path: Path, values: np.ndarray, profile: dict | None = None) -> Path:
-    """Write a single-band float32 GeoTIFF on the canonical grid."""
-    prof = profile or canonical_profile()
+    ``mode="nan"`` is retained for local diagnostics only. The organizer's
+    nodata handling is not inferred here, and a prior portal range error does
+    not establish NaN as its cause. Prefer the stricter all-finite zeros policy
+    for any future candidate.
+    """
+    values = np.asarray(values)
+    if values.shape != (HEIGHT, WIDTH):
+        raise ValueError(f"values shape {values.shape} != {(HEIGHT, WIDTH)}")
+    if not np.issubdtype(values.dtype, np.number):
+        raise ValueError("values must be numeric")
+    if mode == "zeros":
+        if not np.isfinite(values).all():
+            raise ValueError("zeros mode requires all values finite; set outside-footprint cells to 0 explicitly")
+        if (values < 0.0).any() or (values > 1.0).any():
+            raise ValueError("submission values must already be in [0,1]; no clipping")
+        out = values.astype(np.float32, copy=False)
+        nodata = None
+    elif mode == "nan":
+        finite = np.isfinite(values)
+        if np.isinf(values).any() or (values[finite] < 0.0).any() or (values[finite] > 1.0).any():
+            raise ValueError("diagnostic values must remain in [0,1] except for NaN cells; no silent clipping")
+        out = values.astype(np.float32, copy=False)
+        nodata = float("nan")
+    else:
+        raise ValueError("mode must be 'zeros' or 'nan'")
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    with rasterio.open(path, "w", **prof) as dst:
-        dst.write(np.asarray(values, dtype=np.float32), 1)
-    return path
+    with rasterio.open(
+        path, "w", driver="GTiff", height=HEIGHT, width=WIDTH, count=1,
+        dtype="float32", crs=f"EPSG:{EPSG}", transform=TRANSFORM,
+        nodata=nodata, compress="lzw", tiled=False,
+    ) as dst:
+        dst.write(out, 1)
+        dst.set_band_description(1, "predicted_new_fault_probability")
+    return {"path": str(path), "mode": mode, "nodata": nodata}
+
+def read_geotiff(path: str | Path) -> dict:
+    """Everything a validator can complain about, re-derived from the bytes on disk.
+
+    Kept byte-compatible with the earlier lanes' receipt format so their gates
+    still read what they expect.
+    """
+    import hashlib
+
+    p = Path(path)
+    with rasterio.open(p) as src:
+        a = src.read(1)
+        info = dict(
+            path=str(p), bytes=p.stat().st_size,
+            sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
+            bands=src.count, dtype=src.dtypes[0], height=src.height, width=src.width,
+            crs=str(src.crs) if src.crs is not None else None,
+            transform=[float(v) for v in tuple(src.transform)[:6]],
+            res=[float(v) for v in src.res],
+            nodata=src.nodata, nodata_repr=repr(src.nodata),
+        )
+    finite = np.isfinite(a)
+    info.update(
+        finite_pixels=int(finite.sum()),
+        min=float(np.nanmin(a)) if finite.any() else None,
+        max=float(np.nanmax(a)) if finite.any() else None,
+        positive_pixels=int((a > 0).sum()),
+        nonzero_in_footprint=int(((a > 0) & finite).sum()),
+        unique_values=int(len(np.unique(a[finite]))) if finite.any() else 0,
+    )
+    return info
 
 
-def rowcol_to_xy(rows: np.ndarray, cols: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    t = canonical_profile()["transform"]
-    return t.c * cols + t.f * rows + t.x_off, t.a * cols + t.e * rows + t.y_off
+def write_geotiff(path: str | Path, arr: np.ndarray, *, nodata: float | None = None) -> dict:
+    """Write a single-band float32 GeoTIFF on the pinned grid and re-read it.
 
+    The re-read is the contract: this returns what the *file* says. Tiled 256 px
+    with deflate + horizontal predictor, matching what this family has shipped.
+    """
+    from rasterio.transform import from_origin
 
-def xy_to_rowcol(xs: np.ndarray, ys: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    t = canonical_profile()["transform"]
-    inv = ~t
-    cols_f, rows_f = inv * (xs, ys)
-    return np.rint(rows_f).astype(np.int64), np.rint(cols_f).astype(np.int64)
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if arr.dtype != np.float32:
+        raise TypeError(f"submission must be float32, got {arr.dtype}")
+    if arr.shape != SHAPE:
+        raise ValueError(f"submission must be {SHAPE}, got {arr.shape}")
+    if not np.isfinite(arr).all():
+        raise ValueError("submission contains NaN/inf; the local all-finite export policy rejects it")
+    if arr.min() < 0.0 or arr.max() > 1.0:
+        raise ValueError(f"submission out of range: min={arr.min()} max={arr.max()}")
+    tr = Affine(*[float(v) for v in tuple(TRANSFORM)[:6]])
+    west, north, xs, ys = tr.c, tr.f, tr.a, -tr.e
+    check = from_origin(west, north, xs, ys)
+    if tuple(float(v) for v in check)[:6] != tuple(tr)[:6]:
+        raise AssertionError(f"transform drifted: {tuple(check)[:6]} != {tuple(tr)[:6]}")
+    if abs(xs) != CELL_M or abs(ys) != CELL_M:
+        raise AssertionError(f"cell size {xs} x {ys} != {CELL_M} m")
+    profile = dict(driver="GTiff", height=arr.shape[0], width=arr.shape[1], count=1,
+                   dtype="float32", crs=CRS_EPSG, transform=tr,
+                   tiled=True, blockxsize=256, blockysize=256,
+                   compress="deflate", predictor=2)
+    if nodata is not None:
+        profile["nodata"] = float(nodata)
+    with rasterio.open(path, "w", **profile) as dst:
+        dst.write(arr, 1)
+    return read_geotiff(path)

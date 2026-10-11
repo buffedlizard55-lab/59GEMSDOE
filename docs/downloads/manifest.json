@@ -1,0 +1,40 @@
+{
+ "files": [
+  {
+   "file": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif",
+   "zip": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip",
+   "nan_twin": "gems59-h59a-intensity-zone-breakeven-8c0c6142-nan.tif",
+   "bytes": 795960,
+   "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842",
+   "n_dots": 38593,
+   "min_separation_px": 3.162,
+   "dots_on_or_within_2px_of_catalogue": 0,
+   "grid": "EPSG:32611 / 3730x3292 / (100,0,243350,0,-100,4508550)",
+   "outside_footprint": "0.0 (portal-safe; the -nan twin is research only)",
+   "validator_checks_passed": "12/12",
+   "holdout_dti_mean": 0.08811,
+   "holdout_dti_range": [
+    0.08715,
+    0.08907
+   ],
+   "folds": 2,
+   "uniqueness_vs_696_registry": {
+    "max_spearman": 0.6718,
+    "max_lift": 1.999,
+    "verdict": "NO DRIFT"
+   },
+   "uniqueness_vs_main_releases": {
+    "max_spearman": 0.0072,
+    "max_lift": 1.269,
+    "verdict": "NO DRIFT"
+   },
+   "submission_name": "GEMSDOE59-H59A-IZBT",
+   "submission_note": "1 km new-fault-density zoning then break-even tiling: 38,593 dots, min sep 3.16 px, 0 within 200 m of the mapped catalogue. UNSCORED.",
+   "distinct_from": [
+    "gems59-h59i-intensity-lattice",
+    "gems59-h59j-coherence-consensus-dotted",
+    "59gemsdoe-intensity-lane-50651dots"
+   ]
+  }
+ ]
+}

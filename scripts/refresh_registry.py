@@ -1,136 +1,165 @@
 #!/usr/bin/env python3
-"""Download every reachable hash-pinned prior GEMSDOE raster for the drift gate.
+"""Refresh accessible sibling prediction rasters via immutable GitHub blob IDs.
 
-Index: registry/registry_index_20261010T2001.json -- 696 unique grid rasters across
-57 sibling repositories, each pinned by sha256.  The index records the branch the
-bytes were found on and many of those branches no longer resolve, so this script
-first lists each repository's default-branch tree (one API call per repository),
-matches registry entries to a path that actually exists there, and only then
-downloads.  Every file is re-hashed; a mismatch or short read is a hard failure,
-and reachable/total counts are written to ``evidence`` so the coverage of the
-drift gate is auditable rather than assumed.
+No off-allowlist raw host, /tmp paths or partial-registry clearance. The old
+inventory is unioned with current main trees, including this repo's earlier
+artifacts. A missing source/blob is an error, not evidence of uniqueness.
+Large source stacks/DEM tiles are excluded by path; any ambiguous single-band
+competition-grid TIFF is conservatively kept, including dense soft fields.
 """
 from __future__ import annotations
-
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
 import hashlib
 import json
+from pathlib import Path
 import subprocess
 import sys
-import time
-from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CACHE = ROOT / "work" / "registry"
 OWNER = "buffedlizard55-lab"
+REPOS = ["GEMSDOE", "GEMSDOE2", "GEMSDOE3", "GEMSDOE4", "5GEMSDOE", "6GEMSDOE", "7GEMSDOE", "8GEMSDOE", "GEMSDOE9", "GEMSDOE10", "11GEMSDOE", "12GEMSDOE", "13GEMSDOE", "14GEMSDOE", "15GEMSDOE", "16GEMSDOE", "17GEMSDOE", "18GEMSDOE", "19GEMSDOE", "20GEMSDOE"] + [f"GEMSDOE{i}" for i in range(21, 55)] + ["55GEMSDOE", "56GEMSDOE", "57GEMSDOE"]
+# Inputs cannot be treated as earlier predictions. Dense predictions are NOT excluded.
+INPUT_PATTERNS = (".part-", "numerical-features", "training_features", "existing_faults", "sample_submission", "example_submission", "labels.tif", "/external/", "/raw/", "/bridge/", "/source_mirrors/", "/aux/", "/audit_sources/", "lidar_scarp", "topo_u8", "h52_scarp")
 
 
-def sha(p: Path) -> str:
+def gh_json(endpoint):
+    p = subprocess.run(["gh", "api", endpoint], check=True, capture_output=True, timeout=90)
+    return json.loads(p.stdout)
+
+
+def sha256(path):
     h = hashlib.sha256()
-    with p.open("rb") as f:
-        for c in iter(lambda: f.read(1 << 20), b""):
+    with Path(path).open('rb') as s:
+        for c in iter(lambda: s.read(1 << 20), b''):
             h.update(c)
     return h.hexdigest()
 
 
-def gh(args) -> tuple[int, bytes]:
-    r = subprocess.run(["gh", "api"] + args, capture_output=True)
-    return r.returncode, r.stdout
+def get_tree(repo):
+    # /commits/main resolves to an immutable commit; the tree endpoint then pins the scan.
+    c = gh_json(f"repos/{OWNER}/{repo}/commits/main")
+    x = gh_json(f"repos/{OWNER}/{repo}/git/trees/{c['sha']}?recursive=1")
+    if x.get('truncated'):
+        raise ValueError(f"truncated GitHub tree: {repo}")
+    return repo, c['sha'], x['tree']
 
 
-def default_branch(repo: str) -> str:
-    rc, out = gh([f"repos/{OWNER}/{repo}", "--jq", ".default_branch"])
-    return out.decode().strip() or "main" if rc == 0 else "main"
+def fetch_blob(record, cache):
+    import rasterio
+    blob = record['blob']
+    target = cache / f"{blob}.tif"
+    temporary = target.with_suffix('.tif.partial')
+    if not target.exists():
+        try:
+            with temporary.open('wb') as f:
+                p = subprocess.run(['gh', 'api', f"repos/{OWNER}/{record['repo_first']}/git/blobs/{blob}", '-H', 'Accept: application/vnd.github.raw+json'], stdout=f, stderr=subprocess.PIPE, timeout=180)
+            if p.returncode:
+                raise RuntimeError(p.stderr.decode()[:180])
+            # Verify the Git object itself, not only its name or transport URL.
+            actual = hashlib.sha1(b'blob ' + str(temporary.stat().st_size).encode() + b'\0' + temporary.read_bytes()).hexdigest()
+            if actual != blob:
+                raise ValueError('immutable Git blob hash mismatch')
+            temporary.replace(target)
+        finally:
+            temporary.unlink(missing_ok=True)
+    digest = sha256(target)
+    if record.get('sha256') and digest != record['sha256']:
+        raise ValueError('historical SHA256 pin mismatch')
+    with rasterio.open(target) as src:
+        if src.count != 1 or src.shape != (3730, 3292) or src.crs is None or src.crs.to_epsg() != 32611:
+            return None, dict(sources=record['sources'], reason='not a single-band competition-grid prediction')
+        from affine import Affine
+        if src.transform != Affine(100, 0, 243350, 0, -100, 4508550):
+            return None, dict(sources=record['sources'], reason='different transform')
+    return {**record, 'sha256': digest, 'bytes': target.stat().st_size, 'cache_file': str(target.relative_to(ROOT))}, None
 
 
-def tree_paths(repo: str, branch: str) -> dict:
-    rc, out = gh([f"repos/{OWNER}/{repo}/git/trees/{branch}?recursive=1", "--jq",
-                  '.tree[] | select(.type=="blob") | "\\(.path)\\t\\(.size)"'])
-    if rc != 0:
-        return {}
-    d = {}
-    for line in out.decode().splitlines():
-        if "\t" in line:
-            p, s = line.rsplit("\t", 1)
+def refresh(root=ROOT, workers=4):
+    cache = root / '.cache/registry'
+    cache.mkdir(parents=True, exist_ok=True)
+    by_blob = {}
+    for old_path in (root / 'evidence/registry_full_index.json', root / 'evidence/registry_refreshed.json'):
+        if not old_path.exists():
+            continue
+        for record in json.loads(old_path.read_text()).get('rasters', []):
+            blob = record['blob']
+            if blob in by_blob:
+                by_blob[blob]['sources'] = sorted(set(by_blob[blob]['sources'] + record['sources']))
+            else:
+                by_blob[blob] = {**record, 'sources': list(record['sources'])}
+    snapshots, errors, excluded, reviews = [], [], [], []
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(get_tree, r): r for r in REPOS}
+        for future in as_completed(futures):
+            repo = futures[future]
             try:
-                d[p] = int(s)
-            except ValueError:
-                pass
-    return d
+                repo, commit, tree = future.result()
+                snapshots.append(dict(repo=repo, commit=commit))
+                reviews.append(dict(repo=repo, commit=commit,
+                    website=f'https://{OWNER}.github.io/{repo}/',
+                    index_files=[t['path'] for t in tree if t['path'] in ('docs/index.html', 'index.html')],
+                    readme_available=any(t['path']=='README.md' for t in tree)))
+                for t in tree:
+                    path = t['path']
+                    if t['type'] != 'blob' or not path.lower().endswith(('.tif', '.tiff')):
+                        continue
+                    if any(p in path for p in INPUT_PATTERNS):
+                        excluded.append(dict(repo=repo, path=path, reason='input/auxiliary source raster, not submission'))
+                        continue
+                    if t.get('size', 0) > 100 * 1024 * 1024:
+                        errors.append(dict(repo=repo, source=path, error='ambiguous TIFF exceeds API raw limit; not silently skipped'))
+                        continue
+                    source = f'{repo}:{path}'
+                    if t['sha'] in by_blob:
+                        if source not in by_blob[t['sha']]['sources']:
+                            by_blob[t['sha']]['sources'].append(source)
+                    else:
+                        by_blob[t['sha']] = dict(repo_first=repo, blob=t['sha'], sources=[source], source_commit=commit)
+                print(f'[registry] inventory {repo}', flush=True)
+            except Exception as e:
+                errors.append(dict(repo=repo, error=str(e)[:240]))
+                print(f'[registry] ERROR {repo}: {str(e)[:200]}', flush=True)
+    seen = {}
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(fetch_blob, r, cache): r for r in by_blob.values()}
+        for i, future in enumerate(as_completed(futures), 1):
+            rec = futures[future]
+            try:
+                row, exclusion = future.result()
+                if exclusion:
+                    excluded.append(exclusion)
+                else:
+                    if row['sha256'] in seen:
+                        prior = seen[row['sha256']]
+                        prior['sources'] = sorted(set(prior['sources'] + row['sources']))
+                    else:
+                        seen[row['sha256']] = row
+            except Exception as e:
+                errors.append(dict(sources=rec['sources'], blob=rec['blob'], error=str(e)[:240]))
+            if i % 50 == 0:
+                print(f'[registry] fetched/verified {i}/{len(by_blob)}', flush=True)
+    report = dict(evidence_class='REGISTRY-MEASUREMENT', generated_utc=datetime.now(timezone.utc).isoformat(),
+        owner=OWNER, repos_scanned=sorted(x['repo'] for x in snapshots), snapshots=sorted(snapshots, key=lambda x:x['repo']),
+        repos_unreachable_or_missing=[x for x in errors if 'repo' in x], errors=errors,
+        grid=dict(shape=[3730,3292], crs='EPSG:32611', transform=[100,0,243350,0,-100,4508550]),
+        n_unique_grid_rasters=len(seen), complete_accessible_scan=not errors,
+        skipped=excluded, rasters=sorted(seen.values(), key=lambda r:r['sha256']),
+        scope='Historical pinned inventory union latest public main trees including this repository; inaccessible/private/unlinked rasters cannot be certified.')
+    (root / 'evidence/registry_refreshed.json').write_text(json.dumps(report, indent=2, allow_nan=False)+'\n')
+    (root / 'evidence/site_inventory.json').write_text(json.dumps(dict(generated_utc=report['generated_utc'], repos=sorted(reviews,key=lambda r:r['repo']), errors=errors), indent=2, allow_nan=False)+'\n')
+    return report
 
 
-def fetch(repo: str, path: str, dest: Path, branch: str, tries: int = 2) -> bool:
-    tmp = dest.with_suffix(".part")
-    for _ in range(tries):
-        with tmp.open("wb") as out:
-            r = subprocess.run(["gh", "api", f"repos/{OWNER}/{repo}/contents/{path}?ref={branch}",
-                                "-H", "Accept: application/vnd.github.raw"], stdout=out)
-        if r.returncode == 0 and tmp.stat().st_size > 0:
-            tmp.replace(dest)
-            return True
-        time.sleep(0.5)
-    tmp.unlink(missing_ok=True)
-    return False
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--workers', type=int, default=4)
+    a=p.parse_args()
+    r=refresh(workers=a.workers)
+    print(json.dumps({k:r[k] for k in ('n_unique_grid_rasters','complete_accessible_scan','errors')}, indent=2))
+    return 0 if r['complete_accessible_scan'] else 2
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--index", default=str(ROOT / "registry/registry_index_20261010T2001.json"))
-    ap.add_argument("--build-map", action="store_true")
-    ap.add_argument("--start", type=int, default=0)
-    ap.add_argument("--count", type=int, default=10 ** 9)
-    a = ap.parse_args()
-    CACHE.mkdir(parents=True, exist_ok=True)
-    idx = json.loads(Path(a.index).read_text())["rasters"]
-
-    mapp = ROOT / "work" / "registry_path_map.json"
-    if a.build_map or not mapp.exists():
-        repos = sorted({e["sources"][0].split(":")[0] for e in idx if e["sources"]})
-        trees = {}
-        for i, r in enumerate(repos):
-            b = default_branch(r)
-            trees[r] = {"branch": b, "paths": tree_paths(r, b)}
-            print(f"  tree {i+1}/{len(repos)} {r} ({b}) {len(trees[r]['paths'])} blobs", flush=True)
-        mapp.write_text(json.dumps(trees))
-
-    trees = json.loads(mapp.read_text())
-    todo = [e for e in idx[a.start:a.start + a.count]
-            if not (CACHE / (e["sha256"] + ".tif")).exists()]
-    ok = bad = unreachable = 0
-    t0 = time.time()
-    for i, e in enumerate(todo):
-        dest = CACHE / (e["sha256"] + ".tif")
-        hit = None
-        for src in e["sources"]:
-            if ":" not in src:
-                continue
-            repo, path = src.split(":", 1)
-            t = trees.get(repo)
-            if t and path in t["paths"] and t["paths"][path] == e["bytes"]:
-                hit = (repo, path, t["branch"])
-                break
-        if hit is None:
-            unreachable += 1
-            continue
-        if not fetch(hit[0], hit[1], dest, hit[2]):
-            bad += 1
-            continue
-        if sha(dest) != e["sha256"] or dest.stat().st_size != e["bytes"]:
-            dest.unlink(missing_ok=True)
-            bad += 1
-            continue
-        ok += 1
-        if (ok + bad) % 50 == 0:
-            print(f"  {i+1}/{len(todo)} ok={ok} bad={bad} unreachable={unreachable} "
-                  f"{time.time()-t0:.0f}s", flush=True)
-    out = {"ok": ok, "bad": bad, "unreachable_on_default_branch": unreachable,
-           "already_cached": len(idx) - len(todo), "index_total": len(idx),
-           "cache_dir": str(CACHE), "seconds": round(time.time() - t0, 1)}
-    print(json.dumps(out, indent=1))
-    (ROOT / "evidence").mkdir(exist_ok=True)
-    (ROOT / "evidence" / "registry_cache_status.json").write_text(json.dumps(out, indent=1) + "\n")
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+if __name__ == '__main__':
+    raise SystemExit(main())

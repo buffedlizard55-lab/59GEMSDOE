@@ -1,0 +1,115 @@
+{
+  "label": "ORGANIZER-CONFIRMED (public leaderboard page)",
+  "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "fetched": "2026-10-11",
+  "revision": 2,
+  "note": "Public test set only. Phase 1 scores the private set (rules PDF section 1.1). The board moved during 2026-10-11: revision 1 (recorded earlier the same day) had #1 xiaofanhu 0.3774 / 15 submissions, #2 JerryDataWorks 0.3418 / 18, #8 DARD 0.3195, #22 extradr19 0.2778. Both revisions are the same organizer-confirmed page at different times; each row below is the later reading.",
+  "revision_1_rows": [
+    {
+      "rank": 1,
+      "participant": "xiaofanhu",
+      "best_public_dw_tversky": 0.3774,
+      "submissions": 15
+    },
+    {
+      "rank": 2,
+      "participant": "JerryDataWorks",
+      "best_public_dw_tversky": 0.3418,
+      "submissions": 18
+    },
+    {
+      "rank": 8,
+      "participant": "DARD",
+      "best_public_dw_tversky": 0.3195,
+      "submissions": 17
+    },
+    {
+      "rank": 22,
+      "participant": "extradr19",
+      "best_public_dw_tversky": 0.2778,
+      "submissions": 14,
+      "file_link": "NOT CONFIRMED (IR-2)"
+    },
+    {
+      "rank": 50,
+      "participant": "MSU-Laskowski-GEMS",
+      "best_public_dw_tversky": 0.2448,
+      "submissions": 12
+    }
+  ],
+  "rows": [
+    {
+      "rank": 1,
+      "participant": "xiaofanhu",
+      "best_public_dw_tversky": 0.4133,
+      "submissions": 16
+    },
+    {
+      "rank": 2,
+      "participant": "JerryDataWorks",
+      "best_public_dw_tversky": 0.3418,
+      "submissions": 18
+    },
+    {
+      "rank": 3,
+      "participant": "alexoktaba",
+      "best_public_dw_tversky": 0.3361,
+      "submissions": null
+    },
+    {
+      "rank": 4,
+      "participant": "Batik Shirt Brothers",
+      "best_public_dw_tversky": 0.33,
+      "submissions": null
+    },
+    {
+      "rank": 5,
+      "participant": "nchuzhoy",
+      "best_public_dw_tversky": 0.3262,
+      "submissions": null
+    },
+    {
+      "rank": 6,
+      "participant": "kinghorton42",
+      "best_public_dw_tversky": 0.3261,
+      "submissions": null
+    },
+    {
+      "rank": 7,
+      "participant": "joeyfezster",
+      "best_public_dw_tversky": 0.326,
+      "submissions": null
+    },
+    {
+      "rank": 8,
+      "participant": "DARD",
+      "best_public_dw_tversky": 0.3195,
+      "submissions": 17
+    },
+    {
+      "rank": 9,
+      "participant": "mzoorob",
+      "best_public_dw_tversky": 0.3129,
+      "submissions": null
+    },
+    {
+      "rank": 22,
+      "participant": "op01",
+      "best_public_dw_tversky": 0.2797,
+      "submissions": null
+    },
+    {
+      "rank": 23,
+      "participant": "extradr19",
+      "best_public_dw_tversky": 0.2778,
+      "submissions": 14,
+      "file_link": "NOT CONFIRMED (IR-2)"
+    },
+    {
+      "rank": 50,
+      "participant": "MSU-Laskowski-GEMS",
+      "best_public_dw_tversky": 0.2448,
+      "submissions": 12
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+ "evidence_class": "HOLDOUT-DTI + OWNER-REPORTED",
+ "generated_utc": "2026-10-11T01:56:45Z",
+ "purpose": "instrument calibration against owner-recorded public scores",
+ "split": "buffered-whole-components-loqo-v2 (shared) with corridor restriction of the withheld truth to pixels >= corridor_px from any visible trace",
+ "seed": 20,
+ "alpha": 0.2,
+ "beta": 0.8,
+ "radius_px": 3.0,
+ "variants": {
+  "corridor_0": {
+   "corridor_px": 0.0,
+   "rows": [
+    {
+     "key": "h59j_candidate",
+     "live_score": null,
+     "dti": 0.019123682439540345,
+     "tp": 279.5722227887022,
+     "fp": 27532.24069728348,
+     "fn": 11041.427777211298,
+     "n_truth": 11321
+    }
+   ],
+   "n_truth": 11321,
+   "spearman_vs_live": {
+    "rho": null,
+    "p_value": null,
+    "n": 0
+   },
+   "spearman_vs_live_name_tier": {
+    "rho": null,
+    "p_value": null,
+    "n": 0
+   }
+  },
+  "corridor_6": {
+   "corridor_px": 6.0,
+   "rows": [
+    {
+     "key": "h59j_candidate",
+     "live_score": null,
+     "dti": 0.016361392806518032,
+     "tp": 196.49183613456574,
+     "fp": 27602.91319172088,
+     "fn": 7865.508163865434,
+     "n_truth": 8062
+    }
+   ],
+   "n_truth": 8062,
+   "spearman_vs_live": {
+    "rho": null,
+    "p_value": null,
+    "n": 0
+   },
+   "spearman_vs_live_name_tier": {
+    "rho": null,
+    "p_value": null,
+    "n": 0
+   }
+  }
+ },
+ "labels": {
+  "dti": "HOLDOUT-DTI variant -- NOT a competition score",
+  "live_score": "OWNER-REPORTED (file-name recorded by the owner in a sibling repo, or the standing brief) -- not an organizer receipt"
+ }
+}
