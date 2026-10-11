@@ -1,1 +1,199 @@
-{"files": []}
+{
+ "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)",
+ "generated_utc": "2026-10-11T02:34:20Z",
+ "current_candidate": "gems59-h59j-offcat-propen-30k-20261011",
+ "how_to_submit": "docs/executive-summary.html",
+ "status_pages": "docs/index.html (download), docs/method.html (method & evidence)",
+ "legend": {
+  "download_status": "whether the file is safe to download as a candidate TIF",
+  "submit_status": "whether the owner's selector step has cleared it for a weekly slot; no slot is spent by this project"
+ },
+ "candidates": [
+  {
+   "candidate": "gems59-h59j-offcat-propen-30k-20261011",
+   "receipt": "evidence/submission_h59j.json",
+   "superseded_by": null,
+   "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+   "bytes": 117938,
+   "dots": 30000,
+   "spacing_px": 3.0,
+   "on_catalogue_dots": 0,
+   "note": "H59-J off-catalogue discriminant, 30k dots, 3px spacing, 0 on catalogue; proxy 0.375 vs incumb 0.295; organiser-unverified",
+   "note_chars": 122,
+   "validator": {
+    "template_ok": true,
+    "template_problems": [],
+    "local": {
+     "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+     "bytes": 117938,
+     "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+     "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+       3730,
+       3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+       100.0,
+       0.0,
+       243350.0,
+       0.0,
+       -100.0,
+       4508550.0
+      ],
+      "profile_compress": "deflate"
+     },
+     "band_description": [
+      null
+     ],
+     "n_finite": 12279160,
+     "n_nan": 0,
+     "n_infinite": 0,
+     "min": 0.0,
+     "max": 1.0,
+     "mean": 0.002443163888528943,
+     "emitted_positive_pixels": 30000,
+     "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+     },
+     "all_checks_passed": true,
+     "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+     "on_catalogue_positive_pixels": 0,
+     "in_footprint_positive_pixels": 30000,
+     "footprint_fraction": 0.005805657923281327
+    }
+   },
+   "files": [
+    {
+     "name": "gems59-h59j-offcat-propen-30k-20261011.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 117938,
+     "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6"
+    },
+    {
+     "name": "gems59-h59j-offcat-propen-30k-20261011.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 78010,
+     "sha256": "c2afaeab6d633afdc7c62a7ae6e920f4a055ca70c0c70e5ab2dce56ca1821a06"
+    },
+    {
+     "name": "gems59-h59j-offcat-propen-30k-20261011.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 3853,
+     "sha256": "b110bcbaa3d622923a4bee02dc49b27d1f070f22ddf22fe569ec88f5782ad1a4"
+    }
+   ],
+   "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+   "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  },
+  {
+   "candidate": "gems59-h59i-intensity-lattice-20261011T000000Z",
+   "receipt": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json",
+   "superseded_by": "gems59-h59j-offcat-propen-30k-20261011",
+   "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+   "bytes": 142754,
+   "dots": 71119,
+   "spacing_px": null,
+   "on_catalogue_dots": 0,
+   "note": "H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.",
+   "note_chars": 124,
+   "validator": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+    "bytes": 142754,
+    "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+    "meta": {
+     "crs": "EPSG:32611",
+     "shape": [
+      3730,
+      3292
+     ],
+     "dtype": "float32",
+     "count": 1,
+     "nodata": null,
+     "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+     ],
+     "profile_compress": "deflate"
+    },
+    "band_description": [
+     null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.005791845731437206,
+    "emitted_positive_pixels": 71119,
+    "checks": {
+     "single_band": true,
+     "dtype_float32": true,
+     "dimensions_3730x3292": true,
+     "crs_epsg_32611": true,
+     "transform_matches_sample_submission": true,
+     "no_nan_anywhere": true,
+     "no_inf_anywhere": true,
+     "no_sentinel_values": true,
+     "range_0_1_guaranteed": true,
+     "min_ge_0": true,
+     "max_le_1": true,
+     "in_footprint_all_finite": true,
+     "in_footprint_range_0_1": true,
+     "outside_footprint_zero": true,
+     "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 71119,
+    "footprint_fraction": 0.013763086194861489
+   },
+   "files": [
+    {
+     "name": "gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 142754,
+     "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d"
+    },
+    {
+     "name": "gems59-h59i-intensity-lattice-20261011T000000Z.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 106442,
+     "sha256": "9bf4e57b796982bc0a976eaa71a09e374778f6071a3e6b0afee8dce5e9cfc32b"
+    },
+    {
+     "name": "gems59-h59i-intensity-lattice-20261011T000000Z.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 4576,
+     "sha256": "8f28b6c3dd4e7aca8e16b290538d51251c66ba6045c92c846657e712927fcea7"
+    }
+   ],
+   "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+   "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  }
+ ]
+}

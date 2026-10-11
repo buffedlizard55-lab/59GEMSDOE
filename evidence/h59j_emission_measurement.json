@@ -1,0 +1,40 @@
+{
+ "evidence_class": "PROXY-MEASUREMENT (SGMC off-catalogue proxy truth; no organizer score)",
+ "generated_utc": "2026-10-11T02:19:32.849873+00:00",
+ "script": "scripts/measure_h59j_emission.py",
+ "file": "downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+ "truth_definitions": {
+  "far": "SGMC fault pixels inside the footprint, off the mapped catalogue, more than 3.0 px from it",
+  "all": "SGMC fault pixels inside the footprint, off the mapped catalogue",
+  "far_pixels": 61664,
+  "all_pixels": 78433
+ },
+ "criterion_rule": "T_proxy_far / (0.2 * S_proxy_far + 0.8 * G_calibrated), G_calibrated = 12700",
+ "far": {
+  "criterion": 0.37588241145391293,
+  "T": 6350.0446948697945,
+  "M": 2681.5446883408245,
+  "S": 33668.50000652897,
+  "n": 30000,
+  "G": 61664,
+  "DTI_raw": 0.1132623922404552,
+  "DTI_calibrated": 0.37588241145391293,
+  "credit_per_dot": 0.21166815649565981,
+  "coverage": 0.10297815086387187
+ },
+ "all": {
+  "T": 7840.266287880981,
+  "M": 3325.527519464341,
+  "S": 34514.73876841664,
+  "n": 30000,
+  "G": 78433,
+  "DTI_raw": 0.1125676914535981,
+  "DTI_calibrated": 0.4594907281591204,
+  "credit_per_dot": 0.26134220959603266,
+  "coverage": 0.09996132097307231
+ },
+ "dots": 30000,
+ "on_catalogue_dots": 0,
+ "positive_outside_footprint": 0,
+ "elapsed_s": 6.28
+}

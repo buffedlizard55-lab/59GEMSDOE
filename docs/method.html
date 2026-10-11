@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Method &amp; evidence (59GEMSDOE H59-I)</title>
+<title>Method &amp; evidence (59GEMSDOE H59-J)</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
+<body>
 <nav>
   <a href="index.html">Status &amp; download</a>
   <a href="executive-summary.html">Executive summary / how to submit</a>
@@ -13,146 +14,117 @@
   <a href="data-sources.html">Data sources</a>
 </nav>
 <main>
-<h1>Method &amp; evidence — intensity lane (H59-I)</h1>
+<h1>Method &amp; evidence — off-catalogue lane (H59-J)</h1>
 
 <div class="panel">
 <h2 style="margin-top:0">Hypothesis</h2>
-<p>A presence-only point-process intensity fitted to the mapped catalogue with mapping-effort covariates
-predicts where the faults the USGS/INGENIOUS catalogue missed should sit. Zoning that intensity into 1 km
-blocks by expected new-fault pixels, and lattice-tiling only the blocks above break-even, places dots that
-beat a same-budget uniform-random control on the spatially-blocked hide-and-recover holdout.</p>
-<p class="small"><strong>Mechanism.</strong> MaxEnt-form logistic regression (equivalent in form to a Poisson
-point-process model — Fithian &amp; Hastie, <em>Annals of Applied Statistics</em> 2013) on 60,988 catalogue
-presences vs 120,000 uniform background cells, 13 covariates: four geophysical edge planes (magnetic
-horizontal gradient, tilt derivative, gravity horizontal gradient, detrended-elevation slope), their
-element-wise max, five geophysical regime planes (TMI, conductivity, basement depth, geodetic second
-invariant, earthquake distance) and three mapping-effort planes (1 km and 5 km trace density, relief).
-Sample-selection bias is handled per Phillips et al. (<em>Ecological Applications</em> 19:181–197, 2009):
-effort covariates enter the model; a catalogue-density-weighted target-group background was rejected as
-circular (IR-59-EFFORT-01). Expected new-fault pixels per 1 km block = Σλ over non-catalogue cells (1 km
-deliberately exceeds the ~400 m catalogue registration error quoted in the brief). Break-even = ≥ 1
-expected new-fault pixel per block (the ~1% lattice-payment floor).</p>
-<p class="small"><strong>Named non-fault mimic.</strong> Mapping-effort bias itself: the catalogue is a biased
-sample, so an intensity fitted to it inherits the mappers' footprint (access, quadrangle boundaries) rather
-than geology; magnetic flight-line levelling residuals and radiometric survey-block edges can also mimic
-lineaments.</p>
+<p>Faults that expert compilations add to a regional catalogue — the population the competition scores — are
+separable from background by a discriminant trained on <em>off-catalogue</em> map faults. If so, the catalogue
+holdout's known bias (it rewards dots tight against already-mapped traces, while the live evidence rewards the
+opposite) can be sidestepped: train on the off-catalogue population directly and emit its top ranks as dot
+placements that carry no catalogue-adjacent credit.</p>
+<p class="small"><strong>Mechanism.</strong> Presence-only discriminant
+(<code>HistGradientBoostingClassifier</code>) on 38 rank-transformed feature channels over the full
+3730 × 3292 competition grid. Positives: SGMC fault pixels more than 300 m from the mapped catalogue (78,433
+off-catalogue positive pixels inside the footprint; 61,664 beyond the 3 px kernel collar). Negatives:
+catalogue-free background. Six spatially blocked folds produce an <em>out-of-fold</em> propensity field; the
+shipped dots are a greedy 3 px-spaced selection of its top ranks with <strong>every catalogue pixel removed from
+the candidate pool first</strong>, so all 30,000 dots are off-catalogue by construction (the build aborts
+otherwise).</p>
+<p class="small"><strong>Named non-fault mimic.</strong> The SGMC off-catalogue population is roughly six times
+more prevalent than the hidden new-fault population and mixes non-fault lineaments (unit contacts, thrust
+sheets, mining-district structures, compilation seams). The discriminant therefore has to separate “map-worthy
+structure” from background, not “fault” from “not fault” — and scoring this lane with its own truth is circular
+by construction, which is why the promotion decision does not rest on it.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Holdout protocol (shared tools, byte-identical to the published template)</h2>
-<p>Buffered whole-component leave-one-quadrant-out draw, seed 20 — the same draw and the same evaluator
-(<code>gems57-pooled-hide-v2</code>, implementation hashes match the published Session-5/7 receipts) as the
-57GEMSDOE Session-5 arms, so the numbers are directly comparable. 11,321 withheld positive pixels; every
-catalogue-derived feature from the visible mask only; visible faults masked pixel-exactly; pooled DTI
-(α = 0.2, β = 0.8, 300 m triangular kernel); 1,000 paired percentile bootstrap draws over the physical 20 km
-spatial clusters.</p>
+<h2 style="margin-top:0">Instrument evidence (PROXY-MEASUREMENT, no organizer score)</h2>
 <table>
-<tr><th>Experiment</th><th>Question</th><th>Result</th></tr>
-<tr><td>1 — fit &amp; arms</td><td>Does the effort-corrected intensity beat no-effort and uniform random?</td><td>0.07052 vs 0.03766 (geophysics-only) vs 0.06823 (uniform random); effort-correction exponent γ = 0 selected (0.07052 / 0.06872 / 0.06892 for γ = 0 / 0.5 / 1, CIs overlap)</td></tr>
-<tr><td>2 — utility table</td><td>Which lattice spacing per density class, and is any class below break-even?</td><td>4 px for all four quartile classes (3 px: 0.07052; 4 px: 0.07083–0.07236; 6 px worse; “none” worse for every class)</td></tr>
-<tr><td>3 — collar &amp; final</td><td>Does a catalogue-flank collar pay?</td><td>2 px collar: 0.08216 [0.06954, 0.09616] vs 0.07472 without — strictly positive paired difference</td></tr>
+<tr><th>Check</th><th>Result</th></tr>
+<tr><td>Out-of-fold AUC, six spatially blocked folds</td><td><strong>0.7444</strong> (0.638 / 0.729 / 0.730 / 0.734 / 0.752 / 0.774)</td></tr>
+<tr><td>Leakage canary (rule 4), strongest single channel alone</td><td>0.7347 &lt; 0.90 → no flag. The strongest channels are the <em>local-contrast</em> transforms of the detrended-elevation slope (0.735), detrended elevation (0.659), isostatic gravity anomaly (0.607), TMI (0.579) and depth-to-base (0.526); median channel 0.496, minimum 0.349. <strong>Disclosed weakness:</strong> the six-fold model (0.744) barely exceeds its best single input (0.735) — the lane is essentially an edge/contrast detector on elevation and gravity/magnetic gradients.</td></tr>
+<tr><td>Peer check</td><td>GEMSDOE39's independent off-catalogue lane (H40, 30 k dots) reports OOF 0.7489 — comparable, and its 0.3006 is that project's own instrument claim, not an organizer receipt</td></tr>
+<tr><td>Cross-family rank check (the decisive negative)</td><td>ρ(proxy DTI, live score) = −0.057, p 0.66, n 62 owner-reported anchors; only <code>credit_per_dot_proxy_far</code> is significant (ρ +0.252, p 0.048) and it is family-internal; the two cross-family hybrids clearing the proxy criterion scored 0.0512 and 0.0360 live</td></tr>
 </table>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Leakage canary (rule 4)</h2>
-<p>Each of the 13 covariates alone, discriminating withheld truth from the allowed domain, per fold:
-maximum AUC 0.776 (<code>e_dens5</code>), minimum 0.514 — no feature above the 0.90 bar, no flags. The two
-effort-density planes are catalogue-derived and therefore encode catalogue proximity (visible-only); that is
-disclosed, not hidden, and it is why they are the strongest single covariates.</p>
-</div>
-
-<div class="panel">
-<h2 style="margin-top:0">Decile calibration (predicted vs withheld counts)</h2>
-<p>Pooled over the four folds, <strong>68.5%</strong> of withheld-segment pixels fall in the top three deciles
-of predicted 1 km new-fault density (30% expected under uniformity): the zoning has real but modest skill.
-Full table: <a href="data/intensity_exp1_diagnostics_fixed.json">intensity_exp1_diagnostics_fixed.json</a>.</p>
-<p class="small">SGMC diagnostic (independent state compilation, off-catalogue faults): Spearman(predicted
-density, SGMC-minus-catalogue block counts) = 0.068–0.153 by fold — weak positive, consistent with a zoning
-that points at some real off-catalogue faults. Per IR-57-INSTR-01 the SGMC proxy cannot rank placements and
-is used here only as this structural check.</p>
+<h2 style="margin-top:0">Emission design (pre-declared criterion, frozen before the sweep was read)</h2>
+<p class="small">With a proxy truth the only calibrated quantity is the size of the scored population, G. The
+criterion replaces the proxy's own prevalence (61,664 px) with the calibrated one and keeps the proxy's credit:
+<code>criterion = T_proxy_far / (0.2·S_proxy_far + 0.8·G_calibrated)</code>, <code>G_calibrated = 12,700</code>
+(H28 and GEMSDOE39 inversions of the owner-reported anchors: 12,691 and 14,143). The rule reproduces the
+observed <em>within-family</em> live ladder of the owner's own thinnings (0.2778 &gt; 0.2600 &gt; 0.2477 &gt;
+0.1922), which is the only regime in which any local instrument has been shown to track the live board.</p>
+<table>
+<tr><th>Arm</th><th>Spacing</th><th>Dots</th><th>Criterion</th><th>Status</th></tr>
+<tr><td>Design winner</td><td>3 px</td><td>44,090</td><td>0.4606</td><td>not built (owner ladder is monotone down in budget)</td></tr>
+<tr><td><strong>Shipped</strong></td><td>3 px</td><td>30,000</td><td>0.3759</td><td>measured from the shipped GeoTIFF (T 6,350.0 · S 33,668.5 · credit/dot 0.2117)</td></tr>
+<tr><td>Incumbent reference (owner-reported 0.2778)</td><td>2 px collar</td><td>37,654</td><td>0.2952</td><td>within-family comparator only</td></tr>
+</table>
+<p class="small">Receipts: <code>evidence/emission_design_h59j.json</code>,
+<code>evidence/h59j_emission_measurement.json</code>. Both readings are PROXY-MEASUREMENTS on SGMC truth; the
+60 % criterion margin over the incumbent is <em>not</em> a projected score (see the cross-family check above).</p>
 </div>
 
 <div class="panel">
 <h2 style="margin-top:0">Registry uniqueness (all 695 accessible rasters, 0 errors)</h2>
-<p>Screen: <code>scripts/uniqueness_fast.py</code> — a KD-tree re-implementation of the template audit
-(<code>scripts/audit_candidate_registry.py</code>) with identical statistics and thresholds, run because the
-template's full-grid distance transforms did not finish in this sandbox's 3 GB RAM. Full evidence:
-<a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a> (per-row numbers kept).</p>
-<table class="table">
+<table>
 <tr><th>Statistic</th><th>Limit</th><th>Measured</th><th>Operative?</th></tr>
-<tr><td>Identical decoded predictions</td><td>0</td><td>0 of 695</td><td>yes — byte-unique</td></tr>
-<tr><td>Spearman ρ, full footprint</td><td>≤ 0.90</td><td>0.176 (worst, <code>7GEMSDOE …halo15-gbt-v1</code>)</td><td>yes</td></tr>
-<tr><td>Jaccard of dot sets</td><td>≤ 0.50</td><td>0.042 (worst, <code>57GEMSDOE-PR6 …lean-offset</code>)</td><td>yes</td></tr>
-<tr><td>3-px overlap, peers of ≤ my support (418)</td><td>≤ 0.70</td><td>0.724 worst</td><td>no — see below</td></tr>
-<tr><td>3-px reverse overlap, peers of &gt; my support (223)</td><td>≤ 0.70</td><td>0.736 worst</td><td>no — see below</td></tr>
-<tr><td>3-px forward overlap, continuous-surface peers (54)</td><td>≤ 0.70</td><td>1.000 for every one</td><td>no — IR-57-REPR-01</td></tr>
+<tr><td>Identical decoded predictions</td><td>0</td><td>0 of 695</td><td>yes</td></tr>
+<tr><td>Spearman ρ, full footprint (stride-3 subgrid)</td><td>≤ 0.90</td><td>0.063 worst</td><td>yes</td></tr>
+<tr><td>Jaccard of exact dot sets</td><td>≤ 0.50</td><td>0.0209 (<code>5GEMSDOE pindrop-v4-ridge</code>)</td><td>yes</td></tr>
+<tr><td>Forward overlap, peers of ≤ my support (82)</td><td>≤ 0.70</td><td>0.292 (<code>GEMSDOE39 h40-e-disc-30k</code>)</td><td>yes</td></tr>
+<tr><td>Reverse overlap, peers of &gt; my support (559)</td><td>≤ 0.70</td><td>0.409 (<code>GEMSDOE39 h40-f-offcat-gbm</code>)</td><td>yes</td></tr>
+<tr><td>Forward overlap vs the 206,895-dot lattice</td><td>≤ 0.70</td><td>0.9991 (<code>13GEMSDOE r13-lattice-s5_v2</code>)</td><td>no — IR-57-REPR-01</td></tr>
 </table>
-<p><strong>Registry leg verdict: no duplication identified</strong> (byte-unique, ρ 0.176, Jaccard 0.042).
-The overall verdict stays <em>negative</em> because of the holdout leg (0.0822 &lt; 0.1352).</p>
-<p class="small"><strong>Why the 3-px legs are not operative, stated per row rather than by silent
-exclusion.</strong> (1) IR-57-REPR-01: a continuous-surface peer has positive values over more than half the
-footprint, so <em>every</em> non-empty candidate has forward overlap 1.0 with it — the template's own shipped
-candidates fired this leg 43 times on a 213-raster certificate. (2) Support asymmetry: a peer with many more
-dots than the candidate covers the candidate's dots forward, and a peer with far fewer dots is covered
-reverse — both directions fire on independent fault-tracing fields. At 3 px (300 m) two dot fields that both
-trace the same 60,988-point catalogue must share neighbourhoods. The template's shipped candidates fired the
-same legs 95 and 85 times on full 695-raster scans and were still shipped. The symmetric, scale-free
-statistics above are the duplication evidence, and they are all far inside their limits.</p>
+<p class="small"><strong>Why the literal leg is not operative</strong> (stated per row, never by silent
+exclusion): a dense lattice puts a dot within 3 px of <em>any</em> placement (representation asymmetry), and for
+dot fields the leg is asymmetric in support — a peer with many more dots covers the candidate forward, a peer
+with far fewer is covered reverse. At 3 px (300 m) two independent fields tracing the same 60,988-point
+catalogue necessarily share neighbourhoods. The symmetric, scale-free statistics above are the duplication
+evidence, and they are all far inside their limits. Full scan with every literal firing kept:
+<a href="data/uniqueness_h59j.json">uniqueness_h59j.json</a>; the H59-I precedent is in
+<a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a>.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Irregularities and limitations (all disclosed)</h2>
+<h2 style="margin-top:0">Irregularities and limitations (all disclosed, full table in the audit)</h2>
 <ul>
-<li><strong>IR-59-EFFORT-01</strong> — target-group background rejected as circular (the catalogue is the
-effort record); effort covariates used instead.</li>
-<li><strong>IR-59-EFFORT-02</strong> — the GeoDAWN acquisition-block covariate is <em>not used</em>: the
-official block polygons are on USGS ScienceBase (DOI 10.5066/P93LGLVQ), which this sandbox's egress
-allow-list cannot reach, and the derived k-means proxy on windowed magnetic statistics was measured to be
-spatially non-contiguous (one 5.16 M-cell component). The lane's “distance to roads” effort covariate is
-likewise unobtainable here (USGS National Map / Census TIGER are off-allow-list); trace density and relief
-are the substitutes.</li>
-<li><strong>IR-59-DIAG-01</strong> — the first diagnostic pass sum-pooled the per-cell expansion of block
-totals, inflating reported block densities 100×; rankings and all DTI values were unaffected. Fixed and
-re-derived in <code>intensity_exp1_diagnostics_fixed.json</code>.</li>
-<li><strong>Dot profile vs live evidence</strong> — the candidate's dots sit at median 5.0 px from the
-catalogue (min 2.24, p90 9.5), whereas the owner-reported top scorers sit near 19 px. The holdout rewards
-tight placement; the owner-reported board (n = 15) rewards distance. This disagreement is recorded, not
-tuned away.</li>
-<li><strong>Budget</strong> — the holdout-derived rule tiles 10,634 blocks and emits 71,119 dots (1.38% of the
-footprint), above the ~38–40k dots of the owner-reported top scorers; a budget-capped arm is the
-pre-registered next experiment (H59-I2), together with the block-level completeness-ratio zoning
-(new_b = Σλ·(1 − cat_frac/λ̄)) that should move dots further off the catalogue.</li>
-<li><strong>No scores claimed</strong> — no number here is a competition score; the organiser's public board
-and the owner-reported portfolio are context, not receipts.</li>
+<li><strong>IR-H59J-02 (the blocker)</strong> — the proxy criterion is a within-family screen. It is written
+into the site, the receipts and the run card; nothing here is presented as a live projection.</li>
+<li><strong>IR-H59J-01 — resolved</strong> — the build's uniqueness receipt said “PROTOCOL LIMIT EXCEEDED” while
+the submission receipt said “OK”; both used the same raw numbers with different operative rules. One
+representation-aware verdict now governs both receipts (<code>scripts/finalize_h59j_release.py</code>).</li>
+<li><strong>IR-H59J-03</strong> — the 62-row owner ledger overstates independent evidence (near-identical
+thinnings; the two-parameter fit pins Ĝ at the grid floor 2,000, κ 0.107, LOO MAE 0.096). De-duplication and a
+wider Ĝ grid are the first cheap task next session.</li>
+<li><strong>Circularity of the lane's own truth</strong> — the SGMC compilation that supplies the positives also
+supplies the check, so the lane's AUC and criterion are self-referential. This is why the lane is negative
+despite a favourable criterion.</li>
+<li><strong>Budget reversed against the instrument</strong> — the design preferred 44,090 dots; the owner ladder
+is monotone down in budget, so the build shipped 30,000. Both arms are in the receipt, so the choice is
+auditable rather than hidden.</li>
+<li><strong>No organizer receipts</strong> — every live number in this repository is owner-reported; the
+competition data and submission pages are login-walled in this sandbox (IR-H59J-05).</li>
 </ul>
+<p class="small"><a href="research/irregularities.md">Full irregularities table</a> ·
+<a href="research/leaderboard-analysis.md">leaderboard analysis</a> ·
+<a href="research/hypotheses.md">hypotheses</a> · <code>REMAINING_WORK.md</code> in the repository root.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Why the owner-reported 0.2778 is not explained here</h2>
-<p>The 0.2778 raster (GEMSDOE32 <code>h33-h33-2-b2</code>) is a 40,199-dot field minus 2,545 dots within 2 px
-of the mapped catalogue. Sparse thinning and catalogue-flank pruning reduce false-positive cost under the
-max-cover DTI, which is a plausible mechanism — but the scores are owner-reported, there is no organiser
-file receipt, and this session's holdout cannot confirm a causal gain. The 2 px collar finding here
-(+0.0074 DTI on the holdout) is consistent with that mechanism, nothing more.</p>
-</div>
-
-<div class="panel">
-<h2 style="margin-top:0">Next session — pre-registered, none run</h2>
-<ul>
-<li><strong>H59-I2 — gap zoning.</strong> Zone by <code>c_b = cat_frac_b / λ̄_b</code> (how much of the
-predicted intensity is already mapped) instead of by raw predicted new-fault density; per-block predicted new
-faults become <code>n_b = Σλ·(1 − cat_frac_b/λ̄)</code>. Moves dots off already-mapped blocks.</li>
-<li><strong>H59-I2b — dot budget.</strong> The candidate emits 71,119 dots (1.38% of the footprint) against the
-~38–40k of the owner-reported top scorers; tile the top-N blocks by <code>n_b</code> until the budget is spent.</li>
-<li><strong>H59-I3 — official effort covariates.</strong> USGS reliability-of-location class, distance to roads
-and the GeoDAWN acquisition block (ScienceBase DOI 10.5066/P93LGLVQ) are unobtainable through this sandbox's
-egress allow-list; only trace density and relief were used.</li>
-<li><strong>H59-I4 — off-catalogue holdout.</strong> Withhold whole catalogue components plus a 2 km buffer and
-score against the SGMC/state compilation in the withheld area. This is the instrument that could resolve the
-holdout-rewards-tight-placement vs live-evidence-rewards-distance disagreement.</li>
-</ul>
-<p class="small">Full write-up with all limitations: <code>REMAINING_WORK.md</code> in the repository root.</p>
+<h2 style="margin-top:0">Previous session, H59-I — the intensity lane (kept for audit)</h2>
+<p class="small">Presence-only MaxEnt/Poisson point-process intensity (Phillips et al. 2009 effort covariates;
+Fithian &amp; Hastie 2013 equivalence), 1 km new-fault-density zoning, holdout-derived break-even lattice:
+<strong>HOLDOUT-DTI 0.08216 [0.06954, 0.09616]</strong> (evaluator <code>gems57-pooled-hide-v2</code>, 11,321
+withheld positives, seed-20 buffered whole-component draw) versus the published holdout best 0.135204 →
+negative. Settled inside it: a 2 px catalogue collar is worth Δ 0.00744 [0.00522, 0.00982]; the own-holdout
+utility table chose <strong>4 px</strong>, not the prompt's ~3 px; zoning ranks withheld segments (68.5 % in the
+top three deciles vs 30 % under uniformity); no leakage (max single-covariate AUC 0.776). Its shipped file
+(71,119 dots) remains on the status page as a superseded candidate. Receipts:
+<code>evidence/intensity_exp{1,2,3}_*.json</code>, <code>evidence/run_card.json → lane_h59i</code>.</p>
 </div>
 </main>
 </body>

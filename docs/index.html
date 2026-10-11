@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>59GEMSDOE — intensity lane (H59-I)</title>
+<title>59GEMSDOE — off-catalogue lane (H59-J): status &amp; download</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -14,65 +14,124 @@
   <a href="data-sources.html">Data sources</a>
 </nav>
 <main>
-<h1>59GEMSDOE — intensity lane, session H59-I</h1>
+<h1>59GEMSDOE — off-catalogue lane, session H59-J</h1>
 <p class="small">DOE GEMS Prize Challenge (DrivenData 306) research raster · generated 2026-10-11 · branch
-<code>arena/f8d022fd-59gemsdoe</code> · every number on this page is labelled HOLDOUT-DTI (local evaluator) or
-OWNER-REPORTED / ORGANIZER-PUBLISHED (context only). No local holdout number is a competition score.</p>
+<code>arena/fba37db3-59gemsdoe</code> · every number on this page is labelled <strong>HOLDOUT-DTI</strong>
+(local evaluator), <strong>PROXY-MEASUREMENT</strong> (SGMC-derived truth) or
+<strong>OWNER-REPORTED / ORGANIZER-PUBLISHED</strong> (context only). No local number is a competition score,
+and no organizer receipt exists for either file.</p>
 
-<div class="panel">
+<div class="panel" id="download">
 <h2 style="margin-top:0">Download status — read this first</h2>
 <p>
 <span class="badge ok">DOWNLOAD: OK</span>
 <span class="badge no">SUBMIT TO COMPETITION: NO</span>
 </p>
-<p><strong>Why:</strong> the candidate is byte-unique against all 695 registry rasters (0 identical decoded
-predictions; worst Spearman ρ 0.176 ≤ 0.90; worst dot-set Jaccard 0.042 ≤ 0.50 — full audit
-<a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a>), passes every local format/range check
-(single-band float32, EPSG:32611, 3730&times;3292, transform
-<code>(100, 0, 243350, 0, -100, 4508550)</code>, all values exactly 0 or 1, no NaN, zeros outside the
-footprint, zero positive pixels on the mapped catalogue), but its spatially-blocked holdout score is
-<strong>below the published holdout best</strong>, so it is <em>not</em> cleared for a weekly submission slot.
-Promotion to a slot is the owner's separate selector decision; this project has spent no slot.</p>
-<a class="btn" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif" download>↓ Download the GeoTIFF (139 KB)</a>
-<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.zip" download>↓ Single-TIFF ZIP (104 KB)</a>
-<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json" download>↓ Writer receipt (JSON)</a>
-<p class="small">File <code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> · SHA256
-<code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code> · 71,119 binary dots ·
-71,119 cells with value 1.0, everything else 0.0. The ZIP contains exactly this one GeoTIFF (round-trip
-verified by the writer). Do not upload HTML, JSON or a repository ZIP.</p>
+<p><strong>Why download is OK:</strong> the candidate is byte-unique against all 695 pinned registry rasters
+(0 identical decoded predictions; worst |Spearman ρ| 0.0636 ≤ 0.90; worst exact dot-set Jaccard 0.0209 ≤ 0.50;
+both informative 3 px directions inside their limits — forward vs peers of smaller or equal support 0.292,
+reverse vs bigger peers 0.409, limit 0.70 — full scan with every raw row
+<a href="data/uniqueness_h59j.json">uniqueness_h59j.json</a>), and passes every local format/range check
+(single-band float32, EPSG:32611, 3730&times;3292, transform <code>(100, 0, 243350, 0, -100, 4508550)</code>,
+values exactly 0 or 1, no NaN, no Inf, zeros outside the study-area footprint, <strong>zero</strong> positive
+pixels on the mapped catalogue).</p>
+<p><strong>Why submit is NO:</strong> the promotion decision is <em>negative — not cleared for a weekly
+slot</em>. The lane's own proxy instrument reproduces the owner-reported ladder only <em>within</em> the
+catalogue-adjacent family; across families it does not rank live scores (ρ −0.057, p 0.66 on 62 owner-reported
+anchors), and the two cross-family artifacts that clear the same proxy criterion scored 0.0512 and 0.0360 live
+against a 0.2778 incumbent. Basis and clearing conditions are written down in
+<a href="data/submission_h59j.json">submission_h59j.json</a> → <code>promotion_decision</code>. Promotion is the
+owner's separate selector step; this project has spent <strong>no</strong> submission slot.</p>
+<a class="btn" href="downloads/gems59-h59j-offcat-propen-30k-20261011.tif" download>↓ Download the GeoTIFF (115 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59j-offcat-propen-30k-20261011.zip" download>↓ Single-TIFF ZIP (76 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59j-offcat-propen-30k-20261011.json" download>↓ Writer receipt (JSON)</a>
+<p class="small">File <code>gems59-h59j-offcat-propen-30k-20261011.tif</code> · SHA256 <code>6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6</code>
+· 30,000 binary dots at 3 px minimum spacing · 0 dots on the mapped catalogue · the ZIP contains exactly this
+one GeoTIFF (round-trip verified by the writer). Do not upload HTML, JSON or a repository ZIP. Machine-readable
+list of every file on this site: <a href="downloads/manifest.json">downloads/manifest.json</a>.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Suggested submission note (124 / 140 characters)</h2>
-<p class="mono">H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.</p>
-<p class="small">Use only if the owner's selector step promotes this file. Competition name suggestion:
-<code>gems59-h59i-intensity-lattice-20261011</code>.</p>
+<h2 style="margin-top:0">Suggested submission note (122 / 140 characters) — only if the owner promotes it</h2>
+<p class="mono">H59-J off-catalogue discriminant, 30k dots, 3px spacing, 0 on catalogue; proxy 0.375 vs incumb 0.295; organiser-unverified</p>
+<p class="small">Competition name suggestion: <code>gems59-h59j-offcat-propen-30k-20261011</code>.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">What was measured (HOLDOUT-DTI, evaluator <code>gems57-pooled-hide-v2</code>, 11,321 withheld positives, seed-20 buffered whole-component draw, pooled 95% CI)</h2>
+<h2 style="margin-top:0">What was measured — the off-catalogue instrument (PROXY-MEASUREMENT)</h2>
+<p>Positives: SGMC fault pixels more than 300 m from the mapped catalogue (78,433 off-catalogue pixels in the
+footprint; 61,664 beyond the 3 px kernel collar). Negatives: catalogue-free background. Six spatially blocked
+folds, out-of-fold predictions only.</p>
 <table>
-<tr><th>Arm</th><th>HOLDOUT-DTI</th><th>95% CI</th><th>Dots</th></tr>
-<tr><td><strong>Final: zoning + 4 px lattice + 2 px catalogue collar</strong></td><td><strong>0.08216</strong></td><td>[0.06954, 0.09616]</td><td>48,953 (holdout folds)</td></tr>
-<tr><td>Final without collar</td><td>0.07472</td><td>[0.06325, 0.08697]</td><td>54,192</td></tr>
-<tr><td>Baseline: 3 px lattice, no collar</td><td>0.07052</td><td>[0.05942, 0.08218]</td><td>110,180</td></tr>
-<tr><td>Uniform random, matched budget</td><td>0.06823</td><td>[0.05988, 0.07663]</td><td>110,180</td></tr>
-<tr><td>Geophysics-only intensity (no effort covariates)</td><td>0.03766</td><td>[0.03170, 0.04444]</td><td>~676,000</td></tr>
-<tr><td colspan="4" class="small">Published Session-5 comparators on the <em>same</em> evaluator and the same seed-20 draw (57GEMSDOE evidence): <code>relay_bend_anatomy</code> 0.135204 [0.119140, 0.153036]; <code>distance_only</code> 0.112725 [0.101428, 0.124446]. This session's arm does not beat them &rarr; verdict <strong>negative</strong>.</td></tr>
+<tr><th>Statistic</th><th>Value</th><th>Evidence class</th></tr>
+<tr><td>Pooled out-of-fold AUC (six blocked folds)</td><td><strong>0.7444</strong> (folds 0.638–0.774)</td><td>PROXY-MEASUREMENT</td></tr>
+<tr><td>Leakage canary — strongest single channel alone</td><td>0.7347 &lt; 0.90 → no flag</td><td>PROXY-MEASUREMENT</td></tr>
+<tr><td>Shipped emission</td><td>3 px minimum spacing, 30,000 dots, all off-catalogue</td><td>BUILD RECEIPT</td></tr>
+<tr><td>Shipped emission on the pre-declared criterion<br><span class="small">T<sub>proxy</sub> / (0.2·S<sub>proxy</sub> + 0.8·12,700)</span></td><td>0.3759 (T 6,350.0 · S 33,668.5 · credit/dot 0.2117) vs incumbent 0.2952</td><td>PROXY-MEASUREMENT, within-family only</td></tr>
+<tr><td>Design's preferred arm (unbuilt)</td><td>3 px, 44,090 dots, criterion 0.4606</td><td>PROXY-MEASUREMENT</td></tr>
 </table>
-<p class="small">Positive findings inside the negative result: the zoning ranks withheld segments (68.5% of
-withheld pixels sit in the top three deciles of predicted 1 km new-fault density, vs 30% under uniformity);
-the 2 px catalogue collar is worth +0.0074 DTI [0.00522, 0.00982] on the holdout <em>and</em> matches the
-owner-reported 0.2778 mechanism; all 13 covariates pass the leakage canary (max AUC 0.776 &lt; 0.90).</p>
+<p class="small">Receipts: <a href="data/submission_h59j.json">submission_h59j.json</a>,
+<code>evidence/offcat_lane_h59j.json</code>, <code>evidence/emission_design_h59j.json</code>,
+<code>evidence/h59j_emission_measurement.json</code>. The 44,090-dot design arm was <em>not</em> built because the
+owner-reported live ladder is monotone <strong>down</strong> in dot budget; both arms are frozen in the design
+receipt so the choice is auditable.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Context (not scores): the published board</h2>
-<p class="small">ORGANIZER-PUBLISHED public leaderboard snapshot 2026-10-10T20:40Z: rank 1 = 0.3774
-(xiaofanhu), rank 8 = 0.3195 (DARD), rank 22 = 0.2778 (extradr19). The owner-reported 0.2778 raster
+<h2 style="margin-top:0">Promotion decision (explicit, not implied)</h2>
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Verdict</td><td><strong>negative — not cleared for a weekly submission slot</strong></td></tr>
+<tr><td>Cross-family rank check</td><td>ρ(proxy DTI, live score) = −0.057 (p 0.66, n 62, owner-reported ledger)</td></tr>
+<tr><td>Only significant ledger term</td><td>credit-per-dot on the far collar ρ +0.252 (p 0.048) — family-internal</td></tr>
+<tr><td>Slots used</td><td>0 (owner's selector step)</td></tr>
+<tr><td>What would clear it</td><td>an organizer-confirmed live score for an off-catalogue-family emission at or above the incumbent 0.2778, or a cross-family proxy that ranks live scores with |ρ| significant in the right direction</td></tr>
+</table>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Registry uniqueness, with the protocol-leg reconciliation (IR-57-REPR-01, IR-H59J-01)</h2>
+<table>
+<tr><th>Statistic</th><th>Limit</th><th>Measured</th><th>Operative?</th></tr>
+<tr><td>Identical decoded predictions</td><td>0</td><td>0 of 695</td><td>yes — byte-unique</td></tr>
+<tr><td>Spearman ρ, full footprint</td><td>≤ 0.90</td><td>0.063 (worst)</td><td>yes</td></tr>
+<tr><td>Jaccard of exact dot sets</td><td>≤ 0.50</td><td>0.0209 (worst, <code>5GEMSDOE pindrop-v4-ridge</code>)</td><td>yes</td></tr>
+<tr><td>Forward 3 px overlap, peers of ≤ my support (82 peers)</td><td>≤ 0.70</td><td>0.292 (<code>GEMSDOE39 h40-e-disc-30k</code>)</td><td>yes — passes</td></tr>
+<tr><td>Reverse 3 px overlap, peers of &gt; my support (559 peers)</td><td>≤ 0.70</td><td>0.409 (<code>GEMSDOE39 h40-f-offcat-gbm</code>)</td><td>yes — passes</td></tr>
+<tr><td>Forward overlap vs the 206,895-dot lattice <code>13GEMSDOE r13-lattice-s5_v2</code></td><td>≤ 0.70</td><td>0.9991</td><td>no — IR-57-REPR-01 (support asymmetry)</td></tr>
+</table>
+<p class="small">The literal protocol leg fires 80 times, all in the two documented uninformative directions
+(52 continuous-surface peers at forward overlap 1.000, and peers with far more support such as the 206,895-dot
+lattice at 0.9991): a dense peer covers <em>any</em> placement within 3 px, so it tells you nothing about
+duplication. The build receipt had written
+the literal verdict ("report, do not ship") next to a submission receipt saying "OK" — both readings of the same
+raw numbers. <code>scripts/finalize_h59j_release.py</code> now folds them into one representation-aware verdict;
+every literal firing is kept per row with peer name, support and Jaccard. Registry leg:
+<strong>no duplication identified</strong>. Scope: the 2026-10-10T20:01Z snapshot of 695 rasters
+(IR-H59J-04).</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Previous candidate on this site (kept for audit)</h2>
+<p class="small"><code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> — 71,119 dots, SHA256
+<code>ed1b767f…90f6d</code>; DOWNLOAD OK, SUBMIT NO (HOLDOUT-DTI 0.08216 [0.06954, 0.09616] &lt; published
+holdout best 0.135204). Files:
+<a href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif" download>GeoTIFF</a> ·
+<a href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.zip" download>ZIP</a> ·
+<a href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json" download>receipt</a> ·
+uniqueness <a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a>. It is <em>not</em> superseded on
+quality; both files carry the same verdict class.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Context (not scores): the published board and the incumbent</h2>
+<p class="small">ORGANIZER-PUBLISHED public leaderboard snapshot 2026-10-11: rank 1 = 0.3774 (xiaofanhu),
+rank 2 = 0.3418, rank 8 = 0.3195 (DARD), 0.2778 at rank ~22. The owner-reported 0.2778 raster
 (<code>h33-h33-2-b2</code>, GEMSDOE32) is a 40,199-dot field pruned of 2,545 dots within 2 px of the mapped
-catalogue (37,654 remain; minimum catalogue distance 2.24 px). The causal reason for its score is not
-established — see the method page.</p>
+catalogue (37,654 remain; minimum catalogue distance 2.24 px). Its causal reason is not established here; the
+live evidence (n = 15) anti-correlates with catalogue adjacency (ρ −0.544), which is why this session built an
+off-catalogue instrument instead of tuning the catalogue holdout (see the <a href="method.html">method
+page</a>).</p>
 </div>
 </main>
 </body>

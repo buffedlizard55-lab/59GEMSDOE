@@ -6,6 +6,7 @@
 <title>Executive summary — how to submit (59GEMSDOE)</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
+<body>
 <nav>
   <a href="index.html">Status &amp; download</a>
   <a href="executive-summary.html">Executive summary / how to submit</a>
@@ -16,71 +17,100 @@
 <h1>Executive summary — how to make a submission</h1>
 
 <div class="panel">
+<h2 style="margin-top:0">The one-paragraph version</h2>
+<p>The current candidate is
+<code>gems59-h59j-offcat-propen-30k-20261011.tif</code>: a 30,000-dot binary GeoTIFF on the official grid,
+on the correct CRS/shape/transform, with all values in [0, 1], no NaN, and <strong>zero dots on the mapped
+catalogue</strong> (those pixels are masked by the scorer). It is byte-unique against all 695 pinned registry
+rasters. It is <strong>safe to download</strong>, but it is <strong>not cleared for a weekly slot</strong>: the
+lane's proxy instrument ranks live scores only inside the catalogue-adjacent family, and the propagation
+conditions are written down in the promotion decision. Promotion is the owner's selector step — nothing on this
+site has been uploaded, and no submission slot has been spent.</p>
+<p><span class="badge ok">DOWNLOAD: OK</span> <span class="badge no">SUBMIT TO COMPETITION: NO</span></p>
+</div>
+
+<div class="panel">
 <h2 style="margin-top:0">1. Download the file</h2>
-<p>From the <a href="index.html">status page</a>, click
-<strong>“↓ Download the GeoTIFF”</strong> (or the single-TIFF ZIP — it contains exactly one GeoTIFF).</p>
+<p>From the <a href="index.html#download">status page</a>, click <strong>“↓ Download the GeoTIFF”</strong>
+(or the single-TIFF ZIP — it contains exactly one GeoTIFF).</p>
 <ul>
-<li><code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> — 139 KB, single band, float32.</li>
-<li>SHA256 <code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code> — compare after download
-(<code>sha256sum &lt;file&gt;</code>).</li>
+<li><code>gems59-h59j-offcat-propen-30k-20261011.tif</code> — 117,938 bytes (115 KB), single band, float32,
+3730 × 3292, EPSG:32611, 30,000 cells equal to 1.0, everything else 0.0.</li>
+<li>SHA256 <code>6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6</code> — verify after
+download (<code>sha256sum &lt;file&gt;</code>).</li>
+<li>Original location in this repository: <code>downloads/gems59-h59j-offcat-propen-30k-20261011.tif</code>
+(same bytes, same hash — copied for the site).</li>
 </ul>
+<p class="small">Prefer the H59-I file? <code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code>
+(71,119 dots, SHA256 <code>ed1b767f…90f6d</code>) is also DOWNLOAD OK / SUBMIT NO and stays on the status page.
+Both candidates are listed in <a href="downloads/manifest.json">downloads/manifest.json</a> with hashes.</p>
 </div>
 
 <div class="panel">
 <h2 style="margin-top:0">2. Check the status banner before you upload</h2>
 <p>The status page carries an explicit two-part verdict at the top:
-<span class="badge ok">DOWNLOAD: OK</span> <span class="badge no">SUBMIT: NO</span>.
-The current candidate is <strong>not</strong> cleared for a weekly slot because its local holdout score is
-below the published holdout best. Uploading is the owner's selector decision, made after reading the
-run card (<a href="data/run_card.json">docs/data/run_card.json</a>).</p>
+<span class="badge ok">DOWNLOAD: OK</span> <span class="badge no">SUBMIT: NO</span>. The verdict is generated
+from the receipts, not from prose: <code>download_status</code> and <code>submit_status</code> live in
+<a href="data/submission_h59j.json">docs/data/submission_h59j.json</a>, and
+<code>promotion_decision.what_would_clear_it</code> states exactly what would change the second badge. The
+machine-readable index of every file is <a href="downloads/manifest.json">downloads/manifest.json</a>.
+<strong>If the banner says SUBMIT: NO, do not upload (the file will not be rejected — it is format-valid — but
+the selector has not cleared it).</strong></p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">3. Submit on DrivenData</h2>
+<h2 style="margin-top:0">3. Submit on DrivenData (only after the owner promotes the file)</h2>
 <ol>
 <li>Open the competition <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">submission page</a>
-(rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>).</li>
+(problem/metric: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>).</li>
 <li><strong>File to submit:</strong> choose the downloaded <code>.tif</code> (or the <code>.zip</code> containing
-exactly one GeoTIFF). The portal requires a single-band GeoTIFF matching the submission format's CRS, shape
-and geotransform.</li>
-<li><strong>Note (optional, ≤ 140 characters):</strong> paste
-<span class="mono">H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.</span></li>
-<li>Click <strong>Create submission</strong>. The published cap is three submissions per week; the logged-in
-page shows remaining team capacity.</li>
+exactly one GeoTIFF). The portal requires a single-band GeoTIFF matching the sample submission's CRS, shape and
+geotransform.</li>
+<li><strong>Note (optional, ≤ 140 characters; the text below is 122):</strong> paste
+<span class="mono">H59-J off-catalogue discriminant, 30k dots, 3px spacing, 0 on catalogue; proxy 0.375 vs incumb 0.295; organiser-unverified</span></li>
+<li>Click <strong>Create submission</strong>. The weekly cap is shown on the logged-in page; this project has
+used none of it.</li>
 </ol>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">4. Format facts the portal checks</h2>
+<h2 style="margin-top:0">4. Format facts the portal checks (verified locally, byte-level)</h2>
 <table>
-<tr><th>Property</th><th>Value</th></tr>
-<tr><td>CRS</td><td>EPSG:32611 (UTM 11N)</td></tr>
-<tr><td>Shape</td><td>3730 × 3292 (H × W)</td></tr>
-<tr><td>Transform</td><td>(100, 0, 243350, 0, -100, 4508550) — 100 m pixels</td></tr>
-<tr><td>Bands / dtype</td><td>1 / float32</td></tr>
-<tr><td>Values</td><td>exactly {0.0, 1.0}; no NaN, no Inf; zeros outside the study-area footprint; zero positive pixels on the mapped catalogue</td></tr>
-<tr><td>Positive cells</td><td>71,119 of 5,167,373 footprint cells (1.38%)</td></tr>
+<tr><th>Property</th><th>H59-J (current)</th><th>H59-I (previous)</th></tr>
+<tr><td>CRS</td><td>EPSG:32611 (UTM 11N)</td><td>EPSG:32611 (UTM 11N)</td></tr>
+<tr><td>Shape</td><td>3730 × 3292 (H × W)</td><td>3730 × 3292</td></tr>
+<tr><td>Transform</td><td>(100, 0, 243350, 0, -100, 4508550) — 100 m pixels</td><td>same</td></tr>
+<tr><td>Bands / dtype / nodata</td><td>1 / float32 / none set; zeros outside the footprint</td><td>same</td></tr>
+<tr><td>Values</td><td>exactly {0.0, 1.0}; no NaN, no Inf anywhere (12,279,160 cells finite)</td><td>exactly {0.0, 1.0}</td></tr>
+<tr><td>Positive cells</td><td>30,000 at 3 px minimum spacing; 0 on the mapped catalogue</td><td>71,119; 0 on the catalogue</td></tr>
+<tr><td>Validators</td><td>shared template validator OK; local validator all checks true; ZIP round-trip OK</td><td>same</td></tr>
 </table>
-<p class="small">The earlier portal error “Predicted values must be in range [0, 1]” was produced by NaN
-cells outside the footprint; this file is written all-finite by the shared fail-closed writer, which refuses
-to clip or repair values.</p>
+<p class="small">The earlier portal error “Predicted values must be in range [0, 1]” is produced by non-finite or
+out-of-range cells inside the scored footprint (a common cause is an unmasked <code>-3.4028e38</code> sentinel).
+The shared fail-closed writer refuses to clip or repair values, and both candidates here carry zero NaNs, zero
+infinities and only 0.0/1.0 values — so that error cannot originate from these bytes (still: verify the SHA256
+after download; a truncated upload would be a different file).</p>
 </div>
 
 <div class="panel">
 <h2 style="margin-top:0">5. Reproduce locally (no manual data placement)</h2>
 <pre class="mono small">python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements-lock.txt
-# restore the hash-pinned 19-band GeoDAWN feature stack (GitHub mirror bridge) + band cache
+# restore the hash-pinned 19-band GeoDAWN feature stack (public GitHub bridge) + band cache
 .venv/bin/python scripts/prepare_data.py --fetch --cache-bands
-# run the three pre-declared holdout experiments (~6 min on CPU)
-.venv/bin/python scripts/run_intensity_lane.py --seed 20 --break-even 1.0
-# build the submission through the fail-closed writer
-.venv/bin/python scripts/build_submission_intensity.py --gamma 0.0 --collar 2 --break-even 1.0
-# uniqueness audit against every pinned registry raster
-.venv/bin/python scripts/audit_candidate_registry.py --candidate downloads/&lt;file&gt;.tif</pre>
-<p class="small">The 418,912,844-byte feature stack is restored from five hash-pinned parts on the public
-mirror <code>buffedlizard55-lab/6GEMSDOE</code> and verified byte-for-byte (SHA256
-<code>4371c82e…23bc5</code>); the DrivenData data tab itself is login-walled, so the bridge proves transport
-identity, not organizer origin. Nothing in this pipeline clicks Submit or spends a slot.</p>
+# restore the 695-raster registry cache (hashes pinned in evidence/registry_refreshed.json)
+.venv/bin/python scripts/restore_registry_cache.py --jobs 6
+# rebuild the off-catalogue out-of-fold field (~80 s) and re-make the candidate
+.venv/bin/python scripts/run_offcatalogue_lane.py
+.venv/bin/python scripts/build_submission_h59j.py
+# measure the shipped raster against the proxy truth, then reconcile all receipts
+.venv/bin/python scripts/measure_h59j_emission.py
+.venv/bin/python scripts/finalize_h59j_release.py
+# delivery QA: links, run-card parity, hashes, formats, ZIP twins, badges, registry leg
+.venv/bin/python scripts/check_site.py</pre>
+<p class="small">The 418,912,844-byte feature stack is restored from five hash-pinned parts on the public mirror
+<code>buffedlizard55-lab/6GEMSDOE</code> and verified byte-for-byte (SHA256 <code>4371c82e…23bc5</code>); the
+DrivenData data tab itself is login-walled, so the bridge proves transport identity, not organizer origin.
+Nothing in this pipeline clicks Submit or spends a slot.</p>
 </div>
 </main>
 </body>

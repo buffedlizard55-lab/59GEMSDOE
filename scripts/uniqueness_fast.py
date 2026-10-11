@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fast uniqueness screen of the H59-I candidate against every pinned registry raster.
+"""Fast uniqueness screen of one candidate against every pinned registry raster.
 
 Same statistics and thresholds as ``scripts/audit_candidate_registry.py``
 (Spearman rank correlation over the fixed stride-3 footprint subgrid; forward
@@ -8,10 +8,11 @@ answered with a KD-tree over the peer's dot coordinates instead of a full-grid
 distance transform, which is what made the shared audit slow on a 3 GB sandbox.
 Fail-closed: a missing or unreadable cache file is an error, never a pass.
 
-Usage: python scripts/uniqueness_fast.py <candidate.tif>
+Usage: python scripts/uniqueness_fast.py <candidate.tif> [--out PATH]
 """
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 import time
@@ -29,8 +30,14 @@ JACCARD_LIMIT = 0.50
 STRIDE = 3
 
 
-def main() -> int:
-    cand = ROOT / sys.argv[1]
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description="Registry uniqueness screen (KD-tree) for one candidate.")
+    ap.add_argument("candidate", help="candidate GeoTIFF, relative to the repo root or absolute")
+    ap.add_argument("--out", default="evidence/uniqueness_h59i.json",
+                    help="receipt path relative to the repo root (default preserves the H59-I chain)")
+    args = ap.parse_args(argv)
+    cand = Path(args.candidate)
+    cand = cand if cand.is_absolute() else ROOT / cand
     index = json.loads((ROOT / "evidence/registry_refreshed.json").read_text())
     cache = ROOT / ".cache/registry"
     with rasterio.open(ROOT / "data/bridge/sample_submission.tif") as s:
@@ -108,7 +115,7 @@ def main() -> int:
     out = dict(
         evidence_class="REGISTRY-MEASUREMENT",
         method="scripts/uniqueness_fast.py (same statistics/thresholds as audit_candidate_registry.py; KD-tree overlap)",
-        candidate=str(sys.argv[1]), my_dots=n_mine,
+        candidate=str(Path(args.candidate)), my_dots=n_mine,
         registry_rasters_expected=len(items), registry_rasters_checked=len(checked),
         missing_or_invalid=len(errors), complete_accessible_scan=bool(not errors),
         rho_limit=RHO_LIMIT, overlap_limit=OVERLAP_LIMIT, jaccard_limit=JACCARD_LIMIT,
@@ -158,7 +165,10 @@ def main() -> int:
                        "footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied")
         for r in dense]
     out["rows"] = rows
-    (ROOT / "evidence/uniqueness_h59i.json").write_text(json.dumps(out, indent=1) + "\n")
+    out_path = Path(args.out)
+    out_path = out_path if out_path.is_absolute() else ROOT / out_path
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps({k: out[k] for k in ("my_dots", "registry_rasters_checked", "complete_accessible_scan",
                                           "worst_spearman_full_footprint", "worst_rho_submission",
                                           "worst_dot_overlap", "worst_overlap_submission",

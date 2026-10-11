@@ -1,28 +1,28 @@
-# 59GEMSDOE — intensity lane (session H59-I)
+# 59GEMSDOE — off-catalogue lane (session H59-J)
 
-**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT NO** — registry-unique, format-valid candidate; holdout DTI
-**0.08216 [0.06954, 0.09616]** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw) is
-below the published holdout best 0.135204, so it is **not cleared for a weekly slot** (owner's separate
-selector step; no slot spent). Negative results are deliverables.
+**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT NO** — two format-valid, registry-unique candidates; neither is
+**cleared for a weekly slot**, and no slot has been spent. Negative results are deliverables.
 
-- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html)
-- **Download:** [`docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif`](docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif) (SHA256 `ed1b767f…90f6d`, 71,119 binary dots, all-finite, [0,1], EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt
-- **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`)
-- **Registry uniqueness:** [`evidence/uniqueness_h59i.json`](evidence/uniqueness_h59i.json) — all 695 accessible
-  registry rasters, 0 errors: 0 identical decoded predictions, worst Spearman ρ 0.176 (limit 0.90), worst dot-set
-  Jaccard 0.042 (limit 0.50) → no duplication identified. The literal 3-px overlap legs fire on
-  continuous-surface and support-asymmetric peers (IR-57-REPR-01) and are reported per row, not applied.
-- **Method:** presence-only MaxEnt/Poisson point-process intensity (Phillips et al. 2009 effort covariates;
-  Fithian & Hastie 2013 equivalence), 1 km new-fault-density zoning, holdout-derived break-even lattice
-  (4 px, 2 px catalogue collar)
-- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) — pre-registered hypotheses
-  H59-I2 (gap zoning), H59-I2b (dot budget), H59-I3 (official effort covariates), H59-I4 (off-catalogue
-  holdout, the instrument that could resolve the holdout-vs-live disagreement)
+| Candidate | Dots | What it is | Verdict |
+| --- | ---: | --- | --- |
+| **H59-J (current)** `gems59-h59j-offcat-propen-30k-20261011.tif` | 30,000 | off-catalogue discriminant (six blocked folds, OOF AUC 0.7444) → top ranks, 3 px spacing, **0 dots on the mapped catalogue** | download OK / **submit NO** — the proxy criterion is a within-family screen only (ρ −0.057, p 0.66 across 62 owner-reported anchors) |
+| **H59-I (previous)** `gems59-h59i-intensity-lattice-20261011T000000Z.tif` | 71,119 | presence-only MaxEnt/Poisson intensity, 1 km new-fault-density zoning, holdout break-even lattice | download OK / **submit NO** — HOLDOUT-DTI 0.08216 [0.06954, 0.09616] < published holdout best 0.135204 |
+
+- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html) · [Status & download](docs/index.html) · [Method & evidence](docs/method.html)
+- **Download (current):** [`docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif`](docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif) (SHA256 `6435ecec…39c6`, 117,938 B, all-finite {0, 1}, EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt; machine-readable index in [`docs/downloads/manifest.json`](docs/downloads/manifest.json)
+- **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`; H59-J release section + H59-I history under `lane_h59i`)
+- **Promotion decision (explicit):** [`evidence/submission_h59j.json`](evidence/submission_h59j.json) → `promotion_decision` — *not cleared*; the conditions that would clear it are written down there.
+- **Registry uniqueness:** [`evidence/uniqueness_h59j.json`](evidence/uniqueness_h59j.json) — all 695 accessible rasters, 0 errors: 0 identical decoded predictions, worst |Spearman ρ| 0.0636 (limit 0.90), worst exact dot-set Jaccard 0.0209 (limit 0.50); both informative 3 px directions inside their limits (forward 0.292, reverse 0.409, limit 0.70) → no duplication identified. The literal 3-px overlap leg fires on dense-lattice/continuous peers (IR-57-REPR-01) and is reported per row, not applied; the build-vs-submission verdict wording inconsistency (IR-H59J-01) is resolved by `scripts/finalize_h59j_release.py`.
+- **Method:** off-catalogue discriminant on 38 rank channels (positives = SGMC faults > 300 m from the catalogue), six spatially blocked folds, pooled OOF field → greedy 3 px dot emission with catalogue pixels excluded from the pool; emission criterion pre-declared in `evidence/emission_design_h59j.json`.
+- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) — (1) a cross-family instrument (the single blocker), (2) ledger de-duplication + wider Ĝ grid, (3) the own-holdout zone/placement rule, (4) Pass 2/3 review of the H59-J scripts, (5) organizer-side unknowns.
 
 Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.txt`
 → `.venv/bin/python scripts/prepare_data.py --fetch --cache-bands`
-→ `.venv/bin/python scripts/run_intensity_lane.py --seed 20 --break-even 1.0`
-→ `.venv/bin/python scripts/build_submission_intensity.py --gamma 0.0 --collar 2 --break-even 1.0`
+→ `.venv/bin/python scripts/restore_registry_cache.py --jobs 6`
+→ `.venv/bin/python scripts/run_offcatalogue_lane.py`
+→ `.venv/bin/python scripts/build_submission_h59j.py`
+→ `.venv/bin/python scripts/measure_h59j_emission.py && .venv/bin/python scripts/finalize_h59j_release.py`
+→ `.venv/bin/python scripts/check_site.py`
 
 ---
 
