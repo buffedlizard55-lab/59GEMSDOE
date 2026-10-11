@@ -762,23 +762,50 @@
  "candidates": [
   {
    "name": "gems59-h59j-offcat-propen-30k-20261011",
-   "file": "downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
-   "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
    "dots": 30000,
+   "lane": "arena/fba37db3 (off-catalogue discriminant)",
+   "receipt": "evidence/submission_h59j.json",
    "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
    "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
-   "receipt": "evidence/submission_h59j.json",
-   "lane": "arena/fba37db3 (off-catalogue discriminant)"
+   "shared_template_gate_passed": true
+  },
+  {
+   "name": "gems59-h59i-intensity-lattice-20261011T000000Z",
+   "dots": 71119,
+   "lane": "arena/f8d022fd (intensity lane)",
+   "receipt": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json",
+   "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+   "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "shared_template_gate_passed": true
   },
   {
    "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z",
-   "file": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
-   "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
-   "bytes": 131274,
-   "download_status": "OK (unique, locally validated)",
-   "submit_status": "NO at receipt level (approved_for_weekly_slot=False); the lane publishes a PROJECTION 0.24-0.29 as an expectation, not a clearance",
+   "dots": 30815,
+   "lane": "arena/1ee0553d (ridge coherence consensus)",
    "receipt": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.json",
-   "lane": "arena/1ee0553d (ridge coherence consensus)"
+   "download_status": "OK (format-valid; registry screen clean: no duplication identified over all 695 pinned rasters)",
+   "submit_status": "NO - not cleared for a weekly slot: the writer receipt records approved_for_weekly_slot=False and promoted=False; its published 0.24-0.29 expectation is a PROJECTION, not a clearance",
+   "shared_template_gate_passed": true
+  },
+  {
+   "name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros",
+   "dots": 50651,
+   "lane": "arena/1ac83927 (intensity lane, replication)",
+   "receipt": "docs/downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.json",
+   "download_status": "OK (format-valid; registry screen clean: no duplication identified in its own screen)",
+   "submit_status": "NO - its own run card records okay_to_submit=False with verdict negative (evidence/run_card_lane_v1.json)",
+   "shared_template_gate_passed": true
+  },
+  {
+   "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros",
+   "dots": 38593,
+   "lane": "arena/1ba7bc3e (intensity zone + break-even tiling, H59-A)",
+   "receipt": "docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+   "download_status": "OK by its own 12/12 validator, BUT the shared template gate flags its nodata tag (IR-H59J-15) -- download is safe; upload follows the owner's call like every other file here",
+   "submit_status": "NO clearance claimed by its own receipt (note says UNSCORED); the lane's page puts the slot question to the owner, who has not promoted it",
+   "shared_template_gate_passed": false
   }
- ]
+ ],
+ "candidate_count": 5,
+ "candidate_list_note": "Every published candidate, mirroring docs/downloads/manifest.json (the authoritative index with hashes). Rows are ordered current-first; this lane's candidate is the current one."
 }

@@ -86,7 +86,8 @@ def entry(name: str, receipt_path: str, *, superseded_by: str | None = None,
 
 
 def main() -> int:
-    card = json.loads((ROOT / "evidence/run_card.json").read_text())
+    card_path = ROOT / "evidence/run_card.json"
+    card = json.loads(card_path.read_text())
     current = entry("gems59-h59j-offcat-propen-30k-20261011", "evidence/submission_h59j.json",
                     uniqueness_receipt="evidence/uniqueness_h59j_offcat.json",
                     run_card="evidence/run_card.json",
@@ -146,7 +147,23 @@ def main() -> int:
     )
     out = DOCS / "manifest.json"
     out.write_text(json.dumps(manifest, indent=1, allow_nan=False) + "\n")
-    print(f"wrote {out.relative_to(ROOT)} with {len(manifest['candidates'])} candidates")
+
+    # keep the published run card's candidate list in step with the manifest --
+    # the manifest is the single source of truth for "what is published", and
+    # the card must not look as if only one lane's files exist.
+    card["candidates"] = [
+        dict(name=c["candidate"], dots=c["dots"], lane=c["lane"], receipt=c["receipt"],
+             download_status=c["download_status"], submit_status=c["submit_status"],
+             shared_template_gate_passed=c["shared_template_gate_passed"])
+        for c in manifest["candidates"]]
+    card["candidate_count"] = len(manifest["candidates"])
+    card["candidate_list_note"] = (
+        "Every published candidate, mirroring docs/downloads/manifest.json (the authoritative index with "
+        "hashes). Rows are ordered current-first; this lane's candidate is the current one.")
+    for target in ("evidence/run_card.json", "docs/data/run_card.json"):
+        (ROOT / target).write_text(json.dumps(card, indent=1, allow_nan=False) + "\n")
+    print(f"wrote {out.relative_to(ROOT)} with {len(manifest['candidates'])} candidates "
+          f"(run card candidate list mirrored)")
     return 0
 
 
