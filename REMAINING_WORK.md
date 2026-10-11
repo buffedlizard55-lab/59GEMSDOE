@@ -52,7 +52,7 @@ NOT settled — the honest limit of this session:
 **Three-pass review log:** [`docs/research/three-pass-review-h59j.md`](docs/research/three-pass-review-h59j.md)
 (implement → bug/edge-case review → re-check against the brief, with each pass's fixes named).
 
-**Full-suite test status (post-repair):** `./.venv/bin/pytest -q` completed with **170 passed, 29 skipped, 0 failed** in 163.35 seconds (12 rasterio deprecation warnings). Artifact-dependent historical checks skip only when their required receipts or raw inputs are absent; no evidence was fabricated. The H59-J delivery check asserts `submission_cleared: false`. The separate orientation study remains unavailable in this checkout and is not claimed as complete.
+**Full-suite test status (post-repair):** `./.venv/bin/pytest -q` completed with **170 passed, 29 skipped, 0 failed** in 201.41 seconds (12 rasterio deprecation warnings). Artifact-dependent historical checks skip only when their required receipts or raw inputs are absent; no evidence was fabricated. The H59-J delivery check asserts `submission_cleared: false`. The separate orientation study remains unavailable in this checkout and is not claimed as complete.
 
 ## 1. Future research backlog — requires a separately budgeted session; not authorized here
 

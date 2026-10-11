@@ -1,0 +1,66 @@
+{
+ "generated_utc": "2026-10-11T03:00:31Z",
+ "release": {
+  "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif",
+  "zip": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip",
+  "bytes": 795960,
+  "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842",
+  "n_dots": 38593,
+  "grid": "EPSG:32611 \u00b7 3730x3292 \u00b7 (100,0,243350,0,-100,4508550)",
+  "range": "min 0.0 max 1.0",
+  "dots_on_catalogue": 0
+ },
+ "holdout": {
+  "mean_best_dti": 0.08811,
+  "mean_best_n_dots": 13998.0,
+  "mean_g_holdout": 13994.5,
+  "spacing_star": 2.75,
+  "g_ratio": 2.8582657472578514,
+  "n_target_deployment": 40010
+ },
+ "deployment": {
+  "tau_star": 0.00010005546928082299,
+  "spacing": 2.75,
+  "n_dots": 28967,
+  "support_px": 4761049,
+  "dti_target_implied": 0.017622
+ },
+ "uniqueness_dots": {
+  "phase": "dots",
+  "n_compared": 696,
+  "max_spearman": null,
+  "max_dots_within_3px": 1.0,
+  "max_lift_over_chance": 1.999,
+  "worst_by_lift": {
+   "sha256": "d6a3609bd7943fa5f1126a3cc688441aeceee261a76cd6a90a206830400066a4",
+   "dots_within_3px": 0.0012,
+   "registry_coverage_3px": 0.0006,
+   "lift": 1.999,
+   "registry_n_dots": 244
+  },
+  "literal_rule_tripped_by": 20,
+  "reading": "the literal >0.70 rule also trips on dense continuous registry rasters, where any dot pattern would trip it; duplication is judged on the chance-corrected lift, which is the same test applied to a null of randomly placed dots",
+  "metric_run_in_this_phase": "share of my dots within 3 px (sparse mask)",
+  "thresholds": {
+   "spearman": 0.9,
+   "dots_within_3px": 0.7
+  },
+  "drift_detected": false,
+  "seconds": 690.4,
+  "candidate": "work/dots_final_h59a_s3.0_n38593.npy",
+  "generated_utc": "2026-10-11T02:47:40Z",
+  "verdict": "NO DRIFT - unique against all 696 registered rasters",
+  "verdict_basis": "max chance-corrected lift 1.999, and that is on a 244-dot registry raster with raw overlap 0.0012. The literal >0.70 rule is tripped by 20 of 696 rasters, but those are dense continuous surfaces: the maximum lift among them is 1.068 (272,853-dot raster covering 69.6% of the footprint within 3 px) and several have lift exactly 1.000 because they are positive over all 5,167,373 footprint pixels, so any dot pattern trips the literal rule against them.",
+  "literal_rule_tripped_out_of": 696
+ },
+ "registry": {
+  "ok": 696,
+  "bad": 0,
+  "unreachable_on_default_branch": 0,
+  "already_cached": 0,
+  "index_total": 696,
+  "cache_dir": "/home/user/59GEMSDOE/work/registry",
+  "seconds": 341.6
+ },
+ "canary_verdict": "clean"
+}

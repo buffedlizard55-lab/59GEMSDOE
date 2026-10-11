@@ -69,7 +69,7 @@ validator, the preflight and the card; `docs/data/run_card.json` byte-identical 
   `evidence/orientation_structure.json` (an angular-structure study with quantile distances, a relative-strike
   histogram and `minimum_local_coherence` 0.2) plus four matching strings in `docs/method.html`. That study
   belongs to the 57GEMSDOE lane and **was not run and not fabricated** here.
-* The full suite was rerun after test repairs: **170 passed, 29 skipped, 0 failed** in 163.35 seconds
+* The full suite was rerun after test repairs: **170 passed, 29 skipped, 0 failed** in 201.41 seconds
   (12 rasterio deprecation warnings). Historical receipt-dependent tests skip only when required sibling-lane
   artifacts are absent; no receipt was synthesized. See `REMAINING_WORK.md` for the measured status.
 * No local instrument available in this sandbox ranks candidate placements in agreement with the public board,

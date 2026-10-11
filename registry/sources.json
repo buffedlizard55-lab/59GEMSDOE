@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "note": "Every input, method citation and external fact used by this repository, with its publisher.",
+  "sources": [
+    {
+      "what": "Competition home and rules",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/",
+      "publisher": "DrivenData / US DOE",
+      "role": "the competition being entered"
+    },
+    {
+      "what": "Problem description - metric, submission format, datasets",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "publisher": "DrivenData / US DOE",
+      "role": "authoritative definition of the DW-Tversky metric and the submission format; retrieved 2026-10-11"
+    },
+    {
+      "what": "About page - background and additional resources",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/",
+      "publisher": "DrivenData / US DOE",
+      "role": "background and resource list"
+    },
+    {
+      "what": "Public leaderboard",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "publisher": "DrivenData / US DOE",
+      "role": "ORGANIZER-PUBLISHED scores used only as context; retrieved 2026-10-11"
+    },
+    {
+      "what": "Official rules PDF",
+      "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "publisher": "US DOE (OSTI/NLR)",
+      "role": "competition rules"
+    },
+    {
+      "what": "Reference solution",
+      "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+      "publisher": "DrivenData",
+      "role": "baseline approach; not used as a base for this lane"
+    },
+    {
+      "what": "GeoDAWN airborne magnetic and radiometric surveys, NW Great Basin",
+      "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "publisher": "US Geological Survey",
+      "role": "source of the 19 official feature bands and the radiometric stack"
+    },
+    {
+      "what": "GeoDAWN data release (ScienceBase item)",
+      "url": "https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7",
+      "publisher": "USGS ScienceBase",
+      "role": "official GeoDAWN item record"
+    },
+    {
+      "what": "INGENIOUS project",
+      "url": "https://gbcge.org/current-projects/ingenious/",
+      "publisher": "Great Basin Center for Geothermal Energy",
+      "role": "source of part of the fault label set and of the GDR well/spring inventory"
+    },
+    {
+      "what": "Geothermal Data Repository submission 1391 (INGENIOUS data)",
+      "url": "https://gdr.openei.org/submissions/1391",
+      "publisher": "OpenEI / US DOE Geothermal Data Repository",
+      "role": "provenance of gdr_wellspring_in_footprint.csv, gdr_qfaults_traces.csv, gdr_volcanic_vents_in_footprint.csv"
+    },
+    {
+      "what": "EPSG:32611 - WGS 84 / UTM zone 11N",
+      "url": "https://epsg.io/32611",
+      "publisher": "EPSG registry",
+      "role": "the required CRS"
+    },
+    {
+      "what": "Tversky index",
+      "url": "https://en.wikipedia.org/wiki/Tversky_index",
+      "publisher": "Wikipedia",
+      "role": "background on the similarity measure the metric generalises"
+    },
+    {
+      "what": "Fithian, W. & Hastie, T. (2013). Finite-sample equivalence in statistical models for presence-only data. Annals of Applied Statistics 7(4): 1917-1939.",
+      "url": "https://doi.org/10.1214/13-AOAS667",
+      "publisher": "Institute of Mathematical Statistics",
+      "role": ("authority for: IPP and MaxEnt give the exact same estimate; ordinary logistic "
+               "regression in general does NOT, and exactness requires their infinitely weighted "
+               "logistic regression. Cited in the lane brief.")
+    },
+    {
+      "what": "Phillips, S.J., Dudik, M., Elith, J., Graham, C.H., Lehmann, A., Leathwick, J. & Ferrier, S. (2009). Sample selection bias and presence-only distribution models. Ecological Applications 19(1): 181-197.",
+      "url": "https://doi.org/10.1890/07-2153.1",
+      "publisher": "Ecological Society of America (Wiley)",
+      "role": ("authority for target-group background: background data should carry the same sampling "
+               "bias as the occurrence records. Cited in the lane brief as 'Phillips et al. 2009'.")
+    },
+    {
+      "what": "Prentice, R.L. & Pyke, R. (1979). Logistic disease incidence models and case-control studies. Biometrika 66(3): 403-411.",
+      "url": "https://doi.org/10.1093/biomet/66.3.403",
+      "publisher": "Oxford University Press (Biometrika)",
+      "role": "authority for recovering odds from a case-control logistic fit"
+    },
+    {
+      "what": "Registry of prior GEMSDOE rasters (696 unique grid rasters over 57 sibling repositories)",
+      "url": "https://github.com/buffedlizard55-lab/57GEMSDOE/blob/main/evidence/registry_refreshed_20261010T2001.json",
+      "publisher": "buffedlizard55-lab (this project group)",
+      "role": "the comparison set for the parallel-run drift gate; copied to registry/registry_index_20261010T2001.json"
+    }
+  ],
+  "inputs_pinned_by_sha256": "registry/data_manifest.json",
+  "integrity_statement": ("Every input byte is verified against the sha256 recorded in "
+                          "registry/data_manifest.json. The competition bytes are owner-supplied "
+                          "public GitHub mirrors; a matching digest proves transport identity, not "
+                          "organizer-authenticated origin. No DrivenData credential is used and "
+                          "drivendata.org is never contacted for data.")
+}

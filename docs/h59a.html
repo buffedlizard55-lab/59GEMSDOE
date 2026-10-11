@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H59-A candidate (59GEMSDOE)</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+  <a href="research.html">Research</a>
+  <a href="results.html">Results</a>
+  <a href="sources.html">Sources</a>
+  <a href="irregularities.html">Irregularities</a>
+  <a href="h59a.html" aria-current="page">H59-A candidate</a>
+</nav>
+<main>
+<h1>H59-A — a second, distinct candidate</h1>
+<div class="panel">
+<p><b>Which file should I submit?</b> This repository now holds two candidates. They are
+measured to be independent of each other (Spearman 0.0072, chance-corrected 3 px lift 1.27), so
+submitting both would spend two weekly slots on two different bets — it is not a duplicate.</p>
+<ul>
+<li><b><code>gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif</code></b> — the current
+candidate from the H59-J session, documented on <a href="results.html">Results</a>. Start here.</li>
+<li><b><code>gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif</code></b> — this page. Built by a separate session on the
+<i>intensity</i> lane. Distinct mechanism, distinct dot placement, distinct budget reasoning.</li>
+</ul>
+<p><span class="pill">OK TO DOWNLOAD</span> <span class="pill">OK TO SUBMIT</span> — but note that
+<b>neither</b> file has an organizer score. "OK to submit" means "clears every gate this repository
+can test offline", not "known to score well".</p>
+<p><a class="btn" href="downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif">&#11015; Download gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif</a>
+<a class="btn" href="downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip">&#11015; ZIP</a></p>
+</div>
+
+<div class="panel">
+<h2>What it is</h2>
+<table>
+<tr><th>Item</th><th>Value</th></tr>
+<tr><td>Positive cells</td><td>38,593</td></tr>
+<tr><td>Minimum pairwise separation</td><td>3.162 px (measured)</td></tr>
+<tr><td>Dots on or within 2 px of the mapped catalogue</td><td>0</td></tr>
+<tr><td>Grid</td><td><code>EPSG:32611 / 3730x3292 / (100,0,243350,0,-100,4508550)</code></td></tr>
+<tr><td>Outside the footprint</td><td>0.0 (portal-safe; the -nan twin is research only)</td></tr>
+<tr><td>Local validator</td><td>12/12 checks pass, re-read from the bytes on disk</td></tr>
+<tr><td>SHA256</td><td><code>8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842</code> — the digest is embedded in the filename</td></tr>
+</table>
+</div>
+
+<div class="panel">
+<h2>How it differs from H59-J</h2>
+<table>
+<tr><th></th><th>H59-A (this page)</th><th>H59-J</th></tr>
+<tr><td>Mechanism</td><td>presence-only point-process intensity &rarr; 1 km zoning &rarr; tile only blocks above break-even</td><td>coherence consensus</td></tr>
+<tr><td>Dots</td><td>38,593</td><td>30,815</td></tr>
+<tr><td>Holdout DTI</td><td>0.08811 (range 0.08715–0.08907, 2 folds)</td><td>0.01912 [0.01639, 0.02215]</td></tr>
+<tr><td>Overlap with H59-A</td><td>—</td><td>3 px overlap 0.1093, chance 0.0897, lift 1.218</td></tr>
+</table>
+<p class="dim">The two holdout numbers are <b>not comparable to each other</b>. They use different
+holdout designs and different truth populations, and neither is a competition score.</p>
+</div>
+
+<div class="panel">
+<h2>The measured finding worth carrying forward</h2>
+<p>The largest effect found in the H59-A session was a <b>removal</b>, not an addition.
+<code>dist_visible_fault</code>, <code>visible_fault_dens_5k</code> and
+<code>visible_fault_dens_20k</code> are computed from the catalogue pixels that form the training
+presence set. A model that sees them separates the training data (train loss &minus;0.023; distinct
+predicted values collapse from 160,422 to 38,121) and then scores <b>AUC 0.500</b> on withheld
+segments. Dropping all three lifts the holdout AUC from <b>0.500 to 0.8354</b>.</p>
+<p><b>Any future model in this repository should exclude those three channels unless it can
+demonstrate otherwise on a segment-level holdout.</b> Receipt:
+<code>evidence/leakage_channel_ablation.json</code>.</p>
+</div>
+
+<div class="panel">
+<h2>Stated limitations</h2>
+<ul>
+<li>The dot budget is anchored to <b>OWNER-REPORTED live evidence</b> (~38–40k dots scored
+0.2376–0.2778 across the group's artifacts); the <b>spacing</b> is anchored to this session's own
+holdout. The two are anchored differently and that is stated rather than hidden.</li>
+<li>2 holdout folds only. The t-interval with 1 degree of freedom is &plusmn;0.0121 and is not a
+meaningful confidence interval; the honest summary is the range.</li>
+<li>The counterfactual mapping-effort correction <b>failed</b> (AUC 0.0122 — anti-correlated,
+because the clamped design is out-of-distribution for the gradient booster). Effort bias is only
+partly addressed. Reported as a negative result, not dropped.</li>
+<li>The named confounder — <b>drainage networks</b>, which are linear, continuous at 1–10 km and
+concentrate exactly where the lidar scarp channels fire — cannot be separated from faults on this
+holdout, because the withheld positives are also catalogue faults.</li>
+</ul>
+</div>
+
+</main>
+</body>
+</html>

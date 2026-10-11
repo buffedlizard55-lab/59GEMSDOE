@@ -1,0 +1,107 @@
+{
+ "tag": "smoke",
+ "emission_spec": {
+  "g_truth": 40000,
+  "dti_target": 0.28,
+  "flank_px": 2,
+  "spacing_dense": 3.0,
+  "spacing_sparse": 5.0,
+  "min_sep_default": 3.0,
+  "self_consistent_iters": 6,
+  "max_dots": 120000
+ },
+ "pp_spec": {
+  "max_iter": 60,
+  "learning_rate": 0.08,
+  "max_leaf_nodes": 31,
+  "min_samples_leaf": 60,
+  "l2": 1.0,
+  "n_background": 80000,
+  "seed": 20261011
+ },
+ "buffer_px": 30,
+ "arms": {
+  "catalogue": {
+   "folds": [
+    {
+     "fold": 0,
+     "n_truth": 29340,
+     "n_presence_train": 30977,
+     "seconds": 180.9,
+     "plain": {
+      "n_dots": 120000,
+      "dti": 0.0,
+      "tau": 0.0017500000000000003
+     },
+     "gap": {
+      "n_dots": 0,
+      "dti": 0.0,
+      "tau": 0.0017500000000000003
+     },
+     "lattice": {
+      "n_dots": 0,
+      "dti": 0.0,
+      "tau": 0.0017500000000000003
+     }
+    }
+   ],
+   "summary": {
+    "plain": {
+     "pooled": {
+      "tp": 0.0,
+      "fp": 120000.0,
+      "fn": 29340.0,
+      "n_truth": 29340,
+      "n_pred": 120000,
+      "dti": 0.0,
+      "n_truth_total": 29340,
+      "n_pred_total": 120000
+     },
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "ci_base": 0.0,
+     "mean_n_dots": 120000.0
+    },
+    "gap": {
+     "pooled": {
+      "tp": 0.0,
+      "fp": 0.0,
+      "fn": 29340.0,
+      "n_truth": 29340,
+      "n_pred": 0,
+      "dti": 0.0,
+      "n_truth_total": 29340,
+      "n_pred_total": 0
+     },
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "ci_base": 0.0,
+     "mean_n_dots": 0.0
+    },
+    "lattice": {
+     "pooled": {
+      "tp": 0.0,
+      "fp": 0.0,
+      "fn": 29340.0,
+      "n_truth": 29340,
+      "n_pred": 0,
+      "dti": 0.0,
+      "n_truth_total": 29340,
+      "n_pred_total": 0
+     },
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "ci_base": 0.0,
+     "mean_n_dots": 0.0
+    }
+   }
+  }
+ },
+ "generated_utc": "2026-10-11T01:34:07Z"
+}

@@ -1,0 +1,22 @@
+{
+ "phase": "surface",
+ "n_compared": 696,
+ "max_spearman": 0.6718,
+ "max_dots_within_3px": null,
+ "max_lift_over_chance": null,
+ "worst_by_lift": null,
+ "literal_rule_tripped_by": 0,
+ "reading": "the literal >0.70 rule also trips on dense continuous registry rasters, where any dot pattern would trip it; duplication is judged on the chance-corrected lift, which is the same test applied to a null of randomly placed dots",
+ "metric_run_in_this_phase": "spearman (dense surface)",
+ "thresholds": {
+  "spearman": 0.9,
+  "dots_within_3px": 0.7
+ },
+ "drift_detected": false,
+ "offending": [],
+ "seconds": 202.0,
+ "candidate": "work/surface_h59a.tif",
+ "generated_utc": "2026-10-11T02:52:19Z",
+ "candidate_sha256": "3f12ff9d42a292f6aa4e0e97c2607c1f4002a32b8bb42898612ddd78cf0a9ae4",
+ "verdict": "NO DRIFT - max Spearman 0.6718 against the 0.90 gate"
+}
