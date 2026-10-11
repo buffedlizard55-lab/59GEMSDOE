@@ -57,6 +57,8 @@ SAMPLE = BRIDGE / "example_submission.tif"
 N_BG = 150_000
 PRESENCE_SEP = 2
 SEED = 59
+HIDE_FRAC = 0.20   # holdout: fraction of catalogue components withheld
+BUFFER_PX = 3      # holdout: buffer between hidden and visible catalogue pixels
 
 
 def _sanitise(obj):
@@ -226,6 +228,21 @@ EVIDENCE_FAMILY = [n for n in cv.COVARIATES
                    if not n.startswith("neglog_dist")
                    and n not in ("cat_density_1km", "sliprate_max_1km")]
 DEPLOY_FAMILY = EVIDENCE_FAMILY
+
+
+def _resolve_l2(args) -> float:
+    """The single source of truth for the ridge: exp1's spatial-CV choice.
+
+    Defined once.  ``fit`` and ``decile`` were reading ``args.l2`` directly, which
+    is ``None`` by default -- a crash on any call that does not pass ``--l2``
+    explicitly.  Both now resolve through here.
+    """
+    if args.l2 is not None:
+        return float(args.l2)
+    p = EVIDENCE / "exp1_catalogue_holdout.json"
+    if p.is_file():
+        return float(json.loads(p.read_text())["l2_selection"]["chosen"])
+    return 0.1
 
 
 def _fit_core(grid, visible: np.ndarray, names: list[str], l2: float, seed: int,
@@ -742,6 +759,111 @@ def cmd_exp3(args) -> int:
 # ---------------------------------------------------------------------------
 # emit
 # ---------------------------------------------------------------------------
+def _block_reduce(mask: np.ndarray, block: int = 10) -> np.ndarray:
+    """Sum a pixel mask into the lane's 1 km blocks (origin-aligned, clipped).
+
+    Same convention as :func:`gems59.zone.tile`: block (r, c) owns rows
+    ``r*block .. r*block+block-1`` and the grid tail falls into the last block.
+    """
+    h, w = mask.shape
+    ny, nx = -(-h // block), -(-w // block)
+    padded = np.zeros((ny * block, nx * block), np.float64)
+    padded[:h, :w] = mask
+    return padded.reshape(ny, block, nx, block).sum(axis=(1, 3))
+
+
+def cmd_decile(args) -> int:
+    """Predicted-versus-withheld counts by decile (the lane's own check).
+
+    The lane paragraph asks for this explicitly: bin the 1 km blocks by the
+    *relative* intensity the deployed field assigns them, then count the withheld
+    catalogue positives that fall in each decile.  A field that ranks the hidden
+    truth must put far more than its area share of withheld pixels into the top
+    deciles -- that is the assumption the release's betting rule rests on.
+    """
+    grid = load_grid(BRIDGE)
+    t0 = time.time()
+    folds, _ = ho.buffered_component_draw(grid, seed=SEED, hide_frac=HIDE_FRAC,
+                                          buffer_px=BUFFER_PX)
+    visible, hidden = folds[0]["visible"], folds[0]["hidden_all"]
+    l2 = _resolve_l2(args)
+    fit = _fit_core(grid, visible, cv.COVARIATES, l2, SEED)
+    sh = _shares(it.relative_intensity(fit["field"], grid.footprint))
+    fp_b = _block_reduce(grid.footprint)
+    hid_b = _block_reduce(hidden)
+    sh = np.asarray(sh, np.float64)[: fp_b.shape[0], : fp_b.shape[1]]
+
+    inside = fp_b > 0
+    hid = hid_b[inside]
+    area = fp_b[inside]
+    total_hid, total_area = float(hid.sum()), float(area.sum())
+
+    def table(vals: np.ndarray) -> tuple[list[dict], dict]:
+        order = np.argsort(-np.asarray(vals, np.float64), kind="stable")
+        n = order.size
+        edges = (np.arange(11) * n / 10.0).round().astype(int)
+        deciles = []
+        for d in range(10):                            # d = 0 is the densest decile
+            sl = order[edges[d]:edges[d + 1]]
+            hs, as_ = float(hid[sl].sum()), float(area[sl].sum())
+            deciles.append(dict(
+                decile=10 - d,                         # 10 = densest, 1 = sparsest
+                blocks=int(sl.size), footprint_px=as_, withheld_px=hs,
+                withheld_share=hs / total_hid if total_hid else None,
+                area_share=as_ / total_area if total_area else None,
+                lift=(hs / total_hid) / (as_ / total_area) if total_hid and as_ else None))
+        lifts = np.array([d["lift"] or 0.0 for d in deciles])
+        return deciles, dict(
+            top_decile_lift=deciles[0]["lift"],
+            top_decile_withheld_share=deciles[0]["withheld_share"],
+            top_decile_area_share=deciles[0]["area_share"],
+            top_two_deciles=dict(
+                withheld_share=sum(d["withheld_share"] or 0 for d in deciles[:2]),
+                area_share=sum(d["area_share"] or 0 for d in deciles[:2])),
+            monotone_densest_to_sparsest=bool(np.all(np.diff(lifts) <= 1e-9)),
+            rank_corr_decile_vs_lift=float(np.corrcoef(np.arange(10), lifts)[0, 1]))
+
+    # Reference rankings, so the deployed field's table can be read as a
+    # comparison rather than in isolation.  A random ranking is the calibration
+    # of the method itself: its top-decile lift must land near 1.0.
+    refs = {}
+    for name in ("neglog_dist_catalogue", "cat_density_1km"):
+        f = RANK / f"{name}.npy"
+        if f.is_file():
+            plane = _block_reduce(np.load(f))          # pixel plane -> 1 km blocks
+            refs[name] = dict(zip(("deciles", "summary"), table(plane[inside]),
+                                  strict=True))
+    refs["random_ranking"] = dict(zip(("deciles", "summary"),
+                                      table(np.random.default_rng(SEED).random(hid.size)),
+                                      strict=True))
+
+    deciles, summ = table(sh[inside])
+    payload = dict(
+        experiment="decile calibration: predicted intensity decile vs withheld-segment counts",
+        evidence_class="HOLDOUT-DTI",
+        evaluator_version="gems57-pooled-hide-v2",
+        split_version="buffered-whole-components-loqo-v2",
+        seed=SEED, hide_frac=HIDE_FRAC, buffer_px=BUFFER_PX,
+        l2_selection_used=l2,
+        withheld_positive_pixels=int(hidden.sum()),
+        blocks_ranked=int(hid.size), footprint_px=total_area,
+        deciles=deciles,
+        reference_rankings=refs,
+        summary=dict(
+            **summ,
+            note="blocks are ranked by the deployed (evidence-only, intercept-free) relative "
+                 "intensity fitted on the VISIBLE catalogue of fold 0; withheld = hidden_all "
+                 "of the same fold. Lift = withheld share / footprint-area share."),
+        seconds=round(time.time() - t0, 1),
+        scope="Relative intensity only; no number here is a competition score.",
+    )
+    _json(EVIDENCE / "decile_calibration_lane1ac8.json", payload)
+    _brief = {k: (v["summary"]["top_decile_lift"]) for k, v in refs.items()}
+    _brief["deployed_field"] = summ["top_decile_lift"]
+    print(json.dumps(_brief, indent=2))
+    return 0
+
+
 def cmd_emit(args) -> int:
     grid = load_grid(BRIDGE)
     exp1 = json.loads((EVIDENCE / "exp1_catalogue_holdout.json").read_text())
@@ -847,7 +969,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("command", choices=["verify", "planes", "fit", "exp1", "family", "exp2",
-                                        "exp3", "emit", "ship"])
+                                        "exp3", "decile", "emit", "ship"])
     ap.add_argument("--features", type=Path, default=FEATURES)
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--l2", type=float, default=None,
@@ -859,20 +981,21 @@ def main() -> int:
     FIELD.mkdir(parents=True, exist_ok=True)
     return {"verify": cmd_verify, "planes": cmd_planes, "fit": cmd_fit,
             "exp1": cmd_exp1, "family": cmd_family, "exp2": cmd_exp2, "exp3": cmd_exp3,
-            "emit": cmd_emit, "ship": cmd_ship}[args.command](args)
+            "decile": cmd_decile, "emit": cmd_emit, "ship": cmd_ship}[args.command](args)
 
 
 def cmd_fit(args) -> int:
     grid = load_grid(BRIDGE)
     names = cv.COVARIATES
-    fit = _fit_core(grid, grid.catalogue, names, args.l2, SEED)
+    l2 = _resolve_l2(args)
+    fit = _fit_core(grid, grid.catalogue, names, l2, SEED)
     shares = _shares(fit["field"])
     np.save(FIELD / "shares_full.npy", shares)
     _json(EVIDENCE / "fit_full.json",
           dict(evidence_class="MEASURED", stage="fit-full-catalogue",
                n_covariates=len(names), covariates=names,
                presence_points=fit["n_presence"], background_points=fit["n_background"],
-               l2=args.l2, iterations=fit["fit"]["iterations"],
+               l2=l2, iterations=fit["fit"]["iterations"],
                deviance=fit["fit"]["deviance"],
                beta={n: float(b) for n, b in zip(["intercept"] + names, fit["beta"])},
                block_share_top_1pct=float(np.sort(shares.ravel())[-int(0.01 * shares.size):].sum()),

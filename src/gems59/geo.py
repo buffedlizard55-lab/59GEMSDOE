@@ -44,7 +44,7 @@ _BAND = {
     "cond_surf": 17, "iso_grav_anom_hg": 18, "det_elev_slope": 19,
 }
 
-# The feature block appended to gems57.anatomy.FEATURES when geo planes are used.
+# The feature block appended to gems59.anatomy.FEATURES when geo planes are used.
 GEO_FEATURES = (
     "g_tmi_hg",     # H57-G1: magnetic horizontal-gradient edge/ridge
     "g_tc",         # H57-G1: tilt-derivative edge

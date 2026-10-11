@@ -2,7 +2,7 @@
 
 Why this allocation rule
 ------------------------
-For a binary dot field (see :mod:`gems57.metric` for the derivation, including
+For a binary dot field (see :mod:`gems59.metric` for the derivation, including
 why the denominator does **not** collapse to ``alpha*n + beta*|G|``)::
 
     D   = alpha*(T + n - M) + beta*|G|
@@ -26,7 +26,7 @@ non-increasing and the bar rises while DTI rises, so the loop terminates when a
 round accepts nothing.
 
 Nothing about the *shape* of the emission is assumed here -- the spatial
-structure comes entirely from ``p``, which :mod:`gems57.anatomy` fits to the
+structure comes entirely from ``p``, which :mod:`gems59.anatomy` fits to the
 hide-and-recover holdout.
 """
 
@@ -403,7 +403,7 @@ def emit_decimated(p: np.ndarray, allowed: np.ndarray, *, tile_px: int = 3,
 
     The returned dot mask is the *ranking*: taking the ``n`` highest-credit
     tiles gives the nested budget family used by
-    :func:`gems57.emit.surrogate_terms`, so a budget curve costs one pass.
+    :func:`gems59.emit.surrogate_terms`, so a budget curve costs one pass.
     """
     p = np.asarray(p, np.float32)
     allowed = np.asarray(allowed, bool)

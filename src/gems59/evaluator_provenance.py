@@ -9,36 +9,36 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-CV_VERSION = "gems57-spatial-loqo-v2"
+CV_VERSION = "gems59-spatial-loqo-v2"
 ROOT = Path(__file__).resolve().parents[2]
 CV_IMPLEMENTATION_FILES = (
     "scripts/run_cv.py",
-    "src/gems57/evaluator_provenance.py",
-    "src/gems57/fitting.py",
-    "src/gems57/anatomy.py",
-    "src/gems57/holdout.py",
-    "src/gems57/metric.py",
-    "src/gems57/emit.py",
-    "src/gems57/grid.py",
-    "src/gems57/spatial.py",
-    "src/gems57/network.py",
+    "src/gems59/evaluator_provenance.py",
+    "src/gems59/fitting.py",
+    "src/gems59/anatomy.py",
+    "src/gems59/holdout.py",
+    "src/gems59/metric.py",
+    "src/gems59/emit.py",
+    "src/gems59/grid.py",
+    "src/gems59/spatial.py",
+    "src/gems59/network.py",
 )
 CV_INPUT_FILES = (
     "data/bridge/existing_faults.tif",
     "data/bridge/sample_submission.tif",
 )
-FAULTZONE_VERSION = "gems57-faultzone-pooled-hide-v2"
+FAULTZONE_VERSION = "gems59-faultzone-pooled-hide-v2"
 FAULTZONE_IMPLEMENTATION_FILES = (
     "scripts/run_holdout.py",
-    "src/gems57/evaluator_provenance.py",
-    "src/gems57/faultzone.py",
-    "src/gems57/fit.py",
-    "src/gems57/evaluate_holdout.py",
-    "src/gems57/holdout.py",
-    "src/gems57/metric.py",
-    "src/gems57/grid.py",
-    "src/gems57/spatial.py",
-    "src/gems57/network.py",
+    "src/gems59/evaluator_provenance.py",
+    "src/gems59/faultzone.py",
+    "src/gems59/fit.py",
+    "src/gems59/evaluate_holdout.py",
+    "src/gems59/holdout.py",
+    "src/gems59/metric.py",
+    "src/gems59/grid.py",
+    "src/gems59/spatial.py",
+    "src/gems59/network.py",
 )
 FAULTZONE_INPUT_FILES = (
     "data/official/labels.tif",

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>59GEMSDOE — intensity lane (H59-I)</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+</nav>
+<main>
+<h1>59GEMSDOE — intensity lane, session H59-I</h1>
+<p class="small">DOE GEMS Prize Challenge (DrivenData 306) research raster · generated 2026-10-11 · branch
+<code>arena/f8d022fd-59gemsdoe</code> · every number on this page is labelled HOLDOUT-DTI (local evaluator) or
+OWNER-REPORTED / ORGANIZER-PUBLISHED (context only). No local holdout number is a competition score.</p>
+
+<div class="panel">
+<h2 style="margin-top:0">Download status — read this first</h2>
+<p>
+<span class="badge ok">DOWNLOAD: OK</span>
+<span class="badge no">SUBMIT TO COMPETITION: NO</span>
+</p>
+<p><strong>Why:</strong> the candidate is unique against the registry, passes every local format/range check
+(single-band float32, EPSG:32611, 3730&times;3292, transform
+<code>(100, 0, 243350, 0, -100, 4508550)</code>, all values exactly 0 or 1, no NaN, zeros outside the
+footprint, zero positive pixels on the mapped catalogue), but its spatially-blocked holdout score is
+<strong>below the published holdout best</strong>, so it is <em>not</em> cleared for a weekly submission slot.
+Promotion to a slot is the owner's separate selector decision; this project has spent no slot.</p>
+<a class="btn" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif" download>↓ Download the GeoTIFF (139 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.zip" download>↓ Single-TIFF ZIP (104 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json" download>↓ Writer receipt (JSON)</a>
+<p class="small">File <code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> · SHA256
+<code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code> · 71,119 binary dots ·
+71,119 cells with value 1.0, everything else 0.0. The ZIP contains exactly this one GeoTIFF (round-trip
+verified by the writer). Do not upload HTML, JSON or a repository ZIP.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Suggested submission note (124 / 140 characters)</h2>
+<p class="mono">H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.</p>
+<p class="small">Use only if the owner's selector step promotes this file. Competition name suggestion:
+<code>gems59-h59i-intensity-lattice-20261011</code>.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">What was measured (HOLDOUT-DTI, evaluator <code>gems57-pooled-hide-v2</code>, 11,321 withheld positives, seed-20 buffered whole-component draw, pooled 95% CI)</h2>
+<table>
+<tr><th>Arm</th><th>HOLDOUT-DTI</th><th>95% CI</th><th>Dots</th></tr>
+<tr><td><strong>Final: zoning + 4 px lattice + 2 px catalogue collar</strong></td><td><strong>0.08216</strong></td><td>[0.06954, 0.09616]</td><td>48,953 (holdout folds)</td></tr>
+<tr><td>Final without collar</td><td>0.07472</td><td>[0.06325, 0.08697]</td><td>54,192</td></tr>
+<tr><td>Baseline: 3 px lattice, no collar</td><td>0.07052</td><td>[0.05942, 0.08218]</td><td>110,180</td></tr>
+<tr><td>Uniform random, matched budget</td><td>0.06823</td><td>[0.05988, 0.07663]</td><td>110,180</td></tr>
+<tr><td>Geophysics-only intensity (no effort covariates)</td><td>0.03766</td><td>[0.03170, 0.04444]</td><td>~676,000</td></tr>
+<tr><td colspan="4" class="small">Published Session-5 comparators on the <em>same</em> evaluator and the same seed-20 draw (57GEMSDOE evidence): <code>relay_bend_anatomy</code> 0.135204 [0.119140, 0.153036]; <code>distance_only</code> 0.112725 [0.101428, 0.124446]. This session's arm does not beat them &rarr; verdict <strong>negative</strong>.</td></tr>
+</table>
+<p class="small">Positive findings inside the negative result: the zoning ranks withheld segments (68.5% of
+withheld pixels sit in the top three deciles of predicted 1 km new-fault density, vs 30% under uniformity);
+the 2 px catalogue collar is worth +0.0074 DTI [0.00522, 0.00982] on the holdout <em>and</em> matches the
+owner-reported 0.2778 mechanism; all 13 covariates pass the leakage canary (max AUC 0.776 &lt; 0.90).</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Context (not scores): the published board</h2>
+<p class="small">ORGANIZER-PUBLISHED public leaderboard snapshot 2026-10-10T20:40Z: rank 1 = 0.3774
+(xiaofanhu), rank 8 = 0.3195 (DARD), rank 22 = 0.2778 (extradr19). The owner-reported 0.2778 raster
+(<code>h33-h33-2-b2</code>, GEMSDOE32) is a 40,199-dot field pruned of 2,545 dots within 2 px of the mapped
+catalogue (37,654 remain; minimum catalogue distance 2.24 px). The causal reason for its score is not
+established — see the method page.</p>
+</div>
+</main>
+</body>
+</html>

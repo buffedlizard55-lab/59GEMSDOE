@@ -80,7 +80,7 @@ def page(name: str, title: str, body: str) -> None:
 <title>{esc(title)}</title><style>{CSS}</style></head><body>
 <nav><header>{nav}</header></nav><main>{body}</main>
 <footer>59GEMSDOE intensity lane · built {time.strftime('%Y-%m-%d %H:%M UTC', time.gmtime())} from
-the JSON receipts in <a href="data/">docs/replication/data/</a> · every number carries its evidence class ·
+the JSON receipts in <a href="data/run_card_lane_v1.json">docs/replication/data/</a> (one file per gate) · every number carries its evidence class ·
 no competition slot was used by this repository.</footer></body></html>
 """, encoding="utf-8")
 
@@ -89,7 +89,8 @@ def main() -> int:
     required = ["run_card_lane_v1.json", "exp1_catalogue_holdout.json", "exp2_sgmc_novelty.json",
                 "exp3_canary_robustness.json", "family_comparison.json", "emit_receipt.json",
                 "uniqueness_lane_v1.json", "verify_grid.json", "planes.json", "fit_full.json",
-                "data_preparation_lane1ac8.json", "registry_refreshed_lane1ac8.json"]
+                "data_preparation_lane1ac8.json", "registry_refreshed_lane1ac8.json",
+                "decile_calibration_lane1ac8.json", "sibling_release_overlap_lane1ac8.json"]
     missing = [r for r in required if not (EV / r).is_file()]
     if missing:
         print(f"[site] missing receipts: {missing}", file=sys.stderr)
@@ -102,6 +103,8 @@ def main() -> int:
     emit = json.loads((EV / "emit_receipt.json").read_text())
     uni = json.loads((EV / "uniqueness_lane_v1.json").read_text())["summary"]
     verify = json.loads((EV / "verify_grid.json").read_text())
+    dec = json.loads((EV / "decile_calibration_lane1ac8.json").read_text())
+    sib = json.loads((EV / "sibling_release_overlap_lane1ac8.json").read_text())
     data_prep = json.loads((EV / "data_preparation_lane1ac8.json").read_text())
     sub = json.loads((DOWN / f"{Path(card['file']).stem}.json").read_text())
     pooled = exp1["pooled"]["scores"]
@@ -124,8 +127,10 @@ def main() -> int:
     rows = [
         ("Download", f'<span class="pill {dl_class}">{"OK" if dl == "yes" else "NO"}</span> '
                      f'— validated GeoTIFF, one-TIFF ZIP and receipt in <a href="executive-summary.html">Download &amp; submit</a>'),
-        ("Submit", f'<span class="pill {sub_class}">{"READY" if sub_ok == "yes" else "HOLD"}</span> '
-                   f"— owner selector step; <b>0 competition slots used by this repository</b>"),
+        ("Submit", f'<span class="pill {sub_class}">{"READY" if sub_ok == "yes" else "NO"}</span> '
+                   f"— the release's own instruments dominate it on both frames "
+                   f"(verdict <code>{esc(card['verdict'])}</code>); <b>0 competition slots used by "
+                   f"this repository</b>"),
         ("File", f'<code>{esc(card["file"])}</code>'),
         ("SHA256", f'<code>{esc(card["raster_sha256"])}</code> · {int(card["bytes"]):,} bytes'),
         ("Form", f'{emit["dots"]:,} binary dots · float32 · all-finite · values in [0, 1] · '
@@ -142,6 +147,12 @@ def main() -> int:
                                           f'{n(exp2["pooled"]["scores"]["proximity_only"]["dti"])} '
                                           f'— this frame is the arbiter (the scored target is faults '
                                           f'<i>absent</i> from the catalogue)'),
+        ("Decile check (lane requirement)",
+         f"densest 1 km-block decile holds <b>{n(dec['summary']['top_decile_lift'], 3)}×</b> chance of the "
+         f"withheld positives (below chance); the catalogue-distance and catalogue-density rankings "
+         f"reach {n(dec['reference_rankings']['neglog_dist_catalogue']['summary']['top_decile_lift'], 2)}× and "
+         f"{n(dec['reference_rankings']['cat_density_1km']['summary']['top_decile_lift'], 2)}×; random-ranking "
+         f"calibration {n(dec['reference_rankings']['random_ranking']['summary']['top_decile_lift'], 2)}×"),
         ("Leakage canary", f'worst single-feature AUC <b>{n(exp3["worst_canary"]["auc"], 4)}</b> '
                            f'({esc(exp3["worst_canary"]["covariate"])}) — limit 0.90, no flags'),
         ("Uniqueness", f'{uni["registry_rasters_compared"]} registry rasters · worst rank correlation '
@@ -171,12 +182,43 @@ masked out. It is not a probability map and not a copy of any earlier raster.</p
 are proxies; the catalogue frame is structurally biased toward near-catalogue placement and the
 off-catalogue frame is a different public catalogue, not the organizer's hidden truth.</p></div>
 </div>
-<h2>The one comparison that decided the release</h2>
-<p>At a matched budget (44,000 dots each), the two frames rank the fields in <b>opposite</b> order:
-the catalogue frame prefers pure proximity to the mapped traces, the off-catalogue frame prefers the
-ground-only field by 61 %. Because the scored target is faults absent from the catalogue — and the
-owner-reported live evidence penalises catalogue-adjacent dots — the release follows the
-off-catalogue frame and reports the catalogue-frame cost explicitly.</p>
+<h2>Why the verdict is <span class="pill warn">NO</span></h2>
+<p>Three measurements, all on this page's own instruments:</p>
+<ol>
+<li><b>The catalogue frame ranks the release last of three.</b> HOLDOUT-DTI
+{esc(exp1["pooled"]["evaluator_version"])}: release <b>{n(lane["dti"])}</b>{ci(lane["ci95"])} vs
+proximity-only {n(pooled["proximity_only"]["dti"])} and uniform-same-count
+{n(pooled["uniform_same_count"]["dti"])}.</li>
+<li><b>The decile check the lane asked for is below chance.</b> The densest decile of 1 km blocks
+holds {n(dec['summary']['top_decile_withheld_share'], 4)} of the withheld positives for
+{n(dec['summary']['top_decile_area_share'], 4)} of the area — a lift of
+{n(dec['summary']['top_decile_lift'], 3)}, where a random ranking gives
+{n(dec['reference_rankings']['random_ranking']['summary']['top_decile_lift'], 2)} and the
+catalogue-distance/catalogue-density rankings give
+{n(dec['reference_rankings']['neglog_dist_catalogue']['summary']['top_decile_lift'], 2)} and
+{n(dec['reference_rankings']['cat_density_1km']['summary']['top_decile_lift'], 2)}.</li>
+<li><b>On the off-catalogue frame the release is not distinguishable from the proximity
+control.</b> {n(exp2["pooled"]["scores"]["lane"]["dti"])}
+{ci(exp2["pooled"]["scores"]["lane"]["ci95"])} vs proximity
+{n(exp2["pooled"]["scores"]["proximity_only"]["dti"])} — paired difference
+{esc(str(round(exp2["pooled"]["paired_differences"]["proximity_only"]["delta"], 5)))}
+{esc(str([round(x, 5) for x in exp2["pooled"]["paired_differences"]["proximity_only"]["ci95"]]))},
+i.e. not significant, so this frame does not rescue the release either.</li>
+</ol>
+<p>Reading: the evidence-only field is not merely catalogue-free by construction (that is the lane),
+it is <i>anti-aligned</i> with the trunk corridors at 1 km block scale, and when the truth is spread
+it is beaten by spreading the same dot budget. Both frames therefore reject the <i>emission</i>, not
+just the ranking.</p>
+<p>What the release does have: a structure that matches the owner-reported winning profile —
+{emit["dots"]:,} dots, median distance to the catalogue <b>{n(card['live_profile']['median_distance_to_catalogue_px'], 2)} px</b>
+(the owner-reported high scorers sit at ≈19 px), {n(100 * card['live_profile']['fraction_within_2px_of_catalogue'], 2)} %
+of dots within 2 px of the catalogue, 0 on it — and a clean uniqueness result. That is why it is
+labelled a research artifact and not a submission.</p>
+<p><b>Next step (not done here, budget spent):</b> a holdout whose truth is a band 1–3 km from the
+traces — the scored target is newly mapped geometry beside existing systems, and the owner-reported
+structure puts winning dots at ≈19 px — plus an emission that spreads its budget inside corridors
+instead of tiling the top 10 % of blocks. Recorded as <b>IR-59-FRAME-01</b>.</p>
+<h2>The frames disagree, at a matched budget (44,000 dots)</h2>
 <table><tr><th>field</th><th>dots</th><th>catalogue frame</th><th>off-catalogue frame (arbiter)</th></tr>
 {"".join(f'<tr><td>{esc(k)}</td><td>{v["dots"]:,}</td><td>{n(v["dti_catalogue"])}</td><td><b>{n(v["dti_sgmc"])}</b></td></tr>' for k, v in fam["arms"].items())}
 </table>

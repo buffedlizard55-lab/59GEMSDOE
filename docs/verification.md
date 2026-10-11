@@ -133,3 +133,44 @@ family; both holdout frames are proxies and disagree by construction; the
 reliability-of-location class has no join key; the spacing ladder is unexercised
 at this density; `.cache/` is snapshot-excluded and must be rebuilt with
 `scripts/replication_prepare_data.py --fetch`.
+
+---
+
+## Pass 3 — integration with the other sessions' lane (merge of PR #4)
+
+The repository moved on while this lane ran: other parallel sessions merged their own
+intensity-lane release (H59-I) and their tooling to `main`. The two lanes were integrated
+additively rather than by overwriting either record:
+
+* this lane's driver, uniqueness gate, run-card writer, data-preparation and site builder are
+  namespaced `scripts/replication_*.py`; its point-process module is
+  `src/gems59/intensity_replication.py`; its receipts are `*_lane1ac8.json`; its pages are written to
+  `docs/replication/` (the family site keeps `docs/`). Nothing of either session's evidence was
+  deleted.
+* `.gitignore` and `requirements.txt` take `main`'s versions; `requirements.txt` additionally keeps
+  `tifffile`, which this lane's writer imports for the TIFF round-trip check.
+* standalone `*.pyc` files that `main` had committed were removed from the index (they are already
+  covered by its `__pycache__/` ignore rule).
+
+Verification of the merged tree, measured rather than asserted (pytest, repository root):
+
+| tree | tests | result |
+|---|---|---|
+| `origin/main` alone (checked out in a scratch worktree) | 184 collected | **38 failed, 142 passed, 4 skipped** |
+| this branch after the merge | 193 collected | **37 failed, 152 passed, 4 skipped** |
+
+The delta is favourable and local: the extra passes are this lane's nine unit tests
+(`tests/test_lane.py`: metric parity against a brute-force oracle, zone invariants, emission
+invariants) plus one `main` test that the lane's registry witnesses unblock; **no test that passes on
+`main` fails after the merge**. The 37 remaining failures are pre-existing in the other sessions'
+suites (they pin artefacts with hashes that drifted, and expect receipt files their own sessions
+never committed); they are outside this lane's remit and are recorded rather than "fixed" by
+loosening someone else's assertions.
+
+One integration defect was found and fixed by this check, and it is exactly the class of failure the
+three-pass rule exists to catch: `tests/test_lane.py` imported its driver as `import run_lane`,
+which after the merge resolves to the *fault-zone-anatomy* driver that another session owns — the
+test then failed with `AttributeError: module 'run_lane' has no attribute '_budget_emission'` while
+the code under test was fine. The import now names the namespaced module explicitly. Also fixed:
+five broken `data/` directory links on the replication pages (the site inspector requires file
+targets), and the replication's page footer now points at the run-card copy.

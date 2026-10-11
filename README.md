@@ -1,258 +1,120 @@
-# 59GEMSDOE — intensity lane
+# 59GEMSDOE — intensity lane (session H59-I)
 
-**DrivenData “DOE GEMS” competition #306.** One parallel session of a family working the
-same standing brief: *zone new-fault density in 1 km blocks, fit a presence-only
-point-process intensity with mapping-effort (target-group) background, and emit the
-blocks above break-even as a sparse dot raster* — with every number labelled by its
-evidence class and nothing submitted.
+**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT NO** — unique, format-valid candidate; holdout DTI **0.08216
+[0.06954, 0.09616]** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw) is below the
+published holdout best 0.135204, so it is **not cleared for a weekly slot** (owner's separate selector step;
+no slot spent). Negative results are deliverables.
 
----
+- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html)
+- **Download:** [`docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif`](docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif) (SHA256 `ed1b767f…90f6d`, 71,119 binary dots, all-finite, [0,1], EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt
+- **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`)
+- **Method:** presence-only MaxEnt/Poisson point-process intensity (Phillips et al. 2009 effort covariates;
+  Fithian & Hastie 2013 equivalence), 1 km new-fault-density zoning, holdout-derived break-even lattice
+  (4 px, 2 px catalogue collar)
 
-## STATUS — read this first
-
-| | |
-|---|---|
-| **Download** | **OK.** One click: [`docs/downloads/`](docs/downloads/) — TIFF, one-TIFF ZIP, JSON receipt. |
-| **Submit** | **HOLD.** No competition slot was used by this repository. Reason: the release is a *bet on the off-catalogue reading*, and its own paired test on that frame is not significant (see below). Promotion to a slot is the owner's separate selector step. |
-| **File** | `59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif` |
-| **SHA256** | `d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c` · 79,553 bytes |
-| **Form** | 50,651 binary dots · float32 · **all 12,277,160 grid pixels finite, min 0.0, max 1.0, 0 NaN, 0 Inf** · EPSG:32611 · 3730×3292 · 100 m · transform matches the sample submission · **0 positive pixels on the mapped catalogue** · 0 outside the footprint · all 15 local validator checks pass |
-| **Why HOLD** | Off-catalogue frame (the arbiter): **0.04399 [0.03231, 0.05601]** vs proximity control 0.03914 [0.03301, 0.04594] — paired difference **+0.00485 [−0.00814, +0.01893]**, i.e. *not* significant. Catalogue frame: 0.03339 vs proximity 0.23490 — the release *loses* there, because that frame mechanically rewards dots beside the visible catalogue and the live evidence penalises exactly that. A matched-budget family comparison did favour a ground-only field on the arbiter frame (0.05708 vs 0.03548, +61 %) but at a different emission configuration, so it is not a claim about this raster. |
-| **What would flip it** | Regenerate at the matched-budget configuration and re-score the arbiter frame with a lower bound above zero; or the owner's selector step choosing this file against the family's retained candidates. |
-
-The Pages site (`docs/index.html`) shows the same table at the very top. The
-permission labels there are read from `evidence/run_card_lane_v1.json`
-(`okay_to_download` / `okay_to_submit`), so no page can advertise a decision the
-card does not record.
+Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.txt`
+→ `.venv/bin/python scripts/prepare_data.py --fetch --cache-bands`
+→ `.venv/bin/python scripts/run_intensity_lane.py --seed 20 --break-even 1.0`
+→ `.venv/bin/python scripts/build_submission_intensity.py --gamma 0.0 --collar 2 --break-even 1.0`
 
 ---
 
-## The mechanism, in one paragraph
+## Standing request (re-read at the start of every session)
 
-Zone by **new-fault density per 1 km block**; fit a **presence-only point-process
-intensity** to the mapped catalogue with the observer process absorbed by
-**target-group background** (Phillips et al. 2009), which is exact because
-**MaxEnt ⟺ inhomogeneous Poisson process** (Fithian & Hastie 2013). Presence
-points are thinned to 2 px separation, 150,000 background points are drawn from
-the study-area footprint, and a ridge logistic (spatial-CV λ = 0.1) is fitted on
-21 covariates: potential-field texture (analytic signal at 1.5/3/6 km, tilt,
-theta, total horizontal derivative of gravity at 3/8 km), independent layers
-(geodetic dilatation/second invariant, earthquake density), conductivity,
-depth-to-basement, detrended elevation derivatives, local relief, slip-rate
-maximum, acquisition block and distance-to-catalogue/tips/slip-rated traces.
-**Deployment drops every covariate that is a function of the catalogue's own
-geometry** (IR-30-039: those re-predict the mapped traces, which the competition
-masks out and the live evidence penalises) and zeroes the intercept, so the
-released field is ground evidence + observer effort only. The field is converted
-to block shares, blocks are ranked by intensity, the top *q* are tiled with a
-3 px lattice (spacings are exact subsets, phase 1), and the mapped catalogue and
-everything outside the footprint are removed. Emission never uses an absolute
-expected-pixel cut: **IR-59-SEP-01** measured that the deployed field's *scale* is
-not identified (two Newton stopping points 0.2 % apart in deviance give block
-peak shares 90× apart), so only the block **rank** is trustworthy and the design
-rule is stated in rank terms.
+Review the repo.
 
-## The standing brief (preserved, and read every session)
+THE FOLLOWING IS THE HIGHEST URGENCY AND MUST BE FOLLOWED!
 
-> **Goal.** Build this project into a competition-ready artifact for DrivenData
-> “DOE GEMS” #306, aiming past the 0.3195 leaderboard leader (best owned file
-> 0.2778, `h33-h33-2-b2-…-zeros`; the 0.3774 quoted on a GEMSDOE site is a site
-> record, not the board leader).
->
-> **Must.** Generate a **unique TIF submission**; never copy a previous
-> submission except to learn; check uniqueness against **every** earlier raster;
-> make it **obvious** whether the file is OK to download and to submit.
->
-> **Lane (the intensity paragraph).** Zone by new-fault density per 1 km block
-> (not per-pixel probability); fit presence-only point-process intensity from the
-> catalogue with mapping-effort bias corrected by target-group background
-> (Phillips et al., *Ecological Applications* 2009), noting MaxEnt ⟺ Poisson
-> process (Fithian & Hastie, *Annals of Applied Statistics* 2013); effort
-> covariates = USGS reliability-of-location class, distance to roads, relief,
-> GeoDAWN acquisition block; 1 km block size exceeds the 400 m registration
-> error (Hermant et al.); check predicted vs withheld-segment counts by decile on
-> the holdout; tile only blocks above break-even with spacing re-derived on our
-> own holdout (~3 px dense, wider as density falls).
->
-> **Parallel-run protocol.** (1) Stay in lane; drift trigger = rank-correlation
-> > 0.90 with any registry raster, or > 70 % of dots within 3 px of one registry
-> raster → log duplicate and stop; check on the surface before placement **and**
-> on the final dots. (2) Reuse the template's cached feature stack,
-> `evaluate_holdout.py`, `submission_writer.py`; holdout = whole fault segments
-> withheld with a buffer; catalogue features from visible faults only; visible
-> faults masked pixel-exactly; pooled DTI α = 0.2, β = 0.8, 300 m triangular
-> kernel; fix shared tools once, never a private fork. (3) Label every number
-> HOLDOUT-DTI (evaluator version, # withheld positives, 95 % CI) or
-> ORGANIZER-CONFIRMED; a projection is never a score. (4) Leakage canary: each
-> feature alone on the holdout; AUC > 0.90 = leakage until proven otherwise.
-> (5) End with one JSON run card: hypothesis; mechanism; named non-fault process
-> that could mimic it; holdout DTI + CI; correlation/overlap vs registry; raster
-> sha256; validator output; submission name + note ≤ 140 chars; verdict
-> promote/negative. (6) **Budget: stop after 3 experiments or 2 hours**;
-> promotion to a real slot is a separate selector step.
->
-> **Before implementing.** Generate 3–5 candidate geological hypotheses not yet
-> tried, each naming specific layers, the physical signature (edge/curvature
-> transform), why it catches a fault missing from the USGS/INGENIOUS catalogue
-> rather than one already in it, and how it differs from anything in the repo;
-> rank by expected DTI gain and implementation cost; validate the top candidate
-> on the spatially blocked holdout before touching a weekly submission slot; if a
-> candidate needs external data, name the specific free official source and
-> verify obtainability.
->
-> **Study.** Explain at PhD level why
-> `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` scored 0.2778 and whether it can
-> be beaten; use that answer to generate the unique TIF.
->
-> **Site.** GitHub Pages: clean, simple, all relevant info, official verified
-> source links, an executive-summary subpage explaining exactly how to make a
-> submission, and the download/status obvious at the very top.
->
-> **Working rules.** Autonomously, no manual input; no hallucinations; verify
-> line by line; flag irregularities; three passes (implement+verify, review for
-> bugs/missing requirements/edge cases, re-check against the original request);
-> then a PR merged to `main`; state remaining work and limitations. Keep Arena's
-> core values — maximise P(win), own the outcome — as the focal point.
+MUST GENERATE A UNIQUE TIF SUBMISSION FOR THE COMPETITION.  DO NOT COPY A PREVIOUS SUBMISSION UNLESS IT'S FOR
+LEARNING AND EDUCATION.  BUT WE MUST GENERATE A UNIQUE TIF SUBMISSION.  IT MUST BE OBVIOUS WHETHER IT IS OK
+TO DOWNLOAD AND SUBMIT THE GENERATED TIF SUBMISSION.
 
-**IR-59-PROMPT-01.** The original chat text is not machine-recoverable inside
-this sandbox, so the brief above preserves the *requirements* exactly and does
-not claim word-for-word fidelity. The sibling repository's preserved prompt (the
-same protocol skeleton in the user's own words) is copied to
-[`docs/task-prompt-sibling.md`](docs/task-prompt-sibling.md).
+There should be an easy to download submission tif file as described by the prompt.  Read the entire prompt.
 
-## Why 0.2778, and what could beat it
+Intensity lane: zone by new-fault density, then tile only what clears break-even. Because a lattice pays only
+above roughly 1–2% density, the target is how many new-fault pixels sit in each 1 km block, not a per-pixel
+probability. Fit a presence-only point-process intensity from the catalogue, correcting mapping-effort bias
+with target-group background (Phillips et al., Ecological Applications, 2009). MaxEnt and Poisson
+point-process models are equivalent in form (Fithian and Hastie, Annals of Applied Statistics, 2013). Use
+effort covariates (USGS reliability-of-location class, distance to roads, relief, GeoDAWN acquisition block)
+alongside the geophysical layers. The 1 km block deliberately exceeds the 400 m registration error Hermant
+et al. measured. Check predicted versus withheld-segment counts by decile on the holdout. Then tile only
+blocks above break-even, with spacing from a utility table you re-derive on your own holdout (about 3 px
+when dense and wider as density falls). Output the standard validated GeoTIFF, uniqueness-checked against
+every earlier raster.
 
-All of the following is **OWNER-REPORTED / model-based**, never an organizer
-receipt:
+PARALLEL-RUN PROTOCOL — read first. This session is one of several running from this same prompt.
 
-* The metric is `DTI = TP_w / (TP_w + 0.2·FP_w + 0.8·FN_w)` with a 300 m
-  triangular kernel and the mapped catalogue removed from every term
-  (`src/gems59/metric.py`, verified against a brute-force oracle in
-  `tests/test_lane.py`). Because β = 0.8 weights misses four times as heavily as
-  false positives, **coverage** dominates — but only while a dot's realised
-  credit clears `0.2·s/(1−0.2·s)` (0.0683 at s = 0.3195, ≈280 m).
-* The best-owned file (0.2600) is a *thinned* subset of a denser parent (44,090
-  of 121,131 px), and every owner-reported high scorer sits in the 38,854–44,090
-  dot band with a large median distance to the catalogue. Thinning bought score
-  by removing dots below break-even; the remaining gap to 0.3195 is realised
-  credit per pixel, i.e. **placement**, not format.
-* The catalogue hide-and-recover holdout and the live board **disagree on
-  ordering** (IR-30-039), which this session measured directly at a matched
-  budget: proximity 0.23426 / catalogue-family 0.23234 / ground-family 0.03165 on
-  the catalogue frame, but 0.03548 / 0.03556 / **0.05708** on the off-catalogue
-  frame. The scored target is faults *absent* from the catalogue, so the
-  off-catalogue frame is the arbiter and the release follows it — at the cost of
-  a catalogue-frame number that looks bad, reported rather than hidden.
+1. LANE. Your lane is the single method paragraph below. Stay inside it. If your raster's rank-correlation
+   with any registry raster exceeds [0.90], or more than [70%] of your dots fall within 3 px of one registry
+   raster's dots, you have drifted into another lane: log it as a duplicate and stop. Check this on the
+   surface before placement AND on the final dots.
+2. REUSE, DON'T REBUILD. Use the template's cached feature stack, evaluate_holdout.py and
+   submission_writer.py. Holdout = hide-and-recover: withhold whole fault segments with a buffer, derive
+   every catalogue-based feature only from the visible faults, mask visible faults pixel-exactly, score
+   pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel). If a shared tool is wrong, fix it once in the
+   template and report it; never keep a private fork.
+3. LABEL EVERY NUMBER as HOLDOUT-DTI (evaluator version, number of withheld positives, 95% CI) or
+   ORGANIZER-CONFIRMED (copied from a submission-page receipt). A projection is never written as a score.
+4. LEAKAGE CANARY. Test each feature alone on the holdout before trusting any result. AUC above [0.90] means
+   leakage until proven otherwise.
+5. RUN CARD. End with one JSON card: hypothesis; mechanism; the named non-fault process that could mimic it;
+   holdout DTI + CI; correlation/overlap vs registry; raster sha256; validator output (no NaN inside the
+   footprint, values in [0,1], CRS/shape/transform match); submission name + note of at most 140 characters;
+   verdict promote / negative. Negative results are deliverables.
+6. BUDGET. Stop after [3] experiments or [2] hours. Do not pick submissions: promotion to a real slot is a
+   separate selector step, within the weekly cap shown on the submission page.
 
-## Evidence (all HOLDOUT-DTI unless labelled otherwise)
+(The full historical brief — sibling-site results, leaderboard context, site-creation instructions, core
+values — is preserved verbatim in `TASK_PROMPT.md`; current status at the top of this file takes precedence
+over stale claims there.)
 
-| frame | arm | dots | DTI | 95 % CI |
-|---|---|---|---|---|
-| catalogue hide-and-recover (`gems57-pooled-hide-v2`, 11,354 withheld px, 4 folds, 1,000 paired bootstrap draws) | **release design** | 50,422 | **0.03339** | [0.02282, 0.04447] |
-| | proximity-only control | 48,916 | 0.23490 | [0.22011, 0.24839] |
-| | uniform same count | 50,422 | 0.03468 | [0.03030, 0.03875] |
-| | random blocks | 22,145 | 0.01678 | [0.01204, 0.02171] |
-| off-catalogue (SGMC novelty > 300 m from the catalogue; 61,664 px) | **release** | 50,651 | **0.04399** | [0.03231, 0.05601] |
-| | proximity-only | 48,916 | 0.03914 | [0.03301, 0.04594] |
-| matched-budget family comparison (44,000 dots, both frames) | ground family | 44,002 | 0.03165 (cat) | 0.05708 (off-cat) |
-| | catalogue family | 44,001 | 0.23234 (cat) | 0.03556 (off-cat) |
-| | proximity | 44,004 | 0.23426 (cat) | 0.03548 (off-cat) |
+## Core values in practice
 
-**Unique against the registry (measured, not asserted).** All **710** earlier
-rasters were re-read and compared with this release (`evidence/uniqueness_lane_v1.json`):
+- **Maximize P(Win):** reject unsupported improvements; fit zones and budgets from training evidence;
+  distinguish representations; preserve real weekly slots (none spent).
+- **Own the Outcome:** restore data by hash, repair shared tools once and report, publish complete negative
+  evidence, keep download/submission status unmistakable. No silent protocol relaxation.
 
-* worst **rank correlation** against any registry raster: **0.1142** (5GEMSDOE
-  `context_detector_prob_u8.tif`, a dense full-footprint surface) against the
-  0.90 drift trigger — no trip;
-* worst **3 px dot overlap** against a *comparable* prior (a sparse dot field,
-  support ≤ 2 % of the footprint; 490 such peers): **0.5129** (GEMSDOE51
-  `strainbudget-s1-v1`, 95,927 px) against the 0.70 trigger — no trip; the
-  reverse overlap is 0.2081 and the rank correlation 0.047;
-* the *literal* leg reports 0.9952 because the worst case is a **uniform 5 px
-  lattice covering the whole footprint** (13GEMSDOE `r13-lattice-s5`): a regular
-  grid sits within 3 px of almost any candidate dot, so that number is a
-  saturation artefact, not shared structure (only 0.1204 of *its* dots are within
-  3 px of ours). Recorded as **IR-59-REPR-01** with a ruling requested; the
-  comparable-peer tier is the meaningful test and it passes.
+---
 
-**Live-profile sanity check** (MEASURED, for comparison with the owner-reported
-structure — not a score): the release carries 50,651 dots, **median distance to
-the catalogue 19.72 px**, 6.34 % of dots within 2 px of the catalogue, 0 dots on
-it. The owner's high scorers sit at ≈19 px median distance from the catalogue,
-and the live evidence penalises dots within 2 px (−0.544) and near sub-parallel
-placement (−0.810) — this release sits in that band by construction, because the
-deployed family drops every catalogue-geometry term and masks the catalogue out.
+## Preserved parallel-session record
 
-Leakage canary: worst single-feature AUC **0.5299** (`neg_deq`) against a 0.90
-limit, no flags. Robustness across seeds 59/101/202 × q × 0.6/1.0/1.6: catalogue
-frame 0.0116–0.0391 (the release sits mid-band; the q multipliers move the dot
-count, which that frame rewards monotonically).
+A concurrent 59GEMSDOE run (branch `arena/94956c66`, merged to `main` as PR #1/#2) built the
+organizer-metric tooling and a summary site but could not place the competition data from this sandbox
+(no DrivenData auth, Dropbox off-allow-list) and therefore shipped no validated TIF. Its record is
+preserved verbatim at `evidence/run_card_arena94956c66.json`, and its pages remain in `docs/`. This
+session restored the hash-pinned 19-band feature stack through the public GitHub mirror bridge
+(`scripts/download_features.sh`, `scripts/prepare_data.py`) and therefore supersedes it on data
+availability. Re-read `TASK_PROMPT.md` (verbatim standing brief) alongside this file.
 
-Per-stage receipts: `evidence/exp1_catalogue_holdout.json`,
-`evidence/exp2_sgmc_novelty.json`, `evidence/exp3_canary_robustness.json`,
-`evidence/family_comparison.json`, `evidence/emit_receipt.json`,
-`evidence/uniqueness_lane_v1.json`, `evidence/run_card_lane_v1.json`.
-The three review passes are written up in [`docs/verification.md`](docs/verification.md).
+---
 
-## Reproduce
+## Preserved parallel-session record — lane `arena/1ac83927` (PR #4)
 
-```bash
-python3 scripts/replication_prepare_data.py --fetch   # hash-verify bridge pins + rebuild the 419 MB stack
-python3 scripts/replication_run_lane.py verify        # grid / catalogue / footprint receipt
-python3 scripts/replication_run_lane.py planes        # 21 covariates + ranks (cached)
-python3 scripts/replication_run_lane.py fit           # full-catalogue fit
-python3 scripts/replication_run_lane.py exp1          # EXP-1: q-sweep, table sweep, controls
-python3 scripts/replication_run_lane.py family        # family comparison on both frames
-python3 scripts/replication_run_lane.py exp2          # off-catalogue frame
-python3 scripts/replication_run_lane.py exp3          # leakage canary + robustness
-python3 scripts/replication_run_lane.py emit          # the dot field
-python3 scripts/replication_run_lane.py ship          # validated TIFF + ZIP + receipt
-python3 scripts/replication_check_uniqueness.py       # all registry rasters, both legs
-python3 scripts/replication_write_run_card.py         # the one run card
-python3 scripts/replication_build_site.py             # docs/ Pages site
-python3 -m unittest discover -s tests     # metric parity + emission invariants
-```
+A second concurrent 59GEMSDOE session ran the same intensity brief independently, on the
+10 km zoning variant with strictly off-catalogue deployment (`scripts/replication_run_lane.py`,
+`src/gems59/intensity_replication.py`, receipts `*_lane1ac8.json`, its own site at
+[`docs/replication/`](docs/replication/index.html)). It reached the same family of conclusions by a
+different route, and its numbers are worse, so it is preserved as the weaker of the two
+replications — **do not treat it as a submission**: its run card
+([`evidence/run_card_lane_v1.json`](evidence/run_card_lane_v1.json)) is verdict **negative**, download OK /
+submit NO, 0 slots used.
 
-## Limitations and remaining work
+What it adds beyond the primary lane:
 
-1. **No organizer receipt exists anywhere in this family.** Everything is
-   owner-reported or a holdout proxy. That is why the submit label is HOLD.
-2. **The release's own advantage is not established.** On the arbiter frame the
-   paired difference is +0.00485 [−0.00814, +0.01893]. The matched-budget
-   configuration that *did* separate (ground family +61 % over proximity) should
-   be the next release candidate, re-scored on the arbiter frame.
-3. **Both frames are proxies and they contradict each other** (measured above).
-   The choice of arbiter is a judgement, stated in `family_comparison.json`.
-4. **Effort covariates are incomplete.** The USGS reliability-of-location class
-   cannot be joined to the grid: the attribute table keys on `NUM`, the trace
-   segments on `record_id`, and no join key exists (IR-59-EFFORT-02). Roads were
-   not available in any clone. The acquisition block is >99.9 % covered inside
-   the footprint and therefore weak there.
-5. **The spacing ladder is not exercised at this density.** Every selected block
-   lands in the finest stratum, so the release is a flat 3 px lattice; the
-   "wider as density falls" arm exists and is measurably worse on both frames at
-   this dot budget (reported, not hidden).
-6. **The literal uniqueness rule is unsatisfiable** for any nonempty candidate
-   while dense-support priors are in the registry (IR-59-REPR-01); both legs are
-   measured and the ruling is requested.
-7. **`.cache/` is not snapshotted** (419 MB stack, covariate/rank planes);
-   `scripts/replication_prepare_data.py --fetch` rebuilds it from the pinned bridge parts.
+* **A decile calibration of the lane's own ranking** (`evidence/decile_calibration_lane1ac8.json`).
+  The densest decile of 1 km blocks holds **0.0495** of the withheld catalogue positives for
+  **0.1014** of the footprint area — a lift of **0.49, below chance** — while ranking blocks by
+  catalogue distance or catalogue density reaches lifts of **8.46** and **8.26** (random-ranking
+  calibration 0.92, so the method is sound). Discipline: the off-catalogue field is *anti-aligned*
+  with the trunk corridors on a frame whose truth sits on them. Recorded as **IR-59-FRAME-01**.
+* **A second release-overlap measurement** (`evidence/sibling_release_overlap_lane1ac8.json`): the
+  two intensity-lane releases of this family are independent realisations, not copies —
+  0.1235 of the sibling's dots within 3 px of this one, rank correlation 0.0435, against a drift
+  limit of 0.70 / 0.90.
+* The same uniqueness receipt methodology (`evidence/uniqueness_lane_v1.json`, 710 rasters) with the
+  saturation artefact of the literal leg called out rather than hidden (IR-59-REPR-01).
 
-## Official sources
-
-* Competition: DrivenData #306 “DOE GEMS” — <https://www.drivendata.org/competitions/306/> (login-walled from the sandbox; the problem statement and metric facts here were transcribed from page 967 and cross-checked against sibling receipts).
-* Official rules (NLR FY26 OSTI 96647): <https://docs.nlr.gov/docs/fy26osti/96647.pdf> (unreachable from the sandbox; quoted facts are labelled OWNER-REPORTED).
-* USGS QFFD / INGENIOUS — the label source named by the problem statement. California QFaults v2.0 (cross-check only): <https://www.conservation.ca.gov/cgs/qfaults>. SGMC faults (off-catalogue proxy frame): <https://ngmdb.usgs.gov/>.
-* Methods: Phillips et al. 2009 <https://doi.org/10.1890/08-2025.1>; Fithian & Hastie 2013 <https://doi.org/10.1214/13-AOAS667>; Hermant et al. 2025 (SGW); Mattéo et al. 2021 (JGR).
-
-## Irregularities
-
-`IR-59-PROMPT-01` (prompt fidelity) · `IR-59-SEP-01` (deployed-field scale not
-identified → rank-based emission) · `IR-59-EFFORT-02` (no QFaults join key) ·
-`IR-59-SGMC-01` (the “derived” SGMC layer is byte-identical to the base layer) ·
-`IR-59-REPR-01` (literal overlap rule unsatisfiable against dense priors) ·
-`IR-30-039` (catalogue proxies rank opposite to the live board). Full text on the
-site's audit page and in `docs/verification.md`.
-
-**No competition slot was used by this repository, and none of its numbers is an
-organizer-confirmed score.**
+Merged additively: the replication's paths are namespaced (`replication_*`, `*_lane1ac8.json`,
+`docs/replication/`) so both sessions' records survive in one tree.

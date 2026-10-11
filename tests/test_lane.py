@@ -1,6 +1,9 @@
 """Unit tests for the pieces the lane's correctness rests on.
 
-Run with ``python3 -m unittest discover -s tests`` from the repository root.
+Run with ``python3 -m unittest tests.test_lane`` from the repository root (or with pytest:
+this file is collected by the repository's pytest run).  It imports the replication's own driver,
+``scripts/replication_run_lane.py``, which is namespaced so it cannot be confused with the
+fault-zone-anatomy driver at ``scripts/run_lane.py`` that other sessions own.
 The metric tests are parity checks against the literal brute-force transcription;
 the emission tests are invariants that must hold for any release.
 """
@@ -91,7 +94,7 @@ class TestZoneInvariants(unittest.TestCase):
 
 class TestEmissionInvariants(unittest.TestCase):
     def test_budget_emission_respects_masks_and_budget(self):
-        import run_lane as R
+        import replication_run_lane as R
         rng = np.random.default_rng(3)
         allowed = np.zeros((60, 60), bool)
         allowed[5:55, 5:55] = True

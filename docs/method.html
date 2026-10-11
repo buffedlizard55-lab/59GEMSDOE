@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method &amp; evidence (59GEMSDOE H59-I)</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+</nav>
+<main>
+<h1>Method &amp; evidence — intensity lane (H59-I)</h1>
+
+<div class="panel">
+<h2 style="margin-top:0">Hypothesis</h2>
+<p>A presence-only point-process intensity fitted to the mapped catalogue with mapping-effort covariates
+predicts where the faults the USGS/INGENIOUS catalogue missed should sit. Zoning that intensity into 1 km
+blocks by expected new-fault pixels, and lattice-tiling only the blocks above break-even, places dots that
+beat a same-budget uniform-random control on the spatially-blocked hide-and-recover holdout.</p>
+<p class="small"><strong>Mechanism.</strong> MaxEnt-form logistic regression (equivalent in form to a Poisson
+point-process model — Fithian &amp; Hastie, <em>Annals of Applied Statistics</em> 2013) on 60,988 catalogue
+presences vs 120,000 uniform background cells, 13 covariates: four geophysical edge planes (magnetic
+horizontal gradient, tilt derivative, gravity horizontal gradient, detrended-elevation slope), their
+element-wise max, five geophysical regime planes (TMI, conductivity, basement depth, geodetic second
+invariant, earthquake distance) and three mapping-effort planes (1 km and 5 km trace density, relief).
+Sample-selection bias is handled per Phillips et al. (<em>Ecological Applications</em> 19:181–197, 2009):
+effort covariates enter the model; a catalogue-density-weighted target-group background was rejected as
+circular (IR-59-EFFORT-01). Expected new-fault pixels per 1 km block = Σλ over non-catalogue cells (1 km
+deliberately exceeds the ~400 m catalogue registration error quoted in the brief). Break-even = ≥ 1
+expected new-fault pixel per block (the ~1% lattice-payment floor).</p>
+<p class="small"><strong>Named non-fault mimic.</strong> Mapping-effort bias itself: the catalogue is a biased
+sample, so an intensity fitted to it inherits the mappers' footprint (access, quadrangle boundaries) rather
+than geology; magnetic flight-line levelling residuals and radiometric survey-block edges can also mimic
+lineaments.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Holdout protocol (shared tools, byte-identical to the published template)</h2>
+<p>Buffered whole-component leave-one-quadrant-out draw, seed 20 — the same draw and the same evaluator
+(<code>gems57-pooled-hide-v2</code>, implementation hashes match the published Session-5/7 receipts) as the
+57GEMSDOE Session-5 arms, so the numbers are directly comparable. 11,321 withheld positive pixels; every
+catalogue-derived feature from the visible mask only; visible faults masked pixel-exactly; pooled DTI
+(α = 0.2, β = 0.8, 300 m triangular kernel); 1,000 paired percentile bootstrap draws over the physical 20 km
+spatial clusters.</p>
+<table>
+<tr><th>Experiment</th><th>Question</th><th>Result</th></tr>
+<tr><td>1 — fit &amp; arms</td><td>Does the effort-corrected intensity beat no-effort and uniform random?</td><td>0.07052 vs 0.03766 (geophysics-only) vs 0.06823 (uniform random); effort-correction exponent γ = 0 selected (0.07052 / 0.06872 / 0.06892 for γ = 0 / 0.5 / 1, CIs overlap)</td></tr>
+<tr><td>2 — utility table</td><td>Which lattice spacing per density class, and is any class below break-even?</td><td>4 px for all four quartile classes (3 px: 0.07052; 4 px: 0.07083–0.07236; 6 px worse; “none” worse for every class)</td></tr>
+<tr><td>3 — collar &amp; final</td><td>Does a catalogue-flank collar pay?</td><td>2 px collar: 0.08216 [0.06954, 0.09616] vs 0.07472 without — strictly positive paired difference</td></tr>
+</table>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Leakage canary (rule 4)</h2>
+<p>Each of the 13 covariates alone, discriminating withheld truth from the allowed domain, per fold:
+maximum AUC 0.776 (<code>e_dens5</code>), minimum 0.514 — no feature above the 0.90 bar, no flags. The two
+effort-density planes are catalogue-derived and therefore encode catalogue proximity (visible-only); that is
+disclosed, not hidden, and it is why they are the strongest single covariates.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Decile calibration (predicted vs withheld counts)</h2>
+<p>Pooled over the four folds, <strong>68.5%</strong> of withheld-segment pixels fall in the top three deciles
+of predicted 1 km new-fault density (30% expected under uniformity): the zoning has real but modest skill.
+Full table: <a href="data/intensity_exp1_diagnostics_fixed.json">intensity_exp1_diagnostics_fixed.json</a>.</p>
+<p class="small">SGMC diagnostic (independent state compilation, off-catalogue faults): Spearman(predicted
+density, SGMC-minus-catalogue block counts) = 0.068–0.153 by fold — weak positive, consistent with a zoning
+that points at some real off-catalogue faults. Per IR-57-INSTR-01 the SGMC proxy cannot rank placements and
+is used here only as this structural check.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Irregularities and limitations (all disclosed)</h2>
+<ul>
+<li><strong>IR-59-EFFORT-01</strong> — target-group background rejected as circular (the catalogue is the
+effort record); effort covariates used instead.</li>
+<li><strong>IR-59-EFFORT-02</strong> — the GeoDAWN acquisition-block covariate is <em>not used</em>: the
+official block polygons are on USGS ScienceBase (DOI 10.5066/P93LGLVQ), which this sandbox's egress
+allow-list cannot reach, and the derived k-means proxy on windowed magnetic statistics was measured to be
+spatially non-contiguous (one 5.16 M-cell component). The lane's “distance to roads” effort covariate is
+likewise unobtainable here (USGS National Map / Census TIGER are off-allow-list); trace density and relief
+are the substitutes.</li>
+<li><strong>IR-59-DIAG-01</strong> — the first diagnostic pass sum-pooled the per-cell expansion of block
+totals, inflating reported block densities 100×; rankings and all DTI values were unaffected. Fixed and
+re-derived in <code>intensity_exp1_diagnostics_fixed.json</code>.</li>
+<li><strong>Dot profile vs live evidence</strong> — the candidate's dots sit at median 5.0 px from the
+catalogue (min 2.24, p90 9.5), whereas the owner-reported top scorers sit near 19 px. The holdout rewards
+tight placement; the owner-reported board (n = 15) rewards distance. This disagreement is recorded, not
+tuned away.</li>
+<li><strong>Budget</strong> — the holdout-derived rule tiles 10,634 blocks and emits 71,119 dots (1.38% of the
+footprint), above the ~38–40k dots of the owner-reported top scorers; a budget-capped arm is the
+pre-registered next experiment (H59-I2), together with the block-level completeness-ratio zoning
+(new_b = Σλ·(1 − cat_frac/λ̄)) that should move dots further off the catalogue.</li>
+<li><strong>No scores claimed</strong> — no number here is a competition score; the organiser's public board
+and the owner-reported portfolio are context, not receipts.</li>
+</ul>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Why the owner-reported 0.2778 is not explained here</h2>
+<p>The 0.2778 raster (GEMSDOE32 <code>h33-h33-2-b2</code>) is a 40,199-dot field minus 2,545 dots within 2 px
+of the mapped catalogue. Sparse thinning and catalogue-flank pruning reduce false-positive cost under the
+max-cover DTI, which is a plausible mechanism — but the scores are owner-reported, there is no organiser
+file receipt, and this session's holdout cannot confirm a causal gain. The 2 px collar finding here
+(+0.0074 DTI on the holdout) is consistent with that mechanism, nothing more.</p>
+</div>
+</main>
+</body>
+</html>

@@ -43,6 +43,7 @@ def main() -> int:
     dense = [r for r in json.loads((EV / "uniqueness_lane_v1.json").read_text())["rows"]
              if r.get("overlap_class") == "dense-support"]
 
+    dec = json.loads((EV / "decile_calibration_lane1ac8.json").read_text())
     em = np.asarray(np.load(ROOT / ".cache" / "field" / "emitted.npy"), bool)
     grid = None
     try:
@@ -185,35 +186,46 @@ def main() -> int:
         "submission_name": sub["submission_name"],
         "submission_note": sub["note"],
         "submission_note_chars": sub["note_chars"],
+        "decile_calibration": dec,
         "okay_to_download": True,
         "okay_to_submit": False,
-        "promotion_requires": "owner selector step (protocol item 6); 0 slots used in-session; "
-                              "see verdict_reason for what is still unresolved",
-        "verdict": "hold",
+        "promotion_requires": "a frame whose truth matches the scored target (a collar-band "
+                              "truth), and a release that beats both trivial controls on it; "
+                              "owner selector step (protocol item 6); 0 slots used in-session",
+        "verdict": "negative",
         "verdict_reason": (
-            "DOWNLOAD OK: format-validated, all-finite, in [0,1], 0 dots on the catalogue; "
-            "no drift trip on the meaningful tests -- worst rank correlation against all 710 "
-            "registry rasters is 0.1142 (limit 0.90) and the worst comparable-peer overlap is "
-            "0.5129 (limit 0.70, tier = sparse peers at most 2 % of footprint). The literal "
-            "representation-aware leg reports 0.9952 against a full-footprint uniform lattice, "
-            "which is a saturation artefact, not shared structure: only 0.1204 of that lattice "
-            "is within 3 px of our dots (IR-59-REPR-01); canary-clean (worst AUC 0.5299 vs "
-            "0.90). "
-            "SUBMIT HOLD: the evidence of an advantage is mixed and the repository will not "
-            "spend a competition slot on it. On the off-catalogue frame (the declared arbiter, "
-            "because the scored target is faults ABSENT from the catalogue) this exact release "
-            "is 0.04399 [0.03231, 0.05601] vs the proximity control 0.03914 [0.03301, 0.04594], "
-            "paired difference +0.00485 [-0.00814, +0.01893] -- not significant. On the "
-            "catalogue hide-and-recover frame it is 0.03339 vs proximity 0.23490 and uniform "
-            "0.03468, because that frame mechanically rewards placing dots beside the visible "
-            "catalogue and the live evidence (OWNER-REPORTED, n=15) penalises exactly that "
-            "(-0.544 within 2 px of the catalogue, +0.766 median distance to the catalogue). "
-            "The matched-budget family comparison DID favour a ground-only field on the arbiter "
-            "frame (0.05708 vs 0.03548 proximity, +61 %) but at a different emission "
-            "configuration, so it is not a claim about this raster. What would flip the "
-            "verdict: a release regenerated at that matched-budget configuration and re-scored "
-            "on the arbiter frame with a lower bound above zero, or the owner's selector step "
-            "choosing this file against the family's retained candidates."),
+            "DOWNLOAD OK: format-validated (all-finite, values in [0,1], CRS/shape/transform "
+            "match the sample submission, 0 dots on the mapped catalogue, 0 outside the "
+            "footprint), unique against the registry on every meaningful test -- worst rank "
+            "correlation over all 710 priors 0.1142 against a 0.90 limit, worst 3 px overlap "
+            "against a comparable prior 0.5129 against a 0.70 limit, and against the only other "
+            "intensity-lane release 0.1235 (rank correlation 0.0435). "
+            "SUBMIT: NO. The release's own instruments dominate it on both frames available in "
+            "this repository, so it is not cleared for a competition slot: "
+            "(1) catalogue hide-and-recover frame -- release 0.03339 [0.02282, 0.04447] vs "
+            "proximity-only control 0.23490 and uniform-same-count 0.03468, i.e. the release is "
+            "the worst of the three; "
+            "(2) decile calibration on the same frame -- the release's densest decile of 1 km "
+            "blocks carries 0.0495 of the withheld positives for 0.1014 of the footprint area, "
+            "a lift of 0.49, i.e. below chance, while the catalogue-distance and "
+            "catalogue-density rankings reach lifts of 8.46 and 8.26 (random-ranking "
+            "calibration 0.92, so the method is sound); "
+            "(3) off-catalogue frame (SGMC novelty) -- release 0.04399 [0.03231, 0.05601] vs "
+            "proximity 0.03914 [0.03301, 0.04594], paired difference +0.00485 "
+            "[-0.00814, +0.01893] not significant, and a uniform spread of the same number of "
+            "dots scores 0.09765, i.e. more than twice the release. "
+            "Reading: the evidence-only field is not merely catalogue-free by construction, it "
+            "is anti-aligned with the trunk corridors at 1 km block scale (lift < 1 on a frame "
+            "whose truth sits on the corridors), and it is beaten by spreading the same budget "
+            "over the footprint when the truth is spread. Both frames therefore reject the "
+            "emission rule, not just the ranking. The lane's premise is not supported at this "
+            "scale by this evidence. "
+            "What was NOT tested here and is the next step: a frame whose truth is a band 1-3 km "
+            "from the traces (the scored target is newly mapped geometry beside existing "
+            "systems -- thread 11536 -- and the owner-reported structure puts winning dots at "
+            "~19 px median distance), and an emission that spreads its budget inside the "
+            "corridors rather than tiling the top 10 % of blocks. Findings and the frame "
+            "diagnosis are recorded as IR-59-FRAME-01."),
         "live_profile": live_profile,
         "limitations": [
             "No organizer receipt: every score here is a holdout proxy or owner-reported context.",
@@ -224,6 +236,12 @@ def main() -> int:
             "USGS reliability-of-location class cannot be joined to the grid (IR-59-EFFORT-02); "
             "no roads dataset was available in any clone.",
             "Feature stack verified by transport hashes, not by an official provenance receipt.",
+            "Target-group background is implemented as uniform background plus effort covariates "
+            "(relief, acquisition block); a true target-group background was not available "
+            "(IR-59-EFFORT-02).",
+            "Both holdout frames' truths differ structurally from the scored target: one sits ON "
+            "the traces, the other is a different catalogue spread over the region "
+            "(IR-59-FRAME-01). Neither can rank a catalogue-free field.",
         ],
         "evidence_files": sorted(
             name for name in (
