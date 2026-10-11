@@ -55,12 +55,15 @@ NOT settled — the honest limit of this session:
 **Three-pass review log:** [`docs/research/three-pass-review-h59j.md`](docs/research/three-pass-review-h59j.md)
 (implement → bug/edge-case review → re-check against the brief, with each pass's fixes named).
 
-**Test-suite status, unchanged by this session except where improved:** 36 failures, all referencing artefacts
-of other lanes (`docs/archive.html`, `evidence/submission_build_all.json`, `evidence/uniqueness_h57r.json`, the
-literal-gate witnesses, Session-3/6/7 receipts). The delivery test
-`tests/test_delivery.py::test_current_tiff_zip_links_and_card_are_consistent` now **passes**; two others in
-that file advanced past the assertions they used to fail on. The one delivery test that still fails needs the
-57GEMSDOE angular-structure study, which was not run and not faked.
+**Test-suite status after this session and the merge of the parallel lane's PR #4:** **35 failed, 157 passed,
+1 skipped** (before this session: 36 failed / 146 passed / 2 skipped). Every remaining failure references an
+artefact of another lane that is not in this working tree (`docs/archive.html`,
+`evidence/submission_build_all.json`, the literal-gate witnesses, Session-3/6/7 receipts) — except one:
+`tests/test_delivery.py::test_preview_png_and_holdout_structure_labels_are_real`, which needs the 57GEMSDOE
+angular-structure study (`evidence/orientation_structure.json` plus four `docs/method.html` strings). That study
+was **not run and not faked** here. The delivery test that certifies the current release
+(`...::test_current_tiff_zip_links_and_card_are_consistent`) now **passes**, and two others in that file
+advanced past the assertions they used to fail on.
 
 ## 1. Next session — ordered by expected value per hour
 
