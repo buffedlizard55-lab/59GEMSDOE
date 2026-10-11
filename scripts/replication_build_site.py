@@ -17,9 +17,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EV = ROOT / "evidence"
+LANE = ROOT / "docs" / "replication"   # this replication's own site, next to the family's
 DOCS = ROOT / "docs"
-DATA = DOCS / "data"
-DOWN = DOCS / "downloads"
+DATA = LANE / "data"
+DOWN = DOCS / "downloads"              # the download files are shared with the family site
 
 CSS = """
 :root{--bg:#0f1216;--card:#171c22;--ink:#e8edf2;--dim:#9fb0c0;--ok:#2fbf71;--warn:#e8a33d;
@@ -74,12 +75,12 @@ def ci(x):
 
 def page(name: str, title: str, body: str) -> None:
     nav = "".join(f'<a href="{h}"{" class=on" if h == name else ""}>{esc(t)}</a>' for h, t in NAV)
-    (DOCS / name).write_text(f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+    (LANE / name).write_text(f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{esc(title)}</title><style>{CSS}</style></head><body>
 <nav><header>{nav}</header></nav><main>{body}</main>
 <footer>59GEMSDOE intensity lane · built {time.strftime('%Y-%m-%d %H:%M UTC', time.gmtime())} from
-the JSON receipts in <a href="data/">docs/data/</a> · every number carries its evidence class ·
+the JSON receipts in <a href="data/">docs/replication/data/</a> · every number carries its evidence class ·
 no competition slot was used by this repository.</footer></body></html>
 """, encoding="utf-8")
 
@@ -88,7 +89,7 @@ def main() -> int:
     required = ["run_card_lane_v1.json", "exp1_catalogue_holdout.json", "exp2_sgmc_novelty.json",
                 "exp3_canary_robustness.json", "family_comparison.json", "emit_receipt.json",
                 "uniqueness_lane_v1.json", "verify_grid.json", "planes.json", "fit_full.json",
-                "data_preparation.json", "registry_refreshed.json"]
+                "data_preparation_lane1ac8.json", "registry_refreshed_lane1ac8.json"]
     missing = [r for r in required if not (EV / r).is_file()]
     if missing:
         print(f"[site] missing receipts: {missing}", file=sys.stderr)
@@ -101,7 +102,7 @@ def main() -> int:
     emit = json.loads((EV / "emit_receipt.json").read_text())
     uni = json.loads((EV / "uniqueness_lane_v1.json").read_text())["summary"]
     verify = json.loads((EV / "verify_grid.json").read_text())
-    data_prep = json.loads((EV / "data_preparation.json").read_text())
+    data_prep = json.loads((EV / "data_preparation_lane1ac8.json").read_text())
     sub = json.loads((DOWN / f"{Path(card['file']).stem}.json").read_text())
     pooled = exp1["pooled"]["scores"]
     lane_arm = "table0" if "table0" in pooled else sorted(pooled)[0]
@@ -110,6 +111,7 @@ def main() -> int:
     lit_worst_rho = (uni["literal_leg"]["worst_rho_dot_field"] or {}).get("rho_dot_field")
     lane = pooled[lane_arm]
 
+    LANE.mkdir(parents=True, exist_ok=True)
     DATA.mkdir(parents=True, exist_ok=True)
     for name in required + ["site_inventory.json"]:
         if (EV / name).is_file():
@@ -156,9 +158,9 @@ sparse 3 px lattice above break-even.</p>
 <div class="card"><table>{"".join(f'<tr><th style="width:26%">{k}</th><td>{v}</td></tr>' for k, v in rows)}</table></div>
 <div class="card"><h2>Download the submission</h2>
 <div class="dl">
-<a class="button" href="downloads/{esc(card["file"])}">TIFF ({int(card["bytes"]):,} bytes)</a>
-<a class="button alt" href="downloads/{esc(card["zip_file"])}">ZIP (one TIFF)</a>
-<a class="button alt" href="downloads/{esc(Path(card['file']).stem)}.json">Validator receipt (JSON)</a>
+<a class="button" href="../downloads/{esc(card["file"])}">TIFF ({int(card["bytes"]):,} bytes)</a>
+<a class="button alt" href="../downloads/{esc(card["zip_file"])}">ZIP (one TIFF)</a>
+<a class="button alt" href="../downloads/{esc(Path(card['file']).stem)}.json">Validator receipt (JSON)</a>
 </div>
 <p class="dim">Local validator: {esc(sub["status"])}. A local PASS is not organizer acceptance.</p></div>
 <div class="grid">
@@ -354,7 +356,7 @@ and submission cap come from the sibling clones' transcription and are labelled 
 </ul>
 <h2>Data</h2><ul>
 <li>GeoDAWN / DOE GEMS feature stack and the competition grid — public bridge mirror
-(<code>buffedlizard55-lab/6GEMSDOE</code>), hashes in <code>docs/data/data_preparation.json</code>.</li>
+(<code>buffedlizard55-lab/6GEMSDOE</code>), hashes in <code>docs/replication/data/data_preparation_lane1ac8.json</code>.</li>
 <li>USGS QFFD / INGENIOUS — the label source named by the problem statement.</li>
 <li>USGS State Geologic Map Compilation (SGMC) faults — used only as the off-catalogue proxy frame:
 <a href="https://ngmdb.usgs.gov/">ngmdb.usgs.gov</a>.</li>

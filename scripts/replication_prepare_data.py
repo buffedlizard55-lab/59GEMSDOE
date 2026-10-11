@@ -125,7 +125,7 @@ def main() -> int:
                                     note="419 MB; lives in .cache/, not committed")
     ok &= features_ok
     receipt["all_pins_verified"] = bool(ok)
-    (ROOT / "evidence" / "data_preparation.json").write_text(
+    (ROOT / "evidence" / "data_preparation_lane1ac8.json").write_text(
         json.dumps(receipt, indent=2, allow_nan=False) + "\n")
     print("[data] " + ("ALL PINS VERIFIED" if ok else "PIN CHECK INCOMPLETE"))
     return 0 if ok else 1

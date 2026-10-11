@@ -225,7 +225,15 @@ def main() -> int:
             "no roads dataset was available in any clone.",
             "Feature stack verified by transport hashes, not by an official provenance receipt.",
         ],
-        "evidence_files": sorted(p.name for p in EV.glob("*.json")),
+        "evidence_files": sorted(
+            name for name in (
+                "verify_grid.json", "planes.json", "fit_full.json",
+                "exp1_catalogue_holdout.json", "family_comparison.json",
+                "exp2_sgmc_novelty.json", "exp3_canary_robustness.json",
+                "emit_receipt.json", "uniqueness_lane_v1.json",
+                "data_preparation_lane1ac8.json", "registry_refreshed_lane1ac8.json",
+                "site_inventory.json", "sibling_release_overlap_lane1ac8.json")
+            if (EV / name).is_file()),
     }
     out = EV / "run_card_lane_v1.json"
     out.write_text(json.dumps(card, indent=2, allow_nan=False) + "\n")

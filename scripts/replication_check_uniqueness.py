@@ -70,7 +70,7 @@ def main() -> int:
     rank_ours_dot = rankdata(ours_dot_sample)
     rank_ours_surface = rankdata(ours_surface_sample)
 
-    index = json.loads((ROOT / "evidence" / "registry_refreshed.json").read_text())
+    index = json.loads((ROOT / "evidence" / "registry_refreshed_lane1ac8.json").read_text())
     rows = []
     errors = []
     for entry in index["rasters"]:

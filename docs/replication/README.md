@@ -197,19 +197,19 @@ The three review passes are written up in [`docs/verification.md`](docs/verifica
 ## Reproduce
 
 ```bash
-python3 scripts/prepare_data.py --fetch   # hash-verify bridge pins + rebuild the 419 MB stack
-python3 scripts/run_lane.py verify        # grid / catalogue / footprint receipt
-python3 scripts/run_lane.py planes        # 21 covariates + ranks (cached)
-python3 scripts/run_lane.py fit           # full-catalogue fit
-python3 scripts/run_lane.py exp1          # EXP-1: q-sweep, table sweep, controls
-python3 scripts/run_lane.py family        # family comparison on both frames
-python3 scripts/run_lane.py exp2          # off-catalogue frame
-python3 scripts/run_lane.py exp3          # leakage canary + robustness
-python3 scripts/run_lane.py emit          # the dot field
-python3 scripts/run_lane.py ship          # validated TIFF + ZIP + receipt
-python3 scripts/check_uniqueness.py       # all registry rasters, both legs
-python3 scripts/write_run_card.py         # the one run card
-python3 scripts/build_site.py             # docs/ Pages site
+python3 scripts/replication_prepare_data.py --fetch   # hash-verify bridge pins + rebuild the 419 MB stack
+python3 scripts/replication_run_lane.py verify        # grid / catalogue / footprint receipt
+python3 scripts/replication_run_lane.py planes        # 21 covariates + ranks (cached)
+python3 scripts/replication_run_lane.py fit           # full-catalogue fit
+python3 scripts/replication_run_lane.py exp1          # EXP-1: q-sweep, table sweep, controls
+python3 scripts/replication_run_lane.py family        # family comparison on both frames
+python3 scripts/replication_run_lane.py exp2          # off-catalogue frame
+python3 scripts/replication_run_lane.py exp3          # leakage canary + robustness
+python3 scripts/replication_run_lane.py emit          # the dot field
+python3 scripts/replication_run_lane.py ship          # validated TIFF + ZIP + receipt
+python3 scripts/replication_check_uniqueness.py       # all registry rasters, both legs
+python3 scripts/replication_write_run_card.py         # the one run card
+python3 scripts/replication_build_site.py             # docs/ Pages site
 python3 -m unittest discover -s tests     # metric parity + emission invariants
 ```
 
@@ -236,7 +236,7 @@ python3 -m unittest discover -s tests     # metric parity + emission invariants
    while dense-support priors are in the registry (IR-59-REPR-01); both legs are
    measured and the ruling is requested.
 7. **`.cache/` is not snapshotted** (419 MB stack, covariate/rank planes);
-   `scripts/prepare_data.py --fetch` rebuilds it from the pinned bridge parts.
+   `scripts/replication_prepare_data.py --fetch` rebuilds it from the pinned bridge parts.
 
 ## Official sources
 

@@ -102,7 +102,7 @@ rather than trimmed:
 
 Key-shape fixes found by actually running the artefacts (not by reading them):
 
-1. `scripts/write_run_card.py` and `scripts/build_site.py` both crashed on
+1. `scripts/replication_write_run_card.py` and `scripts/replication_build_site.py` both crashed on
    `exp1["pooled"]["candidate"]` — that key does not exist; the deployed arm is
    `table0`, and the control is named by `best_comparable_control`. Fixed in both
    by resolving the arm explicitly.
@@ -132,4 +132,4 @@ Pass-3 re-verification of the release itself, after the fixes:
 family; both holdout frames are proxies and disagree by construction; the
 reliability-of-location class has no join key; the spacing ladder is unexercised
 at this density; `.cache/` is snapshot-excluded and must be rebuilt with
-`scripts/prepare_data.py --fetch`.
+`scripts/replication_prepare_data.py --fetch`.
