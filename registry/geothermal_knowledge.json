@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "note": ("Durable, sourced context for the science behind the mapping problem, accumulated so "
+           "later sessions do not re-derive it. Retrieved from official sources only. Where only an "
+           "abstract or a data record was retrieved, full-paper review is NOT claimed."),
+  "entries": [
+    {
+      "claim": "The competition target is geological fault presence, not a geothermal resource label.",
+      "detail": ("The organizer's words are 'structures that are indicative of geothermal "
+                 "resources - namely, geological faults'. Fault mapping supports exploration; on its "
+                 "own it does not establish a geothermal resource, and nothing in this repository "
+                 "claims a discovery of one."),
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "source": "DrivenData #306 problem description"
+    },
+    {
+      "claim": "Ground truth for the prize is a set of NEW faults, manually identified by experts and absent from the public USGS database.",
+      "detail": ("These new faults form the test set for the initial prize round. After that round an "
+                 "expert panel uses submitted predictions to update the labels for the whole region "
+                 "and submissions are re-scored against the expanded set, so a prediction that helps "
+                 "experts confirm a previously-unmapped fault can gain in the final round."),
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "source": "DrivenData #306 problem description"
+    },
+    {
+      "claim": "GeoDAWN is a high-resolution airborne magnetic and radiometric survey of the northwestern Great Basin, flown to support geologic mapping and modelling.",
+      "detail": ("It supplies most of the official feature bands: magnetic anomaly, reduced-to-pole, "
+                 "total magnetic intensity and its gradients, tilt angle, top-of-crustal magnetic "
+                 "source depth, and the K / Th / U radiometrics."),
+      "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "source": "USGS data release"
+    },
+    {
+      "claim": "Faults control geothermal fluid ascent in the Great Basin, which is why fault mapping is a geothermal exploration tool here.",
+      "detail": ("This is the physical premise of the INGENIOUS play-fairway project run by the Great "
+                 "Basin Center for Geothermal Energy, which is one of the two label sources for this "
+                 "competition. In this setting permeability is structurally controlled rather than "
+                 "stratigraphically controlled, so the fault network, not the rock type, is the "
+                 "first-order control on where thermal fluids reach the surface."),
+      "url": "https://gbcge.org/current-projects/ingenious/",
+      "source": "Great Basin Center for Geothermal Energy - INGENIOUS"
+    },
+    {
+      "claim": "The well and spring inventory used here comes from the Geothermal Data Repository submission 1391 (INGENIOUS).",
+      "detail": ("27,092 inventoried wells and springs inside the footprint, of which 4,118 are "
+                 "classed Hot or Warm, with measured temperature and silica / chalcedony / "
+                 "cation geothermometry. This is an ascertainment stream separate from fault mapping, "
+                 "which is why it can in principle point at faults the fault mappers never recorded."),
+      "url": "https://gdr.openei.org/submissions/1391",
+      "source": "OpenEI / US DOE Geothermal Data Repository"
+    },
+    {
+      "claim": "The registration error between published fault traces and the true surface trace is of order several hundred metres.",
+      "detail": ("The lane brief cites ~400 m measured by Hermant et al. This repository has NOT "
+                 "independently verified that figure and repeats it only as a brief-supplied input; "
+                 "it is the stated reason for zoning at 1 km rather than at the pixel. Flagged as "
+                 "unverified rather than restated as a measurement."),
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "source": "lane brief (unverified in this repository)"
+    },
+    {
+      "claim": "The metric penalises a false negative four times as heavily as a false positive (alpha 0.2, beta 0.8).",
+      "detail": ("Combined with the 300 m triangular kernel this makes near-misses cheap and "
+                 "omissions expensive, and it is why the break-even bar for emitting one more pixel "
+                 "is as low as 0.2 x DTI."),
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "source": "DrivenData #306 problem description, 'Performance metric'"
+    }
+  ]
+}

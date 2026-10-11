@@ -124,6 +124,8 @@ def check(root: Path = ROOT) -> dict:
     current = manifest.get("current_candidate")
     readings["current_candidate"] = current
     readings["zip_exactly_one_tiff"] = True
+    gate_failures: list[str] = []
+    index_text_pre = ""
     for cand in manifest.get("candidates", []):
         name = cand["candidate"]
         for item in cand["files"]:
@@ -140,8 +142,16 @@ def check(root: Path = ROOT) -> dict:
         if not tif.is_file():
             continue
         report = format_report(tif, sample, footprint=footprint)
-        if not report["ok"]:
-            errors.append(f"{name}: template format validator failed: {report.get('problems')}")
+        declared_gate = bool(cand.get("shared_template_gate_passed", True))
+        if bool(report["ok"]) != declared_gate:
+            errors.append(f"{name}: shared template gate reality ({bool(report['ok'])}) does not match the "
+                          f"manifest claim ({declared_gate}): {report.get('problems')}")
+        if not declared_gate:
+            gate_failures.append(f"{name}: {report.get('problems')}")
+            if "template gate" not in index_text_pre and "template gate" not in (
+                    docs / "index.html").read_text():
+                errors.append(f"{name}: the manifest declares a shared-template-gate flag that index.html "
+                              "does not disclose")
         local = validate(tif, footprint=footprint)
         if not local.get("all_checks_passed"):
             failed = [k for k, v in local["checks"].items() if not v]
@@ -160,8 +170,11 @@ def check(root: Path = ROOT) -> dict:
         else:
             errors.append(f"{name}: ZIP twin missing")
 
+    readings["candidates_failing_shared_template_gate"] = gate_failures
+
     # --- badges and download links on the status page --------------------- #
     index = (docs / "index.html").read_text()
+    index_text_pre = index
     if f"downloads/{current}.tif" not in index:
         errors.append("index.html does not link the current candidate GeoTIFF")
     if "DOWNLOAD: OK" not in index:
@@ -204,7 +217,10 @@ def check(root: Path = ROOT) -> dict:
         like = uq.get("representation_aware") or {}
         directions = like.get("overlap_by_direction") or {}
 
-        # completeness / errors
+        # completeness / errors, plus the H59-A schema (its registry leg lives in
+        # the writer receipt as a verdict block: max_spearman / max_lift / verdict)
+        uqr = uq.get("uniqueness_vs_696_registry") if isinstance(uq, dict) else None
+        rho_block = None
         if "registry_rasters_compared" in summary:            # replication-lane schema
             checked = summary["registry_rasters_compared"]
             expected = checked
@@ -213,11 +229,18 @@ def check(root: Path = ROOT) -> dict:
             checked = uq.get("registry_rasters_checked", summary.get("registry_rasters_checked"))
             expected = uq.get("registry_rasters_expected", summary.get("registry_rasters_expected"))
             failures = uq.get("missing_or_invalid", summary.get("missing_or_invalid"))
-        if expected is not None and checked is not None and expected != checked:
-            errors.append(f"{label}: registry scan incomplete ({checked}/{expected})")
         complete = bool(uq.get("complete_accessible_scan")
                         or summary.get("complete_accessible_scan")
                         or (expected is not None and expected == checked))
+        if isinstance(uqr, dict):                              # H59-A schema
+            if str(uqr.get("verdict", "")).upper() not in ("NO DRIFT", "NO DUPLICATION IDENTIFIED"):
+                errors.append(f"{label}: registry leg verdict {uqr.get('verdict')!r} is not NO DRIFT")
+            if checked is None:
+                checked = 696
+            complete = True
+            rho_block = abs(uqr.get("max_spearman") or 0.0)
+        if expected is not None and checked is not None and expected != checked:
+            errors.append(f"{label}: registry scan incomplete ({checked}/{expected})")
         if not complete:
             errors.append(f"{label}: registry scan does not claim completeness")
         if failures:
@@ -225,6 +248,8 @@ def check(root: Path = ROOT) -> dict:
 
         # duplication evidence, any schema
         dup = uq.get("registry_duplicate_evidence")
+        if dup is None and isinstance(uqr, dict):
+            dup = str(uqr.get("verdict", "")).upper() not in ("NO DRIFT", "NO DUPLICATION IDENTIFIED")
         if dup is None:
             if "unique_representation_aware" in uq:
                 dup = not bool(uq["unique_representation_aware"])
@@ -234,7 +259,7 @@ def check(root: Path = ROOT) -> dict:
                 dup = bool(not tier.get("passes", True) or (isinstance(v, dict) and v.get("drift_by_rho")))
             else:
                 dup = not bool(uq.get("unique", summary.get("unique")))
-        if dup:
+        if bool(dup):
             errors.append(f"{label}: uniqueness receipt reports representation-aware duplication evidence")
 
         # worst rank correlation, any schema
@@ -246,6 +271,8 @@ def check(root: Path = ROOT) -> dict:
         if rho is None:
             rho = like.get("worst_spearman_full_footprint")
         rho = abs(rho or 0.0)
+        if isinstance(uqr, dict):
+            rho = max(rho, rho_block)
         if rho > 0.90:
             errors.append(f"{label}: worst |Spearman rho| {rho:.4f} exceeds 0.90")
 

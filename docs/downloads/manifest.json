@@ -1,6 +1,6 @@
 {
  "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)",
- "generated_utc": "2026-10-11T03:00:05Z",
+ "generated_utc": "2026-10-11T03:19:57Z",
  "current_candidate": "gems59-h59j-offcat-propen-30k-20261011",
  "how_to_submit": "docs/executive-summary.html",
  "status_pages": "docs/index.html (download), docs/method.html (method & evidence)",
@@ -18,7 +18,7 @@
    "bytes": 117938,
    "dots": 30000,
    "spacing_px": 3.0,
-   "on_catalogue_dots": 0,
+   "on_catalogue_dots": null,
    "note": "H59-J off-catalogue discriminant, 30k dots, 3px spacing, 0 on catalogue; proxy 0.375 vs incumb 0.295; organiser-unverified",
    "note_chars": 122,
    "validator": {
@@ -106,6 +106,7 @@
    "uniqueness_receipt": "evidence/uniqueness_h59j_offcat.json",
    "run_card": "evidence/run_card.json",
    "lane": "arena/fba37db3 (off-catalogue discriminant)",
+   "shared_template_gate_passed": true,
    "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
   },
   {
@@ -116,7 +117,7 @@
    "bytes": 142754,
    "dots": 71119,
    "spacing_px": null,
-   "on_catalogue_dots": 0,
+   "on_catalogue_dots": null,
    "note": "H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.",
    "note_chars": 124,
    "validator": {
@@ -200,6 +201,7 @@
    "uniqueness_receipt": "evidence/uniqueness_h59i.json",
    "run_card": null,
    "lane": "arena/f8d022fd (intensity lane)",
+   "shared_template_gate_passed": true,
    "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
   },
   {
@@ -210,7 +212,7 @@
    "bytes": 131274,
    "dots": 30815,
    "spacing_px": null,
-   "on_catalogue_dots": 0,
+   "on_catalogue_dots": null,
    "note": "H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 35k budget.",
    "note_chars": 124,
    "validator": {
@@ -294,6 +296,7 @@
    "uniqueness_receipt": "evidence/uniqueness_h59j.json",
    "run_card": "docs/data/run_card.json",
    "lane": "arena/1ee0553d (ridge coherence consensus)",
+   "shared_template_gate_passed": true,
    "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
   },
   {
@@ -304,7 +307,7 @@
    "bytes": 79553,
    "dots": 50651,
    "spacing_px": null,
-   "on_catalogue_dots": 0,
+   "on_catalogue_dots": null,
    "note": "Zoned 1 km new-fault density, presence-only intensity with mapping-effort background correction; 3 px lattice above break-even.",
    "note_chars": 127,
    "validator": {
@@ -388,6 +391,47 @@
    "uniqueness_receipt": "evidence/uniqueness_lane_v1.json",
    "run_card": "evidence/run_card_lane_v1.json",
    "lane": "arena/1ac83927 (intensity lane, replication)",
+   "shared_template_gate_passed": true,
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  },
+  {
+   "candidate": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros",
+   "receipt": "docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+   "superseded_by": null,
+   "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842",
+   "bytes": 795960,
+   "dots": 38593,
+   "spacing_px": 3.162,
+   "on_catalogue_dots": 0,
+   "note": "1 km new-fault-density zoning then break-even tiling: 38,593 dots, min sep 3.16 px, 0 within 200 m of the mapped catalogue. UNSCORED.",
+   "note_chars": 133,
+   "validator": {},
+   "files": [
+    {
+     "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 795960,
+     "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842"
+    },
+    {
+     "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 199437,
+     "sha256": "897b519b8907ec06a58b4e6b3fa8cce4492e36a1afa66676fa5d7570d03153d8"
+    },
+    {
+     "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 1224,
+     "sha256": "e3b87acefef3448f08f86cf735c6c98bc0d2d46a8df6013b0c042a8fd4b9a334"
+    }
+   ],
+   "download_status": "OK by its own 12/12 validator, BUT the shared template gate flags its nodata tag (IR-H59J-15) -- download is safe; upload follows the owner's call like every other file here",
+   "submit_status": "NO clearance claimed by its own receipt (note says UNSCORED); the lane's page puts the slot question to the owner, who has not promoted it",
+   "uniqueness_receipt": "docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+   "run_card": "docs/h59a.html",
+   "lane": "arena/1ba7bc3e (intensity zone + break-even tiling, H59-A)",
+   "shared_template_gate_passed": false,
    "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
   }
  ]

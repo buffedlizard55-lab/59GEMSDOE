@@ -119,7 +119,7 @@ every literal firing is kept per row with peer name, support and Jaccard. Regist
 
 <div class="panel">
 <h2 style="margin-top:0">Other candidates on this site — and what their badges are</h2>
-<p>Two further lane candidates are published here for audit. Their badges are read from their own writer
+<p>Three further lane candidates are published here for audit. Their badges are read from their own writer
 receipts, not from prose, and the merged front-page rule is: <strong>a file may be DOWNLOAD&nbsp;OK while its
 SUBMIT badge stays NO</strong>, because download-safety (format, range, uniqueness) and slot promotion (a
 positive live instrument) are different questions.</p>
@@ -136,13 +136,15 @@ owner-recorded dot-count ladder instead.</td>
 <code>approved_for_weekly_slot=False</code> and <code>promoted=False</code>, and its published expectation
 0.24–0.29 is explicitly a <strong>PROJECTION</strong>, not a clearance. The lane's own page states the
 selector question the same way.</td></tr>
-<tr><td><code>59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif</code><br><span class="small">50,651 dots · SHA256 <code>d8e83e1e…4f15c</code> · 79,553 B</span></td>
-<td>Replication lane (<code>arena/1ac83927</code>): the brief's intensity lane re-derived independently
-(1 km new-fault-density zoning, presence-only intensity with effort correction, 3 px lattice above
-break-even). Its own run card and uniqueness screen are under <a href="replication/index.html">replication/</a>.</td>
-<td><span class="badge ok">OK</span></td>
-<td><span class="badge no">NO</span> — negative/not promoted in its own run card
-(<code>evidence/run_card_lane_v1.json</code>).</td></tr>
+<tr><td><code>gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif</code><br><span class="small">38,593 dots · SHA256 <code>8c0c6142…ef842</code> · 795,960 B</span></td>
+<td>Lane <code>arena/1ba7bc3e</code>: the brief's intensity lane carried all the way to break-even tiling
+(1 km new-fault-density zoning, NMS at 3.16 px, 0 dots within 200 m of the mapped catalogue, 38,593 dots), with
+its own 12/12 validator, a 696-raster registry screen and a "NO DRIFT" check against main's released rasters.</td>
+<td><span class="badge ok">OK</span> (its own 12/12 validator)</td>
+<td><span class="badge no">NO</span> — its receipt says UNSCORED and its page puts the slot question to the owner.
+<strong>Disclosed flag:</strong> the shared <em>template gate</em> rejects this file's <code>nodata</code> tag
+("nodata tag outside all-finite [0,1] export policy"), so it is not byte-pattern-identical to the
+family's accepted exports even though its own validator passes it 12/12 (IR-H59J-15).</td></tr>
 </table>
 <p class="small">IR-H59J-10 records the one status disagreement this merge had to resolve: the parallel lane's
 front page presents its candidate as <em>submit&nbsp;OK</em> on the strength of a projection, while its own

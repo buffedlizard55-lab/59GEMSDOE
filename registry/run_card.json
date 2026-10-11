@@ -1,0 +1,110 @@
+{
+ "schema_version": 1,
+ "generated_utc": "2026-10-11T03:00:00Z",
+ "lane": "intensity lane (presence-only point process + 1 km zoning + break-even tiling)",
+ "hypothesis": "A presence-only Poisson point-process intensity fitted on the published fault catalogue, with mapping-effort channels as covariates, ranks 1 km blocks by EXPECTED NEW-FAULT TRACE DENSITY; tiling only the blocks whose predicted density clears the break-even bar implied by the organizer's own alpha=0.2 term beats tiling every block, because a lattice only pays above ~1-2% density.",
+ "mechanism": "DTI = TP_w/(0.2*TP_w + 0.2*FP_w + 0.8*|G|), so d(DTI)/d(mass at x) = (Delta(x)*D_ - 0.2*A)/D_^2 and a pixel pays iff Delta(x) >= 0.2*DTI. At the group's incumbent 0.2778 that bar is 0.0556; for a 10x10 px block it is 100*0.2*DTI/3 = 1.85 trace px per block.",
+ "named_non_fault_process_that_could_mimic_it": "Drainage networks and alluvial-fan distributary channels. They are linear, they are continuous at 1-10 km, they concentrate where relief and lithology contrast are highest - which is also where the lidar scarp channels (l_ex_max, l_step_max, l_relief, ridge_det_elev) fire. The single-channel screen is consistent with this: the strongest in-model channel is trace_density (AUC 0.5801 on the canary fold), and the top 4 channels are either catalogue-derived (leakage) or trace_density. A raster built on these channels could be ranking drainage, not faults, and the holdout cannot distinguish the two because the withheld positives are also catalogue faults.",
+ "holdout": {
+  "evaluator_version": "drivendata-306-final",
+  "design": "hide-and-recover: whole 8-connected catalogue components withheld + 2 px buffer; every catalogue-derived channel refitted from visible faults only; withheld pixels masked pixel-exactly",
+  "folds": 2,
+  "n_withheld_positives": {
+   "0": 13348.0,
+   "1": 14641.0
+  },
+  "dti_per_fold": {
+   "0": 0.08907,
+   "1": 0.08715
+  },
+  "mean_best_dti": 0.08811,
+  "sd": 0.001357645019878165,
+  "standard_error": 0.0009599999999999956,
+  "ci95_t": [
+   0.07591224000000005,
+   0.10030775999999994
+  ],
+  "ci_note": "n=2 folds only. The t-interval with 1 degree of freedom is +/-0.0121 and is not a meaningful confidence interval; the honest summary is the RANGE [0.0872, 0.0891]. More folds are queued work, not done.",
+  "note": "HOLDOUT-DTI on the published catalogue. NOT a competition score and NOT comparable to the leaderboard."
+ },
+ "leakage": {
+  "canary_verdict": "clean",
+  "max_single_channel_auc": [
+   "trace_density",
+   0.5801
+  ],
+  "flagged_above_0.90": {},
+  "ablation_receipt": "evidence/leakage_channel_ablation.json",
+  "excluded_channels": [
+   "dist_visible_fault",
+   "visible_fault_dens_5k",
+   "visible_fault_dens_20k"
+  ],
+  "auc_with_excluded": 0.5,
+  "auc_without_excluded": 0.8354
+ },
+ "uniqueness": {
+  "registry_size": 696,
+  "surface_max_spearman": 0.6718,
+  "spearman_gate": 0.9,
+  "surface_verdict": "PASS",
+  "dots_max_raw_overlap": 1.0,
+  "dots_max_lift_over_chance": 1.999,
+  "lift_gate": 3.0,
+  "literal_rule_tripped_by": "20 of 696",
+  "dots_verdict": "NO DRIFT - unique against all 696 registered rasters",
+  "dots_verdict_basis": "max chance-corrected lift 1.999, and that is on a 244-dot registry raster with raw overlap 0.0012. The literal >0.70 rule is tripped by 20 of 696 rasters, but those are dense continuous surfaces: the maximum lift among them is 1.068 (272,853-dot raster covering 69.6% of the footprint within 3 px) and several have lift exactly 1.000 because they are positive over all 5,167,373 footprint pixels, so any dot pattern trips the literal rule against them.",
+  "receipts": [
+   "evidence/uniqueness_surface.json",
+   "evidence/uniqueness_dots.json"
+  ]
+ },
+ "file": {
+  "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif",
+  "zip": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip",
+  "bytes": 795960,
+  "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842",
+  "n_dots": 38593,
+  "grid": "EPSG:32611 \u00b7 3730x3292 \u00b7 (100,0,243350,0,-100,4508550)",
+  "range": "min 0.0 max 1.0",
+  "dots_on_catalogue": 0
+ },
+ "validator": {
+  "ok": true,
+  "checks": {
+   "single_band": true,
+   "dtype_float32": true,
+   "crs_epsg32611": true,
+   "shape_3730x3292": true,
+   "transform_matches": true,
+   "all_finite": true,
+   "min_ge_0": true,
+   "max_le_1": true,
+   "no_nan_inside_footprint": true,
+   "inside_range_0_1": true,
+   "outside_is_zero": true,
+   "n_positive": 38593
+  },
+  "n_positive": 38593,
+  "bytes": 795960,
+  "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842",
+  "min": 0.0,
+  "max": 1.0
+ },
+ "submission_name": "GEMSDOE59-H59A-IZBT",
+ "submission_note": "1 km new-fault-density zoning then break-even tiling: 38,593 dots, min sep 3.16 px, 0 within 200 m of the mapped catalogue. UNSCORED.",
+ "note_chars": 133,
+ "ok_to_download": true,
+ "ok_to_submit": true,
+ "verdict": {
+  "decision": "promote",
+  "meaning": "the candidate clears every gate this repository can test offline: format, range, grid contract, uniqueness against all 696 registered rasters, and a leakage-clean holdout. It has NO organizer score. 'promote' means 'ready for the separate selector step', NOT 'known to beat 0.2778'.",
+  "not_established": [
+   "no scored submission exists for this raster, so the lift over 0.2778 is unknown",
+   "the dot budget is anchored to OWNER-REPORTED live evidence (~38-40k), not to our holdout, whose truth population is about a third of the catalogue",
+   "the mapping-effort correction is fitted but the counterfactual arm failed (AUC 0.0122), so effort bias is only partly addressed",
+   "2 folds only; no meaningful confidence interval",
+   "the named confounder (drainage vs fault) cannot be separated on this holdout"
+  ]
+ }
+}

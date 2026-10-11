@@ -16,3 +16,10 @@ data/official/training_features.tif
 data/official/*.partial
 data/raw/
 registry/cache/
+
+# --- H59-A session: large regenerable artefacts ---
+# The feature-stack memmap, per-fold fields, surface rasters and the registry
+# download cache are all rebuilt by script and re-verified by hash. Never commit.
+work/
+data/raw/
+data/training_features.tif

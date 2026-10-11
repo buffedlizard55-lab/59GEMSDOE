@@ -10,6 +10,7 @@ been spent. Negative results are deliverables.
 | **H59-I** `gems59-h59i-intensity-lattice-20261011T000000Z.tif` (lane `f8d022fd`) | 71,119 | presence-only MaxEnt/Poisson intensity, 1 km new-fault-density zoning, holdout break-even lattice | download OK / **submit NO** — HOLDOUT-DTI 0.08216 [0.06954, 0.09616] < published holdout best 0.135204 |
 | **H59-J (parallel)** `gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif` (lane `1ee0553d`) | 30,815 | structure-tensor ridge coherence consensus (detrended elevation + RTP magnetics + isostatic gravity), dotted at a live-calibrated 36k budget, 2 px catalogue collar | download OK / **submit NO** — its own writer receipt records `approved_for_weekly_slot=False`; its 0.24–0.29 expectation is a PROJECTION (IR-H59J-10) |
 | **replication** `59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif` (lane `1ac83927`) | 50,651 | the brief's intensity lane re-derived independently (1 km zoning, presence-only intensity with effort correction, 3 px lattice) | download OK / **submit NO** — its run card records `okay_to_submit=False`, verdict `negative` |
+| **H59-A** `gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif` (lane `1ba7bc3e`) | 38,593 | the brief's intensity lane through to break-even tiling (NMS 3.16 px, 0 dots within 200 m of the catalogue), own registry screens NO DRIFT | download OK by its own 12/12 validator / **submit NO** — UNSCORED, and the shared template gate flags its `nodata` tag (IR-H59J-15) |
 
 - **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html) · [Status & download](docs/index.html) · [Method & evidence](docs/method.html)
 - **Download (current):** [`docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif`](docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif) (SHA256 `6435ecec…39c6`, 117,938 B, all-finite {0, 1}, EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt; machine-readable index in [`docs/downloads/manifest.json`](docs/downloads/manifest.json)
@@ -35,6 +36,8 @@ Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.
 Three sessions ran the same standing brief in parallel and all three landed candidates named “H59-J”. The merge
 keeps **every** file and disambiguates rather than overwriting:
 
+* **five** candidates are published in total: this lane's (current), H59-I, the ridge-coherence consensus, the
+  replication lane's intensity run, and the H59-A intensity run merged from `main` commit `410a4d0`;
 * this lane's receipts were renamed to `*_offcat` (`evidence/uniqueness_h59j_offcat.json`,
   `docs/data/uniqueness_h59j_offcat.json`, plus `evidence/offcat_lane_h59j.json`,
   `evidence/emission_design_h59j.json`, `evidence/h59j_emission_measurement.json`); the parallel lane's

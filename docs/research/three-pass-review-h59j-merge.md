@@ -90,3 +90,20 @@ statistic the two versions share.
 * Two lanes disagree about the submit badge convention (IR-H59J-10); the merged site follows the receipts.
 * Geometry (chain vs scatter) remains an unvalidated hypothesis about the owner-reported spread
   (IR-H59J-08) and is pre-registered as H59-K, not used to steer this release.
+
+## Second merge (same day): `arena/1ba7bc3e` (H59-A intensity lane)
+
+While this branch was being finished, `main` received a third lane (PR #11, commit `410a4d0`, candidate
+`gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif`, 38,593 dots, own holdout 0.08811 [0.08715, 0.08907]).
+It was merged here the same way: every file kept, no lane's evidence overwritten.
+
+* Added to `docs/downloads/manifest.json` as the fifth candidate; its row carries `lane`,
+  `uniqueness_receipt`, `run_card = docs/h59a.html` and `shared_template_gate_passed: false`.
+* `scripts/check_site.py` gained a fourth receipt schema: H59-A declares its registry leg inside the writer
+  receipt (`uniqueness_vs_696_registry` = max_spearman 0.6718 / max_lift 1.999 / verdict NO DRIFT, plus
+  `uniqueness_vs_main_releases` NO DRIFT). The gate now checks the declared template-gate claim against reality
+  for **every** candidate and requires any flag to be disclosed on the front page.
+* Finding: that candidate's own validator passes 12/12, but the shared template gate rejects its `nodata` tag
+  (IR-H59J-15). Disclosed on the front page and in the manifest — not silently passed, not silently failed.
+* The front page now lists five candidates with per-file badges, and explains that download-safety and slot
+  promotion are different questions.

@@ -1,0 +1,38 @@
+{
+ "note": "h59a release checked against the rasters main had ALREADY released. Those are newer than the 696-raster registry this lane was gated against, so this is a separate, additional gate.",
+ "gate": {
+  "spearman": 0.9,
+  "lift": 3.0
+ },
+ "my_dots": 38593,
+ "candidates": [
+  {
+   "name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif",
+   "sha256": "d8e83e1eeae9f8ea",
+   "their_dots": 50651,
+   "spearman": -0.0007,
+   "overlap_3px": 0.1154,
+   "chance_3px": 0.1064,
+   "lift": 1.084
+  },
+  {
+   "name": "gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+   "sha256": "ed1b767f75804048",
+   "their_dots": 71119,
+   "spearman": 0.0072,
+   "overlap_3px": 0.2302,
+   "chance_3px": 0.1814,
+   "lift": 1.269
+  },
+  {
+   "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+   "sha256": "44c54063451f1162",
+   "their_dots": 30815,
+   "spearman": -0.0002,
+   "overlap_3px": 0.1093,
+   "chance_3px": 0.0897,
+   "lift": 1.218
+  }
+ ],
+ "verdict": "NO DRIFT"
+}

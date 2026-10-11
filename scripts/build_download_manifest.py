@@ -37,13 +37,17 @@ def sha256(path: Path) -> str:
 
 def entry(name: str, receipt_path: str, *, superseded_by: str | None = None,
           statuses: dict | None = None, uniqueness_receipt: str | None = None,
-          run_card: str | None = None, lane: str | None = None) -> dict:
+          run_card: str | None = None, lane: str | None = None,
+          shared_template_gate_passed: bool = True) -> dict:
     receipt_file = ROOT / receipt_path
     if not receipt_file.is_file():
         raise SystemExit(f"missing receipt {receipt_path}")
     receipt = json.loads(receipt_file.read_text())
     validator = receipt.get("validator") or {}
     statuses = statuses or {}
+    note = receipt.get("note") or receipt.get("submission_note")
+    dots = (receipt.get("dots") or validator.get("emitted_positive_pixels")
+            or receipt.get("n_dots") or receipt.get("emitted"))
     files = []
     for suffix, role in (("tif", "submission GeoTIFF (single band, float32, values in [0, 1])"),
                          ("zip", "ZIP containing exactly that one GeoTIFF"),
@@ -66,14 +70,17 @@ def entry(name: str, receipt_path: str, *, superseded_by: str | None = None,
     return dict(
         candidate=name, receipt=receipt_path, superseded_by=superseded_by,
         sha256=receipt["sha256"], bytes=receipt["bytes"],
-        dots=receipt.get("dots") or validator.get("emitted_positive_pixels"),
-        spacing_px=receipt.get("spacing_px"),
-        on_catalogue_dots=receipt.get("on_catalogue_dots",
-                                      validator.get("on_catalogue_positive_pixels")),
-        note=receipt.get("note") or receipt.get("submission_note"), note_chars=receipt.get("note_chars"),
+        dots=dots,
+        spacing_px=receipt.get("spacing_px") or receipt.get("min_separation_px")
+        or receipt.get("min_separation_px"),
+        on_catalogue_dots=(receipt.get("on_catalogue_dots")
+                           or validator.get("on_catalogue_positive_pixels")
+                           or receipt.get("dots_on_or_within_2px_of_catalogue")),
+        note=note, note_chars=receipt.get("note_chars") or (len(note) if note else None),
         validator=validator, files=files,
         download_status=download_status, submit_status=submit_status,
         uniqueness_receipt=uniqueness_receipt, run_card=run_card, lane=lane,
+        shared_template_gate_passed=shared_template_gate_passed,
         evidence_class="SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)",
     )
 
@@ -112,6 +119,18 @@ def main() -> int:
                         uniqueness_receipt="evidence/uniqueness_lane_v1.json",
                         run_card="evidence/run_card_lane_v1.json",
                         lane="arena/1ac83927 (intensity lane, replication)")
+    h59a = entry("gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros",
+                 "docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+                 statuses=dict(
+                     download_status="OK by its own 12/12 validator, BUT the shared template gate flags its "
+                                     "nodata tag (IR-H59J-15) -- download is safe; upload follows the owner's "
+                                     "call like every other file here",
+                     submit_status="NO clearance claimed by its own receipt (note says UNSCORED); the lane's page "
+                                   "puts the slot question to the owner, who has not promoted it"),
+                 uniqueness_receipt="docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+                 run_card="docs/h59a.html",
+                 lane="arena/1ba7bc3e (intensity zone + break-even tiling, H59-A)",
+                 shared_template_gate_passed=False)
     manifest = dict(
         evidence_class="SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)",
         generated_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -123,7 +142,7 @@ def main() -> int:
             submit_status="whether the owner's selector step has cleared it for a weekly slot; "
                           "no slot is spent by this project",
             uniqueness_receipt="the registry screen that clears (or fails) the download badge for this file"),
-        candidates=[current, h59i, coherence, replication],
+        candidates=[current, h59i, coherence, replication, h59a],
     )
     out = DOCS / "manifest.json"
     out.write_text(json.dumps(manifest, indent=1, allow_nan=False) + "\n")

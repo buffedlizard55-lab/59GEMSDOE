@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "note": ("Pre-registered before implementation, per the standing request. Ranked by expected DTI "
+           "improvement per unit of implementation cost. 'status' records what was actually done "
+           "this session, not what was hoped for."),
+  "validated_this_session": {
+    "id": "LEAK-ABLATION",
+    "what": ("Removing dist_visible_fault / visible_fault_dens_5k / visible_fault_dens_20k from the "
+             "model. They are computed from the visible catalogue and are exactly zero (or maximal) "
+             "on the catalogue pixels that form the training presence set, so a model that sees them "
+             "separates the training data and then generalises at chance."),
+    "measured": {"all_channels_auc": 0.5, "geo_only_auc": 0.5, "catalogue_channels_removed_auc": 0.8354},
+    "receipt": "evidence/diag2_channels.json",
+    "status": "measured and shipped"
+  },
+  "hypotheses": [
+    {
+      "id": "H59-C",
+      "title": "Depth-to-conductive-basement and conductivity-surface step lineaments (blind basin-floor faults)",
+      "layers": ["depth_to_base_surf", "cond_surf"],
+      "signature": ("Horizontal-gradient magnitude and a Hessian step/ridge transform on "
+                    "depth_to_base_surf, corroborated against the cond_surf gradient. A fault that "
+                    "offsets the conductive basement surface produces a linear step in that surface "
+                    "even when it has no geomorphic expression at all."),
+      "why_uncatalogued": ("These are blind or buried faults under basin fill. They are invisible to "
+                           "the surface geologic mapping that produced the USGS/INGENIOUS catalogue "
+                           "and invisible to lidar, so they are missing from it by construction "
+                           "rather than by oversight."),
+      "differs_from_repo": ("Both bands are already in the official 19-band stack and both are used "
+                            "raw by prior sessions, where they rank near the bottom of the "
+                            "single-channel screen (AUC 0.5302 and 0.5061). No prior raster in the "
+                            "57-repo registry builds an edge/step transform on them."),
+      "expected_dti_gain": "moderate",
+      "cost": "low (one gradient + one Hessian transform, reuses cached stack)",
+      "status": "NOT IMPLEMENTED - budget exhausted; first queued task"
+    },
+    {
+      "id": "H59-E",
+      "title": "Multi-scale phase-congruency lineament corroboration",
+      "layers": ["rtp", "tmi", "iso_grav_anom", "det_elev", "TMI_up150"],
+      "signature": ("Phase congruency (or a monogenic-signal) transform at 300 m / 1 km / 3 km, then "
+                    "a corroboration score requiring agreement of location AND orientation across at "
+                    "least three independent layers. Phase congruency is contrast-invariant, so it "
+                    "recovers the low-contrast steps that gradient magnitude misses, and "
+                    "corroboration suppresses flight-line artefacts and drainage networks."),
+      "why_uncatalogued": ("The USGS Quaternary catalogue substantially predates the GeoDAWN "
+                           "2019-2021 acquisition. Faults that are only visible in GeoDAWN-class "
+                           "magnetic and radiometric data cannot be in it. This is the mechanism by "
+                           "which the sponsor's experts most plausibly drew the test faults."),
+      "differs_from_repo": ("The repo has single-scale single-layer transforms only (gradmag_*, "
+                            "ridge_*, lap_tmi) plus a lidar coherence band coh100. No multi-scale, "
+                            "multi-layer phase-congruency field exists in this repository."),
+      "expected_dti_gain": "potentially the largest",
+      "cost": "high (a correct implementation is roughly an hour of work plus a stack rebuild)",
+      "status": "NOT IMPLEMENTED - queued"
+    },
+    {
+      "id": "H59-B",
+      "title": "Radiometric alteration-ratio lineaments (K-metasomatism and U mobility along faults)",
+      "layers": ["K", "Th", "U", "TC", "ThK", "UK", "UTh"],
+      "signature": ("Ridge/lineament transform on the K/Th and U/Th ratios. Fault-hosted "
+                    "hydrothermal alteration fixes K (adularia, illite) and mobilises U, so active "
+                    "conduits carry a gamma-ray ratio signature independent of lithology, because Th "
+                    "is immobile and acts as the normaliser."),
+      "why_uncatalogued": ("Alteration halos survive burial by thin alluvium, where the fault scarp "
+                           "itself is gone. The radiometric signal is also independent of the "
+                           "geomorphic mapping stream that produced the catalogue."),
+      "differs_from_repo": ("GEMSDOE46 used radiometrics only as a concordance weight fused onto a "
+                            "scarp field (r11f-scarp-radiometric-fusion 0.1589, "
+                            "r12-scarp-rad-concordance 0.0843). Here the ratio field is the primary "
+                            "lineament source, not a weight on someone else's field."),
+      "expected_dti_gain": "low-moderate",
+      "cost": "low (channels already cached; one ridge transform)",
+      "status": "NOT IMPLEMENTED - queued"
+    },
+    {
+      "id": "H59-A",
+      "title": "Thermal-fluid lineament: alignment of hot springs and geothermometry",
+      "layers": ["gdr_wellspring_in_footprint.csv -> therm_dens_hot, therm_geotherm"],
+      "signature": ("Anisotropic alignment statistic (structure tensor or a Hough/Radon vote) over "
+                    "the 4,118 Hot/Warm springs and wells, weighted by silica and chalcedony "
+                    "geothermometry. Great Basin geothermal ascent is structurally focused, so "
+                    "thermal features form linear arrays along the controlling fault."),
+      "why_uncatalogued": ("Spring and well inventories come from water chemistry and drilling "
+                           "records, an ascertainment stream entirely separate from fault mapping, "
+                           "so thermal lineaments point at faults the fault mappers never recorded."),
+      "differs_from_repo": ("The repository's thermal channels are isotropic Gaussian KDEs "
+                            "(therm_dens_hot, therm_geotherm). No alignment/vote transform exists, "
+                            "and in the measured single-channel screen both score at chance "
+                            "(AUC 0.5038 and 0.5001)."),
+      "expected_dti_gain": "low-moderate (only 4,118 informative points over 5.17 M pixels)",
+      "cost": "medium",
+      "status": "NOT IMPLEMENTED - queued"
+    },
+    {
+      "id": "H59-D",
+      "title": "Lidar-coverage-boundary effort discontinuity",
+      "layers": ["l_valid", "dist_lidar"],
+      "signature": ("An explicit discontinuity in the detection probability b(x) at the lidar "
+                    "coverage boundary: inside coverage scarps are mappable, outside they are not, "
+                    "so the mapping gap should step at the boundary."),
+      "why_uncatalogued": ("Purely an ascertainment effect - the missed faults are the ones outside "
+                           "the surveyed blocks."),
+      "differs_from_repo": ("Prior work uses lidar validity as a mask. Using it as an effort "
+                            "covariate with an estimated coefficient, as Phillips et al. 2009 "
+                            "prescribe, has not been done here."),
+      "expected_dti_gain": "low and sign-uncertain",
+      "cost": "low",
+      "status": ("DEFERRED - sign cannot be determined offline. If the sponsor's experts also used "
+                 "lidar to draw the test faults, the coefficient is positive, not negative, and the "
+                 "arm would actively harm the score. This is the one hypothesis whose direction is "
+                 "not knowable without a scored submission.")
+    }
+  ]
+}
