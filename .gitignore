@@ -1,13 +1,18 @@
-# competition inputs (organizer data is licensed; do not commit)
-data/*
-!data/.gitkeep
-# python
 __pycache__/
 *.pyc
-.venv/
+.cache/
 .pytest_cache/
-# scratch and large outputs
+.venv/
+out/
 outputs/
 *.npy
 *.npz
-# submissions/ and docs/downloads/ are committed on purpose: the validated TIF must be downloadable from Pages
+*.download
+*.partial
+# Large source rasters and generated feature caches are restored by hash, never committed.
+# The pinned bridge files under data/bridge, data/external and data/official are committed
+# on purpose: they are the hash-verified inputs every session re-verifies on restore.
+data/official/training_features.tif
+data/official/*.partial
+data/raw/
+registry/cache/

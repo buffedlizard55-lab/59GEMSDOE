@@ -1,70 +1,238 @@
 {
-  "run_card_version": 1,
-  "date": "2026-10-11",
-  "branch": "arena/94956c66-59gemsdoe",
-  "lane": "intensity lane (presence-only fault intensity -> 1 km blocks -> break-even tiling), as briefed",
-  "verdict": "negative (blocked): no candidate raster was produced; nothing is promotable",
-  "hypothesis": "A thermal-spring alignment prior (H-1 in docs/research/hypotheses.md) adds holdout DTI over a binary 0.7%-footprint baseline.",
-  "mechanism": "Springs rise along permeable conduits, and fault zones are the main ones. Alignments of springs should mark structures absent from the USGS catalogue.",
-  "non_fault_mimic": "Valley-floor groundwater discharge, playa margins and drainage lines produce spring alignments with no fault beneath them.",
-  "holdout_dti": {
-    "value": null,
-    "label": "HOLDOUT-DTI",
-    "status": "NOT RUN: no organizer training data in the sandbox",
-    "evaluator_version": "gems_dti.metric (hand-verified, 10 tests); no holdout built",
-    "withheld_positives": null,
-    "ci95": null
+ "evidence_class": "RUN-CARD",
+ "session": "59GEMSDOE / arena/f8d022fd-59gemsdoe",
+ "lane": "Intensity: zone by new-fault density, then tile only what clears break-even",
+ "hypothesis": "A presence-only point-process intensity fitted to the mapped catalogue with mapping-effort covariates (Phillips et al. 2009) predicts where faults the USGS/INGENIOUS catalogue missed should sit; zoning that intensity into 1 km blocks by expected new-fault pixels and lattice-tiling only the blocks above break-even places dots that beat a same-budget uniform-random control on the spatially-blocked hide-and-recover holdout.",
+ "mechanism": "MaxEnt-form logistic fit (Poisson point-process equivalence, Fithian & Hastie 2013) on 60,988 catalogue presences vs 120,000 uniform background cells over 13 covariates: 4 geophysical edge planes (magnetic horizontal-gradient, tilt derivative, gravity horizontal-gradient, detrended-elevation slope), their max, 5 geophysical regime planes, and 3 mapping-effort planes (1 km / 5 km trace density, relief). Expected new-fault pixels per 1 km block = sum of lambda over non-catalogue cells; blocks above break-even (>= 1 px, the 1% lattice-payment floor) are lattice-tiled at the holdout-derived spacing with a 2 px catalogue collar.",
+ "named_non_fault_mimic": "Mapping-effort bias itself: the catalogue is a biased sample, so any intensity fitted to it inherits the mappers' footprint (roads, access, quadrangle boundaries) rather than geology; magnetic flight-line levelling residuals and radiometric survey-block edges can also mimic fault lineaments.",
+ "holdout_dti": {
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "evaluator_implementation_sha256": {
+   "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+   "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+   "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+   "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
   },
-  "organizer_dti": {
-    "value": null,
-    "label": "ORGANIZER-CONFIRMED",
-    "status": "no submission made"
+  "split": "buffered-whole-components-loqo-v2, seed 20 (identical draw to the published Session-5/7 arms)",
+  "withheld_positive_pixels": 11321,
+  "alpha": 0.2,
+  "beta": 0.8,
+  "triangular_radius_m": 300,
+  "final_arm_collar2": {
+   "dti": 0.082161,
+   "ci95": [
+    0.069542,
+    0.096158
+   ]
   },
-  "correlation_overlap_vs_registry": {
-    "status": "NOT RUN: no candidate raster",
-    "thresholds": {
-      "spearman_rho_max": 0.9,
-      "dots_within_3px_max": 0.7
-    },
-    "tool": "scripts/check_uniqueness.py"
+  "final_arm_collar0": {
+   "dti": 0.074717,
+   "ci95": [
+    0.063251,
+    0.08697
+   ]
   },
-  "raster_sha256": null,
-  "validator_output": {
-    "status": "NOT RUN on a candidate (none exists)",
-    "self_tests": "20 pytest tests pass (metric 10, writer/validator 10)",
-    "independent_check_of_public_registry_file": {
-      "file": "GEMSDOE32 h33-2-b2 zeros.tif (third-party, read only)",
-      "result": "PASS on format: EPSG:32611, 3730x3292, float32, values {0,1}, all finite in the zeros twin, 37,654 positive cells, sha256 matches repo record"
-    }
+  "baseline_s3": {
+   "dti": 0.070517,
+   "ci95": [
+    0.059423,
+    0.08218
+   ]
   },
-  "submission_name": null,
-  "submission_note": null,
-  "leakage_canary": "NOT RUN: no features on a holdout",
-  "experiments": [
-    {
-      "id": "E1",
-      "what": "metric checks vs hand-computed cases and the official worked-example arithmetic",
-      "type": "SYNTHETIC",
-      "result": "10/10 pass"
-    },
-    {
-      "id": "E2",
-      "what": "exact emission sign identity (500 random trials) and synthetic spacing sweep",
-      "type": "SYNTHETIC",
-      "result": "identity 500/500; 3-px optimum NOT reproduced"
-    },
-    {
-      "id": "E3",
-      "what": "holdout experiment",
-      "type": "NOT RUN",
-      "result": "blocked by data"
-    }
-  ],
-  "budget": {
-    "experiments_used": 2,
-    "experiments_allowed": 3,
-    "time_note": "under the two-hour cap"
+  "exp1_arms": {
+   "intensity_g0": {
+    "dti": 0.070517,
+    "ci95": [
+     0.059192,
+     0.083385
+    ]
+   },
+   "intensity_g05": {
+    "dti": 0.068715,
+    "ci95": [
+     0.057161,
+     0.081582
+    ]
+   },
+   "intensity_g1": {
+    "dti": 0.068925,
+    "ci95": [
+     0.057463,
+     0.082023
+    ]
+   },
+   "intensity_geo_g1": {
+    "dti": 0.037661,
+    "ci95": [
+     0.031699,
+     0.044437
+    ]
+   },
+   "uniform_random": {
+    "dti": 0.068229,
+    "ci95": [
+     0.059875,
+     0.076627
+    ]
+   }
   },
-  "irregularities": "docs/research/irregularities.md (IR-1 .. IR-17)",
-  "promotion": "none; promotion to a slot is a separate selector step and requires a holdout result"
+  "published_reference": {
+   "source": "57GEMSDOE evidence/relay_bend_holdout.json (Session 5, same evaluator and same seed-20 draw)",
+   "relay_bend_anatomy_dti": 0.135204,
+   "relay_bend_anatomy_ci": [
+    0.11914,
+    0.153036
+   ],
+   "distance_only_dti": 0.112725,
+   "distance_only_ci": [
+    0.101428,
+    0.124446
+   ]
+  },
+  "beats_published_holdout_best": false
+ },
+ "leakage_canary": {
+  "evidence_class": "LEAKAGE-CANARY (AUC, not DTI)",
+  "max_feature_auc": 0.7756632898429333,
+  "any_flag": false,
+  "note": "all 13 covariates alone on the holdout; max AUC e_dens5=0.776, below the 0.90 leakage bar"
+ },
+ "decile_calibration": {
+  "by_decile": {
+   "1": {
+    "n_blocks": 35580,
+    "sum_withheld": 1997.0,
+    "mean_pred": 0.016724554356187582,
+    "mean_withheld": 0.06024154927581549
+   },
+   "2": {
+    "n_blocks": 20722,
+    "sum_withheld": 434.0,
+    "mean_pred": 0.03288220055401325,
+    "mean_withheld": 0.021755214780569077
+   },
+   "3": {
+    "n_blocks": 12271,
+    "sum_withheld": 291.0,
+    "mean_pred": 0.05993937328457832,
+    "mean_withheld": 0.023714449256658554
+   },
+   "4": {
+    "n_blocks": 1569,
+    "sum_withheld": 182.0,
+    "mean_pred": 0.1354469358921051,
+    "mean_withheld": 0.11599744856357574
+   },
+   "6": {
+    "n_blocks": 70898,
+    "sum_withheld": 39.0,
+    "mean_pred": 0.010998718440532684,
+    "mean_withheld": 0.0005500860279425979
+   },
+   "7": {
+    "n_blocks": 89870,
+    "sum_withheld": 628.0,
+    "mean_pred": 0.020189620554447174,
+    "mean_withheld": 0.02243113040458411
+   },
+   "8": {
+    "n_blocks": 101993,
+    "sum_withheld": 546.0,
+    "mean_pred": 0.033561453223228455,
+    "mean_withheld": 0.009322331519797444
+   },
+   "9": {
+    "n_blocks": 108877,
+    "sum_withheld": 2308.0,
+    "mean_pred": 0.11002406477928162,
+    "mean_withheld": 0.04074684937950224
+   },
+   "10": {
+    "n_blocks": 49088,
+    "sum_withheld": 4896.0,
+    "mean_pred": 4.765286564826965,
+    "mean_withheld": 0.09973924607038498
+   }
+  },
+  "total_withheld_pixels": 11321.0,
+  "share_withheld_in_top3_deciles": 0.6845685010158113,
+  "note": "withheld-segment pixel counts by decile of predicted 1 km new-fault density, pooled over the four folds"
+ },
+ "sgmc_diagnostic": {
+  "spearman_by_fold": {
+   "NW": 0.0679,
+   "NE": 0.1268,
+   "SW": 0.1384,
+   "SE": 0.1531
+  },
+  "note": "Spearman(predicted new-fault density, SGMC-minus-catalogue block counts)"
+ },
+ "dot_profile": {
+  "dots": 71119,
+  "min_dist_px": 2.23606797749979,
+  "median_dist_px": 5.0,
+  "p90_dist_px": 9.486832980505138,
+  "on_catalogue": 0,
+  "nan": 0
+ },
+ "registry": {
+  "evidence_class": "REGISTRY-MEASUREMENT",
+  "pinned_index": "evidence/registry_refreshed.json (695 rasters, 2026-10-10T20:01Z)",
+  "cache_restore": false,
+  "n_cached": null
+ },
+ "raster": {
+  "file": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+  "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+  "bytes": 142754,
+  "dots": 71119,
+  "validator": {
+   "all_checks_passed": true,
+   "checks": {
+    "single_band": true,
+    "dtype_float32": true,
+    "dimensions_3730x3292": true,
+    "crs_epsg_32611": true,
+    "transform_matches_sample_submission": true,
+    "no_nan_anywhere": true,
+    "no_inf_anywhere": true,
+    "no_sentinel_values": true,
+    "range_0_1_guaranteed": true,
+    "min_ge_0": true,
+    "max_le_1": true,
+    "in_footprint_all_finite": true,
+    "in_footprint_range_0_1": true,
+    "outside_footprint_zero": true,
+    "zero_dots_on_mapped_catalogue": true
+   },
+   "no_nan": true,
+   "values_in_0_1": true,
+   "crs": "EPSG:32611",
+   "shape": [
+    3730,
+    3292
+   ],
+   "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ]
+  }
+ },
+ "submission": {
+  "name": "gems59-h59i-intensity-lattice-20261011",
+  "note": "H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.",
+  "note_chars": 124,
+  "download_status": "OK (unique, locally validated)",
+  "submit_status": "NO - holdout DTI 0.0822 is below the published holdout best 0.1352; promotion is the owner's separate selector step",
+  "slots_used": 0
+ },
+ "verdict": "negative",
+ "experiments_used": 3,
+ "budget": "3 experiments / 2 hours (protocol rule 6)",
+ "generated_utc": "2026-10-11T00:50:28Z"
 }

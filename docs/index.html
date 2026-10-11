@@ -1,192 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>59GEMSDOE — GEMS Prize submission</title>
-<style>
-  :root { --ink:#1b2430; --muted:#5b6675; --line:#e3e7ee; --bg:#f7f9fc; --ok:#1f7a4d; --warn:#9a5b00; --bad:#a1262d; --accent:#1d4ed8; }
-  * { box-sizing: border-box; }
-  body { margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:#fff; }
-  header { background:var(--ink); color:#fff; padding:20px 24px; }
-  header h1 { margin:0; font-size:22px; }
-  header p { margin:4px 0 0; color:#c9d3e0; font-size:14px; }
-  main { max-width:960px; margin:0 auto; padding:24px; }
-  section { margin:28px 0; }
-  h2 { font-size:19px; margin:0 0 10px; border-bottom:1px solid var(--line); padding-bottom:6px; }
-  h3 { font-size:16px; margin:16px 0 6px; }
-  .banner { border-radius:10px; padding:16px 18px; border:1px solid; }
-  .banner.warn { background:#fff7e6; border-color:#f0c77a; }
-  .banner strong { display:block; margin-bottom:4px; }
-  .card { border:1px solid var(--line); border-radius:10px; padding:14px 16px; background:var(--bg); }
-  table { border-collapse:collapse; width:100%; font-size:14px; }
-  th, td { border-bottom:1px solid var(--line); padding:7px 8px; text-align:left; vertical-align:top; }
-  th { background:#f1f4f9; font-weight:600; }
-  code { background:#eef2f7; padding:1px 5px; border-radius:4px; font-size:13px; }
-  pre { background:#0f1720; color:#e6edf6; padding:12px 14px; border-radius:8px; overflow:auto; font-size:13px; }
-  .tag { display:inline-block; font-size:11px; font-weight:700; padding:2px 6px; border-radius:4px; background:#e8eefc; color:var(--accent); margin-right:4px; }
-  .tag.org { background:#e7f5ee; color:var(--ok); }
-  .tag.unv { background:#fdecec; color:var(--bad); }
-  .tag.syn { background:#f1ecfb; color:#5b21b6; }
-  ol li, ul li { margin:4px 0; }
-  .muted { color:var(--muted); font-size:14px; }
-  a { color:var(--accent); }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  @media (max-width:720px) { .grid { grid-template-columns:1fr; } }
-</style>
+<title>59GEMSDOE — intensity lane (H59-I)</title>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<header>
-  <h1>59GEMSDOE — DOE GEMS Prize (DrivenData #306)</h1>
-  <p>Geothermal fault-discovery submission. Start here. Every number is labelled with its source.</p>
-</header>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+</nav>
 <main>
+<h1>59GEMSDOE — intensity lane, session H59-I</h1>
+<p class="small">DOE GEMS Prize Challenge (DrivenData 306) research raster · generated 2026-10-11 · branch
+<code>arena/f8d022fd-59gemsdoe</code> · every number on this page is labelled HOLDOUT-DTI (local evaluator) or
+OWNER-REPORTED / ORGANIZER-PUBLISHED (context only). No local holdout number is a competition score.</p>
 
-<section>
-  <div class="banner warn">
-    <strong>Submission status: no validated GeoTIFF is published yet.</strong>
-    The organizer's training rasters are behind a DrivenData login, and the public mirrors are unreachable from the build sandbox.
-    The file-writing and validation tools are built and tested. The first real file appears in the download list below as soon as the data is placed and the pipeline runs (step 1 of "Next steps").
-  </div>
-</section>
+<div class="panel">
+<h2 style="margin-top:0">Download status — read this first</h2>
+<p>
+<span class="badge ok">DOWNLOAD: OK</span>
+<span class="badge no">SUBMIT TO COMPETITION: NO</span>
+</p>
+<p><strong>Why:</strong> the candidate is unique against the registry, passes every local format/range check
+(single-band float32, EPSG:32611, 3730&times;3292, transform
+<code>(100, 0, 243350, 0, -100, 4508550)</code>, all values exactly 0 or 1, no NaN, zeros outside the
+footprint, zero positive pixels on the mapped catalogue), but its spatially-blocked holdout score is
+<strong>below the published holdout best</strong>, so it is <em>not</em> cleared for a weekly submission slot.
+Promotion to a slot is the owner's separate selector decision; this project has spent no slot.</p>
+<a class="btn" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif" download>↓ Download the GeoTIFF (139 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.zip" download>↓ Single-TIFF ZIP (104 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json" download>↓ Writer receipt (JSON)</a>
+<p class="small">File <code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> · SHA256
+<code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code> · 71,119 binary dots ·
+71,119 cells with value 1.0, everything else 0.0. The ZIP contains exactly this one GeoTIFF (round-trip
+verified by the writer). Do not upload HTML, JSON or a repository ZIP.</p>
+</div>
 
-<section id="download">
-  <h2>1. Download the submission file</h2>
-  <div class="card" id="dl">Loading the download list…</div>
-  <p class="muted">Each file comes with a receipt (<code>.receipt.json</code>) holding its sha256, grid, CRS and validator checks. The organizer score field stays empty until a portal receipt is copied in.</p>
-</section>
+<div class="panel">
+<h2 style="margin-top:0">Suggested submission note (124 / 140 characters)</h2>
+<p class="mono">H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.</p>
+<p class="small">Use only if the owner's selector step promotes this file. Competition name suggestion:
+<code>gems59-h59i-intensity-lattice-20261011</code>.</p>
+</div>
 
-<section id="how">
-  <h2>2. How to submit (executive summary)</h2>
-  <ol>
-    <li>Download the <code>.tif</code> from section 1 (or the <code>.zip</code> containing a single GeoTIFF).</li>
-    <li>Log in to the competition at <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">drivendata.org/competitions/306/competition-doe-gems</a>. Open the submission page and choose <em>New submission</em>.</li>
-    <li>Under <strong>File to submit</strong>, choose the downloaded file. The portal accepts a single-band GeoTIFF or a zip with one GeoTIFF, and it must match the submission format's CRS, shape and geotransform.</li>
-    <li>Under <strong>Note</strong>, paste the note from the receipt (at most 140 characters). Use the unique name in the note so runs can be told apart later.</li>
-    <li>Submit. The portal reports the result on the leaderboard once scoring finishes. Copy that number into the receipt as an <em>ORGANIZER-CONFIRMED</em> score.</li>
-  </ol>
-  <p class="muted">Upload is a manual step by design: the portal needs your own DrivenData login. The build sandbox has no DrivenData login, so it cannot upload.</p>
-</section>
+<div class="panel">
+<h2 style="margin-top:0">What was measured (HOLDOUT-DTI, evaluator <code>gems57-pooled-hide-v2</code>, 11,321 withheld positives, seed-20 buffered whole-component draw, pooled 95% CI)</h2>
+<table>
+<tr><th>Arm</th><th>HOLDOUT-DTI</th><th>95% CI</th><th>Dots</th></tr>
+<tr><td><strong>Final: zoning + 4 px lattice + 2 px catalogue collar</strong></td><td><strong>0.08216</strong></td><td>[0.06954, 0.09616]</td><td>48,953 (holdout folds)</td></tr>
+<tr><td>Final without collar</td><td>0.07472</td><td>[0.06325, 0.08697]</td><td>54,192</td></tr>
+<tr><td>Baseline: 3 px lattice, no collar</td><td>0.07052</td><td>[0.05942, 0.08218]</td><td>110,180</td></tr>
+<tr><td>Uniform random, matched budget</td><td>0.06823</td><td>[0.05988, 0.07663]</td><td>110,180</td></tr>
+<tr><td>Geophysics-only intensity (no effort covariates)</td><td>0.03766</td><td>[0.03170, 0.04444]</td><td>~676,000</td></tr>
+<tr><td colspan="4" class="small">Published Session-5 comparators on the <em>same</em> evaluator and the same seed-20 draw (57GEMSDOE evidence): <code>relay_bend_anatomy</code> 0.135204 [0.119140, 0.153036]; <code>distance_only</code> 0.112725 [0.101428, 0.124446]. This session's arm does not beat them &rarr; verdict <strong>negative</strong>.</td></tr>
+</table>
+<p class="small">Positive findings inside the negative result: the zoning ranks withheld segments (68.5% of
+withheld pixels sit in the top three deciles of predicted 1 km new-fault density, vs 30% under uniformity);
+the 2 px catalogue collar is worth +0.0074 DTI [0.00522, 0.00982] on the holdout <em>and</em> matches the
+owner-reported 0.2778 mechanism; all 13 covariates pass the leakage canary (max AUC 0.776 &lt; 0.90).</p>
+</div>
 
-<section id="format">
-  <h2>3. What the portal requires (official)</h2>
-  <table>
-    <tr><th>Requirement</th><th>Value</th><th>Source</th></tr>
-    <tr><td>CRS</td><td>EPSG:32611 (UTM 11N)</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem page</a></td></tr>
-    <tr><td>Resolution</td><td>100 m</td><td>same</td></tr>
-    <tr><td>Bounds</td><td>same as training data; outside the bounds null or NaN</td><td>same</td></tr>
-    <tr><td>Layers / dtype</td><td>single band, float32</td><td>same</td></tr>
-    <tr><td>Values</td><td>in [0, 1]; higher = more confident fault presence</td><td>same</td></tr>
-    <tr><td>Metric</td><td>distance-weighted Tversky, alpha 0.2, beta 0.8, 300 m triangular kernel</td><td>same, "Performance metric"</td></tr>
-  </table>
-  <p class="muted">Portal error "Predicted values must be in range [0, 1]": the writer refuses values outside [0, 1], NaN inside the footprint, and the −3.4028e38 sentinel. We have not seen the rejected file, so its cause is not confirmed (see <a href="https://github.com/buffedlizard55-lab/59GEMSDOE/blob/main/docs/research/irregularities.md">IR-8</a>).</p>
-</section>
-
-<section id="board">
-  <h2>4. Public leaderboard (snapshot)</h2>
-  <table>
-    <tr><th>Rank</th><th>Participant</th><th>Best public score</th><th>Label</th></tr>
-    <tr><td>1</td><td>xiaofanhu</td><td>0.3774</td><td><span class="tag org">ORGANIZER-CONFIRMED</span></td></tr>
-    <tr><td>2</td><td>JerryDataWorks</td><td>0.3418</td><td><span class="tag org">ORGANIZER-CONFIRMED</span></td></tr>
-    <tr><td>8</td><td>DARD</td><td>0.3195</td><td><span class="tag org">ORGANIZER-CONFIRMED</span></td></tr>
-    <tr><td>22</td><td>extradr19</td><td>0.2778</td><td><span class="tag org">ORGANIZER-CONFIRMED</span> <span class="tag unv">file link unconfirmed</span></td></tr>
-    <tr><td>50</td><td>MSU-Laskowski-GEMS</td><td>0.2448</td><td><span class="tag org">ORGANIZER-CONFIRMED</span></td></tr>
-  </table>
-  <p class="muted">Source: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData leaderboard</a>, fetched 2026-10-11. These are public-test scores. The final ranking uses a private set (rules PDF section 1.1).</p>
-</section>
-
-<section id="why">
-  <h2>5. Why a sparse binary file can score well (judgement, with evidence level)</h2>
-  <div class="grid">
-    <div class="card">
-      <span class="tag org">DERIVED</span>
-      <p>The official score is <code>DTI = TP / (0.2·(TP+FP) + 0.8·G)</code>. A dot pays only if its kernel credit exceeds <code>0.2·DTI</code>, about 0.056 at score 0.28. That is about 283 m from a true fault, not a density of 1–2 %. <a href="https://github.com/buffedlizard55-lab/59GEMSDOE/blob/main/docs/research/utility-derivation.md">derivation</a></p>
-    </div>
-    <div class="card">
-      <span class="tag org">VERIFIED-FILE</span>
-      <p>The 0.2778 candidate file in GEMSDOE32 is binary (0 and 1), uses 37,654 dots (0.73 % of the 5.17 M-cell footprint), and passes our independent format check. The file-to-participant link is still unconfirmed.</p>
-    </div>
-    <div class="card">
-      <span class="tag unv">IRREGULARITY</span>
-      <p>GEMSDOE32 charges dots on known faults as penalties. Staff say those pixels are masked and do not count toward the penalty terms. That proxy is therefore miscalibrated against the official rule. <a href="https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516">staff answer</a></p>
-    </div>
-    <div class="card">
-      <span class="tag syn">SYNTHETIC</span>
-      <p>The exact emission rule holds in 500 of 500 random trials. The "about 3 px spacing" claim is <em>not</em> reproduced on a synthetic line, so it stays unconfirmed. <a href="https://github.com/buffedlizard55-lab/59GEMSDOE/blob/main/evidence/utility_table_synthetic.json">evidence</a></p>
-    </div>
-  </div>
-  <p class="muted"><strong>Honest answer to "can we beat 0.2778?"</strong> Not demonstrated. It needs the organizer data and a holdout built with the official mask. Any claim of a higher score before that would be a projection, and none has been made.</p>
-</section>
-
-<section id="hyp">
-  <h2>6. Candidate hypotheses (none validated)</h2>
-  <ol>
-    <li><strong>H-1, thermal-spring alignment prior (rank 1).</strong> Independent spring locations mark conduits, which can reveal faults the catalogue lacks. Mimic: valley groundwater discharge. Download still to be verified.</li>
-    <li><strong>H-2, gravity horizontal-gradient maxima (rank 2, demoted).</strong> Blakely &amp; Simpson (1986). It overlaps the registry's multi-physics lane (H33-A), so it is treated as a component, not a separate lane.</li>
-    <li><strong>H-3, regional gravity compilation (rank 3).</strong> An upgrade to the supplied gravity layers. Listing verified, download not.</li>
-  </ol>
-  <p class="muted">Full ranking, overlap table and obtainability checks: <a href="https://github.com/buffedlizard55-lab/59GEMSDOE/blob/main/docs/research/hypotheses.md">hypotheses.md</a>.</p>
-</section>
-
-<section id="data">
-  <h2>7. Data placement (the one blocker)</h2>
-  <ol>
-    <li>Download <code>training_features.tif</code>, <code>labels.tif</code>, <code>sample_submission.tif</code> and <code>1m_DEM_links.csv</code> from the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">DrivenData data page</a> (login).</li>
-    <li>Place them in the repo's <code>data/</code> folder. Git ignores it.</li>
-  </ol>
-<pre>bash scripts/download_competition_data.sh   # public files only
-PYTHONPATH=src python scripts/prepare_data.py   # must report missing_roles: []
-PYTHONPATH=src python scripts/make_submission.py --prob prob.npy \
-    --template data/sample_submission.tif --name &lt;unique-name&gt; --note "&lt;up to 140 chars&gt;"</pre>
-</section>
-
-<section id="irr">
-  <h2>8. Irregularities for review</h2>
-  <ul>
-    <li>IR-1: the 0.2778 file's own README contradicts itself on the catalogue mask (see section 5).</li>
-    <li>IR-2: the 0.2778 score is listed under participant <code>extradr19</code>, not a file name.</li>
-    <li>IR-3, IR-4: the brief labels 0.3774 and 0.3195 as "GEMSDOE" and "highest" scores; they are other teams (#1, #8).</li>
-    <li>IR-5: a competitor repo ships copies of competition files. Not used here; needs legal review.</li>
-    <li>IR-6, IR-7: file names differ across sources; "400 m" is a label discrepancy, not a registration error.</li>
-  </ul>
-  <p><a href="https://github.com/buffedlizard55-lab/59GEMSDOE/blob/main/docs/research/irregularities.md">Full list (IR-1 to IR-17)</a></p>
-</section>
-
-<section id="sources">
-  <h2>9. Sources (checked on 2026-10-11)</h2>
-  <ul>
-    <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Problem description and metric</a></li>
-    <li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules (NLR, FY26 OSTI 96647)</a></li>
-    <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Public leaderboard</a></li>
-    <li><a href="https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516">Staff answer on masking of known faults</a></li>
-    <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution">Reference solution (grid facts)</a></li>
-    <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">GeoDAWN (USGS, CC0, DOI 10.5066/P93LGLVQ)</a></li>
-    <li>Method: <a href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/07-2153.1">Phillips et al. 2009</a>; <a href="https://projecteuclid.org/journals/annals-of-applied-statistics/volume-7/issue-4/Finite-sample-equivalence-in-statistical-models-for-presence-only-data/10.1214/13-AOAS667.full">Fithian &amp; Hastie 2013</a></li>
-  </ul>
-  <p><a href="https://github.com/buffedlizard55-lab/59GEMSDOE/blob/main/docs/research/sources.md">Full verification log</a> · <a href="https://github.com/buffedlizard55-lab/59GEMSDOE/blob/main/evidence/run_card.json">Run card (JSON)</a></p>
-</section>
-
+<div class="panel">
+<h2 style="margin-top:0">Context (not scores): the published board</h2>
+<p class="small">ORGANIZER-PUBLISHED public leaderboard snapshot 2026-10-10T20:40Z: rank 1 = 0.3774
+(xiaofanhu), rank 8 = 0.3195 (DARD), rank 22 = 0.2778 (extradr19). The owner-reported 0.2778 raster
+(<code>h33-h33-2-b2</code>, GEMSDOE32) is a 40,199-dot field pruned of 2,545 dots within 2 px of the mapped
+catalogue (37,654 remain; minimum catalogue distance 2.24 px). The causal reason for its score is not
+established — see the method page.</p>
+</div>
 </main>
-<script>
-// Lists whatever the pipeline has published. Relative URL, so it works on GitHub Pages.
-fetch('downloads/manifest.json', {cache: 'no-store'})
-  .then(r => r.json())
-  .then(m => {
-    const box = document.getElementById('dl');
-    if (!m.files || m.files.length === 0) {
-      box.innerHTML = '<strong>No validated file yet.</strong> The first file appears here once the data is placed and <code>make_submission.py</code> has run (see section 7).';
-      return;
-    }
-    box.innerHTML = m.files.map(f =>
-      `<div style="margin-bottom:12px"><strong>${f.name}</strong><br>` +
-      `<a href="downloads/${f.tif}" download>Download ${f.tif}</a> · ${f.bytes} bytes · sha256 <code>${f.sha256.slice(0,16)}…</code><br>` +
-      `<span class="muted">Note: ${f.note}</span><br>` +
-      `<span class="muted">Organizer score: ${f.organizer_score === null ? 'not yet received' : f.organizer_score}</span></div>`
-    ).join('');
-  })
-  .catch(() => {
-    document.getElementById('dl').innerHTML = 'Could not load the download list. Open <code>downloads/manifest.json</code> directly.';
-  });
-</script>
 </body>
 </html>

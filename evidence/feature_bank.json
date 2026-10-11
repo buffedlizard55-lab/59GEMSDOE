@@ -1,0 +1,178 @@
+{
+ "schema": "gems59.feature-bank.v1",
+ "source_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+ "source_bytes": 418912844,
+ "bands": [
+  "mag_anom",
+  "rtp",
+  "tmi_hg",
+  "geod_2ndinv",
+  "iso_grav_anom_slope",
+  "tc",
+  "geod_shearrate",
+  "geod_dilaterate",
+  "tmi_vg",
+  "deq_n100a15",
+  "iso_grav_anom_vg",
+  "det_elev",
+  "iso_grav_anom",
+  "tmi",
+  "depth_to_base_surf",
+  "ieq_n100a15",
+  "cond_surf",
+  "iso_grav_anom_hg",
+  "det_elev_slope"
+ ],
+ "bank_shape": [
+  38,
+  3730,
+  3292
+ ],
+ "footprint_cells": 5167373,
+ "rank_max": 254,
+ "nodata_code": 255,
+ "per_band": [
+  {
+   "band": 1,
+   "name": "mag_anom",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": -57.68793487548828
+  },
+  {
+   "band": 2,
+   "name": "rtp",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": -137.22166442871094
+  },
+  {
+   "band": 3,
+   "name": "tmi_hg",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 13.155465126037598
+  },
+  {
+   "band": 4,
+   "name": "geod_2ndinv",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 19.90778923034668
+  },
+  {
+   "band": 5,
+   "name": "iso_grav_anom_slope",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 0.10218460857868195
+  },
+  {
+   "band": 6,
+   "name": "tc",
+   "nodata_cells": 7113320,
+   "nodata_in_footprint": 3073,
+   "median": 18.481700897216797
+  },
+  {
+   "band": 7,
+   "name": "geod_shearrate",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 9.699999809265137
+  },
+  {
+   "band": 8,
+   "name": "geod_dilaterate",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 5.5
+  },
+  {
+   "band": 9,
+   "name": "tmi_vg",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": -0.008997071534395218
+  },
+  {
+   "band": 10,
+   "name": "deq_n100a15",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 622.7999877929688
+  },
+  {
+   "band": 11,
+   "name": "iso_grav_anom_vg",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": -0.07213491946458817
+  },
+  {
+   "band": 12,
+   "name": "det_elev",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": -75.57621002197266
+  },
+  {
+   "band": 13,
+   "name": "iso_grav_anom",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": -7.26103401184082
+  },
+  {
+   "band": 14,
+   "name": "tmi",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": -124.8157730102539
+  },
+  {
+   "band": 15,
+   "name": "depth_to_base_surf",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 316.3645324707031
+  },
+  {
+   "band": 16,
+   "name": "ieq_n100a15",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 755.7000122070312
+  },
+  {
+   "band": 17,
+   "name": "cond_surf",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 2.885897636413574
+  },
+  {
+   "band": 18,
+   "name": "iso_grav_anom_hg",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 0.037620771676301956
+  },
+  {
+   "band": 19,
+   "name": "det_elev_slope",
+   "nodata_cells": 7113308,
+   "nodata_in_footprint": 3061,
+   "median": 3.749262809753418
+  }
+ ],
+ "geo_names": [
+  "dcat",
+  "log1p_dcat",
+  "cat_dens_5",
+  "cat_dens_15"
+ ],
+ "extra": [
+  "dtip_f32.npy (distance to nearest mapped-fragment tip)"
+ ]
+}

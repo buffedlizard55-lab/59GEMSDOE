@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive summary — how to submit (59GEMSDOE)</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+</nav>
+<main>
+<h1>Executive summary — how to make a submission</h1>
+
+<div class="panel">
+<h2 style="margin-top:0">1. Download the file</h2>
+<p>From the <a href="index.html">status page</a>, click
+<strong>“↓ Download the GeoTIFF”</strong> (or the single-TIFF ZIP — it contains exactly one GeoTIFF).</p>
+<ul>
+<li><code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> — 139 KB, single band, float32.</li>
+<li>SHA256 <code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code> — compare after download
+(<code>sha256sum &lt;file&gt;</code>).</li>
+</ul>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">2. Check the status banner before you upload</h2>
+<p>The status page carries an explicit two-part verdict at the top:
+<span class="badge ok">DOWNLOAD: OK</span> <span class="badge no">SUBMIT: NO</span>.
+The current candidate is <strong>not</strong> cleared for a weekly slot because its local holdout score is
+below the published holdout best. Uploading is the owner's selector decision, made after reading the
+run card (<a href="data/run_card.json">docs/data/run_card.json</a>).</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">3. Submit on DrivenData</h2>
+<ol>
+<li>Open the competition <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">submission page</a>
+(rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>).</li>
+<li><strong>File to submit:</strong> choose the downloaded <code>.tif</code> (or the <code>.zip</code> containing
+exactly one GeoTIFF). The portal requires a single-band GeoTIFF matching the submission format's CRS, shape
+and geotransform.</li>
+<li><strong>Note (optional, ≤ 140 characters):</strong> paste
+<span class="mono">H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.</span></li>
+<li>Click <strong>Create submission</strong>. The published cap is three submissions per week; the logged-in
+page shows remaining team capacity.</li>
+</ol>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">4. Format facts the portal checks</h2>
+<table>
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>CRS</td><td>EPSG:32611 (UTM 11N)</td></tr>
+<tr><td>Shape</td><td>3730 × 3292 (H × W)</td></tr>
+<tr><td>Transform</td><td>(100, 0, 243350, 0, -100, 4508550) — 100 m pixels</td></tr>
+<tr><td>Bands / dtype</td><td>1 / float32</td></tr>
+<tr><td>Values</td><td>exactly {0.0, 1.0}; no NaN, no Inf; zeros outside the study-area footprint; zero positive pixels on the mapped catalogue</td></tr>
+<tr><td>Positive cells</td><td>71,119 of 5,167,373 footprint cells (1.38%)</td></tr>
+</table>
+<p class="small">The earlier portal error “Predicted values must be in range [0, 1]” was produced by NaN
+cells outside the footprint; this file is written all-finite by the shared fail-closed writer, which refuses
+to clip or repair values.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">5. Reproduce locally (no manual data placement)</h2>
+<pre class="mono small">python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements-lock.txt
+# restore the hash-pinned 19-band GeoDAWN feature stack (GitHub mirror bridge) + band cache
+.venv/bin/python scripts/prepare_data.py --fetch --cache-bands
+# run the three pre-declared holdout experiments (~6 min on CPU)
+.venv/bin/python scripts/run_intensity_lane.py --seed 20 --break-even 1.0
+# build the submission through the fail-closed writer
+.venv/bin/python scripts/build_submission_intensity.py --gamma 0.0 --collar 2 --break-even 1.0
+# uniqueness audit against every pinned registry raster
+.venv/bin/python scripts/audit_candidate_registry.py --candidate downloads/&lt;file&gt;.tif</pre>
+<p class="small">The 418,912,844-byte feature stack is restored from five hash-pinned parts on the public
+mirror <code>buffedlizard55-lab/6GEMSDOE</code> and verified byte-for-byte (SHA256
+<code>4371c82e…23bc5</code>); the DrivenData data tab itself is login-walled, so the bridge proves transport
+identity, not organizer origin. Nothing in this pipeline clicks Submit or spends a slot.</p>
+</div>
+</main>
+</body>
+</html>
