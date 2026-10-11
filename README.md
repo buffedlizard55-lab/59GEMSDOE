@@ -142,3 +142,66 @@ What it adds beyond the primary lane:
 
 Merged additively: the replication's paths are namespaced (`replication_*`, `*_lane1ac8.json`,
 `docs/replication/`) so both sessions' records survive in one tree.
+
+
+---
+
+## H59-A — a second, independent candidate (merged from the `arena/1ba7bc3e-59gemsdoe` session)
+
+A separate session built the **intensity lane** end to end and released a candidate that is
+measured to be independent of the H59-I / H59-J / intensity-lane rasters already on `main`.
+**Full write-up: [`docs/h59a.html`](docs/h59a.html).**
+
+**[Download `gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif](docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif)**
+· sha256 `8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842` (embedded in the filename)
+· 38,593 px at 1.0 · **0.0 outside the footprint** · min pairwise separation **3.162 px** (measured)
+· **0** dots on or within 2 px of the mapped catalogue · **12/12** validator checks pass.
+
+### Which file do I submit?
+
+| | mechanism | dots | holdout | |
+|---|---|---|---|---|
+| `gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif` | coherence consensus | 30,815 | 0.01912 [0.01639, 0.02215] | **current candidate — start here** |
+| `gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif` | 1 km intensity zoning + break-even tiling | 38,593 | 0.08811 (range 0.08715–0.08907, 2 folds) | this page |
+
+They are measured to be independent: Spearman **0.0072**, chance-corrected 3 px lift **1.218**.
+Submitting both spends two weekly slots on two different bets — it is **not** a duplicate.
+The two holdout numbers are **not comparable to each other**: different holdout designs, different
+truth populations, and neither is a competition score.
+
+### Cross-check against `main`'s releases
+
+The 696-raster registry this lane was gated against predates `main`'s own releases, so the H59-A
+raster was checked separately against all three of them. Spearman ≤ **0.0072** and
+chance-corrected lift ≤ **1.269** — no drift. Receipt:
+`evidence/uniqueness_h59a_vs_siblings.json`.
+
+### The finding worth carrying forward
+
+The largest measured effect of that session was a **removal**. `dist_visible_fault`,
+`visible_fault_dens_5k` and `visible_fault_dens_20k` are computed from the catalogue pixels that
+form the training presence set. With them, a model separates the training data (train loss −0.023;
+distinct predicted values collapse 160,422 → 38,121) and then scores **AUC 0.500** on withheld
+segments. Dropping all three lifts the holdout AUC from **0.500 to 0.8354**.
+Receipt: `evidence/leakage_channel_ablation.json`.
+
+**Any future model here should exclude those three channels unless it can demonstrate otherwise on
+a segment-level holdout.**
+
+### Limitations that are stated, not hidden
+
+- The **dot budget** is anchored to OWNER-REPORTED live evidence (~38–40k dots scored
+  0.2376–0.2778); the **spacing** is anchored to that session's own holdout. Different anchors.
+- 2 folds only — the t-interval with 1 degree of freedom is ±0.0121 and is not a meaningful
+  confidence interval; the range is the honest summary.
+- The counterfactual mapping-effort correction **failed** (AUC 0.0122, anti-correlated, because the
+  clamped design is out-of-distribution for the gradient booster). Effort bias is only partly
+  addressed. Reported as a negative result.
+- The named confounder — **drainage networks**, linear, continuous at 1–10 km, concentrated exactly
+  where the lidar scarp channels fire — cannot be separated from faults on this holdout.
+
+### Provenance
+
+The scripts that produced it are archived under `scripts/h59a_session/` rather than overwriting
+`scripts/build_candidate.py`, `scripts/submission_writer.py`, `scripts/uniqueness_check.py` and
+`scripts/finalize_emission.py`, because `main` already carried different versions of those names.

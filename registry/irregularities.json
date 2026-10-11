@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "note": "Everything that did not behave as documented, including defects in our own earlier outputs.",
+  "items": [
+    {
+      "id": "IR-59-LEAK-01",
+      "severity": "high",
+      "finding": ("dist_visible_fault, visible_fault_dens_5k and visible_fault_dens_20k are computed "
+                  "from the visible catalogue and are exactly zero (or maximal) on the catalogue "
+                  "pixels that form the training presence set. A model that sees them separates the "
+                  "training data (train loss ~0.02, i.e. near-perfect) and then scores AUC 0.500 on "
+                  "withheld segments. Removing them lifts the holdout AUC from 0.500 to 0.8354."),
+      "handling": ("All three are excluded from every model in this repository and from the released "
+                   "candidate. Recorded in scripts/build_candidate.py (LEAKY) and on the "
+                   "hypotheses and research pages.")
+    },
+    {
+      "id": "IR-59-COUNTERFACTUAL-01",
+      "severity": "medium",
+      "finding": ("Clamping the effort channels to a common 'fully mapped' reference "
+                  "(dist_lidar -> 0, mapscale_field -> 2.0, trace_density and therm_dens_all -> p95) "
+                  "puts the model on an out-of-distribution design. The resulting counterfactual "
+                  "field came out ANTI-correlated with the withheld faults (AUC 0.0122, i.e. 0.988 "
+                  "in the wrong direction), and the derived gap field lambda_new inherited it "
+                  "(AUC 0.3627)."),
+      "handling": ("The arm is retained in src/gems59/intensity.py and reported as a NEGATIVE "
+                   "result. The released field does not use the counterfactual gap.")
+    },
+    {
+      "id": "IR-59-QUADRANT-01",
+      "severity": "medium",
+      "finding": ("A quadrant-blocked holdout removes every catalogue pixel from a whole quarter of "
+                  "the map, so the catalogue-derived channels have nothing to refer to inside the "
+                  "held-out block: dist_visible_fault scores AUC 0.509 there. That is not the "
+                  "deployment condition, where the whole catalogue is known and the question is what "
+                  "is missing from it."),
+      "handling": ("The instrument was extended with a segment-level fold "
+                   "(holdout.assign_blocks_random) that withholds whole 8-connected catalogue "
+                   "components while leaving the rest of the catalogue visible everywhere. Both "
+                   "fold families exist; the release is measured with the segment-level one, which "
+                   "matches deployment.")
+    },
+    {
+      "id": "IR-59-OVERLAPGATE-01",
+      "severity": "medium",
+      "finding": ("The literal drift rule 'more than 70% of your dots within 3 px of one registry "
+                  "raster's dots' is triggered by 20 of the 696 registered rasters, but those are "
+                  "dense continuous surfaces: several are positive over all 5,167,373 footprint "
+                  "pixels, so ANY dot pattern lands within 3 px of them. Applied literally the rule "
+                  "cannot be satisfied by any candidate."),
+      "handling": ("The gate now also reports the chance-corrected lift = observed overlap / share "
+                   "of the footprint within 3 px of that raster's dots. Among the 20 literal "
+                   "offenders the maximum lift is 1.068 (on a 272,853-dot raster); the global "
+                   "maximum lift is 1.999 on a 244-dot raster whose raw overlap is 0.0012. Both are "
+                   "reported verbatim in evidence/uniqueness_dots.json rather than resolved by "
+                   "picking the convenient number.")
+    },
+    {
+      "id": "IR-59-NMS-01",
+      "severity": "low",
+      "finding": ("The first implementation of the emitter ran one maximum_filter pass per integer "
+                  "window size up to the maximum spacing, so a constant spacing map of 6 px cost six "
+                  "full-grid passes. Separately, the non-maximum window and the inhibition radius "
+                  "were coupled, which capped the achievable dot count at ~29k."),
+      "handling": ("One pass per distinct requested window size, and an explicit nms_half that "
+                   "decouples the pre-filter window from the inhibition radius. Verified: minimum "
+                   "pairwise separation of the released dots is 3.162 px over a 3,000-dot sample.")
+    },
+    {
+      "id": "IR-59-PORTAL-01",
+      "severity": "medium",
+      "finding": ("A raster carrying NaN outside the bounds satisfies the rules but is rejected by "
+                  "the portal with 'Predicted values must be in range [0, 1]', because the range "
+                  "check reads the whole array. This is the error the owner hit."),
+      "handling": ("The release writes 0.0 outside the footprint. A -nan twin is still produced for "
+                   "research and is NOT the advertised download. The writer re-reads and re-validates "
+                   "its own output; all 12 checks pass on the released bytes.")
+    },
+    {
+      "id": "IR-59-FLATFIELD-01",
+      "severity": "medium",
+      "finding": ("A Poisson-loss gradient-boosting fit with quadrature exposure weights produced an "
+                  "almost flat intensity (peak only 9% above the mean) at 60 boosting iterations, so "
+                  "the break-even bar was either cleared by 4.5 M pixels or by none."),
+      "handling": ("Switched to the case-control logistic discriminant converted with the odds "
+                   "(Prentice & Pyke 1979), which is far better conditioned at this class imbalance. "
+                   "Documented as an approximation to the IPP, not the exact IPP estimate, per "
+                   "Fithian & Hastie 2013.")
+    },
+    {
+      "id": "IR-59-PROVENANCE-01",
+      "severity": "low",
+      "finding": ("The competition bytes cannot be fetched from drivendata.org without a login. They "
+                  "are restored here from owner-supplied public GitHub mirrors."),
+      "handling": ("Every file is verified against the sha256 pinned in registry/data_manifest.json "
+                   "before use, and the receipt is written to data/restore_receipt.json. A matching "
+                   "digest proves transport identity, NOT organizer-authenticated origin; this is "
+                   "stated on the sources page and in the README.")
+    }
+  ]
+}
