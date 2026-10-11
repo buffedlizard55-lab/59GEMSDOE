@@ -24,10 +24,10 @@
     },
     {
       "path": "data/official/training_features.tif",
-      "sha256": null,
+      "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
       "expected_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
-      "verified": false,
-      "bytes": null
+      "verified": true,
+      "bytes": 418912844
     },
     {
       "path": "data/external/sgmc_faults_100m.tif",
@@ -59,5 +59,5 @@
     }
   ],
   "provenance": "public bridge, not organizer receipt",
-  "all_pins_verified": false
+  "all_pins_verified": true
 }

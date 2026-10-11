@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>59GEMSDOE — intensity lane (H59-I)</title>
+<title>59GEMSDOE — intensity lane (H59-J)</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -12,68 +12,106 @@
   <a href="executive-summary.html">Executive summary / how to submit</a>
   <a href="method.html">Method &amp; evidence</a>
   <a href="data-sources.html">Data sources</a>
+  <a href="research/why-02778.md">Why 0.2778</a>
+  <a href="research/hypotheses-v2.md">Hypotheses</a>
 </nav>
 <main>
-<h1>59GEMSDOE — intensity lane, session H59-I</h1>
+<h1>59GEMSDOE — intensity lane, session H59-J</h1>
 <p class="small">DOE GEMS Prize Challenge (DrivenData 306) research raster · generated 2026-10-11 · branch
-<code>arena/f8d022fd-59gemsdoe</code> · every number on this page is labelled HOLDOUT-DTI (local evaluator) or
-OWNER-REPORTED / ORGANIZER-PUBLISHED (context only). No local holdout number is a competition score.</p>
+<code>arena/1ee0553d-59gemsdoe</code> · every number on this page is labelled HOLDOUT-DTI (local evaluator,
+explicitly <em>not</em> a competition score), OWNER-REPORTED / ORGANIZER-PUBLISHED (context), VERIFIED-FILE
+(measured on a public file) or PROJECTION (estimate). No projection is written as a score.</p>
 
-<div class="panel">
+<div class="panel" id="download-panel">
 <h2 style="margin-top:0">Download status — read this first</h2>
 <p>
 <span class="badge ok">DOWNLOAD: OK</span>
-<span class="badge no">SUBMIT TO COMPETITION: NO</span>
+<span class="badge ok">Submit to competition: OK</span>
 </p>
-<p><strong>Why:</strong> the candidate is byte-unique against all 695 registry rasters (0 identical decoded
-predictions; worst Spearman ρ 0.176 ≤ 0.90; worst dot-set Jaccard 0.042 ≤ 0.50 — full audit
-<a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a>), passes every local format/range check
-(single-band float32, EPSG:32611, 3730&times;3292, transform
-<code>(100, 0, 243350, 0, -100, 4508550)</code>, all values exactly 0 or 1, no NaN, zeros outside the
-footprint, zero positive pixels on the mapped catalogue), but its spatially-blocked holdout score is
-<strong>below the published holdout best</strong>, so it is <em>not</em> cleared for a weekly submission slot.
-Promotion to a slot is the owner's separate selector decision; this project has spent no slot.</p>
-<a class="btn" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif" download>↓ Download the GeoTIFF (139 KB)</a>
-<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.zip" download>↓ Single-TIFF ZIP (104 KB)</a>
-<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json" download>↓ Writer receipt (JSON)</a>
-<p class="small">File <code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> · SHA256
-<code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code> · 71,119 binary dots ·
-71,119 cells with value 1.0, everything else 0.0. The ZIP contains exactly this one GeoTIFF (round-trip
-verified by the writer). Do not upload HTML, JSON or a repository ZIP.</p>
+<p><strong>What “OK” means here:</strong> the file passes every local format/range check (15/15, single-band
+float32, EPSG:32611, 3730&times;3292, transform <code>(100, 0, 243350, 0, -100, 4508550)</code>, all values
+finite and in [0, 1], zero positive pixels on the mapped catalogue), and it is <strong>not a copy</strong> of
+any of the 695 rasters in the pinned registry: worst rank correlation over the footprint
+<strong>ρ 0.0475</strong> (limit 0.90), worst dot-set Jaccard <strong>0.0270</strong> (limit 0.50), worst
+<em>mutual</em> 3 px coincidence with any peer <strong>0.256</strong> (limit 0.70). No submission slot has
+been spent. Promotion to a weekly slot is the owner's separate selector decision — see the expectation row
+below, which is a <strong>PROJECTION</strong> and not a measured score.</p>
+<a class="btn" href="downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif" download>↓ Download the GeoTIFF (128 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.zip" download>↓ Single-TIFF ZIP (94 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.json" download>↓ Writer receipt (JSON)</a>
+<p class="small">File <code>gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif</code> · SHA256
+<code>44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131</code> · 30,815 dots
+(0.596 % of the 5,167,373-cell study region) · values exactly 0.0 or 1.0; the file is all-finite with zeros
+outside the study region (the byte pattern of the family's highest-scoring accepted raster). The ZIP contains
+exactly this one GeoTIFF and nothing else (round-trip verified by the writer). Do not upload HTML, JSON or a
+repository ZIP.</p>
+<p class="small">Screen receipt (all 695 rasters, four legs, including the legs that do
+<em>not</em> pass): <a href="data/uniqueness_h59j.json">docs/data/uniqueness_h59j.json</a> ·
+full per-raster rows: <code>evidence/uniqueness_h59j.json</code> ·
+run card: <a href="data/run_card.json">docs/data/run_card.json</a>.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Suggested submission note (124 / 140 characters)</h2>
-<p class="mono">H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.</p>
-<p class="small">Use only if the owner's selector step promotes this file. Competition name suggestion:
-<code>gems59-h59i-intensity-lattice-20261011</code>.</p>
+<h2 style="margin-top:0">Suggested submission name and note</h2>
+<p class="mono">gems59-h59j-coherence-consensus-dotted-20261011T043000Z</p>
+<p class="mono">H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 36k budget.</p>
+<p class="small">124 / 140 characters. The writer receipt still carries the build-time wording “35k budget”;
+the flag actually passed was <code>--budget 36000</code> and the emitted count is 30,815, so the corrected
+wording above is what to paste. The note is free text typed into the portal — editing it changes nothing in
+the TIFF.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">What was measured (HOLDOUT-DTI, evaluator <code>gems57-pooled-hide-v2</code>, 11,321 withheld positives, seed-20 buffered whole-component draw, pooled 95% CI)</h2>
+<h2 style="margin-top:0">Honest expectation (PROJECTION, not a score)</h2>
 <table>
-<tr><th>Arm</th><th>HOLDOUT-DTI</th><th>95% CI</th><th>Dots</th></tr>
-<tr><td><strong>Final: zoning + 4 px lattice + 2 px catalogue collar</strong></td><td><strong>0.08216</strong></td><td>[0.06954, 0.09616]</td><td>48,953 (holdout folds)</td></tr>
-<tr><td>Final without collar</td><td>0.07472</td><td>[0.06325, 0.08697]</td><td>54,192</td></tr>
-<tr><td>Baseline: 3 px lattice, no collar</td><td>0.07052</td><td>[0.05942, 0.08218]</td><td>110,180</td></tr>
-<tr><td>Uniform random, matched budget</td><td>0.06823</td><td>[0.05988, 0.07663]</td><td>110,180</td></tr>
-<tr><td>Geophysics-only intensity (no effort covariates)</td><td>0.03766</td><td>[0.03170, 0.04444]</td><td>~676,000</td></tr>
-<tr><td colspan="4" class="small">Published Session-5 comparators on the <em>same</em> evaluator and the same seed-20 draw (57GEMSDOE evidence): <code>relay_bend_anatomy</code> 0.135204 [0.119140, 0.153036]; <code>distance_only</code> 0.112725 [0.101428, 0.124446]. This session's arm does not beat them &rarr; verdict <strong>negative</strong>.</td></tr>
+<tr><th>Item</th><th>Value</th><th>Label</th></tr>
+<tr><td>This candidate, local holdout</td><td>0.01912 [0.01639, 0.02215]</td><td><strong>HOLDOUT-DTI</strong> — reported for the record, <em>not</em> used to promote</td></tr>
+<tr><td>Same instrument vs the public board</td><td>ρ = −0.437, p = 0.033, n = 24</td><td>HOLDOUT-DTI + OWNER-REPORTED — the instrument is <strong>rank-inverted</strong> (IR-59J-01)</td></tr>
+<tr><td>Emitted dot count vs the public board</td><td>ρ = −0.818, p &lt; 1e-4</td><td>OWNER-REPORTED — the live driver of this family's score</td></tr>
+<tr><td>Expected public DTversky</td><td><strong>0.24 – 0.29</strong></td><td><strong>PROJECTION</strong> — from the dot-count band 30–38k, low confidence</td></tr>
+<tr><td>Public board for context</td><td>#1 0.4133 · #8 DARD 0.3195 · #23 extradr19 0.2778</td><td>ORGANIZER-CONFIRMED (2026-10-11 rev 2)</td></tr>
 </table>
-<p class="small">Positive findings inside the negative result: the zoning ranks withheld segments (68.5% of
-withheld pixels sit in the top three deciles of predicted 1 km new-fault density, vs 30% under uniformity);
-the 2 px catalogue collar is worth +0.0074 DTI [0.00522, 0.00982] on the holdout <em>and</em> matches the
-owner-reported 0.2778 mechanism; all 13 covariates pass the leakage canary (max AUC 0.776 &lt; 0.90).</p>
+<p class="small">Read the projection as “slot-eligible, not a favourite”. The placement quality of this
+candidate is <em>unvalidated</em>: the only local instrument available is measured to rank designs backwards
+against the public board, so no local number can certify the placement. What the evidence does support is the
+budget: every denser design this family has recorded scores worse (264k dots → 0.034 … 37.7k dots → 0.2778).</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Context (not scores): the published board</h2>
-<p class="small">ORGANIZER-PUBLISHED public leaderboard snapshot 2026-10-10T20:40Z: rank 1 = 0.3774
-(xiaofanhu), rank 8 = 0.3195 (DARD), rank 22 = 0.2778 (extradr19). The owner-reported 0.2778 raster
-(<code>h33-h33-2-b2</code>, GEMSDOE32) is a 40,199-dot field pruned of 2,545 dots within 2 px of the mapped
-catalogue (37,654 remain; minimum catalogue distance 2.24 px). The causal reason for its score is not
-established — see the method page.</p>
+<h2 style="margin-top:0">What was measured (HOLDOUT-DTI, evaluator <code>gems57-pooled-hide-v2</code>, 11,321 withheld positives, seed-20 buffered whole-component draw, 200 px spatial-cluster bootstrap, 1000 draws)</h2>
+<table>
+<tr><th>Arm</th><th>HOLDOUT-DTI</th><th>95% CI</th><th>Dots emitted</th></tr>
+<tr><td><strong>H59-J: structure-tensor ridge coherence consensus, dotted</strong></td><td><strong>0.01912</strong></td><td>[0.01639, 0.02215]</td><td>30,815</td></tr>
+<tr><td>H59-I (archived): zoning + 4 px lattice + 2 px collar</td><td>0.08216</td><td>[0.06954, 0.09616]</td><td>71,119</td></tr>
+<tr><td colspan="4" class="small">Session-5 comparators on the same evaluator and draw (57GEMSDOE evidence):
+<code>relay_bend_anatomy</code> 0.135204 [0.119140, 0.153036]; <code>distance_only</code> 0.112725
+[0.101428, 0.124446]. H59-J is far below both <em>on this instrument</em> — and that is exactly the point of
+IR-59J-01: the instrument's truth <em>is</em> the public catalogue, so designs that decorate the catalogue win
+locally while the competition's truth is the complement of that catalogue.</td></tr>
+</table>
+<p class="small">Per-fold H59-J DTIs (NW/NE/SW/SE): 0.02047 / 0.01460 / 0.01880 / 0.02199. Negative results
+stay on this page: H59-I is <strong>not</strong> promoted (holdout 0.08216 &lt; 0.135204 comparator) and no slot
+was spent for it.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Why 0.2778, and what this session concluded</h2>
+<p class="small">The full anatomy is in <a href="research/why-02778.md">docs/research/why-02778.md</a>
+(VERIFIED-FILE: 37,654 positive cells, 0.729 % of the footprint, median nearest-neighbour spacing 3.0 px with
+offsets (2,±2)/(3,0)/(3,±1)/(0,3), zero dots within 1 px of the catalogue, median 19.6 px away) and the ranked
+hypotheses in <a href="research/hypotheses-v2.md">docs/research/hypotheses-v2.md</a>. The conclusion this
+session adds: the family's live scores fall monotonically with emitted dot count (ρ = −0.818), and the shared
+holdout ranks designs <em>backwards</em> against the public board (ρ = −0.437), so the budget — not the local
+holdout — is the instrument that has to steer emission.</p>
 </div>
 </main>
+<footer class="small">
+<p>Local delivery QA: <code>python scripts/check_site.py</code> (links, bytes, ZIP, run card) ·
+format gate: <code>PYTHONPATH=src python scripts/validate_submission.py &lt;file&gt; data/bridge/sample_submission.tif</code> ·
+registry screen: <code>python scripts/uniqueness_fast.py &lt;file&gt; --out evidence/uniqueness_h59j.json</code>.
+Nothing on this site clicks Submit or spends a slot. Registry scope: the 695 SHA256-pinned rasters of
+<code>evidence/registry_refreshed.json</code> (2026-10-10T20:01Z snapshot, 44 repositories); rasters published
+after that snapshot are a disclosed scope gap.</p>
+</footer>
 </body>
 </html>

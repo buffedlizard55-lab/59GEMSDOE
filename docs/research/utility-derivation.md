@@ -32,7 +32,8 @@ For an isolated dot whose only effect is on one truth pixel at kernel credit `k 
 | ---: | ---: | ---: | ---: |
 | 0.10 | 0.0200 | 2.94 px | 294 m |
 | 0.2778 (the 0.2778 figure) | 0.0556 | 2.83 px | 283 m |
-| 0.3774 (public #1) | 0.0755 | 2.77 px | 277 m |
+| 0.3774 (public #1 at revision 1) | 0.0755 | 2.77 px | 277 m |
+| 0.4133 (public #1 at revision 2, 2026-10-11) | 0.0827 | 2.75 px | 275 m |
 | 0.50 | 0.1000 | 2.70 px | 270 m |
 
 Reading: at any plausible score level the single-dot break-even sits just inside the 300 m kernel.

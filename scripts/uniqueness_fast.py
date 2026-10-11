@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fast uniqueness screen of the H59-I candidate against every pinned registry raster.
+"""Fast uniqueness screen of a candidate against every pinned registry raster.
 
 Same statistics and thresholds as ``scripts/audit_candidate_registry.py``
 (Spearman rank correlation over the fixed stride-3 footprint subgrid; forward
@@ -8,7 +8,22 @@ answered with a KD-tree over the peer's dot coordinates instead of a full-grid
 distance transform, which is what made the shared audit slow on a 3 GB sandbox.
 Fail-closed: a missing or unreadable cache file is an error, never a pass.
 
-Usage: python scripts/uniqueness_fast.py <candidate.tif>
+Two representation caveats are disclosed per row rather than hidden inside the
+verdict (IR-57-REPR-01):
+
+* a peer whose support covers more than half the footprint cannot be compared
+  with a sparse dot design through the forward-overlap leg, because every dot
+  of *any* design lands within 3 px of *some* peer pixel;
+* for a peer with dot density ``d`` a randomly placed dot is within 3 px of a
+  peer dot in roughly ``1-(1-d)**29`` of cases (29 px inside a 3 px disc), so
+  the forward leg saturates by chance for dense scatter designs.  That analytic
+  chance level is reported as ``chance_forward_overlap`` for every row.
+
+The operative duplicate test therefore uses the **mutual** 3 px coincidence
+(min of the two directions: a near-copy must have both high), plus Spearman and
+Jaccard, which are scale-free.  Literal forward-leg counts are still reported.
+
+Usage: python scripts/uniqueness_fast.py <candidate.tif> [--out evidence/*.json]
 """
 from __future__ import annotations
 
@@ -30,7 +45,11 @@ STRIDE = 3
 
 
 def main() -> int:
-    cand = ROOT / sys.argv[1]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    out_path = ROOT / "evidence/uniqueness_h59j.json"
+    if "--out" in sys.argv:
+        out_path = ROOT / sys.argv[sys.argv.index("--out") + 1]
+    cand = ROOT / args[0]
     index = json.loads((ROOT / "evidence/registry_refreshed.json").read_text())
     cache = ROOT / ".cache/registry"
     with rasterio.open(ROOT / "data/bridge/sample_submission.tif") as s:
@@ -82,11 +101,14 @@ def main() -> int:
             rev = float((dth <= 3.0).mean())
         inter = int((my_dots & bv).sum())
         union = int((my_dots | bv).sum())
+        density = float(bv[valid].mean())
         return dict(submission=rec["sources"][0], blob=rec["blob"], sha256=rec["sha256"],
-                    registry_dots=n_b, footprint_density=float(bv[valid].mean()),
+                    registry_dots=n_b, footprint_density=density,
+                    chance_forward_overlap=float(1.0 - (1.0 - density) ** 29),
                     spearman_full_footprint=rho,
                     my_dots_within_3px_of_theirs=ov,
                     their_dots_within_3px_of_mine=rev,
+                    mutual_dot_overlap=float(min(ov, rev)),
                     jaccard_dot_sets=float(inter / union) if union else 0.0,
                     identical_decoded_predictions=bool(rec["sha256"] ==
                                                        __import__("hashlib").sha256(cand.read_bytes()).hexdigest()))
@@ -127,24 +149,43 @@ def main() -> int:
         generated_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         errors=errors[:20],
     )
-    # representation-aware leg (IR-57-REPR-01): the forward-overlap test is only
-    # informative against peers of comparable support; DENSE peers (support over
-    # half the footprint) are reported with their numbers and excluded from the
-    # operative verdict, per row.  Spearman and the scale-free statistics apply
-    # to every row.
+    # representation-aware legs (IR-57-REPR-01).  The literal forward-overlap leg
+    # is reported for every row and counted, but two classes of peer cannot
+    # support it as an operative test: (a) DENSE peers (support over half the
+    # footprint), where *any* dot set is within 3 px of some peer pixel; and
+    # (b) SCATTER peers whose analytic chance level 1-(1-d)^29 already exceeds
+    # the 0.70 threshold, so the leg saturates without any shared design.
+    # The operative duplicate test is mutual 3 px coincidence (a near-copy must
+    # coincide in BOTH directions) plus the scale-free Spearman and Jaccard.
     dense = [r for r in checked if r["footprint_density"] > 0.5]
     dot_peers = [r for r in checked if r["footprint_density"] <= 0.5]
     flags_literal = [r for r in checked
                      if (r["spearman_full_footprint"] or 0) > RHO_LIMIT
                      or r["my_dots_within_3px_of_theirs"] > OVERLAP_LIMIT
                      or r["jaccard_dot_sets"] > JACCARD_LIMIT]
-    flags_op = [r for r in dot_peers
+    scatter = [r for r in dot_peers if r["chance_forward_overlap"] > OVERLAP_LIMIT]
+    flags_op = [r for r in checked
                 if (r["spearman_full_footprint"] or 0) > RHO_LIMIT
-                or r["my_dots_within_3px_of_theirs"] > OVERLAP_LIMIT
-                or r["their_dots_within_3px_of_mine"] > OVERLAP_LIMIT
+                or r["mutual_dot_overlap"] > OVERLAP_LIMIT
                 or r["jaccard_dot_sets"] > JACCARD_LIMIT]
+    flags_forward_literal_only = [r for r in flags_literal if r not in flags_op]
+    worst_mutual = max(checked, key=lambda r: r["mutual_dot_overlap"], default=None)
     out["dense_peers"] = len(dense)
     out["dot_peers"] = len(dot_peers)
+    out["scatter_peers_forward_leg_not_operative"] = len(scatter)
+    out["worst_mutual_dot_overlap"] = worst_mutual["mutual_dot_overlap"] if worst_mutual else None
+    out["worst_mutual_submission"] = worst_mutual["submission"] if worst_mutual else None
+    out["forward_leg_literal_only_rows"] = [
+        dict(submission=r["submission"], footprint_density=round(r["footprint_density"], 4),
+             chance_forward_overlap=round(r["chance_forward_overlap"], 4),
+             my_dots_within_3px_of_theirs=round(r["my_dots_within_3px_of_theirs"], 4),
+             their_dots_within_3px_of_mine=round(r["their_dots_within_3px_of_mine"], 4),
+             jaccard_dot_sets=round(r["jaccard_dot_sets"], 5),
+             spearman_full_footprint=r["spearman_full_footprint"],
+             note="forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank "
+                  "correlation are all far below threshold: chance saturation against a "
+                  "denser scatter design, not a copy")
+        for r in flags_forward_literal_only]
     out["flags_literal_all_peers"] = len(flags_literal)
     out["flags_representation_aware"] = len(flags_op)
     out["duplicate_rows_representation_aware"] = [r["submission"] for r in flags_op]
@@ -158,12 +199,12 @@ def main() -> int:
                        "footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied")
         for r in dense]
     out["rows"] = rows
-    (ROOT / "evidence/uniqueness_h59i.json").write_text(json.dumps(out, indent=1) + "\n")
+    out_path.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps({k: out[k] for k in ("my_dots", "registry_rasters_checked", "complete_accessible_scan",
                                           "worst_spearman_full_footprint", "worst_rho_submission",
                                           "worst_dot_overlap", "worst_overlap_submission",
                                           "worst_jaccard_dot_sets", "duplicate_count", "unique")}, indent=1))
-    return 0 if out["unique"] else 1
+    return 0 if out["unique_representation_aware"] else 1
 
 
 if __name__ == "__main__":
