@@ -1,0 +1,214 @@
+{
+ "generated_utc": "2026-10-11T01:52:13.221815+00:00",
+ "name": "gems59-h59j-offcat-propen-30k-20261011",
+ "note": "H59-J off-catalogue discriminant, 30k dots, 3px spacing, 0 on catalogue; proxy 0.375 vs incumb 0.295; organiser-unverified",
+ "note_chars": 122,
+ "file": "downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+ "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+ "bytes": 117938,
+ "dots": 30000,
+ "spacing_px": 3.0,
+ "on_catalogue_dots": 0,
+ "validator": {
+  "template_ok": true,
+  "template_problems": [],
+  "local": {
+   "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+   "bytes": 117938,
+   "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+   "meta": {
+    "crs": "EPSG:32611",
+    "shape": [
+     3730,
+     3292
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null,
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "profile_compress": "deflate"
+   },
+   "band_description": [
+    null
+   ],
+   "n_finite": 12279160,
+   "n_nan": 0,
+   "n_infinite": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "mean": 0.002443163888528943,
+   "emitted_positive_pixels": 30000,
+   "checks": {
+    "single_band": true,
+    "dtype_float32": true,
+    "dimensions_3730x3292": true,
+    "crs_epsg_32611": true,
+    "transform_matches_sample_submission": true,
+    "no_nan_anywhere": true,
+    "no_inf_anywhere": true,
+    "no_sentinel_values": true,
+    "range_0_1_guaranteed": true,
+    "min_ge_0": true,
+    "max_le_1": true,
+    "in_footprint_all_finite": true,
+    "in_footprint_range_0_1": true,
+    "outside_footprint_zero": true,
+    "zero_dots_on_mapped_catalogue": true
+   },
+   "all_checks_passed": true,
+   "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+   "on_catalogue_positive_pixels": 0,
+   "in_footprint_positive_pixels": 30000,
+   "footprint_fraction": 0.005805657923281327
+  }
+ },
+ "uniqueness": {
+  "evidence_class": "REGISTRY-MEASUREMENT",
+  "method": "scripts/uniqueness_fast.py: stride-3 full-footprint Spearman, KD-tree 3 px overlap both directions, dot-set Jaccard, byte identity, against all 695 pinned rasters",
+  "registry_rasters_checked": 695,
+  "complete_accessible_scan": true,
+  "n_errors": 0,
+  "worst_abs_spearman_full_footprint": 0.06357936282664807,
+  "worst_spearman_peer": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+  "worst_jaccard_dot_sets": 0.0209125370383654,
+  "worst_jaccard_peer": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-ridge-4e03fc9705.tif",
+  "identical_decoded_predictions": 0,
+  "literal_overlap_firings": 80,
+  "representation_aware": {
+   "rules": {
+    "forward": "read only against peers whose expected 3 px disc coverage min(1, 29 * footprint_density) is <= 0.70",
+    "reverse": "read only against peers with >= 30 dots",
+    "operative": "byte identity + full-footprint Spearman + exact dot-set Jaccard + mutual 3 px coincidence (min of both directions, limit 0.70); every literal firing is listed"
+   },
+   "dot_field_peers": 641,
+   "continuous_surface_peers": 54,
+   "peers_with_at_most_candidate_support": 82,
+   "peers_with_more_support_than_candidate": 559,
+   "overlap_by_direction": {
+    "informative_forward": {
+     "value": 0.6451,
+     "peer": "GEMSDOE50:docs/downloads/gemsdoe50-h60-union-d0-75308-20261007T2250Z-allfinite.tif",
+     "peer_dots": 75308,
+     "expected_forward_overlap_proxy": 0.4226,
+     "n_peers": 496,
+     "limit": 0.7,
+     "reading": "candidate duplicated into a peer that cannot cover it"
+    },
+    "informative_reverse": {
+     "value": 0.4085984073800096,
+     "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+     "peer_dots": 45962,
+     "expected_forward_overlap_proxy": 0.2579,
+     "n_peers": 690,
+     "limit": 0.7,
+     "reading": "a peer with >= 30 dots duplicated into the candidate"
+    },
+    "mutual": {
+     "value": 0.4085984073800096,
+     "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+     "peer_dots": 45962,
+     "expected_forward_overlap_proxy": 0.2579,
+     "n_peers": 695,
+     "limit": 0.7,
+     "firings": 0,
+     "reading": "THE operative directional test: a near-copy must coincide in both directions"
+    },
+    "uninformative_forward_saturating_or_dense": {
+     "value": 1.0,
+     "peer": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+     "peer_dots": 5167373,
+     "expected_forward_overlap_proxy": 1.0,
+     "n_peers": 199,
+     "reading": "dense/regular peers whose discs already blanket the footprint: every non-empty candidate overlaps forward (IR-57-REPR-01)"
+    },
+    "uninformative_reverse_tiny_peers": {
+     "value": 0.09090909090909091,
+     "peer": "GEMSDOE52:docs/downloads/gems52-h58-coldgeo-consensus-22px-a55b0dee38-research.tif",
+     "peer_dots": 22,
+     "expected_forward_overlap_proxy": 0.0001,
+     "n_peers": 5,
+     "reading": "peers with < 30 dots: the fraction is 0 or 1 by luck"
+    }
+   },
+   "by_support": {
+    "forward_vs_smaller_or_equal_peers": {
+     "value": 0.2919,
+     "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-e-disc-h40e-30k-nan.tif",
+     "peer_dots": 30000,
+     "expected_forward_overlap_proxy": 0.1684
+    },
+    "forward_vs_bigger_peers": {
+     "value": 0.9991333333333333,
+     "peer": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+     "peer_dots": 206895,
+     "expected_forward_overlap_proxy": 1.0
+    },
+    "reverse_vs_smaller_or_equal_peers": {
+     "value": 0.3273776288851666,
+     "peer": "5GEMSDOE:data/evidence/runs/35042805806-experiment/submission.tif",
+     "peer_dots": 21492,
+     "expected_forward_overlap_proxy": 0.1206
+    },
+    "reverse_vs_bigger_peers": {
+     "value": 0.4085984073800096,
+     "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+     "peer_dots": 45962,
+     "expected_forward_overlap_proxy": 0.2579
+    }
+   },
+   "worst_spearman_full_footprint": 0.06357936282664807,
+   "worst_spearman_peer": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+   "worst_jaccard_dot_sets": 0.0209125370383654,
+   "worst_jaccard_peer": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-ridge-4e03fc9705.tif",
+   "identical_decoded_predictions": 0,
+   "identical_peers": [],
+   "literal_firing_count": 80,
+   "mutual_firing_count": 0,
+   "symmetric_statistics_unique": true,
+   "directional_legs_unique": true,
+   "registry_duplicate_evidence": false,
+   "note": "Operative registry leg = symmetric, scale-free statistics (worst |Spearman rho| 0.0636 <= 0.90; worst exact dot-set Jaccard 0.0209 <= 0.50; 0 byte-identical peers) PLUS the mutual 3 px coincidence (worst mutual 0.4086 <= 0.70, 0 firings). 80 literal one-sided leg firings are preserved in 'literal_leg_firings' with peer name, support and expected coverage; they lie in the two documented uninformative directions (IR-57-REPR-01)."
+  },
+  "verdict_registry_leg": "no duplication identified: byte-unique, and every symmetric scale-free statistic is far below its limit (IR-57-REPR-01 representation-aware reading)",
+  "build_inline_screen": {
+   "statistic": "NEAR-set Jaccard over 3 px neighbourhoods, inter(near)/(my_dots + peer_dots - inter(near)) -- a different statistic from the exact dot-set Jaccard",
+   "worst_jaccard_near_set": null,
+   "worst_containment_of_mine": null,
+   "n_checked": null,
+   "n_errors": 0,
+   "note": "The build-time value of this statistic was not preserved in any committed receipt: the canonical full-registry rescan replaced the inline screen in these receipts before the release commit, so no near-set number is quoted anywhere in this repository. The operative duplication statistic is the exact dot-set Jaccard below (IR-H59J-12)."
+  }
+ },
+ "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+ "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+ "slots_used": 0,
+ "promotion_decision": {
+  "evidence_class": "HOLDOUT/PROXY MEASUREMENT; no organizer score",
+  "decided_utc": "2026-10-11T03:00:05.275248+00:00",
+  "verdict": "negative: not cleared for a weekly submission slot",
+  "basis": [
+   "No organizer-verified live score exists for this file and none is projected: the off-catalogue proxy criterion is calibrated within-family only.",
+   "Across artifact families the same proxy does not rank live scores: Spearman -0.057 (p 0.661) on 62 owner-reported anchors (the only significant term is credit-per-dot on the far collar, rho 0.252, p 0.048, and it is family-internal); the two direct off-catalogue emissions in the ladder scored 0.0512 and 0.0360 live against a 0.2778 incumbent.",
+   "The shipped raster measures criterion 0.3759 on the proxy truth (T 6350.0, S 33668.5, credit/dot 0.2117; evidence/h59j_emission_measurement.json), above the incumbent's 0.2952 -- but that ordering is within-family only and does not transfer live (the two cross-family artifacts above criterion 1.5 scored 0.036-0.051).",
+   "Emission design preferred spacing 3.0 px at 44090 dots (criterion 0.4606); the build used 30,000 dots because the owner live ladder is monotone down in budget, which makes the as-built arm the conservative choice, not the proxy-preferred one.",
+   "Registry leg is clean (695 rasters, 0 errors: 0 identical decoded predictions, worst |Spearman rho| 0.0636, worst exact dot-set Jaccard 0.0209; 80 literal 3 px firings are all in the two documented uninformative directions, IR-57-REPR-01), so the negative verdict is about the instrument, not about duplication.",
+   "Catalogue hide-and-recover holdout (HOLDOUT-DTI 0.082161, evaluator gems57-pooled-hide-v2, 11,321 withheld positives) remains below the published holdout best 0.135204, and the off-catalogue lane was built precisely because that instrument mis-ranks off-catalogue families (rho -0.544 with catalogue adjacency on live anchors)."
+  ],
+  "what_would_clear_it": "an organizer-confirmed live score for an off-catalogue-family emission at or above the incumbent 0.2778, or a lane whose cross-family proxy ranks live scores (|rho| with p < 0.05 in the right direction) and whose top arm beats the incumbent's proxy criterion",
+  "slots_used": 0,
+  "owner_action": "selector step; this project does not pick or consume submission slots"
+ },
+ "evidence_gaps": [
+  "no organizer score for this file (DrivenData login-walled in this sandbox)",
+  "off-catalogue proxy truth is SGMC-derived, 6x more prevalent than the hidden new-fault population and includes non-fault lineaments",
+  "cross-family proxy ranking is not established (see basis 2)",
+  "registry scope is the 2026-10-10T20:01Z snapshot of 695 rasters; later publications are a disclosed gap"
+ ]
+}

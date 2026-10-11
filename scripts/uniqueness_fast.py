@@ -27,6 +27,7 @@ Usage: python scripts/uniqueness_fast.py <candidate.tif> [--out evidence/*.json]
 """
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 import time
@@ -44,12 +45,16 @@ JACCARD_LIMIT = 0.50
 STRIDE = 3
 
 
-def main() -> int:
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    out_path = ROOT / "evidence/uniqueness_h59j.json"
-    if "--out" in sys.argv:
-        out_path = ROOT / sys.argv[sys.argv.index("--out") + 1]
-    cand = ROOT / args[0]
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description="Registry uniqueness screen (KD-tree) for one candidate.")
+    ap.add_argument("candidate", help="candidate GeoTIFF, relative to the repo root or absolute")
+    ap.add_argument("--out", default="evidence/uniqueness_h59i.json",
+                    help="receipt path relative to the repo root")
+    args = ap.parse_args(argv)
+    cand = Path(args.candidate)
+    cand = cand if cand.is_absolute() else ROOT / cand
+    out_path = Path(args.out)
+    out_path = out_path if out_path.is_absolute() else ROOT / out_path
     index = json.loads((ROOT / "evidence/registry_refreshed.json").read_text())
     cache = ROOT / ".cache/registry"
     with rasterio.open(ROOT / "data/bridge/sample_submission.tif") as s:
@@ -130,7 +135,8 @@ def main() -> int:
     out = dict(
         evidence_class="REGISTRY-MEASUREMENT",
         method="scripts/uniqueness_fast.py (same statistics/thresholds as audit_candidate_registry.py; KD-tree overlap)",
-        candidate=str(sys.argv[1]), my_dots=n_mine,
+        candidate=(cand.relative_to(ROOT).as_posix() if cand.is_relative_to(ROOT) else str(cand)),
+        my_dots=n_mine,
         registry_rasters_expected=len(items), registry_rasters_checked=len(checked),
         missing_or_invalid=len(errors), complete_accessible_scan=bool(not errors),
         rho_limit=RHO_LIMIT, overlap_limit=OVERLAP_LIMIT, jaccard_limit=JACCARD_LIMIT,

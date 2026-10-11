@@ -1,40 +1,438 @@
 {
- "files": [
+ "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)",
+ "generated_utc": "2026-10-11T03:19:57Z",
+ "current_candidate": "gems59-h59j-offcat-propen-30k-20261011",
+ "how_to_submit": "docs/executive-summary.html",
+ "status_pages": "docs/index.html (download), docs/method.html (method & evidence)",
+ "legend": {
+  "download_status": "whether the file is safe to download as a candidate TIF",
+  "submit_status": "whether the owner's selector step has cleared it for a weekly slot; no slot is spent by this project",
+  "uniqueness_receipt": "the registry screen that clears (or fails) the download badge for this file"
+ },
+ "candidates": [
   {
-   "file": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif",
-   "zip": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip",
-   "nan_twin": "gems59-h59a-intensity-zone-breakeven-8c0c6142-nan.tif",
-   "bytes": 795960,
-   "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842",
-   "n_dots": 38593,
-   "min_separation_px": 3.162,
-   "dots_on_or_within_2px_of_catalogue": 0,
-   "grid": "EPSG:32611 / 3730x3292 / (100,0,243350,0,-100,4508550)",
-   "outside_footprint": "0.0 (portal-safe; the -nan twin is research only)",
-   "validator_checks_passed": "12/12",
-   "holdout_dti_mean": 0.08811,
-   "holdout_dti_range": [
-    0.08715,
-    0.08907
+   "candidate": "gems59-h59j-offcat-propen-30k-20261011",
+   "receipt": "evidence/submission_h59j.json",
+   "superseded_by": null,
+   "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+   "bytes": 117938,
+   "dots": 30000,
+   "spacing_px": 3.0,
+   "on_catalogue_dots": null,
+   "note": "H59-J off-catalogue discriminant, 30k dots, 3px spacing, 0 on catalogue; proxy 0.375 vs incumb 0.295; organiser-unverified",
+   "note_chars": 122,
+   "validator": {
+    "template_ok": true,
+    "template_problems": [],
+    "local": {
+     "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+     "bytes": 117938,
+     "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+     "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+       3730,
+       3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+       100.0,
+       0.0,
+       243350.0,
+       0.0,
+       -100.0,
+       4508550.0
+      ],
+      "profile_compress": "deflate"
+     },
+     "band_description": [
+      null
+     ],
+     "n_finite": 12279160,
+     "n_nan": 0,
+     "n_infinite": 0,
+     "min": 0.0,
+     "max": 1.0,
+     "mean": 0.002443163888528943,
+     "emitted_positive_pixels": 30000,
+     "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+     },
+     "all_checks_passed": true,
+     "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+     "on_catalogue_positive_pixels": 0,
+     "in_footprint_positive_pixels": 30000,
+     "footprint_fraction": 0.005805657923281327
+    }
+   },
+   "files": [
+    {
+     "name": "gems59-h59j-offcat-propen-30k-20261011.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 117938,
+     "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6"
+    },
+    {
+     "name": "gems59-h59j-offcat-propen-30k-20261011.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 78010,
+     "sha256": "c2afaeab6d633afdc7c62a7ae6e920f4a055ca70c0c70e5ab2dce56ca1821a06"
+    },
+    {
+     "name": "gems59-h59j-offcat-propen-30k-20261011.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 3853,
+     "sha256": "b110bcbaa3d622923a4bee02dc49b27d1f070f22ddf22fe569ec88f5782ad1a4"
+    }
    ],
-   "folds": 2,
-   "uniqueness_vs_696_registry": {
-    "max_spearman": 0.6718,
-    "max_lift": 1.999,
-    "verdict": "NO DRIFT"
+   "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+   "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "uniqueness_receipt": "evidence/uniqueness_h59j_offcat.json",
+   "run_card": "evidence/run_card.json",
+   "lane": "arena/fba37db3 (off-catalogue discriminant)",
+   "shared_template_gate_passed": true,
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  },
+  {
+   "candidate": "gems59-h59i-intensity-lattice-20261011T000000Z",
+   "receipt": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json",
+   "superseded_by": null,
+   "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+   "bytes": 142754,
+   "dots": 71119,
+   "spacing_px": null,
+   "on_catalogue_dots": null,
+   "note": "H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.",
+   "note_chars": 124,
+   "validator": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+    "bytes": 142754,
+    "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+    "meta": {
+     "crs": "EPSG:32611",
+     "shape": [
+      3730,
+      3292
+     ],
+     "dtype": "float32",
+     "count": 1,
+     "nodata": null,
+     "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+     ],
+     "profile_compress": "deflate"
+    },
+    "band_description": [
+     null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.005791845731437206,
+    "emitted_positive_pixels": 71119,
+    "checks": {
+     "single_band": true,
+     "dtype_float32": true,
+     "dimensions_3730x3292": true,
+     "crs_epsg_32611": true,
+     "transform_matches_sample_submission": true,
+     "no_nan_anywhere": true,
+     "no_inf_anywhere": true,
+     "no_sentinel_values": true,
+     "range_0_1_guaranteed": true,
+     "min_ge_0": true,
+     "max_le_1": true,
+     "in_footprint_all_finite": true,
+     "in_footprint_range_0_1": true,
+     "outside_footprint_zero": true,
+     "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 71119,
+    "footprint_fraction": 0.013763086194861489
    },
-   "uniqueness_vs_main_releases": {
-    "max_spearman": 0.0072,
-    "max_lift": 1.269,
-    "verdict": "NO DRIFT"
+   "files": [
+    {
+     "name": "gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 142754,
+     "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d"
+    },
+    {
+     "name": "gems59-h59i-intensity-lattice-20261011T000000Z.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 106442,
+     "sha256": "9bf4e57b796982bc0a976eaa71a09e374778f6071a3e6b0afee8dce5e9cfc32b"
+    },
+    {
+     "name": "gems59-h59i-intensity-lattice-20261011T000000Z.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 4576,
+     "sha256": "8f28b6c3dd4e7aca8e16b290538d51251c66ba6045c92c846657e712927fcea7"
+    }
+   ],
+   "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+   "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "uniqueness_receipt": "evidence/uniqueness_h59i.json",
+   "run_card": null,
+   "lane": "arena/f8d022fd (intensity lane)",
+   "shared_template_gate_passed": true,
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  },
+  {
+   "candidate": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z",
+   "receipt": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.json",
+   "superseded_by": null,
+   "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+   "bytes": 131274,
+   "dots": 30815,
+   "spacing_px": null,
+   "on_catalogue_dots": null,
+   "note": "H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 35k budget.",
+   "note_chars": 124,
+   "validator": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+    "bytes": 131274,
+    "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+    "meta": {
+     "crs": "EPSG:32611",
+     "shape": [
+      3730,
+      3292
+     ],
+     "dtype": "float32",
+     "count": 1,
+     "nodata": null,
+     "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+     ],
+     "profile_compress": "deflate"
+    },
+    "band_description": [
+     null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.0025095364544540644,
+    "emitted_positive_pixels": 30815,
+    "checks": {
+     "single_band": true,
+     "dtype_float32": true,
+     "dimensions_3730x3292": true,
+     "crs_epsg_32611": true,
+     "transform_matches_sample_submission": true,
+     "no_nan_anywhere": true,
+     "no_inf_anywhere": true,
+     "no_sentinel_values": true,
+     "range_0_1_guaranteed": true,
+     "min_ge_0": true,
+     "max_le_1": true,
+     "in_footprint_all_finite": true,
+     "in_footprint_range_0_1": true,
+     "outside_footprint_zero": true,
+     "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 30815,
+    "footprint_fraction": 0.005963378296863803
    },
-   "submission_name": "GEMSDOE59-H59A-IZBT",
-   "submission_note": "1 km new-fault-density zoning then break-even tiling: 38,593 dots, min sep 3.16 px, 0 within 200 m of the mapped catalogue. UNSCORED.",
-   "distinct_from": [
-    "gems59-h59i-intensity-lattice",
-    "gems59-h59j-coherence-consensus-dotted",
-    "59gemsdoe-intensity-lane-50651dots"
-   ]
+   "files": [
+    {
+     "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 131274,
+     "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131"
+    },
+    {
+     "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 96334,
+     "sha256": "79144a64774d6eb3f4d8a309f6b11b891905f2e5d171493438a9272315605f81"
+    },
+    {
+     "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 3965,
+     "sha256": "7926cf0ca4f098921bc46561fa0c9a667e748fc71c9d1ab818f7547b99b3d2da"
+    }
+   ],
+   "download_status": "OK (format-valid; registry screen clean: no duplication identified over all 695 pinned rasters)",
+   "submit_status": "NO - not cleared for a weekly slot: the writer receipt records approved_for_weekly_slot=False and promoted=False; its published 0.24-0.29 expectation is a PROJECTION, not a clearance",
+   "uniqueness_receipt": "evidence/uniqueness_h59j.json",
+   "run_card": "docs/data/run_card.json",
+   "lane": "arena/1ee0553d (ridge coherence consensus)",
+   "shared_template_gate_passed": true,
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  },
+  {
+   "candidate": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros",
+   "receipt": "docs/downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.json",
+   "superseded_by": null,
+   "sha256": "d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c",
+   "bytes": 79553,
+   "dots": 50651,
+   "spacing_px": null,
+   "on_catalogue_dots": null,
+   "note": "Zoned 1 km new-fault density, presence-only intensity with mapping-effort background correction; 3 px lattice above break-even.",
+   "note_chars": 127,
+   "validator": {
+    "file": "/home/user/59GEMSDOE/docs/downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif",
+    "bytes": 79553,
+    "sha256": "d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c",
+    "meta": {
+     "crs": "EPSG:32611",
+     "shape": [
+      3730,
+      3292
+     ],
+     "dtype": "float32",
+     "count": 1,
+     "nodata": null,
+     "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+     ],
+     "profile_compress": "deflate"
+    },
+    "band_description": [
+     null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.004124956205487251,
+    "emitted_positive_pixels": 50651,
+    "checks": {
+     "single_band": true,
+     "dtype_float32": true,
+     "dimensions_3730x3292": true,
+     "crs_epsg_32611": true,
+     "transform_matches_sample_submission": true,
+     "no_nan_anywhere": true,
+     "no_inf_anywhere": true,
+     "no_sentinel_values": true,
+     "range_0_1_guaranteed": true,
+     "min_ge_0": true,
+     "max_le_1": true,
+     "in_footprint_all_finite": true,
+     "in_footprint_range_0_1": true,
+     "outside_footprint_zero": true,
+     "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 50651,
+    "footprint_fraction": 0.009802079315737417
+   },
+   "files": [
+    {
+     "name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 79553,
+     "sha256": "d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c"
+    },
+    {
+     "name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 31132,
+     "sha256": "dbc068ae73b71178378444dc9da2206227bb142e3a36ee0b1c963338c7be525b"
+    },
+    {
+     "name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 4446,
+     "sha256": "c135d0a4baf30eb9ab775c6fa39c778857ccb6ed46e35c19e6a6f2c44d502f0a"
+    }
+   ],
+   "download_status": "OK (format-valid; registry screen clean: no duplication identified in its own screen)",
+   "submit_status": "NO - its own run card records okay_to_submit=False with verdict negative (evidence/run_card_lane_v1.json)",
+   "uniqueness_receipt": "evidence/uniqueness_lane_v1.json",
+   "run_card": "evidence/run_card_lane_v1.json",
+   "lane": "arena/1ac83927 (intensity lane, replication)",
+   "shared_template_gate_passed": true,
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  },
+  {
+   "candidate": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros",
+   "receipt": "docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+   "superseded_by": null,
+   "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842",
+   "bytes": 795960,
+   "dots": 38593,
+   "spacing_px": 3.162,
+   "on_catalogue_dots": 0,
+   "note": "1 km new-fault-density zoning then break-even tiling: 38,593 dots, min sep 3.16 px, 0 within 200 m of the mapped catalogue. UNSCORED.",
+   "note_chars": 133,
+   "validator": {},
+   "files": [
+    {
+     "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 795960,
+     "sha256": "8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842"
+    },
+    {
+     "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 199437,
+     "sha256": "897b519b8907ec06a58b4e6b3fa8cce4492e36a1afa66676fa5d7570d03153d8"
+    },
+    {
+     "name": "gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 1224,
+     "sha256": "e3b87acefef3448f08f86cf735c6c98bc0d2d46a8df6013b0c042a8fd4b9a334"
+    }
+   ],
+   "download_status": "OK by its own 12/12 validator, BUT the shared template gate flags its nodata tag (IR-H59J-15) -- download is safe; upload follows the owner's call like every other file here",
+   "submit_status": "NO clearance claimed by its own receipt (note says UNSCORED); the lane's page puts the slot question to the owner, who has not promoted it",
+   "uniqueness_receipt": "docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.json",
+   "run_card": "docs/h59a.html",
+   "lane": "arena/1ba7bc3e (intensity zone + break-even tiling, H59-A)",
+   "shared_template_gate_passed": false,
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
   }
  ]
 }

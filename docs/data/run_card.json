@@ -1,60 +1,583 @@
 {
-  "evidence_class": "RUN-CARD",
-  "session": "59GEMSDOE / arena/1ee0553d-59gemsdoe",
-  "generated_utc": "2026-10-11T01:54:47Z",
-  "lane": "Zone by new-fault density, tile only above break-even: presence-only point-process intensity with target-group background effort correction (Phillips et al. 2009), MaxEnt = Poisson process (Fithian & Hastie 2013)",
-  "hypothesis": "H59-J: a sparse dot field placed on structure-tensor ridge coherence that is independently present in topography, magnetics and gravity -- emitted at 2-3 px along-ridge spacing, pruned within 2 px of the mapped catalogue, and budgeted at 30-38k dots -- earns enough kernel credit to be competitive, because the publicly observed utility of this family is dominated by the emitted dot count and not by the local hide-and-recover holdout.",
-  "mechanism": "Three catalogue-independent scalar fields (band 12 det_elev, band 2 rtp, band 13 iso_grav_anom) are each turned into a ridge-strength field with the structure tensor at sigma = 2 px and 5 px: strength = sqrt(gradient energy) * coherence, coherence = sqrt((Jxx-Jyy)^2 + 4 Jxy^2) / (Jxx+Jyy). The consensus is the geometric mean of the three per-physics quantile ranks, so a lineament must appear in all three measurements. Dots are emitted at 3x3 non-maximum-suppression maxima, walked +/-2 px along the local ridge direction (up to 3 dots per site), excluded inside a 2 px catalogue collar, and capped at the top 12,000 sites by consensus.",
-  "named_non_fault_mimic": "Drainage/valley lineaments in detrended elevation and flight-line or levelling residual lineaments in reduced-to-pole magnetics; both are elongated and anisotropic like faults. The geometric-mean consensus across three independent physics is the specific defence, and it is checked by emitting nothing inside the 2 px mapped-catalogue collar.",
-  "file": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
-  "zip_file": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.zip",
-  "raster_sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
-  "zip_sha256": "79144a64774d6eb3f4d8a309f6b11b891905f2e5d171493438a9272315605f81",
-  "bytes": 131274,
-  "emitted": 30815,
-  "submission_name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z",
-  "submission_note": "H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 36k budget.",
-  "submission_note_chars": 124,
-  "note_provenance": "the writer receipt records the build-time note text ('35k budget'); the flag actually passed was --budget 36000 and the emitted count is 30,815. The note is free text typed into the portal, so the corrected 36k wording is carried here, on the site and in the README; the TIFF bytes were not touched after the audit.",
-  "okay_to_submit": true,
-  "verdict": "promote-candidate",
-  "verdict_scope": "format, range and uniqueness are clear, and no slot has been spent; promotion to a weekly slot is the owner's separate selector decision, and the score expectation below is a PROJECTION, not a measurement",
-  "submission_slots_used": 0,
-  "approved_for_weekly_slot": false,
-  "validator_output": {
-    "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
-    "bytes": 131274,
-    "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+ "evidence_class": "RUN-CARD",
+ "session": "59GEMSDOE / arena/fba37db3-59gemsdoe",
+ "lane": "Intensity: zone by new-fault density, then tile only what clears break-even",
+ "hypothesis": "Faults that expert compilations add to a regional catalogue -- the population the competition scores -- are separable from background by an out-of-fold discriminant trained on off-catalogue map faults, and a sparse emission at that field's top ranks clears the exact marginal break-even bar.",
+ "mechanism": "Presence-only discriminant (HistGradientBoostingClassifier) on 38 rank-transformed feature channels over the full 3730x3292 competition grid; positives = SGMC fault pixels > 300 m from the mapped catalogue (78,433 off-catalogue positives in the footprint, 61,664 beyond the 3 px collar); negatives = catalogue-free background; six spatially blocked folds; emission = top ranks of the pooled out-of-fold field, greedy 3.0 px minimum spacing, 30000 dots, catalogue pixels excluded from the candidate pool so all 30000 dots are off-catalogue.",
+ "named_non_fault_mimic": "The SGMC off-catalogue population is ~6x more prevalent than the hidden 'new fault' population and mixes non-fault lineaments (unit contacts, thrust sheets, mining-district structures and compilation artefacts) with real faults; a classifier trained on it can reproduce compilation style rather than geology.",
+ "holdout_dti": {
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "evaluator_implementation_sha256": {
+   "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+   "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+   "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+   "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+  },
+  "split": "buffered-whole-components-loqo-v2, seed 20 (identical draw to the published Session-5/7 arms)",
+  "withheld_positive_pixels": 11321,
+  "alpha": 0.2,
+  "beta": 0.8,
+  "triangular_radius_m": 300,
+  "final_arm_collar2": {
+   "dti": 0.082161,
+   "ci95": [
+    0.069542,
+    0.096158
+   ]
+  },
+  "final_arm_collar0": {
+   "dti": 0.074717,
+   "ci95": [
+    0.063251,
+    0.08697
+   ]
+  },
+  "baseline_s3": {
+   "dti": 0.070517,
+   "ci95": [
+    0.059423,
+    0.08218
+   ]
+  },
+  "exp1_arms": {
+   "intensity_g0": {
+    "dti": 0.070517,
+    "ci95": [
+     0.059192,
+     0.083385
+    ]
+   },
+   "intensity_g05": {
+    "dti": 0.068715,
+    "ci95": [
+     0.057161,
+     0.081582
+    ]
+   },
+   "intensity_g1": {
+    "dti": 0.068925,
+    "ci95": [
+     0.057463,
+     0.082023
+    ]
+   },
+   "intensity_geo_g1": {
+    "dti": 0.037661,
+    "ci95": [
+     0.031699,
+     0.044437
+    ]
+   },
+   "uniform_random": {
+    "dti": 0.068229,
+    "ci95": [
+     0.059875,
+     0.076627
+    ]
+   }
+  },
+  "published_reference": {
+   "source": "57GEMSDOE evidence/relay_bend_holdout.json (Session 5, same evaluator and same seed-20 draw)",
+   "relay_bend_anatomy_dti": 0.135204,
+   "relay_bend_anatomy_ci": [
+    0.11914,
+    0.153036
+   ],
+   "distance_only_dti": 0.112725,
+   "distance_only_ci": [
+    0.101428,
+    0.124446
+   ]
+  },
+  "beats_published_holdout_best": false
+ },
+ "leakage_canary": {
+  "evidence_class": "LEAKAGE-CANARY (AUC, not DTI)",
+  "max_feature_auc": 0.7756632898429333,
+  "any_flag": false,
+  "note": "all 13 covariates alone on the holdout; max AUC e_dens5=0.776, below the 0.90 leakage bar"
+ },
+ "decile_calibration": {
+  "by_decile": {
+   "1": {
+    "n_blocks": 35580,
+    "sum_withheld": 1997.0,
+    "mean_pred": 0.016724554356187582,
+    "mean_withheld": 0.06024154927581549
+   },
+   "2": {
+    "n_blocks": 20722,
+    "sum_withheld": 434.0,
+    "mean_pred": 0.03288220055401325,
+    "mean_withheld": 0.021755214780569077
+   },
+   "3": {
+    "n_blocks": 12271,
+    "sum_withheld": 291.0,
+    "mean_pred": 0.05993937328457832,
+    "mean_withheld": 0.023714449256658554
+   },
+   "4": {
+    "n_blocks": 1569,
+    "sum_withheld": 182.0,
+    "mean_pred": 0.1354469358921051,
+    "mean_withheld": 0.11599744856357574
+   },
+   "6": {
+    "n_blocks": 70898,
+    "sum_withheld": 39.0,
+    "mean_pred": 0.010998718440532684,
+    "mean_withheld": 0.0005500860279425979
+   },
+   "7": {
+    "n_blocks": 89870,
+    "sum_withheld": 628.0,
+    "mean_pred": 0.020189620554447174,
+    "mean_withheld": 0.02243113040458411
+   },
+   "8": {
+    "n_blocks": 101993,
+    "sum_withheld": 546.0,
+    "mean_pred": 0.033561453223228455,
+    "mean_withheld": 0.009322331519797444
+   },
+   "9": {
+    "n_blocks": 108877,
+    "sum_withheld": 2308.0,
+    "mean_pred": 0.11002406477928162,
+    "mean_withheld": 0.04074684937950224
+   },
+   "10": {
+    "n_blocks": 49088,
+    "sum_withheld": 4896.0,
+    "mean_pred": 4.765286564826965,
+    "mean_withheld": 0.09973924607038498
+   }
+  },
+  "total_withheld_pixels": 11321.0,
+  "share_withheld_in_top3_deciles": 0.6845685010158113,
+  "note": "withheld-segment pixel counts by decile of predicted 1 km new-fault density, pooled over the four folds"
+ },
+ "sgmc_diagnostic": {
+  "spearman_by_fold": {
+   "NW": 0.0679,
+   "NE": 0.1268,
+   "SW": 0.1384,
+   "SE": 0.1531
+  },
+  "note": "Spearman(predicted new-fault density, SGMC-minus-catalogue block counts)"
+ },
+ "dot_profile": {
+  "dots": 71119,
+  "min_dist_px": 2.23606797749979,
+  "median_dist_px": 5.0,
+  "p90_dist_px": 9.486832980505138,
+  "on_catalogue": 0,
+  "nan": 0
+ },
+ "registry": {
+  "evidence_class": "REGISTRY-MEASUREMENT",
+  "pinned_index": "evidence/registry_refreshed.json (695 rasters, snapshot 2026-10-10T20:01Z)",
+  "cache_restore_complete": true,
+  "restored": 115,
+  "already_cached": 580,
+  "errors": 0,
+  "uniqueness": {
+   "evidence_class": "REGISTRY-MEASUREMENT",
+   "script": "scripts/uniqueness_fast.py (KD-tree screen; same statistics and thresholds as the template audit scripts/audit_candidate_registry.py)",
+   "file": "evidence/uniqueness_h59i.json",
+   "registry_rasters_checked": 695,
+   "complete_accessible_scan": true,
+   "missing_or_invalid": 0,
+   "errors": [],
+   "scope": "all 695 SHA256-pinned competition-grid rasters (registry_refreshed.json, 2026-10-10T20:01Z snapshot; rasters published after that snapshot are not in this index and are a disclosed scope gap)",
+   "worst_spearman_full_footprint": 0.1758,
+   "worst_jaccard_dot_sets": 0.0424,
+   "identical_decoded_predictions": 0,
+   "literal_overlap_firings": 85,
+   "representation_aware": {
+    "dot_field_peers": 641,
+    "continuous_surface_peers": 54,
+    "peers_with_at_most_candidate_support": 418,
+    "peers_with_more_support_than_candidate": 223,
+    "worst_forward_overlap_vs_smaller_or_equal_peers": 0.7239134408526554,
+    "worst_reverse_overlap_vs_bigger_peers": 0.7360374656500368,
+    "worst_spearman_full_footprint": 0.17581757238896253,
+    "worst_jaccard_dot_sets": 0.04236458764632815,
+    "identical_decoded_predictions": 0,
+    "symmetric_statistics_unique": true,
+    "note": "Overlap legs are reported per direction of support asymmetry and are not operative: at 3 px (300 m) two independent dot fields that both trace the same 60,988-point catalogue necessarily share neighbourhoods. The template's own shipped candidates fired the same legs (95 and 85 firings on full 695-raster scans) and were still shipped."
+   },
+   "registry_duplicate_evidence": false,
+   "verdict_registry_leg": "no duplication identified (byte-unique, rho 0.176 <= 0.90, Jaccard 0.042 <= 0.50)"
+  },
+  "uniqueness_h59j": {
+   "file": "evidence/uniqueness_h59j.json",
+   "registry_rasters_checked": 695,
+   "complete_accessible_scan": true,
+   "worst_abs_spearman_full_footprint": 0.06357936282664807,
+   "worst_jaccard_dot_sets": 0.0209125370383654,
+   "identical_decoded_predictions": 0,
+   "literal_overlap_firings": 80,
+   "representation_aware": {
+    "dot_field_peers": 641,
+    "continuous_surface_peers": 54,
+    "peers_with_at_most_candidate_support": 82,
+    "peers_with_more_support_than_candidate": 559,
+    "overlap_by_direction": {
+     "informative_forward_vs_smaller_or_equal_peers": {
+      "value": 0.2919,
+      "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-e-disc-h40e-30k-nan.tif",
+      "reading": "candidate duplicated into a peer that cannot cover it: THE operative forward leg"
+     },
+     "uninformative_forward_vs_bigger_peers": {
+      "value": 0.9991333333333333,
+      "peer": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "reading": "a peer with far more support contains any candidate: non-operative (support asymmetry)"
+     },
+     "uninformative_reverse_vs_smaller_peers": {
+      "value": 0.3273776288851666,
+      "peer": "5GEMSDOE:data/evidence/runs/35042805806-experiment/submission.tif",
+      "reading": "a sparse peer is necessarily covered by a denser candidate: non-operative"
+     },
+     "informative_reverse_vs_bigger_peers": {
+      "value": 0.4085984073800096,
+      "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+      "reading": "a bigger peer duplicated into the candidate: the operative reverse leg"
+     }
+    },
+    "worst_spearman_full_footprint": 0.06357936282664807,
+    "worst_spearman_peer": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+    "worst_jaccard_dot_sets": 0.0209125370383654,
+    "worst_jaccard_peer": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-ridge-4e03fc9705.tif",
+    "identical_decoded_predictions": 0,
+    "identical_peers": [],
+    "symmetric_statistics_unique": true,
+    "note": "Both informative directional legs are inside their limits (forward vs smaller/equal peers 0.2919, reverse vs bigger peers 0.4086 <= 0.70), so the only 3 px firings are the two documented uninformative directions. Operative registry leg = symmetric, scale-free statistics (worst |Spearman rho| 0.0636 <= 0.90; worst dot-set Jaccard 0.0209 <= 0.50; 0 byte-identical peers). The 3 px overlap legs are uninformative in both documented directions (IR-57-REPR-01): a continuous-surface peer laps every non-empty candidate forward, and a peer with far more support contains the candidate's dots whichever family the candidate belongs to. Every raw leg firing is preserved in 'literal_leg_firings' with its peer name, support and Jaccard."
+   },
+   "verdict_registry_leg": "no duplication identified: byte-unique, and every symmetric scale-free statistic is far below its limit (IR-57-REPR-01 representation-aware reading)"
+  },
+  "uniqueness_h59j_offcat": {
+   "file": "evidence/uniqueness_h59j_offcat.json",
+   "registry_rasters_checked": 695,
+   "complete_accessible_scan": true,
+   "worst_abs_spearman_full_footprint": 0.06357936282664807,
+   "worst_jaccard_dot_sets": 0.0209125370383654,
+   "identical_decoded_predictions": 0,
+   "literal_overlap_firings": 80,
+   "representation_aware": {
+    "rules": {
+     "forward": "read only against peers whose expected 3 px disc coverage min(1, 29 * footprint_density) is <= 0.70",
+     "reverse": "read only against peers with >= 30 dots",
+     "operative": "byte identity + full-footprint Spearman + exact dot-set Jaccard + mutual 3 px coincidence (min of both directions, limit 0.70); every literal firing is listed"
+    },
+    "dot_field_peers": 641,
+    "continuous_surface_peers": 54,
+    "peers_with_at_most_candidate_support": 82,
+    "peers_with_more_support_than_candidate": 559,
+    "overlap_by_direction": {
+     "informative_forward": {
+      "value": 0.6451,
+      "peer": "GEMSDOE50:docs/downloads/gemsdoe50-h60-union-d0-75308-20261007T2250Z-allfinite.tif",
+      "peer_dots": 75308,
+      "expected_forward_overlap_proxy": 0.4226,
+      "n_peers": 496,
+      "limit": 0.7,
+      "reading": "candidate duplicated into a peer that cannot cover it"
+     },
+     "informative_reverse": {
+      "value": 0.4085984073800096,
+      "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+      "peer_dots": 45962,
+      "expected_forward_overlap_proxy": 0.2579,
+      "n_peers": 690,
+      "limit": 0.7,
+      "reading": "a peer with >= 30 dots duplicated into the candidate"
+     },
+     "mutual": {
+      "value": 0.4085984073800096,
+      "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+      "peer_dots": 45962,
+      "expected_forward_overlap_proxy": 0.2579,
+      "n_peers": 695,
+      "limit": 0.7,
+      "firings": 0,
+      "reading": "THE operative directional test: a near-copy must coincide in both directions"
+     },
+     "uninformative_forward_saturating_or_dense": {
+      "value": 1.0,
+      "peer": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+      "peer_dots": 5167373,
+      "expected_forward_overlap_proxy": 1.0,
+      "n_peers": 199,
+      "reading": "dense/regular peers whose discs already blanket the footprint: every non-empty candidate overlaps forward (IR-57-REPR-01)"
+     },
+     "uninformative_reverse_tiny_peers": {
+      "value": 0.09090909090909091,
+      "peer": "GEMSDOE52:docs/downloads/gems52-h58-coldgeo-consensus-22px-a55b0dee38-research.tif",
+      "peer_dots": 22,
+      "expected_forward_overlap_proxy": 0.0001,
+      "n_peers": 5,
+      "reading": "peers with < 30 dots: the fraction is 0 or 1 by luck"
+     }
+    },
+    "by_support": {
+     "forward_vs_smaller_or_equal_peers": {
+      "value": 0.2919,
+      "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-e-disc-h40e-30k-nan.tif",
+      "peer_dots": 30000,
+      "expected_forward_overlap_proxy": 0.1684
+     },
+     "forward_vs_bigger_peers": {
+      "value": 0.9991333333333333,
+      "peer": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "peer_dots": 206895,
+      "expected_forward_overlap_proxy": 1.0
+     },
+     "reverse_vs_smaller_or_equal_peers": {
+      "value": 0.3273776288851666,
+      "peer": "5GEMSDOE:data/evidence/runs/35042805806-experiment/submission.tif",
+      "peer_dots": 21492,
+      "expected_forward_overlap_proxy": 0.1206
+     },
+     "reverse_vs_bigger_peers": {
+      "value": 0.4085984073800096,
+      "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+      "peer_dots": 45962,
+      "expected_forward_overlap_proxy": 0.2579
+     }
+    },
+    "worst_spearman_full_footprint": 0.06357936282664807,
+    "worst_spearman_peer": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+    "worst_jaccard_dot_sets": 0.0209125370383654,
+    "worst_jaccard_peer": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-ridge-4e03fc9705.tif",
+    "identical_decoded_predictions": 0,
+    "identical_peers": [],
+    "literal_firing_count": 80,
+    "mutual_firing_count": 0,
+    "symmetric_statistics_unique": true,
+    "directional_legs_unique": true,
+    "registry_duplicate_evidence": false,
+    "note": "Operative registry leg = symmetric, scale-free statistics (worst |Spearman rho| 0.0636 <= 0.90; worst exact dot-set Jaccard 0.0209 <= 0.50; 0 byte-identical peers) PLUS the mutual 3 px coincidence (worst mutual 0.4086 <= 0.70, 0 firings). 80 literal one-sided leg firings are preserved in 'literal_leg_firings' with peer name, support and expected coverage; they lie in the two documented uninformative directions (IR-57-REPR-01)."
+   },
+   "verdict_registry_leg": "no duplication identified: byte-unique, and every symmetric scale-free statistic is far below its limit (IR-57-REPR-01 representation-aware reading)"
+  }
+ },
+ "raster": {
+  "file": "downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+  "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+  "bytes": 117938,
+  "dots": 30000,
+  "spacing_px": 3.0,
+  "on_catalogue_dots": 0,
+  "validator": {
+   "template_ok": true,
+   "template_problems": [],
+   "local": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+    "bytes": 117938,
+    "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
     "meta": {
-      "crs": "EPSG:32611",
-      "shape": [
-        3730,
-        3292
-      ],
-      "dtype": "float32",
-      "count": 1,
-      "nodata": null,
-      "transform": [
-        100.0,
-        0.0,
-        243350.0,
-        0.0,
-        -100.0,
-        4508550.0
-      ],
-      "profile_compress": "deflate"
+     "crs": "EPSG:32611",
+     "shape": [
+      3730,
+      3292
+     ],
+     "dtype": "float32",
+     "count": 1,
+     "nodata": null,
+     "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+     ],
+     "profile_compress": "deflate"
     },
     "band_description": [
-      null
+     null
     ],
     "n_finite": 12279160,
     "n_nan": 0,
     "n_infinite": 0,
     "min": 0.0,
     "max": 1.0,
-    "mean": 0.0025095364544540644,
-    "emitted_positive_pixels": 30815,
+    "mean": 0.002443163888528943,
+    "emitted_positive_pixels": 30000,
     "checks": {
+     "single_band": true,
+     "dtype_float32": true,
+     "dimensions_3730x3292": true,
+     "crs_epsg_32611": true,
+     "transform_matches_sample_submission": true,
+     "no_nan_anywhere": true,
+     "no_inf_anywhere": true,
+     "no_sentinel_values": true,
+     "range_0_1_guaranteed": true,
+     "min_ge_0": true,
+     "max_le_1": true,
+     "in_footprint_all_finite": true,
+     "in_footprint_range_0_1": true,
+     "outside_footprint_zero": true,
+     "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 30000,
+    "footprint_fraction": 0.005805657923281327
+   }
+  }
+ },
+ "submission": {
+  "name": "gems59-h59j-offcat-propen-30k-20261011",
+  "note": "H59-J off-catalogue discriminant, 30k dots, 3px spacing, 0 on catalogue; proxy 0.375 vs incumb 0.295; organiser-unverified",
+  "note_chars": 122,
+  "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+  "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+  "slots_used": 0
+ },
+ "verdict": "negative - H59-J is downloadable and format-valid but not cleared for a slot",
+ "experiments_used": 3,
+ "budget": "3 experiments / 2 hours (protocol rule 6) - lane complete, budget spent",
+ "generated_utc": "2026-10-11T03:00:05.280759+00:00",
+ "card_version": "H59-J release (H59-I history preserved under lane_h59i)",
+ "lane_h59i": {
+  "status": "negative at release time: HOLDOUT-DTI 0.082161 below the published holdout best 0.135204; kept as history",
+  "holdout_dti": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "evaluator_implementation_sha256": {
+    "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+   },
+   "split": "buffered-whole-components-loqo-v2, seed 20 (identical draw to the published Session-5/7 arms)",
+   "withheld_positive_pixels": 11321,
+   "alpha": 0.2,
+   "beta": 0.8,
+   "triangular_radius_m": 300,
+   "final_arm_collar2": {
+    "dti": 0.082161,
+    "ci95": [
+     0.069542,
+     0.096158
+    ]
+   },
+   "final_arm_collar0": {
+    "dti": 0.074717,
+    "ci95": [
+     0.063251,
+     0.08697
+    ]
+   },
+   "baseline_s3": {
+    "dti": 0.070517,
+    "ci95": [
+     0.059423,
+     0.08218
+    ]
+   },
+   "exp1_arms": {
+    "intensity_g0": {
+     "dti": 0.070517,
+     "ci95": [
+      0.059192,
+      0.083385
+     ]
+    },
+    "intensity_g05": {
+     "dti": 0.068715,
+     "ci95": [
+      0.057161,
+      0.081582
+     ]
+    },
+    "intensity_g1": {
+     "dti": 0.068925,
+     "ci95": [
+      0.057463,
+      0.082023
+     ]
+    },
+    "intensity_geo_g1": {
+     "dti": 0.037661,
+     "ci95": [
+      0.031699,
+      0.044437
+     ]
+    },
+    "uniform_random": {
+     "dti": 0.068229,
+     "ci95": [
+      0.059875,
+      0.076627
+     ]
+    }
+   },
+   "published_reference": {
+    "source": "57GEMSDOE evidence/relay_bend_holdout.json (Session 5, same evaluator and same seed-20 draw)",
+    "relay_bend_anatomy_dti": 0.135204,
+    "relay_bend_anatomy_ci": [
+     0.11914,
+     0.153036
+    ],
+    "distance_only_dti": 0.112725,
+    "distance_only_ci": [
+     0.101428,
+     0.124446
+    ]
+   },
+   "beats_published_holdout_best": false
+  },
+  "raster": {
+   "file": "downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+   "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+   "bytes": 117938,
+   "dots": 30000,
+   "spacing_px": 3.0,
+   "on_catalogue_dots": 0,
+   "validator": {
+    "template_ok": true,
+    "template_problems": [],
+    "local": {
+     "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+     "bytes": 117938,
+     "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+     "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+       3730,
+       3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+       100.0,
+       0.0,
+       243350.0,
+       0.0,
+       -100.0,
+       4508550.0
+      ],
+      "profile_compress": "deflate"
+     },
+     "band_description": [
+      null
+     ],
+     "n_finite": 12279160,
+     "n_nan": 0,
+     "n_infinite": 0,
+     "min": 0.0,
+     "max": 1.0,
+     "mean": 0.002443163888528943,
+     "emitted_positive_pixels": 30000,
+     "checks": {
       "single_band": true,
       "dtype_float32": true,
       "dimensions_3730x3292": true,
@@ -70,429 +593,192 @@
       "in_footprint_range_0_1": true,
       "outside_footprint_zero": true,
       "zero_dots_on_mapped_catalogue": true
+     },
+     "all_checks_passed": true,
+     "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+     "on_catalogue_positive_pixels": 0,
+     "in_footprint_positive_pixels": 30000,
+     "footprint_fraction": 0.005805657923281327
+    }
+   }
+  },
+  "submission": {
+   "name": "gems59-h59j-offcat-propen-30k-20261011",
+   "note": "H59-J off-catalogue discriminant, 30k dots, 3px spacing, 0 on catalogue; proxy 0.375 vs incumb 0.295; organiser-unverified",
+   "note_chars": 122,
+   "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+   "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "slots_used": 0
+  },
+  "verdict": "negative - H59-J is downloadable and format-valid but not cleared for a slot"
+ },
+ "instrument": {
+  "evidence_class": "PROXY-MEASUREMENT (off-catalogue SGMC proxy truth; not a competition score)",
+  "script": "scripts/run_offcatalogue_lane.py",
+  "oof_auc": {
+   "per_fold": [
+    {
+     "fold": 0,
+     "n_test": 1729525,
+     "n_pos": 22292,
+     "auc_oof_on_proxy": 0.7340590235414471
     },
-    "all_checks_passed": true,
-    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
-    "on_catalogue_positive_pixels": 0,
-    "in_footprint_positive_pixels": 30815,
-    "footprint_fraction": 0.005963378296863803
+    {
+     "fold": 1,
+     "n_test": 1311564,
+     "n_pos": 27235,
+     "auc_oof_on_proxy": 0.7296944104453928
+    },
+    {
+     "fold": 2,
+     "n_test": 1114140,
+     "n_pos": 10741,
+     "auc_oof_on_proxy": 0.7738491417817241
+    },
+    {
+     "fold": 3,
+     "n_test": 208451,
+     "n_pos": 2404,
+     "auc_oof_on_proxy": 0.7294292315194519
+    },
+    {
+     "fold": 4,
+     "n_test": 169500,
+     "n_pos": 1981,
+     "auc_oof_on_proxy": 0.6382141350536688
+    },
+    {
+     "fold": 5,
+     "n_test": 634193,
+     "n_pos": 13780,
+     "auc_oof_on_proxy": 0.7519138184361797
+    }
+   ],
+   "pooled": 0.7444497733448147
   },
-  "portal_preflight": {
-    "ok": true,
-    "problems": [],
-    "nodata": null,
-    "min": 0.0,
-    "max": 1.0,
-    "mean": 0.0025095364544540644,
-    "n_nonzero": 30815,
-    "mass": 30815.0,
-    "mass_outside_footprint": 0,
-    "bounds": [
-      243350.0,
-      4135550.0,
-      572550.0,
-      4508550.0
-    ],
-    "ref_bounds": [
-      243350.0,
-      4135550.0,
-      572550.0,
-      4508550.0
-    ],
-    "crs": "EPSG:32611",
-    "dtype": "float32",
-    "width": 3292,
-    "height": 3730,
-    "blocksize": [
-      256,
-      256
-    ],
-    "has_validity_mask": false,
-    "positive_pixels": 30815
+  "leakage_canary": 0.7347378928399406,
+  "leakage_canary_flag": false,
+  "proxy_truth": {
+   "px_all": 78433,
+   "px_far": 61664,
+   "px_matched": 12611,
+   "target_px": 12700
   },
+  "emission_design": {
+   "script": "scripts/design_emission_h59j.py",
+   "selection_rule": "criterion = T_proxy / (0.2*S_proxy + 0.8*G_calibrated), G_calibrated = 12700, truth = SGMC off-catalogue faults > 300 m from the catalogue; pre-declared. Reproduces the observed within-family live ladder (b2 > d2.8 > d1.5 > h19-5) which is the only regime where a local instrument has been shown to track the live board.",
+   "G_calibrated": 12700.0,
+   "selected": {
+    "spacing_px": 3.0,
+    "budget": 44090,
+    "criterion": 0.4605679364401821,
+    "on_catalogue": 669
+   }
+  },
+  "cross_family_rank_check": {
+   "n": 62,
+   "rho": null,
+   "p_value": 0.6606537998529944,
+   "source": "evidence/ledger_forensics_h59j.json on the 62-row merged owner-reported ledger",
+   "reading": "within-family only; does not rank live scores across families"
+  }
+ },
+ "promotion_decision": {
+  "evidence_class": "HOLDOUT/PROXY MEASUREMENT; no organizer score",
+  "decided_utc": "2026-10-11T03:00:05.275248+00:00",
+  "verdict": "negative: not cleared for a weekly submission slot",
+  "basis": [
+   "No organizer-verified live score exists for this file and none is projected: the off-catalogue proxy criterion is calibrated within-family only.",
+   "Across artifact families the same proxy does not rank live scores: Spearman -0.057 (p 0.661) on 62 owner-reported anchors (the only significant term is credit-per-dot on the far collar, rho 0.252, p 0.048, and it is family-internal); the two direct off-catalogue emissions in the ladder scored 0.0512 and 0.0360 live against a 0.2778 incumbent.",
+   "The shipped raster measures criterion 0.3759 on the proxy truth (T 6350.0, S 33668.5, credit/dot 0.2117; evidence/h59j_emission_measurement.json), above the incumbent's 0.2952 -- but that ordering is within-family only and does not transfer live (the two cross-family artifacts above criterion 1.5 scored 0.036-0.051).",
+   "Emission design preferred spacing 3.0 px at 44090 dots (criterion 0.4606); the build used 30,000 dots because the owner live ladder is monotone down in budget, which makes the as-built arm the conservative choice, not the proxy-preferred one.",
+   "Registry leg is clean (695 rasters, 0 errors: 0 identical decoded predictions, worst |Spearman rho| 0.0636, worst exact dot-set Jaccard 0.0209; 80 literal 3 px firings are all in the two documented uninformative directions, IR-57-REPR-01), so the negative verdict is about the instrument, not about duplication.",
+   "Catalogue hide-and-recover holdout (HOLDOUT-DTI 0.082161, evaluator gems57-pooled-hide-v2, 11,321 withheld positives) remains below the published holdout best 0.135204, and the off-catalogue lane was built precisely because that instrument mis-ranks off-catalogue families (rho -0.544 with catalogue adjacency on live anchors)."
+  ],
+  "what_would_clear_it": "an organizer-confirmed live score for an off-catalogue-family emission at or above the incumbent 0.2778, or a lane whose cross-family proxy ranks live scores (|rho| with p < 0.05 in the right direction) and whose top arm beats the incumbent's proxy criterion",
+  "slots_used": 0,
+  "owner_action": "selector step; this project does not pick or consume submission slots"
+ },
+ "parallel_lane": {
+  "session": "59GEMSDOE / arena/1ee0553d-59gemsdoe (merged from main)",
+  "candidate": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+  "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+  "bytes": 131274,
+  "dots": 30815,
+  "note": "H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 35k budget.",
+  "note_chars": 124,
+  "method": "structure-tensor ridge coherence consensus (det_elev, rtp, iso_grav_anom) dotted at a live-calibrated budget, 2 px catalogue collar",
   "holdout_dti": {
-    "evidence_class": "HOLDOUT-DTI",
-    "evaluator_version": "gems57-pooled-hide-v2",
-    "evaluator_implementation_sha256": {
-      "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
-      "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
-      "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
-      "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
-    },
-    "split": "buffered-whole-components-loqo-v2",
-    "seed": 20,
-    "withheld_positive_pixels": 11321,
-    "alpha": 0.2,
-    "beta": 0.8,
-    "triangular_radius_m": 300.0,
-    "dti": 0.019123682439540362,
-    "ci95": [
-      0.016393250399380523,
-      0.022147878444747773
-    ],
-    "per_fold": [
-      {
-        "fold": 0,
-        "name": "NW",
-        "dti": 0.020467956732645638,
-        "n_truth": 1923,
-        "tp": 57.44857075965878,
-        "fp": 6284.333967980614,
-        "fn": 1865.5514292403411
-      },
-      {
-        "fold": 1,
-        "name": "NE",
-        "dti": 0.014597870317142868,
-        "n_truth": 2367,
-        "tp": 44.35693280186379,
-        "fp": 5680.589653993624,
-        "fn": 2322.643067198136
-      },
-      {
-        "fold": 2,
-        "name": "SW",
-        "dti": 0.01880097531645346,
-        "n_truth": 3781,
-        "tp": 89.43146788933244,
-        "fp": 8570.299531179493,
-        "fn": 3691.5685321106675
-      },
-      {
-        "fold": 3,
-        "name": "SE",
-        "dti": 0.021989967574226686,
-        "n_truth": 3250,
-        "tp": 88.33525133784718,
-        "fp": 6997.017544129748,
-        "fn": 3161.6647486621528
-      }
-    ],
-    "bootstrap": {
-      "method": "paired physical spatial-cluster percentile",
-      "clusters": 157,
-      "draws": 1000,
-      "seed": 520817,
-      "confidence": 0.95,
-      "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
-    },
-    "caveat": "local instrument, not an organizer score; it is NOT used to promote this candidate because it is measured to be rank-inverted against the public board (below)"
+   "evidence_class": "HOLDOUT-DTI",
+   "value": 0.019123682439540362,
+   "ci95": [
+    0.016393250399380523,
+    0.022147878444747773
+   ],
+   "withheld_positive_pixels": 11321,
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "note": "far below the H59-I arm on this instrument; the lane's own calibration says the instrument is rank-inverted against the public board"
   },
-  "instrument_validity": {
-    "why_it_is_not_a_promotion_gate": "the hide-and-recover truth is the public catalogue itself, so designs that decorate the catalogue win locally, while the competition's truth is the complement of that catalogue",
-    "spearman_holdout_vs_owner_reported_live": {
-      "rho": -0.43737757105384134,
-      "p_value": 0.03257227254419616,
-      "n": 24
-    },
-    "spearman_holdout_vs_live_name_tier": {
-      "rho": -0.48265695800902053,
-      "p_value": 0.05827718795384446,
-      "n": 16
-    },
-    "spearman_log10_emitted_dots_vs_live": {
-      "rho": -0.8182632015984325,
-      "p_value": 1.0338370899322476e-06,
-      "n": 24
-    },
-    "spearman_log10_emitted_dots_vs_live_name_tier": {
-      "rho": -0.8594683960086155,
-      "p_value": 1.9854534040158788e-05,
-      "n": 16
-    },
-    "receipt": "evidence/h59j_live_calibration.json",
-    "irregularity": "IR-59J-01",
-    "consequence": "this candidate's 30,815-dot budget is set from the live-calibrated relation (owner-recorded 0.2778 = 37,654 dots at the sparse end of the family), not from the inverted holdout"
-  },
-  "correlation_overlap_vs_registry": {
-    "registry_index": "evidence/registry_refreshed.json (695 sha256-pinned rasters, 44 repos)",
-    "registry_rasters_expected": 695,
-    "registry_rasters_checked": 695,
-    "missing_or_invalid": 0,
-    "complete_accessible_scan": true,
-    "candidate_sha256_checked_by_screen": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
-    "identical_file_or_pixels": false,
-    "worst_spearman": 0.04748982125659025,
-    "worst_spearman_submission": "GEMSDOE51:archive/submissions/2026-10-07/gemsdoe51-ste-hd-w035-s24-r347-20261007T024659Z-zeros.tif",
-    "worst_reverse_overlap": 0.3765602592022096,
-    "worst_reverse_overlap_submission": "56GEMSDOE:docs/downloads/h56-corr-snap200cm-20261009.tif",
-    "worst_jaccard": 0.027014459710805783,
-    "worst_jaccard_submission": "56GEMSDOE:docs/downloads/h56-corridor-b2to5-20261009-20261009T185857Z.tif",
-    "worst_dot_overlap_literal": 1.0,
-    "leg1_literal_passed": false,
-    "leg1_literal_rows": 86,
-    "leg1_literal_caveat": "IR-57-REPR-01: the literal forward leg is chance-saturated against denser scatter designs. For every one of the 86 rows it fires on, a randomly placed dot would land within 3 px of a peer dot with probability 1-(1-density)^29 >= 0.79 (see forward_leg_literal_only_rows in the receipt).",
-    "leg3_scale_free_passed": true,
-    "leg4_support_matched_passed": true,
-    "worst_dot_overlap_support_matched_peers": 0.2563037481745903,
-    "worst_support_matched_submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-zeros.tif",
-    "overlap_versus_peer_support": {
-      "dense_peers_excluded_from_forward_leg": 54,
-      "scatter_peers_forward_leg_not_operative": 105,
-      "dot_peers": 641,
-      "worst_forward_leg_rows": [
-        {
-          "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
-          "footprint_density": 1.0,
-          "chance_forward_overlap": 1.0,
-          "my_dots_within_3px_of_theirs": 1.0,
-          "their_dots_within_3px_of_mine": 0.09964637737589294,
-          "mutual_dot_overlap": 0.09964637737589294,
-          "jaccard_dot_sets": 0.005963378296863803,
-          "spearman_full_footprint": 0.015750394647235627
-        },
-        {
-          "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T043629Z/submission.tif",
-          "footprint_density": 1.0,
-          "chance_forward_overlap": 1.0,
-          "my_dots_within_3px_of_theirs": 1.0,
-          "their_dots_within_3px_of_mine": 0.09964637737589294,
-          "mutual_dot_overlap": 0.09964637737589294,
-          "jaccard_dot_sets": 0.005963378296863803,
-          "spearman_full_footprint": 0.015750394647235627
-        },
-        {
-          "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-unassigned-mtheta.tif",
-          "footprint_density": 1.0,
-          "chance_forward_overlap": 1.0,
-          "my_dots_within_3px_of_theirs": 1.0,
-          "their_dots_within_3px_of_mine": 0.09964637737589294,
-          "mutual_dot_overlap": 0.09964637737589294,
-          "jaccard_dot_sets": 0.005963378296863803,
-          "spearman_full_footprint": -0.03235455284038408
-        },
-        {
-          "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-plausibility-20261006T201749Z-95897e3f8125.tif",
-          "footprint_density": 1.0,
-          "chance_forward_overlap": 1.0,
-          "my_dots_within_3px_of_theirs": 1.0,
-          "their_dots_within_3px_of_mine": 0.09964637737589294,
-          "mutual_dot_overlap": 0.09964637737589294,
-          "jaccard_dot_sets": 0.005963378296863803,
-          "spearman_full_footprint": 0.011415682118699054
-        },
-        {
-          "submission": "57GEMSDOE:docs/downloads/gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
-          "footprint_density": 0.9881974844858307,
-          "chance_forward_overlap": 1.0,
-          "my_dots_within_3px_of_theirs": 1.0,
-          "their_dots_within_3px_of_mine": 0.09841561104382063,
-          "mutual_dot_overlap": 0.09841561104382063,
-          "jaccard_dot_sets": 0.00603460177797013,
-          "spearman_full_footprint": 0.027761151399311384
-        }
-      ],
-      "worst_mutual_rows": [
-        {
-          "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-zeros.tif",
-          "footprint_density": 0.007740877231041769,
-          "my_dots_within_3px_of_theirs": 0.2563037481745903,
-          "their_dots_within_3px_of_mine": 0.33985,
-          "mutual_dot_overlap": 0.2563037481745903,
-          "jaccard_dot_sets": 0.011715122508750625,
-          "registry_dots": 40000
-        },
-        {
-          "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-nan.tif",
-          "footprint_density": 0.007740877231041769,
-          "my_dots_within_3px_of_theirs": 0.2563037481745903,
-          "their_dots_within_3px_of_mine": 0.33985,
-          "mutual_dot_overlap": 0.2563037481745903,
-          "jaccard_dot_sets": 0.011715122508750625,
-          "registry_dots": 40000
-        },
-        {
-          "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-support-disagreement.tif",
-          "footprint_density": 0.03421100044451988,
-          "my_dots_within_3px_of_theirs": 0.24724971604737953,
-          "their_dots_within_3px_of_mine": 0.24029731701936294,
-          "mutual_dot_overlap": 0.24029731701936294,
-          "jaccard_dot_sets": 0.012777043278026316,
-          "registry_dots": 176781
-        },
-        {
-          "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-support_difference-5bb2c03c981e.tif",
-          "footprint_density": 0.03421100044451988,
-          "my_dots_within_3px_of_theirs": 0.24724971604737953,
-          "their_dots_within_3px_of_mine": 0.24029731701936294,
-          "mutual_dot_overlap": 0.24029731701936294,
-          "jaccard_dot_sets": 0.012777043278026316,
-          "registry_dots": 176781
-        },
-        {
-          "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-support-disagreement-9ec0d605c45b.tif",
-          "footprint_density": 0.03421100044451988,
-          "my_dots_within_3px_of_theirs": 0.24724971604737953,
-          "their_dots_within_3px_of_mine": 0.24029731701936294,
-          "mutual_dot_overlap": 0.24029731701936294,
-          "jaccard_dot_sets": 0.012777043278026316,
-          "registry_dots": 176781
-        }
-      ],
-      "explanation": "no registry raster is a copy of this candidate: the largest mutual 3 px coincidence with any of the 695 rasters is 0.256, the largest dot-set Jaccard is 0.027, and the largest rank correlation over the footprint is 0.047"
-    },
-    "unique": true,
-    "operational_verdict": "promote-to-selector-only",
-    "scope": "all 695 SHA256-pinned competition-grid rasters (registry_refreshed.json, 2026-10-10T20:01Z snapshot; rasters published after that snapshot are not in this index and are a disclosed scope gap)",
-    "seconds": 290.6,
-    "generated_utc": "2026-10-11T02:14:31Z",
-    "candidate_sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
-    "candidate": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
-    "full_rows_receipt": "evidence/uniqueness_h59j.json",
-    "self": "evidence/uniqueness_h59j_view.json",
-    "leg3_scale_free": {
-      "passed": true,
-      "scope": "all 695 checked registry rasters",
-      "worst_spearman": 0.04748982125659025,
-      "spearman_limit": 0.9,
-      "worst_jaccard": 0.027014459710805783,
-      "jaccard_limit": 0.5
-    },
-    "leg4_support_matched": {
-      "passed": true,
-      "scope": "support-matched peers: the 641 dot-support rasters whose coverage is at or below half the footprint; the statistic is the mutual 3 px coincidence, min(forward, reverse)",
-      "worst_mutual_dot_overlap": 0.2563037481745903,
-      "limit": 0.7,
-      "worst_forward_leg_overlap_literal": 1.0,
-      "note": "the literal forward leg (my dots within 3 px of a peer's dots) fires on 86 rasters, every one of them with an analytic chance level >= 0.79 for a randomly placed dot, so the leg carries no evidence of copying there (IR-57-REPR-01)",
-      "worst_reverse_overlap": 0.3765602592022096,
-      "support_threshold_dots": 30
-    },
-    "support_threshold_dots_for_overlap_legs": 30,
-    "peers_below_support_threshold": [
-      {
-        "submission": "GEMSDOE52:docs/downloads/gems52-h58-coldgeo-consensus-22px-a55b0dee38-research.tif",
-        "registry_dots": 22,
-        "their_dots_within_3px_of_mine": 0.09090909090909091,
-        "reason": "peer has too few dots for the reverse leg to carry evidence"
-      },
-      {
-        "submission": "GEMSDOE50:docs/downloads/gemsdoe50-h53-probe-tmi-pointlineation-20261007-44afc05b.tif",
-        "registry_dots": 0,
-        "their_dots_within_3px_of_mine": 0.0,
-        "reason": "peer has too few dots for the reverse leg to carry evidence"
-      },
-      {
-        "submission": "56GEMSDOE:docs/downloads/h56-corr-snap200cm-20261009.tif",
-        "registry_dots": 1,
-        "their_dots_within_3px_of_mine": 1.0,
-        "reason": "peer has too few dots for the reverse leg to carry evidence"
-      },
-      {
-        "submission": "GEMSDOE21:docs/data/template-mask.tif",
-        "registry_dots": 0,
-        "their_dots_within_3px_of_mine": 0.0,
-        "reason": "peer has too few dots for the reverse leg to carry evidence"
-      },
-      {
-        "submission": "56GEMSDOE:docs/downloads/h56-corr-snap100cm-20261009.tif",
-        "registry_dots": 14,
-        "their_dots_within_3px_of_mine": 0.5,
-        "reason": "peer has too few dots for the reverse leg to carry evidence"
-      }
-    ],
-    "worst_reverse_overlap_informative_peers": 0.3765602592022096,
-    "worst_reverse_overlap_informative_submission": "56GEMSDOE:docs/downloads/h56-corridor-b2to5-20261009-20261009T185857Z.tif",
-    "worst_reverse_overlap_literal_all_peers": 1.0,
-    "nearest_registry_neighbours": [
-      {
-        "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-zeros.tif",
-        "registry_dots": 40000,
-        "my_dots_within_3px_of_theirs": 0.2563037481745903,
-        "their_dots_within_3px_of_mine": 0.33985,
-        "mutual_dot_overlap": 0.2563037481745903,
-        "jaccard_dot_sets": 0.011715122508750625,
-        "spearman_full_footprint": 0.01740408654168265
-      },
-      {
-        "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-nan.tif",
-        "registry_dots": 40000,
-        "my_dots_within_3px_of_theirs": 0.2563037481745903,
-        "their_dots_within_3px_of_mine": 0.33985,
-        "mutual_dot_overlap": 0.2563037481745903,
-        "jaccard_dot_sets": 0.011715122508750625,
-        "spearman_full_footprint": 0.01740408654168265
-      },
-      {
-        "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-support-disagreement.tif",
-        "registry_dots": 176781,
-        "my_dots_within_3px_of_theirs": 0.24724971604737953,
-        "their_dots_within_3px_of_mine": 0.24029731701936294,
-        "mutual_dot_overlap": 0.24029731701936294,
-        "jaccard_dot_sets": 0.012777043278026316,
-        "spearman_full_footprint": 0.019756796118159628
-      },
-      {
-        "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-support_difference-5bb2c03c981e.tif",
-        "registry_dots": 176781,
-        "my_dots_within_3px_of_theirs": 0.24724971604737953,
-        "their_dots_within_3px_of_mine": 0.24029731701936294,
-        "mutual_dot_overlap": 0.24029731701936294,
-        "jaccard_dot_sets": 0.012777043278026316,
-        "spearman_full_footprint": 0.01931773258214507
-      },
-      {
-        "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-support-disagreement-9ec0d605c45b.tif",
-        "registry_dots": 176781,
-        "my_dots_within_3px_of_theirs": 0.24724971604737953,
-        "their_dots_within_3px_of_mine": 0.24029731701936294,
-        "mutual_dot_overlap": 0.24029731701936294,
-        "jaccard_dot_sets": 0.012777043278026316,
-        "spearman_full_footprint": 0.01931773258214507
-      }
-    ],
-    "receipt": "evidence/uniqueness_h59j_view.json"
+  "live_calibration": {
+   "holdout_vs_live": {
+    "rho": -0.43737757105384134,
+    "p_value": 0.03257227254419616,
+    "n": 24
+   },
+   "dots_vs_live": {
+    "rho": -0.8182632015984325,
+    "p_value": 1.0338370899322476e-06,
+    "n": 24
+   },
+   "n_files": 26,
+   "n_labelled": 24,
+   "reading": "owner-recorded public scores in sibling file names; the emitted dot count is the dominant live term in this family"
   },
   "projection": {
-    "label": "PROJECTION (not a score)",
-    "basis": "the owner-recorded public scores of this family fall monotonically with emitted dot count: 264k -> 0.034, 207k -> 0.090, 155k -> 0.083-0.119, 121k -> 0.192, 60k -> 0.248, 42k -> 0.265, 40k -> 0.271, 37.7k -> 0.271/0.278; this candidate emits 30,815 dots in the same 2-3 px fragment geometry",
-    "band": "0.24-0.29",
-    "confidence": "low; the placement quality of this candidate is unvalidated by any instrument that is known to track the public board, and the public #1 is 0.4133"
+   "band": [
+    0.24,
+    0.29
+   ],
+   "evidence_class": "PROJECTION - not a measurement or score",
+   "basis": "live-calibrated dot-count band"
   },
-  "leakage_canary": {
-    "result": "not re-run for this candidate; the sibling band-based arms on the same evaluator passed with max AUC 0.776 < 0.90 (IR: canary is per-feature, not per-designed-field)"
+  "registry": {
+   "verdict": "promote-to-selector-only",
+   "worst_spearman_full_footprint": 0.04748982125659025,
+   "worst_jaccard_dot_sets": 0.027014459710805783,
+   "worst_mutual_dot_overlap": 0.2563037481745903,
+   "flags_representation_aware": 0,
+   "literal_firings": 86
   },
-  "negative_results_this_session": [
-    {
-      "id": "H59-I",
-      "what": "zoning + 4 px lattice + 2 px collar",
-      "holdout_dti": 0.082161,
-      "holdout_ci95": [
-        0.069542,
-        0.096158
-      ],
-      "comparator": {
-        "relay_bend_anatomy": 0.135204,
-        "ci95": [
-          0.11914,
-          0.153036
-        ]
-      },
-      "verdict": "negative -- below the published holdout comparator; no slot spent",
-      "file": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
-      "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d"
-    },
-    {
-      "id": "IR-59J-01",
-      "what": "the shared holdout instrument is rank-inverted against the public board (rho = -0.437, p = 0.033, n = 24 owner-recorded scores)",
-      "verdict": "negative for the instrument, not for the candidate"
-    }
-  ],
-  "reproduce": [
-    ".venv/bin/python scripts/prepare_data.py --fetch --cache-bands",
-    ".venv/bin/python scripts/prep_feature_stack.py",
-    ".venv/bin/python scripts/build_h59j_submission.py --fragment 3 --fragment-step 2 --budget 36000 --out downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif --name gems59-h59j-coherence-consensus-dotted-20261011T043000Z",
-    "PYTHONPATH=src .venv/bin/python scripts/validate_submission.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif data/bridge/sample_submission.tif",
-    ".venv/bin/python scripts/uniqueness_fast.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif --out evidence/uniqueness_h59j.json",
-    ".venv/bin/python scripts/candidate_holdout_ci.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif --out evidence/h59j_candidate_ci.json"
-  ],
-  "evidence_files": {
-    "writer_receipt": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.json",
-    "uniqueness_screen": "evidence/uniqueness_h59j.json",
-    "uniqueness_view": "evidence/uniqueness_h59j_view.json",
-    "holdout_ci": "evidence/h59j_candidate_ci.json",
-    "instrument_calibration": "evidence/h59j_live_calibration.json",
-    "answers_the_02778_question": "docs/research/why-02778.md",
-    "hypotheses_ranked": "docs/research/hypotheses-v2.md"
+  "writer_receipt": {
+   "file": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+   "approved_for_weekly_slot": false,
+   "promoted": false,
+   "submission_slots_used": 0,
+   "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval"
+  },
+  "status_disagreement": "The lane's page presents the candidate as submit-OK on a PROJECTION; its own writer receipt records approved_for_weekly_slot=False and promoted=False. The merged site reports both verbatim (IR-H59J-10) and leaves the selector to the owner."
+ },
+ "candidates": [
+  {
+   "name": "gems59-h59j-offcat-propen-30k-20261011",
+   "file": "downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+   "sha256": "6435ecec1391a0eea3648ea1d802af4ecb22715d5dfbf566724f90d3da4839c6",
+   "dots": 30000,
+   "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
+   "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "receipt": "evidence/submission_h59j.json",
+   "lane": "arena/fba37db3 (off-catalogue discriminant)"
+  },
+  {
+   "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z",
+   "file": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+   "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+   "bytes": 131274,
+   "download_status": "OK (unique, locally validated)",
+   "submit_status": "NO at receipt level (approved_for_weekly_slot=False); the lane publishes a PROJECTION 0.24-0.29 as an expectation, not a clearance",
+   "receipt": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.json",
+   "lane": "arena/1ee0553d (ridge coherence consensus)"
   }
+ ]
 }

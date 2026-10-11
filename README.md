@@ -1,45 +1,71 @@
-# 59GEMSDOE — intensity lane (session H59-J)
+# 59GEMSDOE — off-catalogue lane (session H59-J), merged with the parallel lanes
 
-**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT OK (format + uniqueness clear, no slot spent)** — the current
-candidate is a unique, format-valid, registry-clear raster. **Expected public score 0.24–0.29 is a
-PROJECTION, not a measurement**, and the public #1 is 0.4133, so it is slot-eligible but not a favourite.
-Promotion to a weekly slot is the owner's separate selector step. No slot has been spent by this project. Board context (ORGANIZER-CONFIRMED, 2026-10-11 rev 2): #1 0.4133 · #8 DARD 0.3195 · #23 extradr19 0.2778.
+**Status (2026-10-11):** **DOWNLOAD OK · SUBMIT NO for every published candidate** — four format-valid,
+registry-screened candidates from three parallel sessions; none is **cleared for a weekly slot**, and no slot has
+been spent. Negative results are deliverables.
 
-- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html) · [Results](docs/results.html) · [Sources](docs/sources.html) · [Irregularities](docs/irregularities.html)
-- **Download:** [`docs/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif`](docs/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif)
-  (SHA256 `44c54063…7e7131`, 131,274 bytes, 30,815 binary dots = 0.596 % of the study region, all-finite, [0,1],
-  EPSG:32611, 3730×3292, transform `(100, 0, 243350, 0, -100, 4508550)`) + single-TIFF ZIP + writer receipt
-- **Run card:** [`evidence/run_card_current.json`](evidence/run_card_current.json) (verdict `promote-candidate`,
-  `okay_to_submit: true`, slots used 0) — mirrored byte-identically to `docs/data/run_card.json`
-- **Registry uniqueness:** [`evidence/uniqueness_h59j.json`](evidence/uniqueness_h59j.json) — all 695 pinned
-  rasters, 0 errors: worst Spearman ρ **0.0475** (limit 0.90), worst dot-set Jaccard **0.0270** (limit 0.50),
-  worst *mutual* 3 px coincidence **0.256** (limit 0.70) → unique; `scripts/check_site.py` passes end to end.
-  The literal forward leg fires on 86 rasters that are *chance-saturated* peers (a random dot would overlap
-  them with probability ≥ 0.79 at their density), which is reported per row, not hidden (IR-57-REPR-01).
-- **Method:** structure-tensor ridge coherence consensus over detrended elevation, reduced-to-pole magnetics and
-  isostatic gravity (bands 12/2/13), geometric-mean of per-physics quantile ranks, dots at 3×3 non-maximum
-  suppression walked ±2 px along the ridge, zero inside a 2 px catalogue collar, budget set from the
-  live-calibrated dot-count relation.
-- **Holdout (reported, not used to promote):** HOLDOUT-DTI **0.01912 [0.01639, 0.02215]** — evaluator
-  `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw, 1000-draw 200 px spatial-cluster bootstrap
-  ([`evidence/h59j_candidate_ci.json`](evidence/h59j_candidate_ci.json)).
-- **Why the holdout is not the gate:** it is measured to be rank-*inverted* against the public board
-  (ρ −0.437, p 0.033, n 24 owner-recorded scores) and so is the SGMC off-catalogue proxy (ρ −0.665, p 0.0004);
-  the emitted dot count is the live-calibrated driver (ρ −0.818, p < 1e-4). See
-  [`docs/research/why-02778.md`](docs/research/why-02778.md) and IR-59J-01/02/03.
-- **Archived negative deliverable:** the H59-I lattice
-  ([`docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif`](docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif),
-  HOLDOUT-DTI 0.08216 [0.06954, 0.09616] < the 0.135204 comparator) is not promoted.
-- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) · **three-pass review:** [`docs/research/three-pass-review-h59j.md`](docs/research/three-pass-review-h59j.md)
+| Candidate | Dots | What it is | Verdict |
+| --- | ---: | --- | --- |
+| **H59-J (current)** `gems59-h59j-offcat-propen-30k-20261011.tif` (lane `fba37db3`) | 30,000 | off-catalogue discriminant (six blocked folds, OOF AUC 0.7444) → top ranks, 3 px spacing, **0 dots on the mapped catalogue** | download OK / **submit NO** — the proxy criterion is a within-family screen only (ρ −0.057, p 0.66 across 62 owner-reported anchors) |
+| **H59-I** `gems59-h59i-intensity-lattice-20261011T000000Z.tif` (lane `f8d022fd`) | 71,119 | presence-only MaxEnt/Poisson intensity, 1 km new-fault-density zoning, holdout break-even lattice | download OK / **submit NO** — HOLDOUT-DTI 0.08216 [0.06954, 0.09616] < published holdout best 0.135204 |
+| **H59-J (parallel)** `gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif` (lane `1ee0553d`) | 30,815 | structure-tensor ridge coherence consensus (detrended elevation + RTP magnetics + isostatic gravity), dotted at a live-calibrated 36k budget, 2 px catalogue collar | download OK / **submit NO** — its own writer receipt records `approved_for_weekly_slot=False`; its 0.24–0.29 expectation is a PROJECTION (IR-H59J-10) |
+| **replication** `59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif` (lane `1ac83927`) | 50,651 | the brief's intensity lane re-derived independently (1 km zoning, presence-only intensity with effort correction, 3 px lattice) | download OK / **submit NO** — its run card records `okay_to_submit=False`, verdict `negative` |
+| **H59-A** `gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif` (lane `1ba7bc3e`) | 38,593 | the brief's intensity lane through to break-even tiling (NMS 3.16 px, 0 dots within 200 m of the catalogue), own registry screens NO DRIFT | download OK by its own 12/12 validator / **submit NO** — UNSCORED, and the shared template gate flags its `nodata` tag (IR-H59J-15) |
+
+- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html) · [Status & download](docs/index.html) · [Method & evidence](docs/method.html)
+- **Download (current):** [`docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif`](docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif) (SHA256 `6435ecec…39c6`, 117,938 B, all-finite {0, 1}, EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt; machine-readable index in [`docs/downloads/manifest.json`](docs/downloads/manifest.json)
+- **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`; H59-J release section + H59-I history under `lane_h59i`)
+- **Promotion decision (explicit):** [`evidence/submission_h59j.json`](evidence/submission_h59j.json) → `promotion_decision` — *not cleared*; the conditions that would clear it are written down there.
+- **Registry uniqueness:** [`evidence/uniqueness_h59j_offcat.json`](evidence/uniqueness_h59j_offcat.json) (this lane's receipt; the parallel lane's candidate keeps [`evidence/uniqueness_h59j.json`](evidence/uniqueness_h59j.json) — two different files collided on the name, IR-H59J-11) — all 695 accessible rasters, 0 errors: 0 identical decoded predictions, worst |Spearman ρ| 0.0636 (limit 0.90), worst exact dot-set Jaccard 0.0209 (limit 0.50); informative forward 0.645 worst on peers that cannot cover the candidate, reverse 0.409 worst on peers with ≥ 30 dots, worst **mutual** coincidence 0.409 (limit 0.70, 0 firings) → no duplication identified. The literal 3-px overlap leg fires on dense-lattice/continuous peers (IR-57-REPR-01) and is reported per row, not applied; the build-vs-submission verdict wording inconsistency (IR-H59J-01) is resolved by `scripts/finalize_h59j_release.py`.
+- **Method:** off-catalogue discriminant on 38 rank channels (positives = SGMC faults > 300 m from the catalogue), six spatially blocked folds, pooled OOF field → greedy 3 px dot emission with catalogue pixels excluded from the pool; emission criterion pre-declared in `evidence/emission_design_h59j.json`.
+- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) — (1) a cross-family instrument (the single blocker), (2) ledger de-duplication + wider Ĝ grid, (3) the own-holdout zone/placement rule, (4) Pass 2/3 review of the H59-J scripts, (5) organizer-side unknowns.
 
 Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.txt`
 → `.venv/bin/python scripts/prepare_data.py --fetch --cache-bands`
-→ `.venv/bin/python scripts/prep_feature_stack.py`
-→ `.venv/bin/python scripts/build_h59j_submission.py --fragment 3 --fragment-step 2 --budget 36000`
-→ `PYTHONPATH=src .venv/bin/python scripts/validate_submission.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif data/bridge/sample_submission.tif`
-→ `.venv/bin/python scripts/restore_registry_cache.py && .venv/bin/python scripts/uniqueness_fast.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif --out evidence/uniqueness_h59j.json`
-→ `.venv/bin/python scripts/candidate_holdout_ci.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif`
-→ `.venv/bin/python scripts/build_run_card_h59j.py && .venv/bin/python scripts/build_session_evidence.py && .venv/bin/python scripts/build_site_pages.py && .venv/bin/python scripts/check_site.py`
+→ `.venv/bin/python scripts/restore_registry_cache.py --jobs 6`
+→ `.venv/bin/python scripts/run_offcatalogue_lane.py`
+→ `.venv/bin/python scripts/build_submission_h59j.py`
+→ `.venv/bin/python scripts/measure_h59j_emission.py && .venv/bin/python scripts/finalize_h59j_release.py`
+→ `.venv/bin/python scripts/build_download_manifest.py && .venv/bin/python scripts/check_site.py`
+
+
+---
+
+## Merge bookkeeping (2026-10-11, PR #9)
+
+Three sessions ran the same standing brief in parallel and all three landed candidates named “H59-J”. The merge
+keeps **every** file and disambiguates rather than overwriting:
+
+* **five** candidates are published in total: this lane's (current), H59-I, the ridge-coherence consensus, the
+  replication lane's intensity run, and the H59-A intensity run merged from `main` commit `410a4d0`;
+* this lane's receipts were renamed to `*_offcat` (`evidence/uniqueness_h59j_offcat.json`,
+  `docs/data/uniqueness_h59j_offcat.json`, plus `evidence/offcat_lane_h59j.json`,
+  `evidence/emission_design_h59j.json`, `evidence/h59j_emission_measurement.json`); the parallel lane's
+  receipts keep their original names;
+* `evidence/run_card.json` (= `docs/data/run_card.json`) is the **one** card and now carries both lanes
+  (`lane_h59i` history, this lane's release fields, and a `parallel_lane` block with the other lane's numbers,
+  its writer-receipt status and the status disagreement IR-H59J-10);
+* `docs/downloads/manifest.json` lists **four** candidates with hashes recomputed from the bytes on disk, each
+  with its own `uniqueness_receipt`, `run_card` and `lane`;
+* `scripts/check_site.py` now checks all four candidates' receipts (three receipt schemas) and keeps the
+  delivery-test scalar readings pinned to the current candidate;
+* tracked `__pycache__/*.pyc` files (which caused modify/delete conflicts) were removed from the index — they
+  are build artefacts that `.gitignore` already excludes;
+* review: [`docs/research/three-pass-review-h59j-merge.md`](docs/research/three-pass-review-h59j-merge.md);
+  new irregularities IR-H59J-10 … IR-H59J-13.
+
+### 2026-10-11 merge test totals
+
+* `pytest -q` on the merged tree: **35 failed / 157 passed / 1 skipped** (180.5 s) — identical totals to the
+  pre-merge `main` baseline in `REMAINING_WORK.md` on main (35/157/1), so the merge adds no failure. Every
+  failure is a session-3/6/7 test whose required artefact does not exist in this checkout
+  (`evidence/submission_build_all.json`, `session7_verification.json`, `relay_bend_holdout.json`,
+  `exp4_width.json`, `docs/assets/preview.png`, …). The delivery and site tests this release touches pass
+  (`tests/test_site.py`, `tests/test_delivery.py::test_current_tiff_zip_links_and_card_are_consistent`).
+  One formerly-green legacy test now fails by design: `test_h57i_submission.py::test_current_site_and_card_agree_on_submission_permission`
+  compares the site's wording with the stale H57-era card `evidence/run_card_current.json`
+  (`okay_to_submit: True`, and `docs/build_*.py` still read it); the merged site says SUBMIT: NO because every
+  H59 receipt says so (IR-H59J-14).
 
 ---
 
@@ -111,97 +137,3 @@ preserved verbatim at `evidence/run_card_arena94956c66.json`, and its pages rema
 session restored the hash-pinned 19-band feature stack through the public GitHub mirror bridge
 (`scripts/download_features.sh`, `scripts/prepare_data.py`) and therefore supersedes it on data
 availability. Re-read `TASK_PROMPT.md` (verbatim standing brief) alongside this file.
-
----
-
-## Preserved parallel-session record — lane `arena/1ac83927` (PR #4)
-
-A second concurrent 59GEMSDOE session ran the same intensity brief independently, on the
-10 km zoning variant with strictly off-catalogue deployment (`scripts/replication_run_lane.py`,
-`src/gems59/intensity_replication.py`, receipts `*_lane1ac8.json`, its own site at
-[`docs/replication/`](docs/replication/index.html)). It reached the same family of conclusions by a
-different route, and its numbers are worse, so it is preserved as the weaker of the two
-replications — **do not treat it as a submission**: its run card
-([`evidence/run_card_lane_v1.json`](evidence/run_card_lane_v1.json)) is verdict **negative**, download OK /
-submit NO, 0 slots used.
-
-What it adds beyond the primary lane:
-
-* **A decile calibration of the lane's own ranking** (`evidence/decile_calibration_lane1ac8.json`).
-  The densest decile of 1 km blocks holds **0.0495** of the withheld catalogue positives for
-  **0.1014** of the footprint area — a lift of **0.49, below chance** — while ranking blocks by
-  catalogue distance or catalogue density reaches lifts of **8.46** and **8.26** (random-ranking
-  calibration 0.92, so the method is sound). Discipline: the off-catalogue field is *anti-aligned*
-  with the trunk corridors on a frame whose truth sits on them. Recorded as **IR-59-FRAME-01**.
-* **A second release-overlap measurement** (`evidence/sibling_release_overlap_lane1ac8.json`): the
-  two intensity-lane releases of this family are independent realisations, not copies —
-  0.1235 of the sibling's dots within 3 px of this one, rank correlation 0.0435, against a drift
-  limit of 0.70 / 0.90.
-* The same uniqueness receipt methodology (`evidence/uniqueness_lane_v1.json`, 710 rasters) with the
-  saturation artefact of the literal leg called out rather than hidden (IR-59-REPR-01).
-
-Merged additively: the replication's paths are namespaced (`replication_*`, `*_lane1ac8.json`,
-`docs/replication/`) so both sessions' records survive in one tree.
-
-
----
-
-## H59-A — a second, independent candidate (merged from the `arena/1ba7bc3e-59gemsdoe` session)
-
-A separate session built the **intensity lane** end to end and released a candidate that is
-measured to be independent of the H59-I / H59-J / intensity-lane rasters already on `main`.
-**Full write-up: [`docs/h59a.html`](docs/h59a.html).**
-
-**[Download `gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif](docs/downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif)**
-· sha256 `8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842` (embedded in the filename)
-· 38,593 px at 1.0 · **0.0 outside the footprint** · min pairwise separation **3.162 px** (measured)
-· **0** dots on or within 2 px of the mapped catalogue · **12/12** validator checks pass.
-
-### Which file do I submit?
-
-| | mechanism | dots | holdout | |
-|---|---|---|---|---|
-| `gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif` | coherence consensus | 30,815 | 0.01912 [0.01639, 0.02215] | **current candidate — start here** |
-| `gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif` | 1 km intensity zoning + break-even tiling | 38,593 | 0.08811 (range 0.08715–0.08907, 2 folds) | this page |
-
-They are measured to be independent: Spearman **0.0072**, chance-corrected 3 px lift **1.218**.
-Submitting both spends two weekly slots on two different bets — it is **not** a duplicate.
-The two holdout numbers are **not comparable to each other**: different holdout designs, different
-truth populations, and neither is a competition score.
-
-### Cross-check against `main`'s releases
-
-The 696-raster registry this lane was gated against predates `main`'s own releases, so the H59-A
-raster was checked separately against all three of them. Spearman ≤ **0.0072** and
-chance-corrected lift ≤ **1.269** — no drift. Receipt:
-`evidence/uniqueness_h59a_vs_siblings.json`.
-
-### The finding worth carrying forward
-
-The largest measured effect of that session was a **removal**. `dist_visible_fault`,
-`visible_fault_dens_5k` and `visible_fault_dens_20k` are computed from the catalogue pixels that
-form the training presence set. With them, a model separates the training data (train loss −0.023;
-distinct predicted values collapse 160,422 → 38,121) and then scores **AUC 0.500** on withheld
-segments. Dropping all three lifts the holdout AUC from **0.500 to 0.8354**.
-Receipt: `evidence/leakage_channel_ablation.json`.
-
-**Any future model here should exclude those three channels unless it can demonstrate otherwise on
-a segment-level holdout.**
-
-### Limitations that are stated, not hidden
-
-- The **dot budget** is anchored to OWNER-REPORTED live evidence (~38–40k dots scored
-  0.2376–0.2778); the **spacing** is anchored to that session's own holdout. Different anchors.
-- 2 folds only — the t-interval with 1 degree of freedom is ±0.0121 and is not a meaningful
-  confidence interval; the range is the honest summary.
-- The counterfactual mapping-effort correction **failed** (AUC 0.0122, anti-correlated, because the
-  clamped design is out-of-distribution for the gradient booster). Effort bias is only partly
-  addressed. Reported as a negative result.
-- The named confounder — **drainage networks**, linear, continuous at 1–10 km, concentrated exactly
-  where the lidar scarp channels fire — cannot be separated from faults on this holdout.
-
-### Provenance
-
-The scripts that produced it are archived under `scripts/h59a_session/` rather than overwriting
-`scripts/build_candidate.py`, `scripts/submission_writer.py`, `scripts/uniqueness_check.py` and
-`scripts/finalize_emission.py`, because `main` already carried different versions of those names.
