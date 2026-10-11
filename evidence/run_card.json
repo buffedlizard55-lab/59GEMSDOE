@@ -1,0 +1,70 @@
+{
+  "run_card_version": 1,
+  "date": "2026-10-11",
+  "branch": "arena/94956c66-59gemsdoe",
+  "lane": "intensity lane (presence-only fault intensity -> 1 km blocks -> break-even tiling), as briefed",
+  "verdict": "negative (blocked): no candidate raster was produced; nothing is promotable",
+  "hypothesis": "A thermal-spring alignment prior (H-1 in docs/research/hypotheses.md) adds holdout DTI over a binary 0.7%-footprint baseline.",
+  "mechanism": "Springs rise along permeable conduits, and fault zones are the main ones. Alignments of springs should mark structures absent from the USGS catalogue.",
+  "non_fault_mimic": "Valley-floor groundwater discharge, playa margins and drainage lines produce spring alignments with no fault beneath them.",
+  "holdout_dti": {
+    "value": null,
+    "label": "HOLDOUT-DTI",
+    "status": "NOT RUN: no organizer training data in the sandbox",
+    "evaluator_version": "gems_dti.metric (hand-verified, 10 tests); no holdout built",
+    "withheld_positives": null,
+    "ci95": null
+  },
+  "organizer_dti": {
+    "value": null,
+    "label": "ORGANIZER-CONFIRMED",
+    "status": "no submission made"
+  },
+  "correlation_overlap_vs_registry": {
+    "status": "NOT RUN: no candidate raster",
+    "thresholds": {
+      "spearman_rho_max": 0.9,
+      "dots_within_3px_max": 0.7
+    },
+    "tool": "scripts/check_uniqueness.py"
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "status": "NOT RUN on a candidate (none exists)",
+    "self_tests": "20 pytest tests pass (metric 10, writer/validator 10)",
+    "independent_check_of_public_registry_file": {
+      "file": "GEMSDOE32 h33-2-b2 zeros.tif (third-party, read only)",
+      "result": "PASS on format: EPSG:32611, 3730x3292, float32, values {0,1}, all finite in the zeros twin, 37,654 positive cells, sha256 matches repo record"
+    }
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "leakage_canary": "NOT RUN: no features on a holdout",
+  "experiments": [
+    {
+      "id": "E1",
+      "what": "metric checks vs hand-computed cases and the official worked-example arithmetic",
+      "type": "SYNTHETIC",
+      "result": "10/10 pass"
+    },
+    {
+      "id": "E2",
+      "what": "exact emission sign identity (500 random trials) and synthetic spacing sweep",
+      "type": "SYNTHETIC",
+      "result": "identity 500/500; 3-px optimum NOT reproduced"
+    },
+    {
+      "id": "E3",
+      "what": "holdout experiment",
+      "type": "NOT RUN",
+      "result": "blocked by data"
+    }
+  ],
+  "budget": {
+    "experiments_used": 2,
+    "experiments_allowed": 3,
+    "time_note": "under the two-hour cap"
+  },
+  "irregularities": "docs/research/irregularities.md (IR-1 .. IR-17)",
+  "promotion": "none; promotion to a slot is a separate selector step and requires a holdout result"
+}
