@@ -82,30 +82,85 @@
   "identical_decoded_predictions": 0,
   "literal_overlap_firings": 80,
   "representation_aware": {
+   "rules": {
+    "forward": "read only against peers whose expected 3 px disc coverage min(1, 29 * footprint_density) is <= 0.70",
+    "reverse": "read only against peers with >= 30 dots",
+    "operative": "byte identity + full-footprint Spearman + exact dot-set Jaccard + mutual 3 px coincidence (min of both directions, limit 0.70); every literal firing is listed"
+   },
    "dot_field_peers": 641,
    "continuous_surface_peers": 54,
    "peers_with_at_most_candidate_support": 82,
    "peers_with_more_support_than_candidate": 559,
    "overlap_by_direction": {
-    "informative_forward_vs_smaller_or_equal_peers": {
-     "value": 0.2919,
-     "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-e-disc-h40e-30k-nan.tif",
-     "reading": "candidate duplicated into a peer that cannot cover it: THE operative forward leg"
+    "informative_forward": {
+     "value": 0.6451,
+     "peer": "GEMSDOE50:docs/downloads/gemsdoe50-h60-union-d0-75308-20261007T2250Z-allfinite.tif",
+     "peer_dots": 75308,
+     "expected_forward_overlap_proxy": 0.4226,
+     "n_peers": 496,
+     "limit": 0.7,
+     "reading": "candidate duplicated into a peer that cannot cover it"
     },
-    "uninformative_forward_vs_bigger_peers": {
-     "value": 0.9991333333333333,
-     "peer": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
-     "reading": "a peer with far more support contains any candidate: non-operative (support asymmetry)"
-    },
-    "uninformative_reverse_vs_smaller_peers": {
-     "value": 0.3273776288851666,
-     "peer": "5GEMSDOE:data/evidence/runs/35042805806-experiment/submission.tif",
-     "reading": "a sparse peer is necessarily covered by a denser candidate: non-operative"
-    },
-    "informative_reverse_vs_bigger_peers": {
+    "informative_reverse": {
      "value": 0.4085984073800096,
      "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
-     "reading": "a bigger peer duplicated into the candidate: the operative reverse leg"
+     "peer_dots": 45962,
+     "expected_forward_overlap_proxy": 0.2579,
+     "n_peers": 690,
+     "limit": 0.7,
+     "reading": "a peer with >= 30 dots duplicated into the candidate"
+    },
+    "mutual": {
+     "value": 0.4085984073800096,
+     "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+     "peer_dots": 45962,
+     "expected_forward_overlap_proxy": 0.2579,
+     "n_peers": 695,
+     "limit": 0.7,
+     "firings": 0,
+     "reading": "THE operative directional test: a near-copy must coincide in both directions"
+    },
+    "uninformative_forward_saturating_or_dense": {
+     "value": 1.0,
+     "peer": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+     "peer_dots": 5167373,
+     "expected_forward_overlap_proxy": 1.0,
+     "n_peers": 199,
+     "reading": "dense/regular peers whose discs already blanket the footprint: every non-empty candidate overlaps forward (IR-57-REPR-01)"
+    },
+    "uninformative_reverse_tiny_peers": {
+     "value": 0.09090909090909091,
+     "peer": "GEMSDOE52:docs/downloads/gems52-h58-coldgeo-consensus-22px-a55b0dee38-research.tif",
+     "peer_dots": 22,
+     "expected_forward_overlap_proxy": 0.0001,
+     "n_peers": 5,
+     "reading": "peers with < 30 dots: the fraction is 0 or 1 by luck"
+    }
+   },
+   "by_support": {
+    "forward_vs_smaller_or_equal_peers": {
+     "value": 0.2919,
+     "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-e-disc-h40e-30k-nan.tif",
+     "peer_dots": 30000,
+     "expected_forward_overlap_proxy": 0.1684
+    },
+    "forward_vs_bigger_peers": {
+     "value": 0.9991333333333333,
+     "peer": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+     "peer_dots": 206895,
+     "expected_forward_overlap_proxy": 1.0
+    },
+    "reverse_vs_smaller_or_equal_peers": {
+     "value": 0.3273776288851666,
+     "peer": "5GEMSDOE:data/evidence/runs/35042805806-experiment/submission.tif",
+     "peer_dots": 21492,
+     "expected_forward_overlap_proxy": 0.1206
+    },
+    "reverse_vs_bigger_peers": {
+     "value": 0.4085984073800096,
+     "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+     "peer_dots": 45962,
+     "expected_forward_overlap_proxy": 0.2579
     }
    },
    "worst_spearman_full_footprint": 0.06357936282664807,
@@ -114,17 +169,29 @@
    "worst_jaccard_peer": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-ridge-4e03fc9705.tif",
    "identical_decoded_predictions": 0,
    "identical_peers": [],
+   "literal_firing_count": 80,
+   "mutual_firing_count": 0,
    "symmetric_statistics_unique": true,
-   "note": "Both informative directional legs are inside their limits (forward vs smaller/equal peers 0.2919, reverse vs bigger peers 0.4086 <= 0.70), so the only 3 px firings are the two documented uninformative directions. Operative registry leg = symmetric, scale-free statistics (worst |Spearman rho| 0.0636 <= 0.90; worst dot-set Jaccard 0.0209 <= 0.50; 0 byte-identical peers). The 3 px overlap legs are uninformative in both documented directions (IR-57-REPR-01): a continuous-surface peer laps every non-empty candidate forward, and a peer with far more support contains the candidate's dots whichever family the candidate belongs to. Every raw leg firing is preserved in 'literal_leg_firings' with its peer name, support and Jaccard."
+   "directional_legs_unique": true,
+   "registry_duplicate_evidence": false,
+   "note": "Operative registry leg = symmetric, scale-free statistics (worst |Spearman rho| 0.0636 <= 0.90; worst exact dot-set Jaccard 0.0209 <= 0.50; 0 byte-identical peers) PLUS the mutual 3 px coincidence (worst mutual 0.4086 <= 0.70, 0 firings). 80 literal one-sided leg firings are preserved in 'literal_leg_firings' with peer name, support and expected coverage; they lie in the two documented uninformative directions (IR-57-REPR-01)."
   },
-  "verdict_registry_leg": "no duplication identified: byte-unique, and every symmetric scale-free statistic is far below its limit (IR-57-REPR-01 representation-aware reading)"
+  "verdict_registry_leg": "no duplication identified: byte-unique, and every symmetric scale-free statistic is far below its limit (IR-57-REPR-01 representation-aware reading)",
+  "build_inline_screen": {
+   "statistic": "NEAR-set Jaccard over 3 px neighbourhoods, inter(near)/(my_dots + peer_dots - inter(near)) -- a different statistic from the exact dot-set Jaccard",
+   "worst_jaccard_near_set": null,
+   "worst_containment_of_mine": null,
+   "n_checked": null,
+   "n_errors": 0,
+   "note": "The build-time value of this statistic was not preserved in any committed receipt: the canonical full-registry rescan replaced the inline screen in these receipts before the release commit, so no near-set number is quoted anywhere in this repository. The operative duplication statistic is the exact dot-set Jaccard below (IR-H59J-12)."
+  }
  },
  "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
  "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
  "slots_used": 0,
  "promotion_decision": {
   "evidence_class": "HOLDOUT/PROXY MEASUREMENT; no organizer score",
-  "decided_utc": "2026-10-11T02:33:19.661539+00:00",
+  "decided_utc": "2026-10-11T03:00:05.275248+00:00",
   "verdict": "negative: not cleared for a weekly submission slot",
   "basis": [
    "No organizer-verified live score exists for this file and none is projected: the off-catalogue proxy criterion is calibrated within-family only.",

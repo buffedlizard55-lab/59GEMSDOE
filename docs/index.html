@@ -12,6 +12,10 @@
   <a href="executive-summary.html">Executive summary / how to submit</a>
   <a href="method.html">Method &amp; evidence</a>
   <a href="data-sources.html">Data sources</a>
+  <a href="research.html">Research</a>
+  <a href="results.html">Results</a>
+  <a href="sources.html">Sources</a>
+  <a href="irregularities.html">Irregularities</a>
 </nav>
 <main>
 <h1>59GEMSDOE — off-catalogue lane, session H59-J</h1>
@@ -31,7 +35,9 @@ and no organizer receipt exists for either file.</p>
 (0 identical decoded predictions; worst |Spearman ρ| 0.0636 ≤ 0.90; worst exact dot-set Jaccard 0.0209 ≤ 0.50;
 both informative 3 px directions inside their limits — forward vs peers of smaller or equal support 0.292,
 reverse vs bigger peers 0.409, limit 0.70 — full scan with every raw row
-<a href="data/uniqueness_h59j.json">uniqueness_h59j.json</a>), and passes every local format/range check
+<a href="data/uniqueness_h59j_offcat.json">uniqueness_h59j_offcat.json</a>; the parallel lane's own
+candidate keeps its receipt at <a href="data/uniqueness_h59j.json">uniqueness_h59j.json</a> — the two files are
+different candidates and were renamed apart on merge, IR-H59J-11), and passes every local format/range check
 (single-band float32, EPSG:32611, 3730&times;3292, transform <code>(100, 0, 243350, 0, -100, 4508550)</code>,
 values exactly 0 or 1, no NaN, no Inf, zeros outside the study-area footprint, <strong>zero</strong> positive
 pixels on the mapped catalogue).</p>
@@ -112,6 +118,40 @@ every literal firing is kept per row with peer name, support and Jaccard. Regist
 </div>
 
 <div class="panel">
+<h2 style="margin-top:0">Other candidates on this site — and what their badges are</h2>
+<p>Two further lane candidates are published here for audit. Their badges are read from their own writer
+receipts, not from prose, and the merged front-page rule is: <strong>a file may be DOWNLOAD&nbsp;OK while its
+SUBMIT badge stays NO</strong>, because download-safety (format, range, uniqueness) and slot promotion (a
+positive live instrument) are different questions.</p>
+<table>
+<tr><th>Candidate</th><th>What it is</th><th>Download</th><th>Submit</th></tr>
+<tr><td><code>gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif</code><br><span class="small">30,815 dots · SHA256 <code>44c54063…e7131</code> · 131,274 B</span></td>
+<td>Parallel lane (<code>arena/1ee0553d</code>): structure-tensor ridge coherence consensus on detrended
+elevation + RTP magnetics + isostatic gravity, dotted at a live-calibrated 36k budget, 2 px catalogue
+collar. Its local holdout is 0.01912 [0.01639, 0.02215] on the same evaluator — <em>below</em> the H59-I arm on
+that instrument, which is why its lane argues the instrument is rank-inverted and steers emission from the
+owner-recorded dot-count ladder instead.</td>
+<td><span class="badge ok">OK</span> (unique, format-valid)</td>
+<td><span class="badge no">NO</span> — its writer receipt records
+<code>approved_for_weekly_slot=False</code> and <code>promoted=False</code>, and its published expectation
+0.24–0.29 is explicitly a <strong>PROJECTION</strong>, not a clearance. The lane's own page states the
+selector question the same way.</td></tr>
+<tr><td><code>59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif</code><br><span class="small">50,651 dots · SHA256 <code>d8e83e1e…4f15c</code> · 79,553 B</span></td>
+<td>Replication lane (<code>arena/1ac83927</code>): the brief's intensity lane re-derived independently
+(1 km new-fault-density zoning, presence-only intensity with effort correction, 3 px lattice above
+break-even). Its own run card and uniqueness screen are under <a href="replication/index.html">replication/</a>.</td>
+<td><span class="badge ok">OK</span></td>
+<td><span class="badge no">NO</span> — negative/not promoted in its own run card
+(<code>evidence/run_card_lane_v1.json</code>).</td></tr>
+</table>
+<p class="small">IR-H59J-10 records the one status disagreement this merge had to resolve: the parallel lane's
+front page presents its candidate as <em>submit&nbsp;OK</em> on the strength of a projection, while its own
+writer receipt says <code>approved_for_weekly_slot=False</code>. This merged site prints both readings verbatim
+rather than picking one, and the badges above follow the receipts. Nothing on this site clicks Submit; no slot
+has been spent by any lane.</p>
+</div>
+
+<div class="panel">
 <h2 style="margin-top:0">Previous candidate on this site (kept for audit)</h2>
 <p class="small"><code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> — 71,119 dots, SHA256
 <code>ed1b767f…90f6d</code>; DOWNLOAD OK, SUBMIT NO (HOLDOUT-DTI 0.08216 [0.06954, 0.09616] &lt; published
@@ -125,8 +165,11 @@ quality; both files carry the same verdict class.</p>
 
 <div class="panel">
 <h2 style="margin-top:0">Context (not scores): the published board and the incumbent</h2>
-<p class="small">ORGANIZER-PUBLISHED public leaderboard snapshot 2026-10-11: rank 1 = 0.3774 (xiaofanhu),
-rank 2 = 0.3418, rank 8 = 0.3195 (DARD), 0.2778 at rank ~22. The owner-reported 0.2778 raster
+<p class="small">ORGANIZER-PUBLISHED public leaderboard, latest snapshot 2026-10-11 rev 2: rank 1 = <strong>0.4133</strong>
+(xiaofanhu, 16 submissions), rank 2 = 0.3418 (JerryDataWorks), rank 8 = 0.3195 (DARD), rank 23 = 0.2778
+(extradr19), rank 50 = 0.2448 (this team, MSU-Laskowski-GEMS, 12 submissions). The board moved during the day:
+rev 1 (earlier the same day) had rank 1 = 0.3774 and 0.2778 at rank 22; both revisions are the same organizer
+page at different times. The owner-reported 0.2778 raster
 (<code>h33-h33-2-b2</code>, GEMSDOE32) is a 40,199-dot field pruned of 2,545 dots within 2 px of the mapped
 catalogue (37,654 remain; minimum catalogue distance 2.24 px). Its causal reason is not established here; the
 live evidence (n = 15) anti-correlates with catalogue adjacency (ρ −0.544), which is why this session built an

@@ -1,12 +1,13 @@
 {
  "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)",
- "generated_utc": "2026-10-11T02:34:20Z",
+ "generated_utc": "2026-10-11T03:00:05Z",
  "current_candidate": "gems59-h59j-offcat-propen-30k-20261011",
  "how_to_submit": "docs/executive-summary.html",
  "status_pages": "docs/index.html (download), docs/method.html (method & evidence)",
  "legend": {
   "download_status": "whether the file is safe to download as a candidate TIF",
-  "submit_status": "whether the owner's selector step has cleared it for a weekly slot; no slot is spent by this project"
+  "submit_status": "whether the owner's selector step has cleared it for a weekly slot; no slot is spent by this project",
+  "uniqueness_receipt": "the registry screen that clears (or fails) the download badge for this file"
  },
  "candidates": [
   {
@@ -102,12 +103,15 @@
    ],
    "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
    "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "uniqueness_receipt": "evidence/uniqueness_h59j_offcat.json",
+   "run_card": "evidence/run_card.json",
+   "lane": "arena/fba37db3 (off-catalogue discriminant)",
    "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
   },
   {
    "candidate": "gems59-h59i-intensity-lattice-20261011T000000Z",
    "receipt": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json",
-   "superseded_by": "gems59-h59j-offcat-propen-30k-20261011",
+   "superseded_by": null,
    "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
    "bytes": 142754,
    "dots": 71119,
@@ -193,6 +197,197 @@
    ],
    "download_status": "OK (byte-unique against all 695 pinned registry rasters, 0 identical decoded predictions; format-valid: single-band float32, values in [0, 1], no NaN, zeros outside the footprint, 0 dots on the masked catalogue). The literal 3 px overlap leg fires against dense lattice peers and is reported per row, not applied (IR-57-REPR-01).",
    "submit_status": "NO - not cleared: the off-catalogue proxy instrument does not rank live scores across artifact families (rho -0.06 on 62 owner-reported anchors), and direct off-catalogue emissions scored 0.036-0.051 live. Promotion to a weekly slot is the owner's separate selector decision.",
+   "uniqueness_receipt": "evidence/uniqueness_h59i.json",
+   "run_card": null,
+   "lane": "arena/f8d022fd (intensity lane)",
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  },
+  {
+   "candidate": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z",
+   "receipt": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.json",
+   "superseded_by": null,
+   "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+   "bytes": 131274,
+   "dots": 30815,
+   "spacing_px": null,
+   "on_catalogue_dots": 0,
+   "note": "H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 35k budget.",
+   "note_chars": 124,
+   "validator": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+    "bytes": 131274,
+    "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+    "meta": {
+     "crs": "EPSG:32611",
+     "shape": [
+      3730,
+      3292
+     ],
+     "dtype": "float32",
+     "count": 1,
+     "nodata": null,
+     "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+     ],
+     "profile_compress": "deflate"
+    },
+    "band_description": [
+     null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.0025095364544540644,
+    "emitted_positive_pixels": 30815,
+    "checks": {
+     "single_band": true,
+     "dtype_float32": true,
+     "dimensions_3730x3292": true,
+     "crs_epsg_32611": true,
+     "transform_matches_sample_submission": true,
+     "no_nan_anywhere": true,
+     "no_inf_anywhere": true,
+     "no_sentinel_values": true,
+     "range_0_1_guaranteed": true,
+     "min_ge_0": true,
+     "max_le_1": true,
+     "in_footprint_all_finite": true,
+     "in_footprint_range_0_1": true,
+     "outside_footprint_zero": true,
+     "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 30815,
+    "footprint_fraction": 0.005963378296863803
+   },
+   "files": [
+    {
+     "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 131274,
+     "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131"
+    },
+    {
+     "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 96334,
+     "sha256": "79144a64774d6eb3f4d8a309f6b11b891905f2e5d171493438a9272315605f81"
+    },
+    {
+     "name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 3965,
+     "sha256": "7926cf0ca4f098921bc46561fa0c9a667e748fc71c9d1ab818f7547b99b3d2da"
+    }
+   ],
+   "download_status": "OK (format-valid; registry screen clean: no duplication identified over all 695 pinned rasters)",
+   "submit_status": "NO - not cleared for a weekly slot: the writer receipt records approved_for_weekly_slot=False and promoted=False; its published 0.24-0.29 expectation is a PROJECTION, not a clearance",
+   "uniqueness_receipt": "evidence/uniqueness_h59j.json",
+   "run_card": "docs/data/run_card.json",
+   "lane": "arena/1ee0553d (ridge coherence consensus)",
+   "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
+  },
+  {
+   "candidate": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros",
+   "receipt": "docs/downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.json",
+   "superseded_by": null,
+   "sha256": "d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c",
+   "bytes": 79553,
+   "dots": 50651,
+   "spacing_px": null,
+   "on_catalogue_dots": 0,
+   "note": "Zoned 1 km new-fault density, presence-only intensity with mapping-effort background correction; 3 px lattice above break-even.",
+   "note_chars": 127,
+   "validator": {
+    "file": "/home/user/59GEMSDOE/docs/downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif",
+    "bytes": 79553,
+    "sha256": "d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c",
+    "meta": {
+     "crs": "EPSG:32611",
+     "shape": [
+      3730,
+      3292
+     ],
+     "dtype": "float32",
+     "count": 1,
+     "nodata": null,
+     "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+     ],
+     "profile_compress": "deflate"
+    },
+    "band_description": [
+     null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.004124956205487251,
+    "emitted_positive_pixels": 50651,
+    "checks": {
+     "single_band": true,
+     "dtype_float32": true,
+     "dimensions_3730x3292": true,
+     "crs_epsg_32611": true,
+     "transform_matches_sample_submission": true,
+     "no_nan_anywhere": true,
+     "no_inf_anywhere": true,
+     "no_sentinel_values": true,
+     "range_0_1_guaranteed": true,
+     "min_ge_0": true,
+     "max_le_1": true,
+     "in_footprint_all_finite": true,
+     "in_footprint_range_0_1": true,
+     "outside_footprint_zero": true,
+     "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 50651,
+    "footprint_fraction": 0.009802079315737417
+   },
+   "files": [
+    {
+     "name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif",
+     "role": "submission GeoTIFF (single band, float32, values in [0, 1])",
+     "bytes": 79553,
+     "sha256": "d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c"
+    },
+    {
+     "name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.zip",
+     "role": "ZIP containing exactly that one GeoTIFF",
+     "bytes": 31132,
+     "sha256": "dbc068ae73b71178378444dc9da2206227bb142e3a36ee0b1c963338c7be525b"
+    },
+    {
+     "name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.json",
+     "role": "writer receipt (format + validator output; not a competition score)",
+     "bytes": 4446,
+     "sha256": "c135d0a4baf30eb9ab775c6fa39c778857ccb6ed46e35c19e6a6f2c44d502f0a"
+    }
+   ],
+   "download_status": "OK (format-valid; registry screen clean: no duplication identified in its own screen)",
+   "submit_status": "NO - its own run card records okay_to_submit=False with verdict negative (evidence/run_card_lane_v1.json)",
+   "uniqueness_receipt": "evidence/uniqueness_lane_v1.json",
+   "run_card": "evidence/run_card_lane_v1.json",
+   "lane": "arena/1ac83927 (intensity lane, replication)",
    "evidence_class": "SITE-DELIVERY MANIFEST (hashes recomputed from the bytes in this directory)"
   }
  ]

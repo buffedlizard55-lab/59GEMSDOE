@@ -8,13 +8,14 @@ Evidence labels: `ORGANIZER-CONFIRMED` (copied from the DrivenData leaderboard p
 
 | Item | Value | Label | Source |
 | --- | ---: | --- | --- |
-| Public leaderboard #1 (xiaofanhu, 15 submissions) | 0.3774 | ORGANIZER-CONFIRMED | <https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/> |
+| Public leaderboard #1 (xiaofanhu, 16 submissions) | 0.4133 | ORGANIZER-CONFIRMED (re-fetched 2026-10-11, revision 2) | <https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/> |
+| Same row earlier the same day (revision 1) | 0.3774 | ORGANIZER-CONFIRMED at the earlier read | same page, `evidence/leaderboard_snapshot_2026-10-11.json` `revision_1_rows` |
 | #2 JerryDataWorks | 0.3418 | ORGANIZER-CONFIRMED | same |
 | #8 DARD | 0.3195 | ORGANIZER-CONFIRMED | same. This is the "0.3195 highest right now" figure in the brief. |
-| #22 extradr19 | 0.2778 | ORGANIZER-CONFIRMED (participant name only) | same |
+| #23 extradr19 | 0.2778 | ORGANIZER-CONFIRMED (participant name only) | same; ranked #22 at revision 1 |
 | #50 MSU-Laskowski-GEMS | 0.2448 | ORGANIZER-CONFIRMED | same |
 | File `h33-h33-2-b2-…-zeros.tif` (GEMSDOE32) | scored 0.2778 per the brief | **UNVERIFIED mapping** | the leaderboard shows a participant, not a file |
-| Gap, #1 minus #22 | 0.0996 | DERIVED | 0.3774 − 0.2778 |
+| Gap, #1 minus the 0.2778 entry | 0.1355 | DERIVED | 0.4133 − 0.2778 (revision-1 gap was 0.0996) |
 
 **Irregularity:** the brief calls 0.3774 the "GEMSDOE high score". It is the overall #1 (a different
 team), not a GEMSDOE entry. Nothing on the public board ties 0.2778 to GEMSDOE32's file, so the

@@ -1,0 +1,117 @@
+{
+ "evidence_class": "HOLDOUT-DTI",
+ "generated_utc": "2026-10-11T02:09:37Z",
+ "candidate": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+ "evaluator_version": "gems57-pooled-hide-v2",
+ "evaluator_hashes": {
+  "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+  "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+  "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+  "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+ },
+ "draw_aux": {
+  "kind": "ndarray",
+  "shape": [
+   3730,
+   3292
+  ],
+  "dtype": "int8",
+  "nonzero_cells": 11124422
+ },
+ "draw_per_fold": [
+  {
+   "fold": 0,
+   "name": "NW",
+   "n_held": 0,
+   "withheld_positive_pixels": 1923
+  },
+  {
+   "fold": 1,
+   "name": "NE",
+   "n_held": 0,
+   "withheld_positive_pixels": 2367
+  },
+  {
+   "fold": 2,
+   "name": "SW",
+   "n_held": 0,
+   "withheld_positive_pixels": 3781
+  },
+  {
+   "fold": 3,
+   "name": "SE",
+   "n_held": 0,
+   "withheld_positive_pixels": 3250
+  }
+ ],
+ "withheld_positive_pixels": 11321,
+ "alpha": 0.2,
+ "beta": 0.8,
+ "triangular_radius_m": 300.0,
+ "spatial_cluster_side_px": 200,
+ "bootstrap": {
+  "method": "paired physical spatial-cluster percentile",
+  "clusters": 157,
+  "draws": 1000,
+  "seed": 520817,
+  "confidence": 0.95,
+  "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+ },
+ "score": {
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "dti": 0.019123682439540362,
+  "ci95": [
+   0.016393250399380523,
+   0.022147878444747773
+  ],
+  "withheld_positive_pixels": 11321,
+  "tpw": 279.57222278870233,
+  "fpw": 27532.24069728348,
+  "fnw": 11041.427777211291,
+  "holdout_split": "buffered-whole-components-loqo-v2",
+  "seed": 20,
+  "per_fold": [
+   {
+    "fold": 0,
+    "name": "NW",
+    "dti": 0.020467956732645638,
+    "n_truth": 1923,
+    "tp": 57.44857075965878,
+    "fp": 6284.333967980614,
+    "fn": 1865.5514292403411
+   },
+   {
+    "fold": 1,
+    "name": "NE",
+    "dti": 0.014597870317142868,
+    "n_truth": 2367,
+    "tp": 44.35693280186379,
+    "fp": 5680.589653993624,
+    "fn": 2322.643067198136
+   },
+   {
+    "fold": 2,
+    "name": "SW",
+    "dti": 0.01880097531645346,
+    "n_truth": 3781,
+    "tp": 89.43146788933244,
+    "fp": 8570.299531179493,
+    "fn": 3691.5685321106675
+   },
+   {
+    "fold": 3,
+    "name": "SE",
+    "dti": 0.021989967574226686,
+    "n_truth": 3250,
+    "tp": 88.33525133784718,
+    "fp": 6997.017544129748,
+    "fn": 3161.6647486621528
+   }
+  ],
+  "note": "local instrument with a conditional spatial-cluster CI; not an organizer score and not a promotion gate (IR-59J-01)"
+ },
+ "labels": {
+  "holdout_dti": "HOLDOUT-DTI (local instrument) -- NOT an organizer score"
+ }
+}

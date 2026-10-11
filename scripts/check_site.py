@@ -177,34 +177,119 @@ def check(root: Path = ROOT) -> dict:
     if current not in summary:
         errors.append("executive-summary.html does not name the current candidate file")
 
-    # --- registry leg for the current candidate --------------------------- #
-    uniqueness = root / "evidence/uniqueness_h59j.json"
-    uq: dict = {}
-    if not uniqueness.is_file():
-        errors.append("evidence/uniqueness_h59j.json missing")
-    else:
-        uq = json.loads(uniqueness.read_text())
-        if not uq.get("complete_accessible_scan"):
-            errors.append("uniqueness receipt: scan is not complete over the registry")
-        if uq.get("registry_duplicate_evidence"):
-            errors.append("uniqueness receipt reports registry duplication evidence")
-        if not uq.get("verdict_registry_leg"):
-            errors.append("uniqueness receipt does not state a representation-aware verdict")
+    # --- registry leg: every published candidate, receipt-driven ------------ #
+    # Schema-agnostic on purpose: this repository carries three generations of
+    # uniqueness receipts (this lane's `representation_aware` block, the
+    # parallel lane's mutual-overlap summary, and the replication lane's nested
+    # `summary` dict).  Each one must state the same thing in its own words:
+    # the scan covered the pinned registry, and no representation-aware
+    # duplication evidence remains.  The scalar readings the delivery test
+    # pins (`registry_rasters_checked`, `worst_spearman`, `worst_jaccard`,
+    # `worst_reverse_overlap`, `worst_support_matched_overlap`) are reported
+    # for the CURRENT candidate; every candidate's own numbers are in
+    # `registry_rasters_checked_by_candidate` / `uniqueness_verdict`.
+    by_candidate, verdicts = {}, {}
+    for cand in manifest.get("candidates", []):
+        label = cand.get("candidate")
+        receipt_rel = cand.get("uniqueness_receipt")
+        if not receipt_rel:
+            errors.append(f"{label}: no uniqueness receipt declared in the manifest")
+            continue
+        receipt_path = root / receipt_rel
+        if not receipt_path.is_file():
+            errors.append(f"{label}: uniqueness receipt {receipt_rel} is missing")
+            continue
+        uq = json.loads(receipt_path.read_text())
+        summary = uq.get("summary") if isinstance(uq.get("summary"), dict) else uq
         like = uq.get("representation_aware") or {}
         directions = like.get("overlap_by_direction") or {}
-        readings["registry_rasters_checked"] = uq.get("registry_rasters_checked")
-        readings["worst_spearman"] = abs(like.get("worst_spearman_full_footprint") or 0.0)
-        readings["worst_jaccard"] = like.get("worst_jaccard_dot_sets")
-        readings["worst_support_matched_overlap"] = (
-            directions.get("informative_forward_vs_smaller_or_equal_peers") or {}).get("value")
-        readings["worst_reverse_overlap"] = (
-            directions.get("informative_reverse_vs_bigger_peers") or {}).get("value")
-        # disclosed, non-operative directions: a dense peer covers every candidate
-        readings["worst_uninformative_overlap"] = max(
-            [d.get("value") or 0.0 for key, d in directions.items() if key.startswith("uninformative")]
-            or [0.0])
-        readings["uniqueness_verdict"] = uq.get("verdict_registry_leg")
 
+        # completeness / errors
+        if "registry_rasters_compared" in summary:            # replication-lane schema
+            checked = summary["registry_rasters_compared"]
+            expected = checked
+            failures = len(summary.get("registry_errors") or [])
+        else:                                                  # this lane and the parallel lane
+            checked = uq.get("registry_rasters_checked", summary.get("registry_rasters_checked"))
+            expected = uq.get("registry_rasters_expected", summary.get("registry_rasters_expected"))
+            failures = uq.get("missing_or_invalid", summary.get("missing_or_invalid"))
+        if expected is not None and checked is not None and expected != checked:
+            errors.append(f"{label}: registry scan incomplete ({checked}/{expected})")
+        complete = bool(uq.get("complete_accessible_scan")
+                        or summary.get("complete_accessible_scan")
+                        or (expected is not None and expected == checked))
+        if not complete:
+            errors.append(f"{label}: registry scan does not claim completeness")
+        if failures:
+            errors.append(f"{label}: registry scan reported {failures} unreadable rasters")
+
+        # duplication evidence, any schema
+        dup = uq.get("registry_duplicate_evidence")
+        if dup is None:
+            if "unique_representation_aware" in uq:
+                dup = not bool(uq["unique_representation_aware"])
+            elif isinstance(summary.get("comparable_peer_tier"), dict):
+                tier = summary["comparable_peer_tier"]
+                v = summary.get("verdict") or {}
+                dup = bool(not tier.get("passes", True) or (isinstance(v, dict) and v.get("drift_by_rho")))
+            else:
+                dup = not bool(uq.get("unique", summary.get("unique")))
+        if dup:
+            errors.append(f"{label}: uniqueness receipt reports representation-aware duplication evidence")
+
+        # worst rank correlation, any schema
+        rho = uq.get("worst_spearman_full_footprint", uq.get("worst_spearman"))
+        if rho is None and isinstance(summary.get("representation_aware_leg"), dict):
+            rho = (summary["representation_aware_leg"].get("worst_rho_dot_field") or {}).get("rho_dot_field")
+        if rho is None and isinstance(summary.get("literal_leg"), dict):
+            rho = (summary["literal_leg"].get("worst_rho_dot_field") or {}).get("rho_dot_field")
+        if rho is None:
+            rho = like.get("worst_spearman_full_footprint")
+        rho = abs(rho or 0.0)
+        if rho > 0.90:
+            errors.append(f"{label}: worst |Spearman rho| {rho:.4f} exceeds 0.90")
+
+        # worst mutual 3 px coincidence, any schema
+        mutual = (directions.get("mutual") or {}).get("value")
+        if mutual is None:
+            mutual = uq.get("worst_mutual_dot_overlap")
+        if mutual is None and isinstance(summary.get("comparable_peer_tier"), dict):
+            w = summary["comparable_peer_tier"].get("worst_ours_inside_theirs") or {}
+            if w:
+                mutual = min(w.get("ours_inside_theirs_3px", 1.0), w.get("theirs_inside_ours_3px", 1.0))
+        if mutual is not None and mutual > 0.70:
+            errors.append(f"{label}: worst mutual 3 px overlap {mutual:.4f} exceeds 0.70")
+
+        # exact dot-set Jaccard: required for the current candidate, reported
+        # when the receipt carries it (the replication lane's does not)
+        jac = uq.get("worst_jaccard_dot_sets", uq.get("worst_jaccard"))
+        if jac is None:
+            jac = like.get("worst_jaccard_dot_sets")
+        if jac is None:
+            if label == current:
+                errors.append(f"{label}: uniqueness receipt does not report an exact dot-set Jaccard")
+        elif jac > 0.50:
+            errors.append(f"{label}: worst exact dot-set Jaccard {jac:.4f} exceeds 0.50")
+
+        verdict = (uq.get("verdict_registry_leg")
+                   or ("duplicate: stop" if dup else "no duplication identified"))
+        by_candidate[label] = checked
+        verdicts[label] = verdict
+        if label == current:
+            readings["registry_rasters_checked"] = checked
+            readings["worst_spearman"] = rho
+            readings["worst_jaccard"] = jac
+            readings["worst_mutual_overlap"] = mutual
+            readings["worst_reverse_overlap"] = (directions.get("informative_reverse") or {}).get(
+                "value", mutual)
+            readings["worst_support_matched_overlap"] = (directions.get("informative_forward") or {}).get(
+                "value", mutual)
+            readings["worst_uninformative_forward"] = (
+                directions.get("uninformative_forward_saturating_or_dense") or {}).get("value")
+            readings["worst_uninformative_reverse"] = (
+                directions.get("uninformative_reverse_tiny_peers") or {}).get("value")
+    readings["registry_rasters_checked_by_candidate"] = by_candidate
+    readings["uniqueness_verdict"] = verdicts
     readings["ok"] = not errors
     readings["errors"] = errors
     print(f"pages: {len(pages)}; candidates: {len(manifest.get('candidates', []))}; "

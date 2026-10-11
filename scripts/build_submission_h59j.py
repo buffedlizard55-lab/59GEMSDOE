@@ -87,7 +87,7 @@ def main() -> int:
     ap.add_argument("--spacing", type=float, default=3.0)
     ap.add_argument("--out-dir", default=str(ROOT / "downloads"))
     ap.add_argument("--docs-dir", default=str(ROOT / "docs/downloads"))
-    ap.add_argument("--uniqueness-out", default=str(ROOT / "evidence/uniqueness_h59j.json"))
+    ap.add_argument("--uniqueness-out", default=str(ROOT / "evidence/uniqueness_h59j_offcat.json"))
     ap.add_argument("--sample", type=int, default=400_000)
     args = ap.parse_args()
 

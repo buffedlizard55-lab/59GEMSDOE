@@ -12,6 +12,10 @@
   <a href="executive-summary.html">Executive summary / how to submit</a>
   <a href="method.html">Method &amp; evidence</a>
   <a href="data-sources.html">Data sources</a>
+  <a href="research.html">Research</a>
+  <a href="results.html">Results</a>
+  <a href="sources.html">Sources</a>
+  <a href="irregularities.html">Irregularities</a>
 </nav>
 <main>
 <h1>Method &amp; evidence — off-catalogue lane (H59-J)</h1>
@@ -85,8 +89,41 @@ dot fields the leg is asymmetric in support — a peer with many more dots cover
 with far fewer is covered reverse. At 3 px (300 m) two independent fields tracing the same 60,988-point
 catalogue necessarily share neighbourhoods. The symmetric, scale-free statistics above are the duplication
 evidence, and they are all far inside their limits. Full scan with every literal firing kept:
-<a href="data/uniqueness_h59j.json">uniqueness_h59j.json</a>; the H59-I precedent is in
+<a href="data/uniqueness_h59j_offcat.json">uniqueness_h59j_offcat.json</a> (this lane's receipt; the parallel
+lane's own candidate keeps the name <a href="data/uniqueness_h59j.json">uniqueness_h59j.json</a> — different
+file, see IR-H59J-11); the H59-I precedent is in
 <a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a>.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">The other 2026-10-11 lanes merged into this site (separate sessions, separate methods)</h2>
+<p class="small">This site merges three lanes that ran from the same standing brief in parallel sessions. Each
+one keeps its own receipts; nothing here is re-scored or re-labelled by the merge, and no lane's projection is
+promoted to a measurement.</p>
+<table>
+<tr><th>Lane</th><th>Method</th><th>Measured numbers (as published by that lane)</th><th>Verdict carried</th></tr>
+<tr><td><code>arena/1ee0553d</code> — ridge coherence consensus</td>
+<td>Three catalogue-independent scalar fields (detrended elevation, RTP magnetic anomaly, isostatic gravity
+anomaly) → structure-tensor ridge-strength fields → consensus emission, dotted at a 36k budget with a 2 px
+catalogue collar.</td>
+<td>HOLDOUT-DTI <strong>0.01912</strong> [0.01639, 0.02215] (its own CI) — <em>below</em> the H59-I arm on the
+same instrument; instrument calibration: ρ(holdout, owner-recorded live) = −0.437 (p 0.033, n 24), ρ(log₁₀ dots,
+live) = −0.818 (p 1.0e−6, n 24); registry screen: worst ρ 0.0475, worst exact Jaccard 0.0270, worst mutual 3 px
+overlap 0.256, 695 rasters, 0 fatal.</td>
+<td>DOWNLOAD OK; <code>approved_for_weekly_slot=False</code> in its own writer receipt. Its page publishes a
+0.24–0.29 expectation explicitly labelled PROJECTION.</td></tr>
+<tr><td><code>arena/1ac83927</code> — intensity lane, replication</td>
+<td>The brief's lane re-derived from scratch (1 km new-fault density zoning, presence-only MaxEnt/Poisson
+intensity with mapping-effort background correction, 3 px lattice above break-even), 50,651 dots.</td>
+<td>Its run card carries <code>okay_to_download=true</code>, <code>okay_to_submit=false</code>, verdict
+<code>negative</code>, with its own holdout and registry screens; full detail under
+<a href="replication/index.html">replication/</a>.</td>
+<td>DOWNLOAD OK; SUBMIT NO (negative verdict).</td></tr>
+</table>
+<p class="small">Merge bookkeeping: the three sessions collide on artifact <em>names</em> (three different
+“H59-J” candidates, two different <code>uniqueness_h59j.json</code> receipts for different files). The merged
+tree keeps every file, names the lanes explicitly in <code>docs/downloads/manifest.json</code>, and records the
+collisions as IR-H59J-10 / IR-H59J-11 rather than silently overwriting one lane's evidence with another's.</p>
 </div>
 
 <div class="panel">

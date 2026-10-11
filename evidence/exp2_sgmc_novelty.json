@@ -1,0 +1,92 @@
+{
+  "evidence_class": "HOLDOUT-DTI",
+  "experiment": "EXP-2 SGMC-novelty frame",
+  "frame_note": "Truth is the USGS State Geologic Map Compilation inventory of traces more than 300 m from the competition catalogue. It is an independent inventory of Quaternary-and-older faults that the catalogue does not contain -- the closest available stand-in for the scored new faults. It is NOT the organizer truth and its DTI is NOT a forecast of any leaderboard score.",
+  "inventory": {
+    "sgmc_pixels": 82151,
+    "novelty_pixels": 61664,
+    "sgmc_source_sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+    "derived_source_sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c"
+  },
+  "dots": {
+    "lane": 50651,
+    "proximity_only": 48916
+  },
+  "design": {
+    "q": 0.04,
+    "table": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "budget_cap": 1000000000,
+    "g_total": 10000.0
+  },
+  "l2": 0.1,
+  "pooled": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "triangular_radius_m": 300.0,
+    "pooled": true,
+    "scores": {
+      "lane": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.043985640550004465,
+        "ci95": [
+          0.03230977197711009,
+          0.05600928435260789
+        ],
+        "withheld_positive_pixels": 61664,
+        "tpw": 2625.877768985981,
+        "fpw": 49210.73665603161,
+        "fnw": 59038.122231014044
+      },
+      "proximity_only": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.039139659373024965,
+        "ci95": [
+          0.03301348082733446,
+          0.04594262949956486
+        ],
+        "withheld_positive_pixels": 61664,
+        "tpw": 2320.5977706705203,
+        "fpw": 47474.34327531561,
+        "fnw": 59343.40222932947
+      }
+    },
+    "best_comparable_control": "proximity_only",
+    "paired_differences": {
+      "proximity_only": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.0048459811769795,
+        "ci95": [
+          -0.008136540884937708,
+          0.018929970922539088
+        ],
+        "withheld_positive_pixels": 61664
+      }
+    },
+    "bootstrap": {
+      "method": "paired physical spatial-cluster percentile",
+      "clusters": 159,
+      "draws": 1000,
+      "seed": 520810,
+      "confidence": 0.95,
+      "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+    },
+    "implementation_sha256": {
+      "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+      "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+      "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+      "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+    }
+  },
+  "seconds": 9.9
+}

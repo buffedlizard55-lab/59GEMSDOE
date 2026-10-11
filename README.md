@@ -1,18 +1,21 @@
-# 59GEMSDOE — off-catalogue lane (session H59-J)
+# 59GEMSDOE — off-catalogue lane (session H59-J), merged with the parallel lanes
 
-**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT NO** — two format-valid, registry-unique candidates; neither is
-**cleared for a weekly slot**, and no slot has been spent. Negative results are deliverables.
+**Status (2026-10-11):** **DOWNLOAD OK · SUBMIT NO for every published candidate** — four format-valid,
+registry-screened candidates from three parallel sessions; none is **cleared for a weekly slot**, and no slot has
+been spent. Negative results are deliverables.
 
 | Candidate | Dots | What it is | Verdict |
 | --- | ---: | --- | --- |
-| **H59-J (current)** `gems59-h59j-offcat-propen-30k-20261011.tif` | 30,000 | off-catalogue discriminant (six blocked folds, OOF AUC 0.7444) → top ranks, 3 px spacing, **0 dots on the mapped catalogue** | download OK / **submit NO** — the proxy criterion is a within-family screen only (ρ −0.057, p 0.66 across 62 owner-reported anchors) |
-| **H59-I (previous)** `gems59-h59i-intensity-lattice-20261011T000000Z.tif` | 71,119 | presence-only MaxEnt/Poisson intensity, 1 km new-fault-density zoning, holdout break-even lattice | download OK / **submit NO** — HOLDOUT-DTI 0.08216 [0.06954, 0.09616] < published holdout best 0.135204 |
+| **H59-J (current)** `gems59-h59j-offcat-propen-30k-20261011.tif` (lane `fba37db3`) | 30,000 | off-catalogue discriminant (six blocked folds, OOF AUC 0.7444) → top ranks, 3 px spacing, **0 dots on the mapped catalogue** | download OK / **submit NO** — the proxy criterion is a within-family screen only (ρ −0.057, p 0.66 across 62 owner-reported anchors) |
+| **H59-I** `gems59-h59i-intensity-lattice-20261011T000000Z.tif` (lane `f8d022fd`) | 71,119 | presence-only MaxEnt/Poisson intensity, 1 km new-fault-density zoning, holdout break-even lattice | download OK / **submit NO** — HOLDOUT-DTI 0.08216 [0.06954, 0.09616] < published holdout best 0.135204 |
+| **H59-J (parallel)** `gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif` (lane `1ee0553d`) | 30,815 | structure-tensor ridge coherence consensus (detrended elevation + RTP magnetics + isostatic gravity), dotted at a live-calibrated 36k budget, 2 px catalogue collar | download OK / **submit NO** — its own writer receipt records `approved_for_weekly_slot=False`; its 0.24–0.29 expectation is a PROJECTION (IR-H59J-10) |
+| **replication** `59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif` (lane `1ac83927`) | 50,651 | the brief's intensity lane re-derived independently (1 km zoning, presence-only intensity with effort correction, 3 px lattice) | download OK / **submit NO** — its run card records `okay_to_submit=False`, verdict `negative` |
 
 - **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html) · [Status & download](docs/index.html) · [Method & evidence](docs/method.html)
 - **Download (current):** [`docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif`](docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif) (SHA256 `6435ecec…39c6`, 117,938 B, all-finite {0, 1}, EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt; machine-readable index in [`docs/downloads/manifest.json`](docs/downloads/manifest.json)
 - **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`; H59-J release section + H59-I history under `lane_h59i`)
 - **Promotion decision (explicit):** [`evidence/submission_h59j.json`](evidence/submission_h59j.json) → `promotion_decision` — *not cleared*; the conditions that would clear it are written down there.
-- **Registry uniqueness:** [`evidence/uniqueness_h59j.json`](evidence/uniqueness_h59j.json) — all 695 accessible rasters, 0 errors: 0 identical decoded predictions, worst |Spearman ρ| 0.0636 (limit 0.90), worst exact dot-set Jaccard 0.0209 (limit 0.50); both informative 3 px directions inside their limits (forward 0.292, reverse 0.409, limit 0.70) → no duplication identified. The literal 3-px overlap leg fires on dense-lattice/continuous peers (IR-57-REPR-01) and is reported per row, not applied; the build-vs-submission verdict wording inconsistency (IR-H59J-01) is resolved by `scripts/finalize_h59j_release.py`.
+- **Registry uniqueness:** [`evidence/uniqueness_h59j_offcat.json`](evidence/uniqueness_h59j_offcat.json) (this lane's receipt; the parallel lane's candidate keeps [`evidence/uniqueness_h59j.json`](evidence/uniqueness_h59j.json) — two different files collided on the name, IR-H59J-11) — all 695 accessible rasters, 0 errors: 0 identical decoded predictions, worst |Spearman ρ| 0.0636 (limit 0.90), worst exact dot-set Jaccard 0.0209 (limit 0.50); informative forward 0.645 worst on peers that cannot cover the candidate, reverse 0.409 worst on peers with ≥ 30 dots, worst **mutual** coincidence 0.409 (limit 0.70, 0 firings) → no duplication identified. The literal 3-px overlap leg fires on dense-lattice/continuous peers (IR-57-REPR-01) and is reported per row, not applied; the build-vs-submission verdict wording inconsistency (IR-H59J-01) is resolved by `scripts/finalize_h59j_release.py`.
 - **Method:** off-catalogue discriminant on 38 rank channels (positives = SGMC faults > 300 m from the catalogue), six spatially blocked folds, pooled OOF field → greedy 3 px dot emission with catalogue pixels excluded from the pool; emission criterion pre-declared in `evidence/emission_design_h59j.json`.
 - **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) — (1) a cross-family instrument (the single blocker), (2) ledger de-duplication + wider Ĝ grid, (3) the own-holdout zone/placement rule, (4) Pass 2/3 review of the H59-J scripts, (5) organizer-side unknowns.
 
@@ -22,7 +25,44 @@ Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.
 → `.venv/bin/python scripts/run_offcatalogue_lane.py`
 → `.venv/bin/python scripts/build_submission_h59j.py`
 → `.venv/bin/python scripts/measure_h59j_emission.py && .venv/bin/python scripts/finalize_h59j_release.py`
-→ `.venv/bin/python scripts/check_site.py`
+→ `.venv/bin/python scripts/build_download_manifest.py && .venv/bin/python scripts/check_site.py`
+
+
+---
+
+## Merge bookkeeping (2026-10-11, PR #9)
+
+Three sessions ran the same standing brief in parallel and all three landed candidates named “H59-J”. The merge
+keeps **every** file and disambiguates rather than overwriting:
+
+* this lane's receipts were renamed to `*_offcat` (`evidence/uniqueness_h59j_offcat.json`,
+  `docs/data/uniqueness_h59j_offcat.json`, plus `evidence/offcat_lane_h59j.json`,
+  `evidence/emission_design_h59j.json`, `evidence/h59j_emission_measurement.json`); the parallel lane's
+  receipts keep their original names;
+* `evidence/run_card.json` (= `docs/data/run_card.json`) is the **one** card and now carries both lanes
+  (`lane_h59i` history, this lane's release fields, and a `parallel_lane` block with the other lane's numbers,
+  its writer-receipt status and the status disagreement IR-H59J-10);
+* `docs/downloads/manifest.json` lists **four** candidates with hashes recomputed from the bytes on disk, each
+  with its own `uniqueness_receipt`, `run_card` and `lane`;
+* `scripts/check_site.py` now checks all four candidates' receipts (three receipt schemas) and keeps the
+  delivery-test scalar readings pinned to the current candidate;
+* tracked `__pycache__/*.pyc` files (which caused modify/delete conflicts) were removed from the index — they
+  are build artefacts that `.gitignore` already excludes;
+* review: [`docs/research/three-pass-review-h59j-merge.md`](docs/research/three-pass-review-h59j-merge.md);
+  new irregularities IR-H59J-10 … IR-H59J-13.
+
+### 2026-10-11 merge test totals
+
+* `pytest -q` on the merged tree: **35 failed / 157 passed / 1 skipped** (180.5 s) — identical totals to the
+  pre-merge `main` baseline in `REMAINING_WORK.md` on main (35/157/1), so the merge adds no failure. Every
+  failure is a session-3/6/7 test whose required artefact does not exist in this checkout
+  (`evidence/submission_build_all.json`, `session7_verification.json`, `relay_bend_holdout.json`,
+  `exp4_width.json`, `docs/assets/preview.png`, …). The delivery and site tests this release touches pass
+  (`tests/test_site.py`, `tests/test_delivery.py::test_current_tiff_zip_links_and_card_are_consistent`).
+  One formerly-green legacy test now fails by design: `test_h57i_submission.py::test_current_site_and_card_agree_on_submission_permission`
+  compares the site's wording with the stale H57-era card `evidence/run_card_current.json`
+  (`okay_to_submit: True`, and `docs/build_*.py` still read it); the merged site says SUBMIT: NO because every
+  H59 receipt says so (IR-H59J-14).
 
 ---
 

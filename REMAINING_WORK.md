@@ -8,7 +8,7 @@ submission slot.** The current candidate is **H59-J** `downloads/gems59-h59j-off
 
 Site: https://buffedlizard55-lab.github.io/59GEMSDOE/ · Run card: [`evidence/run_card.json`](evidence/run_card.json) ·
 H59-J receipts: [`evidence/submission_h59j.json`](evidence/submission_h59j.json),
-[`evidence/uniqueness_h59j.json`](evidence/uniqueness_h59j.json),
+[`evidence/uniqueness_h59j_offcat.json`](evidence/uniqueness_h59j_offcat.json),
 [`evidence/offcat_lane_h59j.json`](evidence/offcat_lane_h59j.json),
 [`evidence/emission_design_h59j.json`](evidence/emission_design_h59j.json),
 [`evidence/h59j_emission_measurement.json`](evidence/h59j_emission_measurement.json)
@@ -34,7 +34,12 @@ H59-J receipts: [`evidence/submission_h59j.json`](evidence/submission_h59j.json)
   `evidence/h59j_emission_measurement.json`) because the owner-reported live ladder is monotone **down** in dot
   budget, so the conservative arm was shipped. The design's own preferred arm remains unbuilt.
 * **Registry uniqueness: no duplication identified** — 695 pinned rasters, 0 errors, 0 identical decoded
-  predictions, worst |Spearman ρ| 0.063, worst dot-set Jaccard 0.238. The literal 3-px overlap leg fires
+  predictions, worst |Spearman ρ| 0.0636 (peer <code>GEMSDOE4 proxy_only46</code>), worst **exact** dot-set
+  Jaccard 0.0209 (<code>5GEMSDOE pindrop-v4-ridge</code>). Two different statistics were called “Jaccard” in
+  this lane's tooling (IR-H59J-12): the canonical screen intersects exact dot pixels (0.0209), while the
+  build's inline screen intersected 3 px neighbourhoods. The build-time value is not preserved in any committed
+  receipt and is therefore <strong>not quoted anywhere</strong>; only the exact figure is used as the duplication
+  statistic. The literal 3-px overlap leg fires
   against dense lattice/continuous peers and is reported per row, not applied (IR-57-REPR-01). The build's
   literal-protocol verdict string vs the submission receipt's "OK" was reconciled by
   `scripts/finalize_h59j_release.py`; both receipts now carry one representation-aware verdict.
@@ -103,6 +108,27 @@ the top three deciles vs 30 % under uniformity); no leakage (max single-covariat
   criterion's ordering is robust to that band, its absolute value is not.
 * The registry scope is the 2026-10-10T20:01Z snapshot of 695 rasters; publications after that snapshot are a
   disclosed gap in the uniqueness claim.
+
+## 4b. Merge bookkeeping (2026-10-11, PR #9) — three lanes, one tree
+
+* **Four candidates are published, none promoted**: this lane's off-catalogue discriminant (30,000 dots,
+  current), the H59-I intensity lattice (71,119), the parallel lane's ridge-coherence consensus (30,815,
+  `arena/1ee0553d`) and the replication lane's intensity run (50,651, `arena/1ac83927`). Every row of
+  `docs/downloads/manifest.json` carries `download_status` / `submit_status` / `uniqueness_receipt` / `lane`.
+* **Name collisions were resolved by renaming this lane's receipts** (`*_offcat`): three sessions published
+  different files called “H59-J” and two of them wrote `evidence/uniqueness_h59j.json` for different candidates
+  (IR-H59J-11). No lane's evidence was overwritten.
+* **One run card covers both lanes** (`evidence/run_card.json` = `docs/data/run_card.json`): H59-I history under
+  `lane_h59i`, this lane's release fields, and a `parallel_lane` block that quotes the other lane's numbers,
+  its `approved_for_weekly_slot=False` receipt status, and the status disagreement (IR-H59J-10).
+* **Status disagreement is disclosed, not smoothed**: the parallel lane's page presents its candidate as
+  submit-OK on a PROJECTION; the merged site prints both readings and the badges follow the receipts (SUBMIT NO
+  for every file). The owner's selector step remains the only promoter.
+* **Delivery QA now covers all four**: `scripts/check_site.py` re-checks each candidate's uniqueness receipt
+  (three schemas), hashes, formats, ZIP twins and the badge consistency — PASS (13 pages, 4 candidates).
+* **Review artefact**: [`docs/research/three-pass-review-h59j-merge.md`](docs/research/three-pass-review-h59j-merge.md)
+  — Pass 1 (merge + reproduction checks), Pass 2 (nine findings incl. an idempotency bug, a false-duplicate rule
+  and one unverifiable number removed before shipping), Pass 3 (brief re-check line by line).
 
 ## 5. Standing status
 
