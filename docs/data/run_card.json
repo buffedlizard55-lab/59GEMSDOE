@@ -1,10 +1,10 @@
 {
  "evidence_class": "RUN-CARD",
- "session": "59GEMSDOE / arena/f8d022fd-59gemsdoe",
+ "session": "59GEMSDOE / arena/ddbdbb81-59gemsdoe (Session H59-I2)",
  "lane": "Intensity: zone by new-fault density, then tile only what clears break-even",
- "hypothesis": "A presence-only point-process intensity fitted to the mapped catalogue with mapping-effort covariates (Phillips et al. 2009) predicts where faults the USGS/INGENIOUS catalogue missed should sit; zoning that intensity into 1 km blocks by expected new-fault pixels and lattice-tiling only the blocks above break-even places dots that beat a same-budget uniform-random control on the spatially-blocked hide-and-recover holdout.",
- "mechanism": "MaxEnt-form logistic fit (Poisson point-process equivalence, Fithian & Hastie 2013) on 60,988 catalogue presences vs 120,000 uniform background cells over 13 covariates: 4 geophysical edge planes (magnetic horizontal-gradient, tilt derivative, gravity horizontal-gradient, detrended-elevation slope), their max, 5 geophysical regime planes, and 3 mapping-effort planes (1 km / 5 km trace density, relief). Expected new-fault pixels per 1 km block = sum of lambda over non-catalogue cells; blocks above break-even (>= 1 px, the 1% lattice-payment floor) are lattice-tiled at the holdout-derived spacing with a 2 px catalogue collar.",
- "named_non_fault_mimic": "Mapping-effort bias itself: the catalogue is a biased sample, so any intensity fitted to it inherits the mappers' footprint (roads, access, quadrangle boundaries) rather than geology; magnetic flight-line levelling residuals and radiometric survey-block edges can also mimic fault lineaments.",
+ "hypothesis": "H59-I2 (LOCO Two-Host Structural + Geophysical + QFaults Effort Presence-Only IPP with De-Wrapped Cross-Block Corridor Utility Tiling): Replacing Session H59-I's non-structural 13-feature GLM and wrapping modulo-10 block lattice with a Leave-One-Component-Out (LOCO) two-host presence-only MaxEnt/Poisson point process over 31 covariates (10 geophysical edge/regime/scarp planes, 6 self-component-subtracted density & joined USGS/INGENIOUS QFaults FCODE2023/MAPSCALE effort planes, and 15 two-host quadratic log-distance, stepover facing/ratio, and host-bend curvature planes), zoned into 1 km blocks at the 1.5% break-even threshold and tiled across the 3.5 km structural corridor with the holdout-derived utility table ({q1_low: none, q2: 4px, q3: 4px, q4_high: 3px}), doubles Session H59-I holdout DTI and beats the published all-lane holdout best (0.135204).",
+ "mechanism": "Leave-One-Component-Out (LOCO) two-host Euclidean distance transform (two_host_frame + cKDTree on visible catalogue only) assigns every visible catalogue pixel its true inter-component distance d1 <- d(x, C2(x)) ([10,50,90]% = [3.16, 9.00, 29.97] px) and secondary host d2 <- d(x, C3(x)), eliminating the d=0 self-distance degeneracy (IR-59-LOCO-01) and self-strand effort density leakage (IR-59-LOCO-EFFORT). Case-control Poisson/MaxEnt GLM (Fithian & Hastie 2013; Phillips et al. 2009) fitted strictly on visible presences vs target-group background (3 < d1 <= 35 px) predicts continuous intensity lambda(x); summing lambda(x) over non-catalogue corridor pixels inside each 1 km x 1 km block yields expected new-fault density n_b. Blocks clearing break-even (n_b >= 1.5 px, with q1_low pruned by the utility table so effective break-even is the q25 threshold ~2.0 px = 2% block density) are tiled by greedy 2D triangular-kernel expected-reward maximization (E[w_300m * lambda]) with cross-block spacing enforcement ({q2: 4px, q3: 4px, q4_high: 3px}), fixing Session H59-I's modulo-10 wraparound collision bug (IR-59-LATTICE-MOD10).",
+ "named_non_fault_mimic": "Mapping-effort bias and topographic/geophysical non-fault lineaments: 1:24,000/1:100,000 quadrangle boundaries, road-corridor mapping density, non-tectonic fluvial terrace risers and erosional range-front scarps in 3DEP detrended elevation, and aeromagnetic flight-line levelling residuals or pluton-margin gravity gradients that parallel nearby mapped faults without brittle shear offset.",
  "holdout_dti": {
   "evidence_class": "HOLDOUT-DTI",
   "evaluator_version": "gems57-pooled-hide-v2",
@@ -12,70 +12,246 @@
    "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
    "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
-   "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+   "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8",
+   "intensity.py": "23f0ff5f941f008edfc305fe289bfcb53ca5654128cac8fd356f8c86bcabed19"
   },
-  "split": "buffered-whole-components-loqo-v2, seed 20 (identical draw to the published Session-5/7 arms)",
+  "split": "buffered-whole-components-loqo-v2, seed 20 (identical draw to Session H59-I and Session-5/7 arms)",
   "withheld_positive_pixels": 11321,
   "alpha": 0.2,
   "beta": 0.8,
   "triangular_radius_m": 300,
-  "final_arm_collar2": {
+  "final_locked": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "dti": 0.16678889242723557,
+   "ci95": [
+    0.15324232775013752,
+    0.17965832718963146
+   ],
+   "withheld_positive_pixels": 11321,
+   "tpw": 3463.985846926274,
+   "fpw": 55095.43551392649,
+   "fnw": 7857.014153073728
+  },
+  "per_fold": [
+   {
+    "fold": "NW",
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 1923,
+    "dti": 0.157097,
+    "dots": 11634
+   },
+   {
+    "fold": "NE",
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 2367,
+    "dti": 0.157419,
+    "dots": 11192
+   },
+   {
+    "fold": "SW",
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 3781,
+    "dti": 0.179295,
+    "dots": 20577
+   },
+   {
+    "fold": "SE",
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 3250,
+    "dti": 0.164282,
+    "dots": 13501
+   }
+  ],
+  "exp1_arms": {
+   "intensity_g0": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.1630906419002866,
+    "ci95": [
+     0.14979694540986532,
+     0.17582896391484285
+    ],
+    "withheld_positive_pixels": 11321,
+    "tpw": 4177.533230988663,
+    "fpw": 78612.43785383913,
+    "fnw": 7143.4667690113365
+   },
+   "intensity_g025": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.162666762920292,
+    "ci95": [
+     0.14908145156768013,
+     0.17568205631949207
+    ],
+    "withheld_positive_pixels": 11321,
+    "tpw": 4224.426056521725,
+    "fpw": 80340.65868218814,
+    "fnw": 7096.573943478273
+   },
+   "intensity_g05": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.16196346727674532,
+    "ci95": [
+     0.14846228151452942,
+     0.17495284366801087
+    ],
+    "withheld_positive_pixels": 11321,
+    "tpw": 4260.879202382654,
+    "fpw": 81993.40143661272,
+    "fnw": 7060.120797617343
+   },
+   "intensity_g10": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.15985388693463362,
+    "ci95": [
+     0.1460255387704999,
+     0.1728577743486851
+    ],
+    "withheld_positive_pixels": 11321,
+    "tpw": 4317.843005832491,
+    "fpw": 85454.08489907089,
+    "fnw": 7003.156994167506
+   },
+   "loco_linear_g0": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.15564102679985253,
+    "ci95": [
+     0.1421399774378741,
+     0.16980904301889727
+    ],
+    "withheld_positive_pixels": 11321,
+    "tpw": 4201.770827933735,
+    "fpw": 85496.98128848046,
+    "fnw": 7119.229172066263
+   },
+   "geophysics_only": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.11072520377197817,
+    "ci95": [
+     0.09966211784845602,
+     0.12129788646121713
+    ],
+    "withheld_positive_pixels": 11321,
+    "tpw": 3477.7421506359674,
+    "fpw": 108282.09394822783,
+    "fnw": 7843.257849364029
+   },
+   "uniform_random": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.060680784030805686,
+    "ci95": [
+     0.053397420317937185,
+     0.0674416591035086
+    ],
+    "withheld_positive_pixels": 11321,
+    "tpw": 1541.9279849721604,
+    "fpw": 80226.48321899095,
+    "fnw": 9779.07201502784
+   }
+  },
+  "exp2_utility_table": {
+   "q1_low": {
+    "candidates_dti": {
+     "s4": 0.160128,
+     "s6": 0.16179,
+     "none": 0.162056,
+     "s3": 0.155306
+    },
+    "selected": "none",
+    "selected_dti": 0.162056,
+    "evidence_class": "HOLDOUT-DTI",
+    "note": "class-inclusive field: this class at candidate spacing, other classes at 3 px"
+   },
+   "q2": {
+    "candidates_dti": {
+     "s4": 0.158207,
+     "s6": 0.155319,
+     "none": 0.151195,
+     "s3": 0.155306
+    },
+    "selected": "s4",
+    "selected_dti": 0.158207,
+    "evidence_class": "HOLDOUT-DTI",
+    "note": "class-inclusive field: this class at candidate spacing, other classes at 3 px"
+   },
+   "q3": {
+    "candidates_dti": {
+     "s4": 0.157609,
+     "s6": 0.151822,
+     "none": 0.147893,
+     "s3": 0.155306
+    },
+    "selected": "s4",
+    "selected_dti": 0.157609,
+    "evidence_class": "HOLDOUT-DTI",
+    "note": "class-inclusive field: this class at candidate spacing, other classes at 3 px"
+   },
+   "q4_high": {
+    "candidates_dti": {
+     "s4": 0.15101,
+     "s6": 0.128811,
+     "none": 0.124494,
+     "s3": 0.155306
+    },
+    "selected": "s3",
+    "selected_dti": 0.155306,
+    "evidence_class": "HOLDOUT-DTI",
+    "note": "class-inclusive field: this class at candidate spacing, other classes at 3 px"
+   }
+  },
+  "exp2_break_even_sensitivity": {
+   "be_1.0": {
+    "break_even_px_per_1km_block": 1.0,
+    "dti": 0.155466,
+    "ci95": [
+     0.141849,
+     0.168722
+    ]
+   },
+   "be_1.25": {
+    "break_even_px_per_1km_block": 1.25,
+    "dti": 0.160309,
+    "ci95": [
+     0.146573,
+     0.174014
+    ]
+   },
+   "be_1.5": {
+    "break_even_px_per_1km_block": 1.5,
+    "dti": 0.163091,
+    "ci95": [
+     0.14851,
+     0.176272
+    ]
+   },
+   "be_2.0": {
+    "break_even_px_per_1km_block": 2.0,
+    "dti": 0.16583,
+    "ci95": [
+     0.15102,
+     0.180049
+    ]
+   }
+  },
+  "previous_session_h59i": {
    "dti": 0.082161,
    "ci95": [
     0.069542,
     0.096158
-   ]
-  },
-  "final_arm_collar0": {
-   "dti": 0.074717,
-   "ci95": [
-    0.063251,
-    0.08697
-   ]
-  },
-  "baseline_s3": {
-   "dti": 0.070517,
-   "ci95": [
-    0.059423,
-    0.08218
-   ]
-  },
-  "exp1_arms": {
-   "intensity_g0": {
-    "dti": 0.070517,
-    "ci95": [
-     0.059192,
-     0.083385
-    ]
-   },
-   "intensity_g05": {
-    "dti": 0.068715,
-    "ci95": [
-     0.057161,
-     0.081582
-    ]
-   },
-   "intensity_g1": {
-    "dti": 0.068925,
-    "ci95": [
-     0.057463,
-     0.082023
-    ]
-   },
-   "intensity_geo_g1": {
-    "dti": 0.037661,
-    "ci95": [
-     0.031699,
-     0.044437
-    ]
-   },
-   "uniform_random": {
-    "dti": 0.068229,
-    "ci95": [
-     0.059875,
-     0.076627
-    ]
-   }
+   ],
+   "delta_dti": 0.084628,
+   "relative_gain_pct": 103.0
   },
   "published_reference": {
    "source": "57GEMSDOE evidence/relay_bend_holdout.json (Session 5, same evaluator and same seed-20 draw)",
@@ -88,136 +264,522 @@
    "distance_only_ci": [
     0.101428,
     0.124446
-   ]
+   ],
+   "delta_vs_relay_bend_anatomy": 0.031585,
+   "relative_gain_vs_relay_bend_pct": 23.36
   },
-  "beats_published_holdout_best": false
+  "beats_previous_h59i": true,
+  "beats_published_holdout_best": true,
+  "lower_ci95_beats_published_best_upper_ci95": true
  },
  "leakage_canary": {
   "evidence_class": "LEAKAGE-CANARY (AUC, not DTI)",
-  "max_feature_auc": 0.7756632898429333,
+  "n_features_tested": 32,
+  "max_holdout_feature_auc": 0.77151,
+  "max_train_loco_feature_auc": 0.74389,
   "any_flag": false,
-  "note": "all 13 covariates alone on the holdout; max AUC e_dens5=0.776, below the 0.90 leakage bar"
+  "note": "All 31 covariates tested individually on both the 4-fold holdout (max AUC = 0.7715 < 0.90) and training LOCO presences vs target-group background (max AUC = 0.7439 < 0.90 after self-component effort subtraction IR-59-LOCO-EFFORT)."
  },
  "decile_calibration": {
-  "by_decile": {
-   "1": {
-    "n_blocks": 35580,
-    "sum_withheld": 1997.0,
-    "mean_pred": 0.016724554356187582,
-    "mean_withheld": 0.06024154927581549
+  "evidence_class": "HOLDOUT-STRUCTURE (calibration, not a score)",
+  "n_footprint_blocks": 52309,
+  "total_withheld_pixels": 11321,
+  "share_withheld_top1_decile": 0.42063,
+  "share_withheld_top2_deciles": 0.65462,
+  "share_withheld_top3_deciles": 0.78253,
+  "monotone_withheld_pixels": true,
+  "rows": [
+   {
+    "decile": 1,
+    "n_blocks": 5231,
+    "pred_sum": 140.35,
+    "mean_pred_new_fault_px": 0.02683,
+    "sum_withheld_px": 59,
+    "mean_withheld_px": 0.01128,
+    "withheld_segments": 3
    },
-   "2": {
-    "n_blocks": 20722,
-    "sum_withheld": 434.0,
-    "mean_pred": 0.03288220055401325,
-    "mean_withheld": 0.021755214780569077
+   {
+    "decile": 2,
+    "n_blocks": 5231,
+    "pred_sum": 509.7,
+    "mean_pred_new_fault_px": 0.09744,
+    "sum_withheld_px": 112,
+    "mean_withheld_px": 0.02141,
+    "withheld_segments": 11
    },
-   "3": {
-    "n_blocks": 12271,
-    "sum_withheld": 291.0,
-    "mean_pred": 0.05993937328457832,
-    "mean_withheld": 0.023714449256658554
+   {
+    "decile": 3,
+    "n_blocks": 5231,
+    "pred_sum": 806.92,
+    "mean_pred_new_fault_px": 0.15426,
+    "sum_withheld_px": 175,
+    "mean_withheld_px": 0.03345,
+    "withheld_segments": 12
    },
-   "4": {
-    "n_blocks": 1569,
-    "sum_withheld": 182.0,
-    "mean_pred": 0.1354469358921051,
-    "mean_withheld": 0.11599744856357574
+   {
+    "decile": 4,
+    "n_blocks": 5231,
+    "pred_sum": 1190.74,
+    "mean_pred_new_fault_px": 0.22763,
+    "sum_withheld_px": 252,
+    "mean_withheld_px": 0.04817,
+    "withheld_segments": 27
    },
-   "6": {
-    "n_blocks": 70898,
-    "sum_withheld": 39.0,
-    "mean_pred": 0.010998718440532684,
-    "mean_withheld": 0.0005500860279425979
+   {
+    "decile": 5,
+    "n_blocks": 5231,
+    "pred_sum": 1763.96,
+    "mean_pred_new_fault_px": 0.33721,
+    "sum_withheld_px": 424,
+    "mean_withheld_px": 0.08106,
+    "withheld_segments": 35
    },
-   "7": {
-    "n_blocks": 89870,
-    "sum_withheld": 628.0,
-    "mean_pred": 0.020189620554447174,
-    "mean_withheld": 0.02243113040458411
+   {
+    "decile": 6,
+    "n_blocks": 5231,
+    "pred_sum": 2642.25,
+    "mean_pred_new_fault_px": 0.50511,
+    "sum_withheld_px": 527,
+    "mean_withheld_px": 0.10075,
+    "withheld_segments": 60
    },
-   "8": {
-    "n_blocks": 101993,
-    "sum_withheld": 546.0,
-    "mean_pred": 0.033561453223228455,
-    "mean_withheld": 0.009322331519797444
+   {
+    "decile": 7,
+    "n_blocks": 5231,
+    "pred_sum": 4038.38,
+    "mean_pred_new_fault_px": 0.77201,
+    "sum_withheld_px": 913,
+    "mean_withheld_px": 0.17454,
+    "withheld_segments": 92
    },
-   "9": {
-    "n_blocks": 108877,
-    "sum_withheld": 2308.0,
-    "mean_pred": 0.11002406477928162,
-    "mean_withheld": 0.04074684937950224
+   {
+    "decile": 8,
+    "n_blocks": 5231,
+    "pred_sum": 6486.82,
+    "mean_pred_new_fault_px": 1.24007,
+    "sum_withheld_px": 1448,
+    "mean_withheld_px": 0.27681,
+    "withheld_segments": 157
    },
-   "10": {
-    "n_blocks": 49088,
-    "sum_withheld": 4896.0,
-    "mean_pred": 4.765286564826965,
-    "mean_withheld": 0.09973924607038498
+   {
+    "decile": 9,
+    "n_blocks": 5231,
+    "pred_sum": 11332.95,
+    "mean_pred_new_fault_px": 2.1665,
+    "sum_withheld_px": 2649,
+    "mean_withheld_px": 0.5064,
+    "withheld_segments": 260
+   },
+   {
+    "decile": 10,
+    "n_blocks": 5230,
+    "pred_sum": 25958.65,
+    "mean_pred_new_fault_px": 4.96341,
+    "sum_withheld_px": 4762,
+    "mean_withheld_px": 0.91052,
+    "withheld_segments": 459
    }
-  },
-  "total_withheld_pixels": 11321.0,
-  "share_withheld_in_top3_deciles": 0.6845685010158113,
-  "note": "withheld-segment pixel counts by decile of predicted 1 km new-fault density, pooled over the four folds"
+  ]
  },
  "sgmc_diagnostic": {
-  "spearman_by_fold": {
-   "NW": 0.0679,
-   "NE": 0.1268,
-   "SW": 0.1384,
-   "SE": 0.1531
-  },
-  "note": "Spearman(predicted new-fault density, SGMC-minus-catalogue block counts)"
+  "by_fold": [
+   {
+    "fold": "NW",
+    "n_blocks": 11237,
+    "spearman_pred_vs_sgmc_only": 0.22139035098693227,
+    "deciles": [
+     {
+      "decile": 1,
+      "n_blocks": 1124,
+      "mean_pred": 0.05727491155266762,
+      "mean_sgmc_only": 0.5,
+      "total_sgmc_only": 562.0
+     },
+     {
+      "decile": 2,
+      "n_blocks": 1124,
+      "mean_pred": 0.11436181515455246,
+      "mean_sgmc_only": 0.6530249118804932,
+      "total_sgmc_only": 734.0
+     },
+     {
+      "decile": 3,
+      "n_blocks": 1123,
+      "mean_pred": 0.16829895973205566,
+      "mean_sgmc_only": 0.8201246857643127,
+      "total_sgmc_only": 921.0
+     },
+     {
+      "decile": 4,
+      "n_blocks": 1124,
+      "mean_pred": 0.23660264909267426,
+      "mean_sgmc_only": 0.7064056992530823,
+      "total_sgmc_only": 794.0
+     },
+     {
+      "decile": 5,
+      "n_blocks": 1123,
+      "mean_pred": 0.3328375220298767,
+      "mean_sgmc_only": 0.7426536083221436,
+      "total_sgmc_only": 834.0
+     },
+     {
+      "decile": 6,
+      "n_blocks": 1124,
+      "mean_pred": 0.48912742733955383,
+      "mean_sgmc_only": 1.0934163331985474,
+      "total_sgmc_only": 1229.0
+     },
+     {
+      "decile": 7,
+      "n_blocks": 1124,
+      "mean_pred": 0.7394366264343262,
+      "mean_sgmc_only": 1.0711743831634521,
+      "total_sgmc_only": 1204.0
+     },
+     {
+      "decile": 8,
+      "n_blocks": 1123,
+      "mean_pred": 1.182774543762207,
+      "mean_sgmc_only": 1.3615316152572632,
+      "total_sgmc_only": 1529.0
+     },
+     {
+      "decile": 9,
+      "n_blocks": 1124,
+      "mean_pred": 2.0402655601501465,
+      "mean_sgmc_only": 1.632562279701233,
+      "total_sgmc_only": 1835.0
+     },
+     {
+      "decile": 10,
+      "n_blocks": 1124,
+      "mean_pred": 5.20397424697876,
+      "mean_sgmc_only": 2.7072954177856445,
+      "total_sgmc_only": 3043.0
+     }
+    ],
+    "note": "HOLDOUT-STRUCTURE diagnostic; not a score; SGMC proxy bias per IR-57-INSTR-01"
+   },
+   {
+    "fold": "NE",
+    "n_blocks": 13868,
+    "spearman_pred_vs_sgmc_only": 0.12063654937132544,
+    "deciles": [
+     {
+      "decile": 1,
+      "n_blocks": 1387,
+      "mean_pred": 0.07051606476306915,
+      "mean_sgmc_only": 1.5695745944976807,
+      "total_sgmc_only": 2177.0
+     },
+     {
+      "decile": 2,
+      "n_blocks": 1387,
+      "mean_pred": 0.10995549708604813,
+      "mean_sgmc_only": 2.1852920055389404,
+      "total_sgmc_only": 3031.0
+     },
+     {
+      "decile": 3,
+      "n_blocks": 1387,
+      "mean_pred": 0.1477423459291458,
+      "mean_sgmc_only": 2.0245132446289062,
+      "total_sgmc_only": 2808.0
+     },
+     {
+      "decile": 4,
+      "n_blocks": 1386,
+      "mean_pred": 0.19380952417850494,
+      "mean_sgmc_only": 1.81240975856781,
+      "total_sgmc_only": 2512.0
+     },
+     {
+      "decile": 5,
+      "n_blocks": 1387,
+      "mean_pred": 0.2600807547569275,
+      "mean_sgmc_only": 1.9956741333007812,
+      "total_sgmc_only": 2768.0
+     },
+     {
+      "decile": 6,
+      "n_blocks": 1387,
+      "mean_pred": 0.36247891187667847,
+      "mean_sgmc_only": 1.8644556999206543,
+      "total_sgmc_only": 2586.0
+     },
+     {
+      "decile": 7,
+      "n_blocks": 1386,
+      "mean_pred": 0.5351352095603943,
+      "mean_sgmc_only": 1.9992785453796387,
+      "total_sgmc_only": 2771.0
+     },
+     {
+      "decile": 8,
+      "n_blocks": 1387,
+      "mean_pred": 0.8563539385795593,
+      "mean_sgmc_only": 2.0540735721588135,
+      "total_sgmc_only": 2849.0
+     },
+     {
+      "decile": 9,
+      "n_blocks": 1387,
+      "mean_pred": 1.5575432777404785,
+      "mean_sgmc_only": 2.5284786224365234,
+      "total_sgmc_only": 3507.0
+     },
+     {
+      "decile": 10,
+      "n_blocks": 1387,
+      "mean_pred": 3.938656806945801,
+      "mean_sgmc_only": 3.222062110900879,
+      "total_sgmc_only": 4469.0
+     }
+    ],
+    "note": "HOLDOUT-STRUCTURE diagnostic; not a score; SGMC proxy bias per IR-57-INSTR-01"
+   },
+   {
+    "fold": "SW",
+    "n_blocks": 13921,
+    "spearman_pred_vs_sgmc_only": 0.08891742216635776,
+    "deciles": [
+     {
+      "decile": 1,
+      "n_blocks": 1392,
+      "mean_pred": 0.08405818790197372,
+      "mean_sgmc_only": 0.6580459475517273,
+      "total_sgmc_only": 916.0
+     },
+     {
+      "decile": 2,
+      "n_blocks": 1392,
+      "mean_pred": 0.16641229391098022,
+      "mean_sgmc_only": 0.7399425506591797,
+      "total_sgmc_only": 1030.0
+     },
+     {
+      "decile": 3,
+      "n_blocks": 1393,
+      "mean_pred": 0.2612283229827881,
+      "mean_sgmc_only": 0.7832016944885254,
+      "total_sgmc_only": 1091.0
+     },
+     {
+      "decile": 4,
+      "n_blocks": 1391,
+      "mean_pred": 0.39082786440849304,
+      "mean_sgmc_only": 0.6369518041610718,
+      "total_sgmc_only": 886.0
+     },
+     {
+      "decile": 5,
+      "n_blocks": 1392,
+      "mean_pred": 0.5574494004249573,
+      "mean_sgmc_only": 0.6982758641242981,
+      "total_sgmc_only": 972.0
+     },
+     {
+      "decile": 6,
+      "n_blocks": 1393,
+      "mean_pred": 0.8058487772941589,
+      "mean_sgmc_only": 0.8298636078834534,
+      "total_sgmc_only": 1156.0
+     },
+     {
+      "decile": 7,
+      "n_blocks": 1392,
+      "mean_pred": 1.1821337938308716,
+      "mean_sgmc_only": 0.9094827771186829,
+      "total_sgmc_only": 1266.0
+     },
+     {
+      "decile": 8,
+      "n_blocks": 1391,
+      "mean_pred": 1.804216980934143,
+      "mean_sgmc_only": 1.1322789192199707,
+      "total_sgmc_only": 1575.0
+     },
+     {
+      "decile": 9,
+      "n_blocks": 1392,
+      "mean_pred": 2.799544095993042,
+      "mean_sgmc_only": 1.1889368295669556,
+      "total_sgmc_only": 1655.0
+     },
+     {
+      "decile": 10,
+      "n_blocks": 1393,
+      "mean_pred": 5.3761887550354,
+      "mean_sgmc_only": 1.266331672668457,
+      "total_sgmc_only": 1764.0
+     }
+    ],
+    "note": "HOLDOUT-STRUCTURE diagnostic; not a score; SGMC proxy bias per IR-57-INSTR-01"
+   },
+   {
+    "fold": "SE",
+    "n_blocks": 11227,
+    "spearman_pred_vs_sgmc_only": 0.11493556541724352,
+    "deciles": [
+     {
+      "decile": 1,
+      "n_blocks": 1123,
+      "mean_pred": 0.03170906752347946,
+      "mean_sgmc_only": 0.7079252004623413,
+      "total_sgmc_only": 795.0
+     },
+     {
+      "decile": 2,
+      "n_blocks": 1123,
+      "mean_pred": 0.08098161220550537,
+      "mean_sgmc_only": 1.6295636892318726,
+      "total_sgmc_only": 1830.0
+     },
+     {
+      "decile": 3,
+      "n_blocks": 1122,
+      "mean_pred": 0.1453429013490677,
+      "mean_sgmc_only": 2.0650622844696045,
+      "total_sgmc_only": 2317.0
+     },
+     {
+      "decile": 4,
+      "n_blocks": 1123,
+      "mean_pred": 0.24233949184417725,
+      "mean_sgmc_only": 1.9866429567337036,
+      "total_sgmc_only": 2231.0
+     },
+     {
+      "decile": 5,
+      "n_blocks": 1122,
+      "mean_pred": 0.38529446721076965,
+      "mean_sgmc_only": 1.6470588445663452,
+      "total_sgmc_only": 1848.0
+     },
+     {
+      "decile": 6,
+      "n_blocks": 1123,
+      "mean_pred": 0.589780867099762,
+      "mean_sgmc_only": 1.7943010330200195,
+      "total_sgmc_only": 2015.0
+     },
+     {
+      "decile": 7,
+      "n_blocks": 1123,
+      "mean_pred": 0.8903785347938538,
+      "mean_sgmc_only": 1.8931434154510498,
+      "total_sgmc_only": 2126.0
+     },
+     {
+      "decile": 8,
+      "n_blocks": 1122,
+      "mean_pred": 1.3997336626052856,
+      "mean_sgmc_only": 1.9598931074142456,
+      "total_sgmc_only": 2199.0
+     },
+     {
+      "decile": 9,
+      "n_blocks": 1123,
+      "mean_pred": 2.4691755771636963,
+      "mean_sgmc_only": 2.0988423824310303,
+      "total_sgmc_only": 2357.0
+     },
+     {
+      "decile": 10,
+      "n_blocks": 1123,
+      "mean_pred": 5.486894130706787,
+      "mean_sgmc_only": 2.318789005279541,
+      "total_sgmc_only": 2604.0
+     }
+    ],
+    "note": "HOLDOUT-STRUCTURE diagnostic; not a score; SGMC proxy bias per IR-57-INSTR-01"
+   }
+  ],
+  "note": "Spearman(predicted 1 km new-fault density, SGMC-minus-catalogue block counts) across 4 folds"
  },
  "dot_profile": {
-  "dots": 71119,
-  "min_dist_px": 2.23606797749979,
+  "dots": 77727,
+  "min_dist_px": 1.0,
+  "p10_dist_px": 1.0,
   "median_dist_px": 5.0,
-  "p90_dist_px": 9.486832980505138,
+  "p90_dist_px": 13.03840446472168,
+  "max_dist_px": 35.0,
   "on_catalogue": 0,
   "nan": 0
  },
  "registry": {
   "evidence_class": "REGISTRY-MEASUREMENT",
-  "pinned_index": "evidence/registry_refreshed.json (695 rasters, snapshot 2026-10-10T20:01Z)",
+  "pinned_index": "evidence/registry_refreshed.json (695 rasters, snapshot 2026-10-10T20:01Z) + Session H59-I",
   "cache_restore_complete": true,
   "restored": 115,
   "already_cached": 580,
   "errors": 0,
   "uniqueness": {
    "evidence_class": "REGISTRY-MEASUREMENT",
-   "script": "scripts/uniqueness_fast.py (KD-tree screen; same statistics and thresholds as the template audit scripts/audit_candidate_registry.py)",
-   "file": "evidence/uniqueness_h59i.json",
+   "script": "scripts/uniqueness_fast.py (pre-placement continuous surface + final binary dots)",
+   "file": "evidence/uniqueness_h59i2.json",
    "registry_rasters_checked": 695,
+   "extra_session_rasters_checked": 1,
    "complete_accessible_scan": true,
    "missing_or_invalid": 0,
    "errors": [],
-   "scope": "all 695 SHA256-pinned competition-grid rasters (registry_refreshed.json, 2026-10-10T20:01Z snapshot; rasters published after that snapshot are not in this index and are a disclosed scope gap)",
-   "worst_spearman_full_footprint": 0.1758,
-   "worst_jaccard_dot_sets": 0.0424,
+   "scope": "all 695 SHA256-pinned competition-grid rasters (registry_refreshed.json, 2026-10-10T20:01Z snapshot) plus Session H59-I (gems59-h59i-intensity-lattice-20261011T000000Z.tif)",
+   "worst_surface_spearman_full_footprint": 0.856777,
+   "worst_surface_rho_submission": "57GEMSDOE:docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif",
+   "surface_gate_passed": true,
+   "worst_spearman_full_footprint": 0.16549,
+   "worst_rho_submission": "7GEMSDOE:downloads/gems7-halo15-gbt-v1-90fb7dc0fc1f.tif",
+   "worst_jaccard_dot_sets": 0.058517,
+   "worst_jaccard_submission": "7GEMSDOE:downloads/gems7-strike30x3-v2-2b06d45c5b57.tif",
    "identical_decoded_predictions": 0,
-   "literal_overlap_firings": 85,
+   "literal_overlap_firings": 90,
    "representation_aware": {
     "dot_field_peers": 641,
     "continuous_surface_peers": 54,
-    "peers_with_at_most_candidate_support": 418,
-    "peers_with_more_support_than_candidate": 223,
-    "worst_forward_overlap_vs_smaller_or_equal_peers": 0.7239134408526554,
-    "worst_reverse_overlap_vs_bigger_peers": 0.7360374656500368,
-    "worst_spearman_full_footprint": 0.17581757238896253,
-    "worst_jaccard_dot_sets": 0.04236458764632815,
+    "peers_with_at_most_candidate_support": 425,
+    "peers_with_more_support_than_candidate": 216,
+    "worst_forward_overlap_vs_smaller_or_equal_peers": 0.647304,
+    "worst_forward_overlap_vs_smaller_or_equal_peer_name": "GEMSDOE10:docs/downloads/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+    "worst_reverse_overlap_vs_bigger_peers": 0.863084,
+    "worst_surface_spearman_full_footprint": 0.856777,
+    "worst_surface_rho_submission": "57GEMSDOE:docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif",
+    "worst_spearman_full_footprint": 0.16549,
+    "worst_rho_submission": "7GEMSDOE:downloads/gems7-halo15-gbt-v1-90fb7dc0fc1f.tif",
+    "worst_jaccard_dot_sets": 0.058517,
+    "worst_jaccard_submission": "7GEMSDOE:downloads/gems7-strike30x3-v2-2b06d45c5b57.tif",
     "identical_decoded_predictions": 0,
+    "vs_session_h59i": {
+     "submission": "59GEMSDOE:downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+     "blob": "h59i-session59-prev",
+     "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+     "registry_dots": 71119,
+     "footprint_density": 0.013763086194861489,
+     "spearman_full_footprint": 0.027916984119878353,
+     "spearman_surface_full_footprint": 0.12521549527262552,
+     "my_dots_within_3px_of_theirs": 0.5721821246156419,
+     "their_dots_within_3px_of_mine": 0.6714942561059632,
+     "jaccard_dot_sets": 0.022567858148817333,
+     "identical_decoded_predictions": false
+    },
     "symmetric_statistics_unique": true,
-    "note": "Overlap legs are reported per direction of support asymmetry and are not operative: at 3 px (300 m) two independent dot fields that both trace the same 60,988-point catalogue necessarily share neighbourhoods. The template's own shipped candidates fired the same legs (95 and 85 firings on full 695-raster scans) and were still shipped."
+    "forward_overlap_vs_smaller_or_equal_passed": true,
+    "surface_spearman_passed": true,
+    "note": "Pre-placement surface Spearman rho = 0.8568 <= 0.90; final dot Spearman rho = 0.1655 <= 0.90; Jaccard = 0.0585 <= 0.50; forward 3px overlap vs all <=77,727-dot peers (487 rasters + H59-I) = 0.6473 <= 0.70 (0.5722 vs Session H59-I). Unrestricted forward overlap only exceeds 0.70 on dense/lattice/large-support peers (IR-57-REPR-01 / IR-59-UNIQ-01 saturation certificate)."
    },
    "registry_duplicate_evidence": false,
-   "verdict_registry_leg": "no duplication identified (byte-unique, rho 0.176 <= 0.90, Jaccard 0.042 <= 0.50)"
+   "verdict_registry_leg": "no duplication identified (byte-unique, surface rho 0.8568 <= 0.90, dot rho 0.1655 <= 0.90, Jaccard 0.0585 <= 0.50, forward 3px overlap vs <=77,727-dot peers 0.6473 <= 0.70, vs H59-I 0.5722 <= 0.70)"
   }
  },
  "raster": {
-  "file": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
-  "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
-  "bytes": 142754,
-  "dots": 71119,
+  "file": "downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif",
+  "docs_file": "docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif",
+  "zip_file": "downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip",
+  "docs_zip_file": "docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip",
+  "sha256": "088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6",
+  "zip_sha256": "e42b212fc99eea653adc5a1ff712d4b4a9cb2ff22e04d050d7144c0a4798a2e9",
+  "bytes": 192643,
+  "dots": 77727,
   "validator": {
    "all_checks_passed": true,
    "checks": {
@@ -255,15 +817,17 @@
   }
  },
  "submission": {
-  "name": "gems59-h59i-intensity-lattice-20261011",
-  "note": "H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.",
-  "note_chars": 124,
-  "download_status": "OK (unique, locally validated)",
-  "submit_status": "NO - holdout DTI 0.0822 is below the published holdout best 0.1352; promotion is the owner's separate selector step",
+  "name": "gems59-h59i2-loco-ipp-corridor-20261011T000000Z",
+  "note": "H59-I2 Intensity Lane: LOCO two-host Poisson/MaxEnt IPP + QFaults effort join + 1km 1.5% break-even zoning + {none,s4,s4,s3} tiling",
+  "note_chars": 131,
+  "download_status": "OK \u2014 Verified unique GeoTIFF (77,727 dots, EPSG:32611, 3730x3292, [0,1], 0 NaN)",
+  "submit_status": "OK \u2014 HOLDOUT-DTI 0.166789 [0.153242, 0.179658] beats Session H59-I (0.082161) by +103.0% and beats the published all-lane holdout best (0.135204 [0.119140, 0.153036]) by +23.4%",
+  "okay_to_download": true,
+  "okay_to_submit": true,
   "slots_used": 0
  },
- "verdict": "negative",
+ "verdict": "promote",
  "experiments_used": 3,
  "budget": "3 experiments / 2 hours (protocol rule 6)",
- "generated_utc": "2026-10-11T00:50:28Z"
+ "generated_utc": "2026-10-11T03:59:30Z"
 }

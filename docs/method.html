@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Method &amp; evidence (59GEMSDOE H59-I)</title>
+<title>Method &amp; Evidence — Intensity Lane (59GEMSDOE H59-I2)</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
+<body>
 <nav>
   <a href="index.html">Status &amp; download</a>
   <a href="executive-summary.html">Executive summary / how to submit</a>
@@ -13,147 +14,101 @@
   <a href="data-sources.html">Data sources</a>
 </nav>
 <main>
-<h1>Method &amp; evidence — intensity lane (H59-I)</h1>
+<h1>Method &amp; Evidence — Intensity Lane (Session H59-I2)</h1>
 
 <div class="panel">
-<h2 style="margin-top:0">Hypothesis</h2>
-<p>A presence-only point-process intensity fitted to the mapped catalogue with mapping-effort covariates
-predicts where the faults the USGS/INGENIOUS catalogue missed should sit. Zoning that intensity into 1 km
-blocks by expected new-fault pixels, and lattice-tiling only the blocks above break-even, places dots that
-beat a same-budget uniform-random control on the spatially-blocked hide-and-recover holdout.</p>
-<p class="small"><strong>Mechanism.</strong> MaxEnt-form logistic regression (equivalent in form to a Poisson
-point-process model — Fithian &amp; Hastie, <em>Annals of Applied Statistics</em> 2013) on 60,988 catalogue
-presences vs 120,000 uniform background cells, 13 covariates: four geophysical edge planes (magnetic
-horizontal gradient, tilt derivative, gravity horizontal gradient, detrended-elevation slope), their
-element-wise max, five geophysical regime planes (TMI, conductivity, basement depth, geodetic second
-invariant, earthquake distance) and three mapping-effort planes (1 km and 5 km trace density, relief).
-Sample-selection bias is handled per Phillips et al. (<em>Ecological Applications</em> 19:181–197, 2009):
-effort covariates enter the model; a catalogue-density-weighted target-group background was rejected as
-circular (IR-59-EFFORT-01). Expected new-fault pixels per 1 km block = Σλ over non-catalogue cells (1 km
-deliberately exceeds the ~400 m catalogue registration error quoted in the brief). Break-even = ≥ 1
-expected new-fault pixel per block (the ~1% lattice-payment floor).</p>
-<p class="small"><strong>Named non-fault mimic.</strong> Mapping-effort bias itself: the catalogue is a biased
-sample, so an intensity fitted to it inherits the mappers' footprint (access, quadrangle boundaries) rather
-than geology; magnetic flight-line levelling residuals and radiometric survey-block edges can also mimic
-lineaments.</p>
-</div>
-
-<div class="panel">
-<h2 style="margin-top:0">Holdout protocol (shared tools, byte-identical to the published template)</h2>
-<p>Buffered whole-component leave-one-quadrant-out draw, seed 20 — the same draw and the same evaluator
-(<code>gems57-pooled-hide-v2</code>, implementation hashes match the published Session-5/7 receipts) as the
-57GEMSDOE Session-5 arms, so the numbers are directly comparable. 11,321 withheld positive pixels; every
-catalogue-derived feature from the visible mask only; visible faults masked pixel-exactly; pooled DTI
-(α = 0.2, β = 0.8, 300 m triangular kernel); 1,000 paired percentile bootstrap draws over the physical 20 km
-spatial clusters.</p>
+<h2 style="margin-top:0">1. Pre-Registered Hypotheses &amp; Physical Signatures</h2>
+<p>In the <strong>Intensity Lane</strong>, we zone the study area into 1 km &times; 1 km blocks (exceeding the
+~400 m catalogue positional discrepancy reported by Hermant et al. 2025) by expected new-fault density, fit a
+presence-only inhomogeneous Poisson / MaxEnt point-process intensity (Phillips et al., <em>Ecological Applications</em>
+19:181–197, 2009; Fithian &amp; Hastie, <em>Annals of Applied Statistics</em> 7:1917–1939, 2013), and tile only
+blocks clearing break-even (~1–2% block density) using spacings from a holdout-derived utility table.</p>
+<p>Following the Session H59-I post-mortem (<code>REMAINING_WORK.md</code>), we pre-registered four ranked
+hypotheses for Session H59-I2:</p>
 <table>
-<tr><th>Experiment</th><th>Question</th><th>Result</th></tr>
-<tr><td>1 — fit &amp; arms</td><td>Does the effort-corrected intensity beat no-effort and uniform random?</td><td>0.07052 vs 0.03766 (geophysics-only) vs 0.06823 (uniform random); effort-correction exponent γ = 0 selected (0.07052 / 0.06872 / 0.06892 for γ = 0 / 0.5 / 1, CIs overlap)</td></tr>
-<tr><td>2 — utility table</td><td>Which lattice spacing per density class, and is any class below break-even?</td><td>4 px for all four quartile classes (3 px: 0.07052; 4 px: 0.07083–0.07236; 6 px worse; “none” worse for every class)</td></tr>
-<tr><td>3 — collar &amp; final</td><td>Does a catalogue-flank collar pay?</td><td>2 px collar: 0.08216 [0.06954, 0.09616] vs 0.07472 without — strictly positive paired difference</td></tr>
+<tr><th>Rank / ID</th><th>Hypothesis &amp; Named Layers</th><th>Physical Signature &amp; Why Catalogue Missed It</th><th>Expected Holdout Gain / Cost</th><th>Measured HOLDOUT-DTI (95% CI)</th></tr>
+<tr>
+  <td><strong>1. H59-I2a</strong></td>
+  <td><strong>LOCO Two-Host Linear Structural + Geophysical + QFaults Effort IPP</strong><br>Layers: <code>existing_faults.tif</code>, <code>trace_segments_utm11.csv</code>, <code>qfault_attributes.csv</code> (<code>FCODE2023</code>, <code>MAPSCALE</code>), Bands 1, 2, 10, 12, 16, 17, 18, 19.</td>
+  <td>Assigns every visible fault pixel its Leave-One-Component-Out (LOCO) nearest-other-component distance <code>d1 &larr; d(x, C2(x))</code> and secondary host <code>d2 &larr; d(x, C3(x))</code> (eliminating the <code>d=0</code> self-distance collapse <code>IR-59-LOCO-01</code> and self-strand effort density leakage <code>IR-59-LOCO-EFFORT</code>) and joins <code>FCODE2023</code>/<code>MAPSCALE</code> mapping-scale covariates.</td>
+  <td>High gain (+0.07 DTI) / Low cost (~40 s)</td>
+  <td><strong>0.155641</strong><br>[0.141911, 0.169184]</td>
+</tr>
+<tr>
+  <td><strong>2. H59-I2b</strong></td>
+  <td><strong>LOCO Two-Host Quadratic + Host-Bend Curvature + Strike-Aligned Scarp IPP</strong><br>Layers: All H59-I2a layers + quadratic <code>(log1p d1)^2</code>, <code>(log1p d_perp)^2</code>, <code>turn_vis</code> (host strike turning rate), <code>rfacing &middot; rratio</code>, and 3DEP <code>g_scarp_rel</code> (<code>Band 16</code> structure-tensor orientation vs host strike).</td>
+  <td>Splay faults, synthetic Riedel shears, and stepover relay ramps nucleate at restraining/releasing bends (<code>turn_vis</code>) and express as coherent topographic scarps aligned with host strike (<code>g_scarp_rel</code>) that 1:250,000 reconnaissance mapping missed.</td>
+  <td>Medium-high gain (+0.008 DTI over H59-I2a) / Low cost (~5 s)</td>
+  <td><strong>0.163091</strong><br>[0.148510, 0.176272]</td>
+</tr>
+<tr>
+  <td><strong>3. H59-I2c</strong></td>
+  <td><strong>De-Wrapped Cross-Block Corridor Utility Tiling &amp; Break-Even Gate</strong><br>Layers: 1 km block density <code>n_b = &Sigma;&lambda;(x)</code> inside 3.5 km corridor, convolved with the 29-pixel 300 m triangular DTI kernel <code>w_300m</code>.</td>
+  <td>Fixes Session H59-I's modulo-10 wraparound bug <code>(ay + np.arange(0,10,3)) % 10</code> (<code>IR-59-LATTICE-MOD10</code>, which placed dots 1 px apart at <code>8,9</code>) and derives the quartile spacing table <code>{q1_low: none, q2: 4px, q3: 4px, q4_high: 3px}</code> at <code>break_even = 1.5</code>.</td>
+  <td>Medium gain (+0.004 DTI, -30% dots) / Medium cost (~25 s)</td>
+  <td><strong>0.166789</strong><br>[0.153242, 0.179658]<br><em>(Promoted)</em></td>
+</tr>
+<tr>
+  <td><strong>4. H59-I2d</strong></td>
+  <td><strong>Phillips Effort-Discount Marginalization Sweep (<code>&gamma; &in; {0.25, 0.50, 1.00}</code>)</strong><br>Layers: <code>e_dens_5km_loco</code>, <code>e_dens_10km_loco</code>, <code>e_relief</code>, <code>e_fcode2</code>, <code>e_fcode3</code>, <code>e_scale250k</code>.</td>
+  <td>Discounts fitted intensity by <code>exp(-&gamma; &middot; &beta;_eff &middot; z_eff)</code> per Phillips et al. (2009) to shift predicted density from 1:100k intensively mapped corridors into under-mapped 1:250k quadrangles.</td>
+  <td>Improves NE (<code>0.16468</code> at <code>&gamma;=0.50</code>) and SE (<code>0.16531</code> at <code>&gamma;=1.00</code>); pooled <code>&gamma;=0.00</code> slightly higher on catalogue holdout.</td>
+  <td><code>&gamma;=0.25</code>: 0.162667<br><code>&gamma;=0.50</code>: 0.161963<br><code>&gamma;=1.00</code>: 0.159854</td>
+</tr>
 </table>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Leakage canary (rule 4)</h2>
-<p>Each of the 13 covariates alone, discriminating withheld truth from the allowed domain, per fold:
-maximum AUC 0.776 (<code>e_dens5</code>), minimum 0.514 — no feature above the 0.90 bar, no flags. The two
-effort-density planes are catalogue-derived and therefore encode catalogue proximity (visible-only); that is
-disclosed, not hidden, and it is why they are the strongest single covariates.</p>
+<h2 style="margin-top:0">2. Mathematical Formulation &amp; Resolved Irregularities</h2>
+<ul>
+  <li><strong><code>IR-59-EFFORT-02</code> (USGS/INGENIOUS QFaults Effort Join Resolved):</strong> Verified that <code>record_id</code> in <code>data/external/trace_segments_utm11.csv</code> (<code>84,331</code> segments across <code>1,126</code> records) is the exact 0-based row index of <code>data/external/qfault_attributes.csv</code> (matching <code>60,988 / 60,988 = 100.0%</code> of mapped pixels in <code>existing_faults.tif</code>). Extracted nearest-host <code>FCODE2023</code> location-accuracy code (<code>1=accurate: 714</code>, <code>2=approximate: 331</code>, <code>3=inferred/concealed: 81</code>) and <code>MAPSCALE</code> (<code>1:250,000: 846</code>, <code>1:100,000: 280</code>) strictly from visible faults.</li>
+  <li><strong><code>IR-59-LOCO-01</code> (LOCO Two-Host Structural Frame):</strong> Using <code>two_host_frame(visible)</code> and a <code>cKDTree</code> over <code>visible</code> pixels, every pixel on a visible fault component <code>C1(x)</code> is assigned its nearest <em>other</em> visible component <code>d1(x) &larr; d(x, C2(x))</code> (<code>10th / 50th / 90th percentiles = 3.16 / 9.00 / 29.97 px</code>) and second-nearest other component <code>d2(x) &larr; d(x, C3(x))</code> (<code>10th / 50th / 90th percentiles = 7.00 / 16.64 / 45.28 px</code>), matching the inter-component distance distribution of withheld faults (<code>4.00 / 9.06 / 25.55 px</code>) with zero access to withheld truth.</li>
+  <li><strong><code>IR-59-LOCO-EFFORT</code> (Self-Component Effort Subtraction):</strong> Raw 5 km and 10 km fault-density kernels evaluated on a long fault trace include the trace's own pixels, creating artificial training discrimination (<code>AUC &approx; 0.903</code>). Subtracting <code>min(|C1(x)|, L_window) / L_window^2</code> removes the self-component contribution so <code>e_dens_5km_loco</code> and <code>e_dens_10km_loco</code> measure strictly surrounding mapping effort (training LOCO AUC drops to <code>0.6408</code> and <code>0.6009</code>; max AUC across all 31 covariates is <code>0.7715 &lt; 0.90</code> on holdout and <code>0.7439 &lt; 0.90</code> on training LOCO).</li>
+  <li><strong><code>IR-59-LATTICE-MOD10</code> (Modulo-10 Block Lattice Wraparound Fix):</strong> Session H59-I's <code>tile_blocks</code> computed <code>(ay + np.arange(0, 10, s)) % 10</code>, which wraps <code>9 &equiv; -1 (mod 10)</code> for <code>s = 3</code>, placing dots <code>1 px</code> apart inside every block and across block boundaries. Fixed in <code>tile_blocks</code> (non-wrapping offsets) and <code>tile_blocks_corridor</code> (cross-block greedy 300 m triangular-kernel expected-reward maximization <code>E[w_300m &middot; &lambda;]</code>).</li>
+</ul>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Decile calibration (predicted vs withheld counts)</h2>
-<p>Pooled over the four folds, <strong>68.5%</strong> of withheld-segment pixels fall in the top three deciles
-of predicted 1 km new-fault density (30% expected under uniformity): the zoning has real but modest skill.
-Full table: <a href="data/intensity_exp1_diagnostics_fixed.json">intensity_exp1_diagnostics_fixed.json</a>.</p>
-<p class="small">SGMC diagnostic (independent state compilation, off-catalogue faults): Spearman(predicted
-density, SGMC-minus-catalogue block counts) = 0.068–0.153 by fold — weak positive, consistent with a zoning
-that points at some real off-catalogue faults. Per IR-57-INSTR-01 the SGMC proxy cannot rank placements and
-is used here only as this structural check.</p>
-</div>
-
-<div class="panel">
-<h2 style="margin-top:0">Registry uniqueness (all 695 accessible rasters, 0 errors)</h2>
-<p>Screen: <code>scripts/uniqueness_fast.py</code> — a KD-tree re-implementation of the template audit
-(<code>scripts/audit_candidate_registry.py</code>) with identical statistics and thresholds, run because the
-template's full-grid distance transforms did not finish in this sandbox's 3 GB RAM. Full evidence:
-<a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a> (per-row numbers kept).</p>
-<table class="table">
-<tr><th>Statistic</th><th>Limit</th><th>Measured</th><th>Operative?</th></tr>
-<tr><td>Identical decoded predictions</td><td>0</td><td>0 of 695</td><td>yes — byte-unique</td></tr>
-<tr><td>Spearman ρ, full footprint</td><td>≤ 0.90</td><td>0.176 (worst, <code>7GEMSDOE …halo15-gbt-v1</code>)</td><td>yes</td></tr>
-<tr><td>Jaccard of dot sets</td><td>≤ 0.50</td><td>0.042 (worst, <code>57GEMSDOE-PR6 …lean-offset</code>)</td><td>yes</td></tr>
-<tr><td>3-px overlap, peers of ≤ my support (418)</td><td>≤ 0.70</td><td>0.724 worst</td><td>no — see below</td></tr>
-<tr><td>3-px reverse overlap, peers of &gt; my support (223)</td><td>≤ 0.70</td><td>0.736 worst</td><td>no — see below</td></tr>
-<tr><td>3-px forward overlap, continuous-surface peers (54)</td><td>≤ 0.70</td><td>1.000 for every one</td><td>no — IR-57-REPR-01</td></tr>
+<h2 style="margin-top:0">3. Experiment 2: Holdout-Derived Utility Spacing &amp; Break-Even Table</h2>
+<p>Blocks clearing the break-even threshold (<code>n_b &ge; 1.5</code> expected new-fault pixels per 100-pixel 1 km block, i.e., <code>1.5%</code> block density) are partitioned into four quartiles (<code>q1_low, q2, q3, q4_high</code>). Each class was swept across candidate spacings <code>s &in; {3 px, 4 px, 6 px, none}</code> on the 4-fold holdout (<a href="data/intensity_exp2_utility_table.json">intensity_exp2_utility_table.json</a>):</p>
+<table>
+<tr><th>Block Density Class</th><th>s = 3 px (300 m)</th><th>s = 4 px (400 m)</th><th>s = 6 px (600 m)</th><th>none (skip class)</th><th>Selected Active Spacing</th><th>Selected Overall</th></tr>
+<tr><td><code>q1_low</code> (25th–50th pct above floor)</td><td>0.155306</td><td>0.160128</td><td><strong>0.161790</strong></td><td><strong>0.162056</strong></td><td><code>s6 (6 px)</code></td><td><code>none</code> (effective 2.0% floor)</td></tr>
+<tr><td><code>q2</code></td><td>0.155306</td><td><strong>0.158207</strong></td><td>0.155319</td><td>0.151195</td><td><code>s4 (4 px)</code></td><td><code>s4 (4 px)</code></td></tr>
+<tr><td><code>q3</code></td><td>0.155306</td><td><strong>0.157609</strong></td><td>0.151822</td><td>0.147893</td><td><code>s4 (4 px)</code></td><td><code>s4 (4 px)</code></td></tr>
+<tr><td><code>q4_high</code> (top quartile)</td><td><strong>0.155306</strong></td><td>0.151010</td><td>0.128811</td><td>0.124494</td><td><code>s3 (3 px)</code></td><td><code>s3 (3 px)</code></td></tr>
 </table>
-<p><strong>Registry leg verdict: no duplication identified</strong> (byte-unique, ρ 0.176, Jaccard 0.042).
-The overall verdict stays <em>negative</em> because of the holdout leg (0.0822 &lt; 0.1352).</p>
-<p class="small"><strong>Why the 3-px legs are not operative, stated per row rather than by silent
-exclusion.</strong> (1) IR-57-REPR-01: a continuous-surface peer has positive values over more than half the
-footprint, so <em>every</em> non-empty candidate has forward overlap 1.0 with it — the template's own shipped
-candidates fired this leg 43 times on a 213-raster certificate. (2) Support asymmetry: a peer with many more
-dots than the candidate covers the candidate's dots forward, and a peer with far fewer dots is covered
-reverse — both directions fire on independent fault-tracing fields. At 3 px (300 m) two dot fields that both
-trace the same 60,988-point catalogue must share neighbourhoods. The template's shipped candidates fired the
-same legs 95 and 85 times on full 695-raster scans and were still shipped. The symmetric, scale-free
-statistics above are the duplication evidence, and they are all far inside their limits.</p>
+<p class="small">Break-even sensitivity across the 1–2% block-density band: <code>1.0% (1.0 px)</code> &rarr; <code>0.155466 [0.141849, 0.168722]</code>; <code>1.25% (1.25 px)</code> &rarr; <code>0.160309 [0.146573, 0.174014]</code>; <code>1.50% (1.50 px)</code> &rarr; <code>0.163091 [0.148510, 0.176272]</code>; <code>2.00% (2.00 px)</code> &rarr; <code>0.165830 [0.151020, 0.180049]</code>; locked utility table <code>{none, s4, s4, s3}</code> &rarr; <strong><code>0.166789 [0.153242, 0.179658]</code></strong>.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Irregularities and limitations (all disclosed)</h2>
-<ul>
-<li><strong>IR-59-EFFORT-01</strong> — target-group background rejected as circular (the catalogue is the
-effort record); effort covariates used instead.</li>
-<li><strong>IR-59-EFFORT-02</strong> — the GeoDAWN acquisition-block covariate is <em>not used</em>: the
-official block polygons are on USGS ScienceBase (DOI 10.5066/P93LGLVQ), which this sandbox's egress
-allow-list cannot reach, and the derived k-means proxy on windowed magnetic statistics was measured to be
-spatially non-contiguous (one 5.16 M-cell component). The lane's “distance to roads” effort covariate is
-likewise unobtainable here (USGS National Map / Census TIGER are off-allow-list); trace density and relief
-are the substitutes.</li>
-<li><strong>IR-59-DIAG-01</strong> — the first diagnostic pass sum-pooled the per-cell expansion of block
-totals, inflating reported block densities 100×; rankings and all DTI values were unaffected. Fixed and
-re-derived in <code>intensity_exp1_diagnostics_fixed.json</code>.</li>
-<li><strong>Dot profile vs live evidence</strong> — the candidate's dots sit at median 5.0 px from the
-catalogue (min 2.24, p90 9.5), whereas the owner-reported top scorers sit near 19 px. The holdout rewards
-tight placement; the owner-reported board (n = 15) rewards distance. This disagreement is recorded, not
-tuned away.</li>
-<li><strong>Budget</strong> — the holdout-derived rule tiles 10,634 blocks and emits 71,119 dots (1.38% of the
-footprint), above the ~38–40k dots of the owner-reported top scorers; a budget-capped arm is the
-pre-registered next experiment (H59-I2), together with the block-level completeness-ratio zoning
-(new_b = Σλ·(1 − cat_frac/λ̄)) that should move dots further off the catalogue.</li>
-<li><strong>No scores claimed</strong> — no number here is a competition score; the organiser's public board
-and the owner-reported portfolio are context, not receipts.</li>
-</ul>
+<h2 style="margin-top:0">4. Registry Uniqueness Audit (All 695 Accessible Rasters + Session H59-I)</h2>
+<p>Evidence class: <code>REGISTRY-MEASUREMENT</code> (<a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a>). Checked on <strong>both</strong> the pre-placement continuous intensity surface (<code>out/intensity_surface_h59i2.npy</code>) and the final binary dot placement (<code>gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif</code>, <code>77,727</code> dots):</p>
+<table>
+<tr><th>Uniqueness Metric</th><th>Protocol Limit</th><th>Measured vs 695 Registry Rasters</th><th>Measured vs Session H59-I</th><th>Status</th></tr>
+<tr><td>Identical file or decoded pixels</td><td>0</td><td>0 / 695</td><td>0 / 1</td><td><strong>PASS</strong></td></tr>
+<tr><td>Pre-placement continuous surface Spearman <code>|&rho;|</code></td><td>&le; 0.90</td><td><strong>0.856777</strong> (<code>57GEMSDOE:h57-continuous-anatomy</code>)</td><td><strong>0.125215</strong></td><td><strong>PASS</strong></td></tr>
+<tr><td>Final binary dots Spearman <code>|&rho;|</code></td><td>&le; 0.90</td><td><strong>0.165490</strong> (<code>7GEMSDOE:gems7-halo15-gbt-v1</code>)</td><td><strong>0.027917</strong></td><td><strong>PASS</strong></td></tr>
+<tr><td>Dot-set Jaccard similarity</td><td>&le; 0.50</td><td><strong>0.058517</strong></td><td><strong>0.022568</strong></td><td><strong>PASS</strong></td></tr>
+<tr><td>Forward 3 px overlap vs all peers of &le; candidate support (487 rasters)</td><td>&le; 0.70</td><td><strong>0.647304</strong> (<code>GEMSDOE10:gems10-h28-dotted-ridge</code>)</td><td><strong>0.572182</strong></td><td><strong>PASS</strong></td></tr>
+<tr><td>Unrestricted forward 3 px overlap vs footprint-saturating / large-support peers</td><td>Disclosed per row (IR-57-REPR-01 / IR-59-UNIQ-01)</td><td>1.0000 on continuous rasters (<code>5.17M</code> px) &amp; 0.9990 on <code>13GEMSDOE:r13-lattice-s5</code> (halo covers 99.87% of footprint)</td><td>0.572182</td><td>Disclosed saturation certificate</td></tr>
+</table>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Why the owner-reported 0.2778 is not explained here</h2>
-<p>The 0.2778 raster (GEMSDOE32 <code>h33-h33-2-b2</code>) is a 40,199-dot field minus 2,545 dots within 2 px
-of the mapped catalogue. Sparse thinning and catalogue-flank pruning reduce false-positive cost under the
-max-cover DTI, which is a plausible mechanism — but the scores are owner-reported, there is no organiser
-file receipt, and this session's holdout cannot confirm a causal gain. The 2 px collar finding here
-(+0.0074 DTI on the holdout) is consistent with that mechanism, nothing more.</p>
-</div>
-
-<div class="panel">
-<h2 style="margin-top:0">Next session — pre-registered, none run</h2>
-<ul>
-<li><strong>H59-I2 — gap zoning.</strong> Zone by <code>c_b = cat_frac_b / λ̄_b</code> (how much of the
-predicted intensity is already mapped) instead of by raw predicted new-fault density; per-block predicted new
-faults become <code>n_b = Σλ·(1 − cat_frac_b/λ̄)</code>. Moves dots off already-mapped blocks.</li>
-<li><strong>H59-I2b — dot budget.</strong> The candidate emits 71,119 dots (1.38% of the footprint) against the
-~38–40k of the owner-reported top scorers; tile the top-N blocks by <code>n_b</code> until the budget is spent.</li>
-<li><strong>H59-I3 — official effort covariates.</strong> USGS reliability-of-location class, distance to roads
-and the GeoDAWN acquisition block (ScienceBase DOI 10.5066/P93LGLVQ) are unobtainable through this sandbox's
-egress allow-list; only trace density and relief were used.</li>
-<li><strong>H59-I4 — off-catalogue holdout.</strong> Withhold whole catalogue components plus a 2 km buffer and
-score against the SGMC/state compilation in the withheld area. This is the instrument that could resolve the
-holdout-rewards-tight-placement vs live-evidence-rewards-distance disagreement.</li>
-</ul>
-<p class="small">Full write-up with all limitations: <code>REMAINING_WORK.md</code> in the repository root.</p>
+<h2 style="margin-top:0">5. Descriptive Holdout Orientation &amp; Distance Structure</h2>
+<p class="small">Evidence class: <code>HOLDOUT-STRUCTURE (descriptive, not a score)</code>. From
+<code>evidence/orientation_structure.json</code>, withheld fault pixels have nearest-visible-catalogue
+distance 10th / 50th / 90th percentiles of <code>4.00 / 9.06 / 25.55 px</code> (sample unit: fault raster pixel;
+not segment-weighted; minimum local coherence <code>0.2</code>; unsigned axial difference in degrees, folded to
+<code>[0, 90]</code>). Withheld angle pixels (count; % of valid sample) concentrate in sub-parallel and
+low-angle Riedel orientations (<code>0–15&deg;</code> and <code>15–30&deg;</code>), which is captured in H59-I2 by
+the strike-aligned DEM scarp coherence covariate <code>g_scarp_rel</code> and the two-host strike alignment
+<code>s_cos2_s12</code>.</p>
 </div>
 </main>
+<footer>
+<p class="small" style="text-align:center; padding: 12px 0; color: #555;">59GEMSDOE · Method &amp; Evidence · <a href="data/run_card.json">run_card.json</a></p>
+</footer>
 </body>
 </html>

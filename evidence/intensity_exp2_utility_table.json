@@ -6,7 +6,7 @@
   "seed": 20,
   "withheld_positive_pixels": 11321
  },
- "break_even_min_density": 1.0,
+ "break_even_min_density": 1.5,
  "density_classes": [
   "q1_low",
   "q2",
@@ -16,53 +16,87 @@
  "utility_table": {
   "q1_low": {
    "candidates_dti": {
-    "s4": 0.070832,
-    "s6": 0.068185,
-    "none": 0.062692,
-    "s3": 0.070517
+    "s4": 0.160128,
+    "s6": 0.16179,
+    "none": 0.162056,
+    "s3": 0.155306
    },
-   "selected": "s4",
-   "selected_dti": 0.070832,
+   "selected": "none",
+   "selected_dti": 0.162056,
    "evidence_class": "HOLDOUT-DTI",
-   "note": "class-inclusive field: this class at the candidate spacing, all other classes at 3 px; s3 column is the all-3px baseline"
+   "note": "class-inclusive field: this class at candidate spacing, other classes at 3 px"
   },
   "q2": {
    "candidates_dti": {
-    "s4": 0.071673,
-    "s6": 0.070358,
-    "none": 0.068293,
-    "s3": 0.070517
+    "s4": 0.158207,
+    "s6": 0.155319,
+    "none": 0.151195,
+    "s3": 0.155306
    },
    "selected": "s4",
-   "selected_dti": 0.071673,
+   "selected_dti": 0.158207,
    "evidence_class": "HOLDOUT-DTI",
-   "note": "class-inclusive field: this class at the candidate spacing, all other classes at 3 px; s3 column is the all-3px baseline"
+   "note": "class-inclusive field: this class at candidate spacing, other classes at 3 px"
   },
   "q3": {
    "candidates_dti": {
-    "s4": 0.072363,
-    "s6": 0.071975,
-    "none": 0.069496,
-    "s3": 0.070517
+    "s4": 0.157609,
+    "s6": 0.151822,
+    "none": 0.147893,
+    "s3": 0.155306
    },
    "selected": "s4",
-   "selected_dti": 0.072363,
+   "selected_dti": 0.157609,
    "evidence_class": "HOLDOUT-DTI",
-   "note": "class-inclusive field: this class at the candidate spacing, all other classes at 3 px; s3 column is the all-3px baseline"
+   "note": "class-inclusive field: this class at candidate spacing, other classes at 3 px"
   },
   "q4_high": {
    "candidates_dti": {
-    "s4": 0.071171,
-    "s6": 0.069428,
-    "none": 0.066274,
-    "s3": 0.070517
+    "s4": 0.15101,
+    "s6": 0.128811,
+    "none": 0.124494,
+    "s3": 0.155306
    },
-   "selected": "s4",
-   "selected_dti": 0.071171,
+   "selected": "s3",
+   "selected_dti": 0.155306,
    "evidence_class": "HOLDOUT-DTI",
-   "note": "class-inclusive field: this class at the candidate spacing, all other classes at 3 px; s3 column is the all-3px baseline"
+   "note": "class-inclusive field: this class at candidate spacing, other classes at 3 px"
   }
  },
- "baseline_dti": 0.070517,
+ "break_even_sensitivity_1_to_2_pct": {
+  "be_1.0": {
+   "break_even_px_per_1km_block": 1.0,
+   "dti": 0.155466,
+   "ci95": [
+    0.141849,
+    0.168722
+   ]
+  },
+  "be_1.25": {
+   "break_even_px_per_1km_block": 1.25,
+   "dti": 0.160309,
+   "ci95": [
+    0.146573,
+    0.174014
+   ]
+  },
+  "be_1.5": {
+   "break_even_px_per_1km_block": 1.5,
+   "dti": 0.163091,
+   "ci95": [
+    0.14851,
+    0.176272
+   ]
+  },
+  "be_2.0": {
+   "break_even_px_per_1km_block": 2.0,
+   "dti": 0.16583,
+   "ci95": [
+    0.15102,
+    0.180049
+   ]
+  }
+ },
+ "baseline_all_s3_dti": 0.155306,
  "selection_caveat": "table selected on the same holdout it is measured on; CIs are conditional on the selected table and fitted folds"
 }

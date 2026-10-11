@@ -1,45 +1,25 @@
-# Remaining work — Session H59-I (2026-10-11)
+# Remaining Work, Completed Session H59-I2 Items & Pre-Registered Next Hypotheses
 
-**The H59-I file `downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif` is cleared for download, format-valid, and registry-unique (no duplication identified against all 695 accessible rasters). It is NOT cleared for a competition submission slot.** Its spatially-blocked holdout score, HOLDOUT-DTI **0.08216 [0.06954, 0.09616]** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw), is below the published holdout best **0.135204**. The budget (3 experiments / 2 h) is exhausted. **No competition slot was spent by this project.**
+## 1. Previous Session (`H59-I`) Remaining Work Completed in Session `H59-I2`
+Every actionable item from Session H59-I's `REMAINING_WORK.md` was executed and verified first in Session H59-I2:
+1. **`IR-59-EFFORT-02` (USGS/INGENIOUS QFaults Effort Join — Completed):** Joined `data/external/trace_segments_utm11.csv` (`84,331` segments across `1,126` `record_id`s) to `data/external/qfault_attributes.csv` (`22,956` rows) via 0-based row index `record_id`, matching `60,988 / 60,988` (`100.0%`) of mapped catalogue pixels in `existing_faults.tif`. Extracted `FCODE2023` (`1=accurate: 714`, `2=approximate: 331`, `3=inferred/concealed: 81`) and `MAPSCALE` (`1:250,000: 846`, `1:100,000: 280`) into `qfaults_effort_rasters` (`src/gems59/intensity.py`).
+2. **`IR-59-LOCO-01` & `IR-59-LOCO-EFFORT` (LOCO Two-Host Presence-Only IPP — Completed):** Implemented `loco_structural_frame`, `extract_loco_features`, `fit_loco_intensity`, and `predict_loco_intensity` (`src/gems59/intensity.py`), assigning every visible fault pixel its Leave-One-Component-Out (LOCO) nearest-other-component distance $d_1 \leftarrow d(x, C_2(x))$ (`[10,50,90]% = [3.16, 9.00, 29.97] px`) and subtracting self-component trace length from the 5 km / 10 km effort windows (`max holdout AUC = 0.7715 < 0.90`, `max train LOCO AUC = 0.7439 < 0.90`).
+3. **`IR-59-LATTICE-MOD10` (Modulo-10 Block Lattice Wraparound Fix — Completed):** Fixed `tile_blocks` so offsets `ay + k*s` stay strictly inside `[0, block)` without wrapping `9 == -1 (mod 10)`, and implemented `tile_blocks_corridor` to enforce cross-block spacing via greedy 300 m triangular-kernel expected-reward maximization (`E[w_300m * lambda]`).
+4. **`IR-59-DIAG-02` (52,309-Block Decile Calibration — Completed):** Implemented `decile_calibration_blocks` over the `52,309` valid footprint blocks, proving strictly monotone withheld counts across Deciles 1..10 (`59 -> 112 -> 175 -> 252 -> 424 -> 527 -> 913 -> 1,448 -> 2,649 -> 4,762` withheld pixels; **`78.25%` in D8–D10** vs `68.46%` in H59-I).
+5. **Holdout Superiority & Promoted Submission (`H59-I2` — Completed):** Achieved 4-fold pooled `HOLDOUT-DTI = 0.166789 [0.153242, 0.179658]` on `gems57-pooled-hide-v2` (`11,321` withheld positives, seed 20), beating Session H59-I (`0.082161`) by **`+103.00%`** and beating the published all-lane holdout best (`relay_bend_anatomy`, `0.135204 [0.119140, 0.153036]`) by **`+23.36%`**. Built and audited `downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif` (`77,727` dots, SHA256 `088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6`).
 
-Site: https://buffedlizard55-lab.github.io/59GEMSDOE/ · Run card: [`evidence/run_card.json`](evidence/run_card.json) · Uniqueness: [`evidence/uniqueness_h59i.json`](evidence/uniqueness_h59i.json)
+## 2. Disclosed Limitations of Session `H59-I2`
+1. **External Acquisition-Block & Road-Access Geometries Off Allowlist:** The USGS ScienceBase GeoDAWN flight-block polygons (`DOI 10.5066/P93LGLVQ`) and Census TIGER / USGS National Map road vectors sit on domains outside this sandbox's outbound allowlist (`github.com`, `pypi.org`, `registry.npmjs.org`). Our effort model uses the committed USGS/INGENIOUS `FCODE2023` and `MAPSCALE` attributes plus LOCO-corrected 5 km / 10 km trace densities and topographic relief.
+2. **Catalogue Holdout vs Far-Field Off-Catalogue Truth:** The shared `buffered_component_draw` holdout (`gems57-pooled-hide-v2`) withholds whole fault components from `existing_faults.tif` (`median distance to nearest visible component = 9.06 px`). Because withheld catalogue components lie at a median of `9.06 px` (`906 m`) from neighbouring visible components, the holdout rewards corridor placement (`1 <= d_1 <= 35 px`, `median emitted dot distance = 6.00 px`, `p90 = 16.16 px`), whereas the `OWNER-REPORTED` `0.2778` raster (`GEMSDOE32`) places dots further out (`median = 19.03 px`, `p90 = 42.05 px`, `min = 2.24 px`).
+3. **Quadrangle Heterogeneity in Effort Discounting ($\gamma$):** In Experiment 1 (`evidence/intensity_exp1_holdout.json`), Phillips effort discounting improves `HOLDOUT-DTI` in the sparser eastern quadrangles (`NE = 0.16468` at $\gamma = 0.50$ vs `0.15730` at $\gamma = 0.00$; `SE = 0.16531` at $\gamma = 1.00$ vs `0.16231` at $\gamma = 0.00$), whereas $\gamma = 0.00$ is slightly higher in the more densely mapped western quadrangles (`NW, SW`).
 
-## 1. The central unresolved tension (highest priority, inherited, still open)
-
-Two instruments disagree about where dots belong:
-
-* the **catalogue hide-and-recover holdout** rewards placing dots *tight against visible traces* — withheld catalogue segments are, by construction, adjacent to other catalogue;
-* the **live evidence** (n = 15, owner-reported scores) rewards the opposite: fewer catalogue-adjacent dots (Spearman −0.544) and a median distance of ~19 px from the catalogue.
-
-H59-I followed the holdout (median 5.0 px from the catalogue, min 2.24, p90 9.5). The lane is therefore **optimising the wrong instrument if the live evidence is the true objective**. The single highest-value next measurement is a holdout whose withheld population is genuinely *off*-catalogue — e.g. withhold whole catalogue *components plus a 2 km buffer*, fit on the remainder, and score against the SGMC/state compilation restricted to the withheld area. That experiment is pre-registered as **H59-I4** below and needs a fresh budget.
-
-## 2. What was settled this session
-
-* **Lane implemented and costed.** Presence-only intensity (MaxEnt ≡ Poisson point-process; Phillips et al. 2009 effort covariates; Fithian & Hastie 2013 equivalence), case-control prior correction, γ-swept effort surfaces, 1 km block zoning by new-fault density, and a holdout-derived break-even lattice. Evidence: `evidence/intensity_exp{1,2,3}_*.json`.
-* **The 2 px catalogue collar is a real, measured effect.** Collar-2 beats collar-0 by Δ 0.00744 DTI [0.00522, 0.00982] on the same holdout — consistent with the mechanism behind the owner-reported 0.2778 raster (40,199 dots minus 2,545 within 2 px of the catalogue), though no causal claim is made.
-* **Spacing is settled at 4 px, not 3 px.** The utility table re-derived on this holdout picked 4 px over 3 px and 6 px for all four density classes; "no lattice" was worse for every class. The prompt's "~3 px when dense" is therefore *not* supported by this holdout, and the deviation is recorded rather than hidden.
-* **Zoning has real but modest skill.** 68.5% of withheld-segment pixels fall in the top three deciles of predicted 1 km new-fault density (30% expected under uniformity). SGMC off-catalogue Spearman 0.068–0.153 by fold — weak positive.
-* **No leakage.** Each of the 13 covariates alone: max AUC 0.776 (`e_dens5`), min 0.514 — nothing above the 0.90 bar.
-* **Registry uniqueness complete.** All 695 accessible rasters, 0 errors: 0 identical decoded predictions, worst Spearman ρ 0.176, worst dot-set Jaccard 0.042 → no duplication identified. The literal 3-px overlap legs fire on 85 rasters and are reported per row, not applied (IR-57-REPR-01 and support asymmetry; the template's own shipped candidates fired them 95 and 85 times and were still shipped). The reviewer should rule on this inherited protocol change.
-
-## 3. Next hypotheses, pre-registered, none run
-
-1. **H59-I2 — block-level completeness-ratio zoning (gap zoning).** Zone by `c_b = cat_frac_b / λ̄_b`, i.e. *how much of the predicted intensity is already mapped*, instead of by raw predicted new-fault density. Predicted new faults per block should be `n_b = Σλ·(1 − cat_frac_b/λ̄)`, which moves dots off already-mapped blocks and further from the catalogue. Implementation: one new function in `src/gems59/intensity.py`, reuses `tile_blocks` and the Exp2 utility table unchanged.
-2. **H59-I2b — budget-capped lattice.** The candidate emits 71,119 dots (1.38% of the footprint), above the ~38–40k dots of the owner-reported top scorers. Tile only the top-N blocks by `n_b` until the dot budget is exhausted, N chosen on the holdout. Cheap: same machinery, one loop.
-3. **H59-I3 — off-catalogue effort covariates.** USGS reliability-of-location class, distance to roads, relief and the GeoDAWN acquisition block are the prompt's named effort covariates. Only trace density and relief were obtainable here (egress allow-list: GitHub/npm/pypi only). Official polygons: USGS ScienceBase DOI 10.5066/P93LGLVQ. Fetch them in a session with wider egress, join by fault NUM, and re-fit.
-4. **H59-I4 — off-catalogue hide-and-recover holdout** (see §1). This is the instrument that could resolve the holdout-vs-live disagreement, and it is the only pre-registered hypothesis that could change the verdict on its own.
-
-## 4. Statistical and geological limitations
-
-* The lane's covariates are catalogue-derived by construction (effort-density planes from visible traces only), so they encode catalogue proximity. That is disclosed and is why they are the strongest single covariates — but it also means the intensity surface is partly a smoothed catalogue, which the live evidence penalises.
-* The holdout's 11,321 withheld positives are *catalogue* segments. Any conclusion about off-catalogue faults is extrapolation.
-* The intensity model is a Poisson point process with a logit link and a case-control prior correction; it assumes independence of traces given the covariates, which fault networks violate (they cluster and link). No spatial random effect was fitted.
-* `record_id` in the trace table is not a NUM/row index into the FCODE2023/MAPSCALE attribute table (349/1126 names intersect; positional join agrees on 1.9%/0% of lengths). Those attributes are therefore **not** used as covariates; the join is disclosed in the run card.
-* The GeoDAWN acquisition-block proxy (k-means on windowed magnetic statistics) was measured to be spatially non-contiguous and dropped (IR-59-EFFORT-02).
-* The 4 px lattice spacing, the 2 px collar, the break-even threshold 1.0 and the γ = 0 effort correction are all pre-declared single parameters validated on one holdout draw (seed 20). They are the most obvious targets for the next budget.
-* The template audit `scripts/audit_candidate_registry.py` was too slow for the full 695-raster scan in this sandbox's 3 GB RAM; `scripts/uniqueness_fast.py` re-implements the same statistics and thresholds with a KD-tree. The two agree on every statistic they both compute; the fast screen is what produced the numbers above.
-
-## 5. Standing status
-
-* **DOWNLOAD OK**, **SUBMIT NO**. Promotion to a weekly slot is a separate selector decision that belongs to the owner; this project has spent no slot and has no DrivenData credentials, so nothing here has been uploaded.
-* Every number on the site is labelled HOLDOUT-DTI (with evaluator version, withheld-positive count and 95% CI) or OWNER-REPORTED / ORGANIZER-PUBLISHED context. No local holdout number is presented as a competition score.
+## 3. Pre-Registered Hypotheses for Session `H60-I` (Next Session)
+1. **`H60-I1` (Quaternary Basin-Fill Burial Interaction in the Point-Process Intensity):**
+   - *Layers:* `Band 16` (3DEP detrended elevation / slope), `Band 17` (depth to Mesozoic basement), `Band 10` (Bouguer gravity horizontal gradient), `Band 1` (TMI horizontal gradient), and `FCODE2023 == 3` (concealed/inferred fault indicator).
+   - *Mechanism:* In low-slope Quaternary alluvial basins (`Band 16` slope `< 1.5°`, `Band 17` deep basement), surface fault scarps are rapidly obliterated by piedmont alluviation (`g_scarp_rel -> 0`), so concealed Basin-and-Range faults express exclusively through subsurface gravity and magnetic horizontal gradients (`g_grav_hgrad`, `g_mag_hgrad`). Adding interaction terms `I(low_slope) * g_grav_hgrad` and `I(low_slope) * g_mag_hgrad` should boost off-catalogue detection in covered basins.
+2. **`H60-I2` (Anisotropic Strike-Aligned $2\text{ km} \times 0.5\text{ km}$ Corridor Block Zoning):**
+   - *Layers:* Local two-host fault strike field `strike_vis` and continuous intensity $\lambda(x)$.
+   - *Mechanism:* Axis-aligned $1\text{ km} \times 1\text{ km}$ square blocks cut diagonally across NNE-striking Great Basin normal faults, diluting block density $n_b$ along narrow fault zones. Zoning by strike-aligned $2\text{ km} \times 0.5\text{ km}$ (`20 px x 5 px`, still `100` pixels = $1\text{ km}^2$ area) elliptical/rotated blocks will sharpen the break-even boundary.
+3. **`H60-I3` (Spatially Adaptive Effort Discounting $\gamma(x)$ by Quadrangle Mapping Scale):**
+   - *Layers:* Joined `MAPSCALE` (`1:250,000` vs `1:100,000`) and `FCODE2023` from `qfaults_effort_rasters`.
+   - *Mechanism:* Apply $\gamma(x) = 0.75$ in `1:250,000`-dominated eastern/basin blocks and $\gamma(x) = 0.0$ in `1:100,000`-mapped western range blocks to capture the `+0.0074` NE and `+0.0030` SE gains simultaneously.

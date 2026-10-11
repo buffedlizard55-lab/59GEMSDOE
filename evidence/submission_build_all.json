@@ -1,0 +1,69 @@
+{
+  "submission_name": "gems59-h59i2-loco-ipp-corridor-20261011T000000Z",
+  "file": "downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif",
+  "docs_file": "docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif",
+  "zeros_file": "docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z-zeros.tif",
+  "sha256": "088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6",
+  "zip_sha256": "e42b212fc99eea653adc5a1ff712d4b4a9cb2ff22e04d050d7144c0a4798a2e9",
+  "bytes": 192643,
+  "emitted_positive_pixels": 77727,
+  "note": "H59-I2 Intensity Lane: LOCO two-host Poisson/MaxEnt IPP + QFaults effort join + 1km 1.5% break-even zoning + {none,s4,s4,s3} tiling",
+  "note_chars": 131,
+  "validator": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif",
+    "bytes": 192643,
+    "sha256": "088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.00632999325171113,
+    "emitted_positive_pixels": 77727,
+    "n_nonzero": 77727,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 77727,
+    "footprint_fraction": 0.01504187911342959
+  }
+}

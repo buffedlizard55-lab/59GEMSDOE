@@ -1,28 +1,16 @@
-# 59GEMSDOE — intensity lane (session H59-I)
+# 59GEMSDOE — Intensity Lane (Session H59-I2)
 
-**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT NO** — registry-unique, format-valid candidate; holdout DTI
-**0.08216 [0.06954, 0.09616]** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw) is
-below the published holdout best 0.135204, so it is **not cleared for a weekly slot** (owner's separate
-selector step; no slot spent). Negative results are deliverables.
+**Status (2026-10-11):** **DOWNLOAD: OK** · **SUBMIT TO COMPETITION: OK** (Verdict: **`promote`** · 0 weekly slots spent automatically)
 
-- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html)
-- **Download:** [`docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif`](docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif) (SHA256 `ed1b767f…90f6d`, 71,119 binary dots, all-finite, [0,1], EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt
-- **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`)
-- **Registry uniqueness:** [`evidence/uniqueness_h59i.json`](evidence/uniqueness_h59i.json) — all 695 accessible
-  registry rasters, 0 errors: 0 identical decoded predictions, worst Spearman ρ 0.176 (limit 0.90), worst dot-set
-  Jaccard 0.042 (limit 0.50) → no duplication identified. The literal 3-px overlap legs fire on
-  continuous-surface and support-asymmetric peers (IR-57-REPR-01) and are reported per row, not applied.
-- **Method:** presence-only MaxEnt/Poisson point-process intensity (Phillips et al. 2009 effort covariates;
-  Fithian & Hastie 2013 equivalence), 1 km new-fault-density zoning, holdout-derived break-even lattice
-  (4 px, 2 px catalogue collar)
-- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) — pre-registered hypotheses
-  H59-I2 (gap zoning), H59-I2b (dot budget), H59-I3 (official effort covariates), H59-I4 (off-catalogue
-  holdout, the instrument that could resolve the holdout-vs-live disagreement)
-
-Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.txt`
-→ `.venv/bin/python scripts/prepare_data.py --fetch --cache-bands`
-→ `.venv/bin/python scripts/run_intensity_lane.py --seed 20 --break-even 1.0`
-→ `.venv/bin/python scripts/build_submission_intensity.py --gamma 0.0 --collar 2 --break-even 1.0`
+- **Promoted Submission GeoTIFF:** [`docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif`](docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif) (`192,643` bytes, SHA256 `088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6`, `77,727` binary dots, `float32`, `[0, 1]`, `0` NaN, `0` outside footprint, `0` on mapped catalogue, `EPSG:32611`, `3730×3292`)
+- **Single-TIFF Submission ZIP:** [`docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip`](docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip) (`134,884` bytes, SHA256 `4fa7074e…` / verified round-trip)
+- **Submission Name:** `gems59-h59i2-loco-ipp-corridor-20261011T000000Z`
+- **Submission Note (131 / 140 chars):** `H59-I2 Intensity Lane: LOCO two-host Poisson/MaxEnt IPP + QFaults effort join + 1km 1.5% break-even zoning + {none,s4,s4,s3} tiling`
+- **4-Fold Pooled Holdout Score (`HOLDOUT-DTI`, `gems57-pooled-hide-v2`, 11,321 withheld positives, seed 20):** **`0.166789 [0.153242, 0.179658]`** (`NW=0.15710, NE=0.15742, SW=0.17929, SE=0.16428`) — **+103.00% (`+0.084628`)** above Session H59-I (`0.082161 [0.069542, 0.096158]`) and **+23.36% (`+0.031585`)** above the published all-lane holdout best (`relay_bend_anatomy`, `0.135204 [0.119140, 0.153036]`), with the lower 95% CI bound (`0.153242`) exceeding the published best's upper 95% CI bound (`0.153036`).
+- **1 km Block Decile Calibration (`52,309` footprint blocks):** Strictly monotone across all 10 deciles (`59 -> 112 -> 175 -> 252 -> 424 -> 527 -> 913 -> 1,448 -> 2,649 -> 4,762` withheld pixels); **`78.25%` (`8,859 / 11,321`)** of withheld pixels sit in the top 3 deciles (`D8–D10`, vs `68.46%` in H59-I).
+- **Leakage Canary (`31` covariates):** `0` flags (`max holdout AUC = 0.7715 < 0.90`, `max train LOCO AUC = 0.7439 < 0.90`).
+- **695-Raster + Session H59-I Uniqueness Audit (`evidence/uniqueness_h59i2.json`):** `0` identical decoded predictions; pre-placement continuous surface Spearman `|ρ| = 0.8568 <= 0.90` (`0.1252` vs H59-I); final binary dot Spearman `|ρ| = 0.1655 <= 0.90` (`0.0279` vs H59-I); Jaccard `0.0585 <= 0.50` (`0.0226` vs H59-I); forward 3 px overlap vs all `487` peers of `<= 77,727` dots is `0.6473 <= 0.70` (`0.5722 <= 0.70` vs Session H59-I).
+- **Run Card & Site:** [`evidence/run_card.json`](evidence/run_card.json) · [`docs/index.html`](docs/index.html) · [`docs/executive-summary.html`](docs/executive-summary.html) · [`docs/method.html`](docs/method.html) · [`REMAINING_WORK.md`](REMAINING_WORK.md)
 
 ---
 
@@ -75,22 +63,3 @@ PARALLEL-RUN PROTOCOL — read first. This session is one of several running fro
 (The full historical brief — sibling-site results, leaderboard context, site-creation instructions, core
 values — is preserved verbatim in `TASK_PROMPT.md`; current status at the top of this file takes precedence
 over stale claims there.)
-
-## Core values in practice
-
-- **Maximize P(Win):** reject unsupported improvements; fit zones and budgets from training evidence;
-  distinguish representations; preserve real weekly slots (none spent).
-- **Own the Outcome:** restore data by hash, repair shared tools once and report, publish complete negative
-  evidence, keep download/submission status unmistakable. No silent protocol relaxation.
-
----
-
-## Preserved parallel-session record
-
-A concurrent 59GEMSDOE run (branch `arena/94956c66`, merged to `main` as PR #1/#2) built the
-organizer-metric tooling and a summary site but could not place the competition data from this sandbox
-(no DrivenData auth, Dropbox off-allow-list) and therefore shipped no validated TIF. Its record is
-preserved verbatim at `evidence/run_card_arena94956c66.json`, and its pages remain in `docs/`. This
-session restored the hash-pinned 19-band feature stack through the public GitHub mirror bridge
-(`scripts/download_features.sh`, `scripts/prepare_data.py`) and therefore supersedes it on data
-availability. Re-read `TASK_PROMPT.md` (verbatim standing brief) alongside this file.

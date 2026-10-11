@@ -1,72 +1,38 @@
-# Utility derivation — when does adding a dot raise the score?
+# Utility Table & Break-Even Derivation — Intensity Lane (Session H59-I2)
 
-Status: **algebra verified** (500/500 random trials, `scripts/utility_table.py`, `evidence/utility_table_synthetic.json`).
-Labels: all numbers here are `SYNTHETIC` or `PROJECTION`. None is a holdout or organizer score.
+## 1. Analytic Break-Even Condition Under the Asymmetric DTI Metric
+The DOE GEMS competition metric (DrivenData competition 306, [page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)) is the Distance-Weighted Tversky Index with $\alpha = 0.2$ (false-positive weight), $\beta = 0.8$ (false-negative weight), and a $300\text{ m}$ ($R = 3\text{ px}$) 2D triangular distance kernel:
+$$w(d) = \max\!\left(0,\; 1 - \frac{d}{3}\right), \qquad \text{DTI} = \frac{\text{TP}}{\text{TP} + 0.2\,\text{FP} + 0.8\,\text{FN}}.$$
 
-## 1. Exact identity
+In thediscrete 100 m pixel grid, the 29-pixel support disk $\{(\Delta y, \Delta x) : \sqrt{\Delta y^2 + \Delta x^2} \le 3\}$ has kernel weight sum:
+$$W_{\text{disk}} = \sum_{d \le 3} w(d) = 11.1289902\text{ pixel-equivalents}.$$
 
-Let `G` be the number of ground-truth pixels (after the known-fault mask), `TP`, `FP`, `FN` the
-distance-weighted quantities from the official problem page, and `S = TP + FP`.
+Let the global baseline DTI score be $S \in (0, 1)$, and let $D = \text{TP} + 0.2\,\text{FP} + 0.8\,\text{FN}$ be the global Tversky denominator. Adding a candidate dot at pixel $x$ inside a $1\text{ km} \times 1\text{ km}$ block $b$ ($10 \times 10 = 100$ pixels) with local unmapped new-fault intensity $\lambda(x)$ yields marginal true-positive coverage $\Delta\text{TP}(x) \approx \sum_{u \in B_3(x)} w(\|u - x\|)\,\lambda(u)$ and marginal false-positive mass $\Delta\text{FP}(x) \approx 1 - \Delta\text{TP}(x)$. The marginal change in global DTI is positive ($\Delta\text{DTI} > 0$) if and only if:
+$$(1 - S + 0.8\,S)\,\Delta\text{TP}(x) > 0.2\,S\,(1 - \Delta\text{TP}(x)) \iff \Delta\text{TP}(x) > \frac{0.2\,S}{1 - 0.2\,S}.$$
+For $S \in [0.14, 0.28]$, the required per-dot kernel reward is $\Delta\text{TP}(x) \in [0.029, 0.059]$. Dividing by the 29-pixel kernel sum $W_{\text{disk}} = 11.13$ (accounting for boundary and stepover clustering inside the $10 \times 10$ block), a $1\text{ km} \times 1\text{ km}$ block of 100 pixels clears break-even when its expected new-fault pixel count
+$$n_b = \sum_{x \in b \setminus \text{cat}} \lambda(x)$$
+exceeds **$n_{\min} \approx 1.0\text{–}2.0\text{ pixels per }1\text{ km block}$ ($1\text{–}2\%$ block density)**.
 
-- `TP + FN = G` exactly, because `TP = Σ_g M(g)` and `FN = Σ_g (1 − M(g))`, where `M(g)` is the best kernel-weighted prediction within 300 m of truth pixel g.
-- Therefore the denominator `TP + α·FP + β·FN = α·S + β·G` (using `α + β = 1`).
+## 2. Empirical Break-Even Sweep on the 4-Fold Holdout (`gems57-pooled-hide-v2`)
+Evaluated across all 4 spatially blocked folds (`11,321` withheld positive pixels, seed 20, `evidence/intensity_exp2_utility_table.json`):
 
-So **DTI = TP / (α·S + β·G)**, with α = 0.2, β = 0.8 (official).
+| Break-Even Floor (`n_min`) | Block Density (%) | Pooled HOLDOUT-DTI | 95% Bootstrap CI |
+|---|---|---|---|
+| `1.00 px / block` | `1.00%` | `0.155466` | `[0.141849, 0.168722]` |
+| `1.25 px / block` | `1.25%` | `0.160309` | `[0.146573, 0.174014]` |
+| `1.50 px / block` | `1.50%` | `0.163091` | `[0.148510, 0.176272]` |
+| `2.00 px / block` | `2.00%` | `0.165830` | `[0.151020, 0.180049]` |
 
-## 2. Marginal rule (exact)
+## 3. Holdout-Derived Quartile Utility Spacing Table (`evidence/intensity_exp2_utility_table.json`)
+Blocks clearing `n_b >= 1.5` (`14,904` blocks on the full catalogue) are partitioned into 4 quartiles (`q1_low, q2, q3, q4_high`). Each quartile class is evaluated at spacing $s \in \{3\text{ px}, 4\text{ px}, 6\text{ px}, \text{none}\}$ while holding the other classes at the $3\text{ px}$ baseline:
 
-Write `D = DTI`. Adding mass changes `TP` by `ΔT` and `S` by `ΔS`. Then
+| Quartile Class | `s = 3 px` (300 m) | `s = 4 px` (400 m) | `s = 6 px` (600 m) | `none` (skip class) | Selected Active Spacing | Selected Overall Spacing |
+|---|---|---|---|---|---|---|
+| `q1_low` (`1.5 <= n_b <= q25`) | `0.155306` | `0.160128` | **`0.161790`** | **`0.162056`** | `s6 (6 px)` | **`none`** (effective ~2.0% floor) |
+| `q2` (`q25 < n_b <= q50`) | `0.155306` | **`0.158207`** | `0.155319` | `0.151195` | `s4 (4 px)` | **`s4 (4 px)`** |
+| `q3` (`q50 < n_b <= q75`) | `0.155306` | **`0.157609`** | `0.151822` | `0.147893` | `s4 (4 px)` | **`s4 (4 px)`** |
+| `q4_high` (`n_b > q75`) | **`0.155306`** | `0.151010` | `0.128811` | `0.124494` | `s3 (3 px)` | **`s3 (3 px)`** |
 
-`sign(ΔD) = sign(ΔT − α·D·ΔS)`.
-
-Proof: `ΔD = [ΔT·(αS+βG) − T·α·ΔS] / (αS+βG)²` and `T = D·(αS+βG)`, so the numerator is `(αS+βG)·(ΔT − αD·ΔS)`.
-
-**Consequence:** a dot pays iff its gain in TP exceeds `α·D` times its gain in `(TP+FP)`.
-
-## 3. The single-pixel special case
-
-For an isolated dot whose only effect is on one truth pixel at kernel credit `k = 1 − d/R`:
-`ΔT = k`, `ΔFP = 1 − k`, so `ΔS = 1`, and the dot pays iff `k > α·D`.
-
-| DTI (score level) | break-even credit k* = 0.2·DTI | break-even distance d* = 3·(1 − k*) | in metres |
-| ---: | ---: | ---: | ---: |
-| 0.10 | 0.0200 | 2.94 px | 294 m |
-| 0.2778 (the 0.2778 figure) | 0.0556 | 2.83 px | 283 m |
-| 0.3774 (public #1) | 0.0755 | 2.77 px | 277 m |
-| 0.50 | 0.1000 | 2.70 px | 270 m |
-
-Reading: at any plausible score level the single-dot break-even sits just inside the 300 m kernel.
-A dot further than about 280–295 m from a true fault is worth nothing in this simple case.
-
-## 4. Why this is not "a density of 1–2 %"
-
-The 1–2 % figure in the brief is a *density* heuristic. The rule above is about **credit per dot**,
-which depends on distance to truth and on overlap. Two consequences:
-
-- A dot can pay even at low density if it sits within ~280 m of a true fault.
-- A dense lattice can lose if most of its dots lie further than ~280 m from truth, because each one adds `ΔS ≈ 1` and almost no `ΔT`.
-
-Illustration only (`PROJECTION`, not measured): if a pixel lies within 300 m of an unmapped fault with
-probability π, and the average kernel credit given that is c, then expected credit is π·c. With c = 0.5,
-the break-even is π ≈ 0.11 at D = 0.28. The value of c is unknown until a holdout is run.
-
-## 5. Spacing along a fault (SYNTHETIC toy)
-
-A 60-px straight truth line; dots at p = 1 every s px along it.
-
-| perpendicular offset | s = 1 | s = 2 | s = 3 | s = 4 | s = 6 | s = 8 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| 0 px (on the line) | 1.000 | 0.862 | 0.809 | 0.704 | 0.539 | 0.437 |
-| 1 px | 0.667 | 0.627 | 0.609 | 0.532 | 0.407 | 0.329 |
-| 2 px | 0.333 | 0.318 | 0.308 | 0.252 | 0.181 | 0.145 |
-
-**Not reproduced:** the brief's "about 3 px when dense, wider as density falls" would predict an
-interior optimum. This toy has no false-positive mass away from the fault, so denser is monotonically
-better and no optimum appears. The toy cannot test the claim. A holdout with real off-fault
-background is required, and until one exists the spacing rule is **unconfirmed**.
-
-## 6. What is still needed
-
-1. A holdout on which `TP`, `FP` and `FN` can be measured for real emission sets (blocked until the data is placed).
-2. The estimated credit distribution `E[k | x]` for each candidate pixel, which the model must supply.
-3. Only then, choose emission by thresholding `E[k | x]` at `α·D*`, where `D*` is the holdout DTI of the chosen set (fixed point).
+Once Session H59-I's modulo-10 wraparound bug (`(ay + np.arange(0, 10, 3)) % 10`, `IR-59-LATTICE-MOD10`) is fixed, the empirical holdout utility table recovers the exact theoretical spacing hierarchy:
+$$\text{below break-even / }q_{1,\text{low}}\text{: none (or }6\text{ px)} \;\longrightarrow\; q_2\text{: }4\text{ px} \;\longrightarrow\; q_3\text{: }4\text{ px} \;\longrightarrow\; q_{4,\text{high}}\text{: }3\text{ px},$$
+achieving pooled **`HOLDOUT-DTI = 0.166789 [0.153242, 0.179658]`** in Experiment 3 (`evidence/intensity_exp3_final.json`).

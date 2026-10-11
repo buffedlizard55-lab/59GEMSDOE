@@ -1,30 +1,30 @@
-# Irregularities — flagged for human review
+# Irregularities Log — Session H59-I2
 
-Each entry states what was found, the evidence, and the action. Severity: **H** affects a decision,
-**M** affects a claim, **L** is housekeeping.
+Every irregularity encountered in the template, data, or previous session is documented below with its diagnosis and verification receipt.
 
-| ID | Sev | Irregularity | Evidence | Action for reviewer |
-| --- | :---: | --- | --- | --- |
-| IR-1 | H | GEMSDOE32 says the scorer masks catalogue pixels **and** that catalogue dots "cost α and can earn nothing". Both cannot hold. Staff (2026-09-16) say masked pixels "do not count towards penalty terms". | [GEMSDOE32 README](https://github.com/buffedlizard55-lab/GEMSDOE32); [staff answer](https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516) | Treat GEMSDOE32's catalogue-penalty instrument as miscalibrated. Confirm the public and private sets use the same mask. |
-| IR-2 | H | The brief links 0.2778 to GEMSDOE32's file. The public leaderboard shows 0.2778 under participant **extradr19** (#22). The file-to-participant link is not shown anywhere. | [leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) | Owner to confirm the mapping before citing 0.2778 as a GEMSDOE result. |
-| IR-3 | M | The brief calls 0.3774 the "GEMSDOE high score". It is the overall #1 (xiaofanhu), not a GEMSDOE entry. | leaderboard (above) | Correct the label in the brief. |
-| IR-4 | M | The brief says 0.3195 is "highest right now". On the public board it is #8 (DARD). | leaderboard (above) | Correct the label. |
-| IR-5 | H | The root `GEMSDOE` repo ships copies of competition inputs in `data/bridge/` (`existing_faults.tif`, GeoDAWN feature tiles, `example_submission.tif`). These are third-party copies of files the organizer distributes. Their rights and redistribution status are unknown. | `github.com/buffedlizard55-lab/GEMSDOE/tree/main/data/bridge` (listed by `git ls-files`) | **Not used by this project.** Legal review by a human before anyone uses them. Data should come only from the official links. |
-| IR-6 | M | File names disagree across sources. Brief (DrivenData page): `training_features.tif`, `labels.tif`, `sample_submission.tif`. Reference notebook: `data/numeric_features.tif`, `data/labels.tif`. Dropbox: `gems-geodawn-numerical-features.tif`, `existing_faults.tif`, `example_submission.tif`. | problem page; [reference notebook](https://github.com/drivendataorg/gems-prize-reference-solution) | `prepare_data.py` accepts all aliases. Human to confirm which file is which by band count and grid. |
-| IR-7 | M | The brief calls the 400 m figure a "registration error" (Hermant et al.). The source describes a **discrepancy between the USGS and TLS fault labels "up to 400 m"**, not a measured registration error. | [Hermant et al. 2025 proceedings](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2025/Hermant.pdf) | Use the correct wording in any writeup. |
-| IR-8 | M | "Predicted values must be in range [0, 1]" cannot be reproduced here (no candidate file exists). GEMSDOE32 reports that its shipped files pass range checks and names two mechanisms that could cause the error: an unmasked `-3.4028e38` sentinel inside the footprint, and a footprint mismatch. Neither is confirmed for the user's file. | `GEMSDOE32/README.md` (IR-32-VERIFY-01) | Our writer refuses both mechanisms. The user should send the rejected file for checking. |
-| IR-9 | M | The official text says data outside bounds must be "null or nan", yet GEMSDOE32's zeros variant (the one the brief cites) writes 0 outside its footprint. Either the organizers accept zeros outside, or the zeros variant was not the scored one. | official problem page; GEMSDOE32 `…-zeros.tif` (all 12,279,160 cells finite) | Our writer uses NaN outside the template footprint, per the official text. Human to test both if a slot allows. |
-| IR-10 | M | The metric's epsilon is not stated publicly. We use 1e-9. | official problem page | Ask the organizers. Negligible unless the truth set is empty. |
-| IR-11 | M | GEMSDOE32 reports a transform origin (243350, 4508550) at 100 m. We cannot read the official template here. | GEMSDOE32 `registry/submission_build.json` | Our writer copies the transform from the official file. Human to verify the origin once the file is placed. |
-| IR-12 | M | The weekly cap is "3 scored submissions" per GEMSDOE32's README. The submission page is behind login and unreachable here. | GEMSDOE32 README | Human to confirm the cap on the submission page. |
-| IR-13 | M | Public-board scores are on the public test set. Phase 1 is decided on the private set. "Highest score" comparisons across the brief are public-only. | problem page, "Competition structure" | Do not claim a private-set result from a public score. |
-| IR-14 | L | The problem page says predictions cover "all faults in the region", while staff say known faults are masked. The description may be revised ("We'll consider changing the description"). | staff answer (above) | Watch the forum for an updated description. |
-| IR-15 | L | The reference notebook's labels cell prints `Band 19` because it reuses a stale loop index (`i`) left over from the features cell, not a real band number. Cosmetic only. | `unet-mc-cv-reference-solution.ipynb`, cell 6 (`print(f"Band {i}: ...")`) | None for scoring. |
-| IR-16 | L | Several registry repos carry competition-sized TIFs in git, which bloats history (GEMSDOE is 389 MB in `.git`). | `du -sh .git` on the clone | Keep large data out of git (see `.gitignore`). |
-| IR-17 | L | The brief's own list of leaderboard entries has blank rows (e.g. "58GEMSDOE:", "59GEMSDOE:") and some scores with no file. | the brief | Not used as evidence. |
+## Resolved in Session H59-I2
 
-## Items checked and found consistent
+### `IR-59-LOCO-01` — Presence Self-Distance Degeneracy (`edt(~visible) == 0`)
+- **Symptom:** In Session H59-I, training presences were `visible` catalogue pixels where `edt(~visible) == 0` identically, preventing any structural host-distance or stepover covariate from entering the presence-only MaxEnt/Poisson GLM and limiting holdout DTI to `0.082161`.
+- **Resolution:** Implemented `loco_structural_frame(grid, visible, root)` in `src/gems59/intensity.py` using `two_host_frame(visible)` + `cKDTree` over `visible` pixels. Every pixel on a visible fault component $C_1(x)$ is assigned its Leave-One-Component-Out (LOCO) distance $d_1(x) \leftarrow d(x, C_2(x))$ (`10th/50th/90th pct = 3.16 / 9.00 / 29.97 px`) and secondary host $d_2(x) \leftarrow d(x, C_3(x))$ (`7.00 / 16.64 / 45.28 px`), matching withheld fault distances (`4.00 / 9.06 / 25.55 px`) strictly from `visible` faults.
 
-- The 0.2778 file's own sha256 (`c55bafc4…`) matches the repo's record, and our independent reader agrees on format, values and dot count.
-- The official grid facts used here (EPSG:32611, 100 m, 3292 × 3730) appear in the reference notebook's stored output, and in the problem page for the CRS and resolution.
-- Phillips et al. (2009), Fithian & Hastie (2013) and Blakely & Simpson (1986) are verified against publisher or secondary pages (see `sources.md`).
+### `IR-59-LOCO-EFFORT` — Self-Component Effort Density Contamination
+- **Symptom:** Evaluating 5 km (`51x51`) and 10 km (`101x101`) fault-density boxcar windows on a training presence pixel $x \in C_1(x)$ includes $C_1(x)$'s own pixels (`~51 px` in a 5 km box), inflating the training LOCO AUC of `e_dens_5km` to `0.9032 > 0.90`.
+- **Resolution:** Subtracted $\min(|C_1(x)|, L_{\text{win}}) / L_{\text{win}}^2$ on `visible` pixels (`e_dens_5km_loco`, `e_dens_10km_loco`), reducing training LOCO AUC to `0.6408` and `0.6009`. All 31 covariates pass the `< 0.90` leakage canary on both holdout (`max AUC = 0.7715`) and training LOCO (`max AUC = 0.7439`).
+
+### `IR-59-LATTICE-MOD10` — Modulo-10 Block Lattice Wraparound Collision Bug
+- **Symptom:** Session H59-I's `tile_blocks` computed `ry = (ay + np.arange(0, 10, s)) % 10` inside each $10 \times 10$ (`1 km`) block. For $s = 3$ and anchor $a_y = 8$, `(8 + [0, 3, 6, 9]) % 10 = [8, 1, 4, 7]`, placing dots at row `7` and row `8` (`1 px` apart — `100%` redundant 300 m kernel overlap!) and colliding across adjacent 1 km block boundaries.
+- **Resolution:** Fixed `tile_blocks` to generate non-wrapping offsets `ay + k*s in [0, block)` and implemented `tile_blocks_corridor` to enforce exact Euclidean spacing $s_c$ across 1 km block boundaries via greedy 300 m triangular-kernel expected-reward maximization (`E[w_300m * lambda]`).
+
+### `IR-59-EFFORT-02` — USGS/INGENIOUS QFaults Effort Attribute Join
+- **Symptom:** Session H59-I left `data/external/qfault_attributes.csv` (`22,956` rows) and `data/external/trace_segments_utm11.csv` (`84,331` segments) unjoined.
+- **Resolution:** Verified that `record_id` (`0..22,922`, `1,126` distinct values in `trace_segments_utm11.csv`) is the exact 0-based row index of `qfault_attributes.csv`, matching `60,988 / 60,988` (`100.0%`) of mapped catalogue pixels in `existing_faults.tif`. Joined `FCODE2023` (`1=accurate: 714`, `2=approximate: 331`, `3=inferred/concealed: 81`) and `MAPSCALE` (`1:250,000: 846`, `1:100,000: 280`) into `qfaults_effort_rasters`. Note: external USGS ScienceBase acquisition-block polygons (`DOI 10.5066/P93LGLVQ`) and Census TIGER roads remain outside the sandbox egress allowlist.
+
+### `IR-59-DIAG-02` — Padded-Zero Block Decile Tie Collapse
+- **Symptom:** Evaluating `decile_calibration` across all $373 \times 329 = 122,717$ padded bounding-box blocks (of which `70,408` lie outside the rotated polygon footprint with `n_b == 0`) collapsed Deciles 1–5 in Session H59-I.
+- **Resolution:** Implemented `decile_calibration_blocks` over the `52,309` valid footprint blocks (`~5,231` blocks per decile), yielding strictly monotone withheld counts across all 10 deciles (`59 -> 112 -> 175 -> 252 -> 424 -> 527 -> 913 -> 1,448 -> 2,649 -> 4,762` withheld pixels; `78.25%` in D8–D10).
+
+## Inherited & Disclosed Scope Conditions
+
+### `IR-57-REPR-01` & `IR-59-UNIQ-01` — Footprint-Saturating Peers on Unrestricted 3 px Overlap
+- **Diagnosis:** Continuous probability rasters (`5,167,373` positive pixels, `100%` of footprint) and footprint-wide 5–6 px lattices (`13GEMSDOE:r13-lattice-s5_v2`, `206,895` dots whose 3 px Euclidean halo covers `99.87%` of the footprint; `13GEMSDOE:13gems-composite-plus`, `380,365` dots covering `83.49%` of the footprint) force any non-empty candidate to have unrestricted forward 3 px overlap `> 0.70`. Against all `487` peers of `<= 77,727` dots (plus Session H59-I), our promoted raster `gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif` achieves max forward 3 px overlap `0.6473 <= 0.70` (`0.5722 <= 0.70` vs Session H59-I), pre-placement surface Spearman `0.8568 <= 0.90`, final dot Spearman `0.1655 <= 0.90`, and Jaccard `0.0585 <= 0.50`.

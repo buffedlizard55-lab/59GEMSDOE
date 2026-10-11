@@ -1,22 +1,28 @@
 #!/usr/bin/env python3
-"""Session-59 intensity lane experiments (H59-I).
+"""Session H59-I2 Intensity-Lane 3-Experiment Holdout Runner.
 
-Three pre-declared experiments (budget rule 6):
+Executes the three pre-registered experiments on the shared 4-fold spatially
+blocked holdout (``buffered_component_draw``, seed 20, 11,321 withheld positive
+pixels, ``gems57-pooled-hide-v2``):
 
-* **Exp 1** -- fit validity and arm selection: presence-only MaxEnt/Poisson
-  point-process intensity with mapping-effort covariates, Phillips-style
-  effort correction exponent gamma in {0, 0.5, 1}, a geophysics-only
-  comparator and a uniform-random control; leakage canary per covariate;
-  predicted-vs-withheld **decile calibration** of the 1 km zoning.
-* **Exp 2** -- utility table: per density class, candidate lattice spacings
-  {3, 4, 6} px plus "none" (break-even), re-derived on the same holdout.
-* **Exp 3** -- catalogue-collar sweep {0, 2} px on the selected table, the
-  final arm, and the comparison against the published holdout best.
-
-Holdout: shared buffered whole-component LOQO draw, seed 20 (identical to the
-published Session-5/7 arms, evaluator ``gems57-pooled-hide-v2``), pooled DTI
-(alpha 0.2, beta 0.8, 300 m triangular kernel), 1,000 paired draws over the
-physical 20 km spatial clusters.
+1. Experiment 1 (``evidence/intensity_exp1_holdout.json`` &
+   ``evidence/intensity_exp1_diagnostics_fixed.json``):
+   Leave-One-Component-Out (LOCO) two-host presence-only MaxEnt/Poisson IPP
+   fitting (strictly on ``visible`` catalogue presences vs target-group
+   background; zero ``hidden`` truth labels used in training), effort-bias
+   marginalization sweep (gamma in {0.0, 0.25, 0.50, 1.00}), linear vs
+   quadratic+bend+scarp ablation, 31-feature leakage canary (both holdout AUC
+   and training LOCO AUC < 0.90), 1 km block decile calibration across all
+   52,309 footprint blocks, and off-catalogue SGMC diagnostic.
+2. Experiment 2 (``evidence/intensity_exp2_utility_table.json``):
+   Holdout-derived utility spacing table across the four 1 km block density
+   quartiles (``q1_low, q2, q3, q4_high``) for spacing candidates
+   ``s in {3, 4, 6, none}`` and break-even block density thresholds in ``[1.0, 2.0]``
+   (1-2% new-fault density per 100-pixel 1 km block).
+3. Experiment 3 (``evidence/intensity_exp3_final.json``):
+   Locked final configuration evaluated with 1,000 bootstrap draws against
+   Session H59-I (0.082161), distance_only, uniform_random, and published
+   holdout best (0.135204).
 """
 from __future__ import annotations
 
@@ -28,300 +34,395 @@ import time
 from pathlib import Path
 
 import numpy as np
-from scipy import ndimage as ndi
-from threadpoolctl import threadpool_limits
+from sklearn.metrics import roc_auc_score
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from gems59 import evaluate_holdout as EH                      # noqa: E402
-from gems59 import intensity as INT                            # noqa: E402
-from gems59.grid import load_grid                              # noqa: E402
+from gems59 import evaluate_holdout as EH  # noqa: E402
+from gems59 import intensity as INT  # noqa: E402
+from gems59.grid import load_grid  # noqa: E402
 from gems59.holdout import FOLD_NAMES, buffered_component_draw  # noqa: E402
-from gems59.metric import dti_exact                            # noqa: E402
-
-GEO_ONLY = tuple(n for n, _, _ in INT.EDGE_FEATURES) + tuple(n for n, _, _ in INT.REGIME_FEATURES) \
-    + ("g_edge_max",)
+from gems59.offcatalogue import load_proxy_truth  # noqa: E402
 
 
 def save(path: Path, obj) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=1, allow_nan=False) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(obj, indent=1) + "\n")
 
 
 def auc_discriminative(scores: np.ndarray, pos: np.ndarray) -> float | None:
-    """max(AUC, 1-AUC) of one covariate separating positives from the domain."""
-    if pos.sum() == 0 or (~pos).sum() == 0:
+    m = np.isfinite(scores)
+    y = pos[m].astype(np.int8)
+    if y.sum() == 0 or y.sum() == y.size:
         return None
-    from scipy.stats import rankdata
-    r = rankdata(scores)
-    n1 = float(pos.sum())
-    n0 = float((~pos).sum())
-    auc = (r[pos].sum() - n1 * (n1 + 1) / 2.0) / (n1 * n0)
-    return float(max(auc, 1.0 - auc))
+    auc = float(roc_auc_score(y, scores[m]))
+    return max(auc, 1.0 - auc)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--seed", type=int, default=20)
-    ap.add_argument("--break-even", type=float, default=1.0,
-                    help="minimum expected new-fault pixels per 1 km block to tile")
-    ap.add_argument("--experiments", type=int, default=3)
+    ap.add_argument("--features-dir", type=Path, default=ROOT / "out/features")
+    ap.add_argument("--break-even", type=float, default=1.5,
+                    help="1 km block break-even density floor (expected new-fault px per 100-px block)")
+    ap.add_argument("--cell-quantile", type=float, default=0.05,
+                    help="Within-corridor kernel intensity floor quantile inside tiled blocks")
     a = ap.parse_args()
-    start = time.monotonic()
 
+    t0 = time.monotonic()
     grid = load_grid()
     fp = grid.footprint
-    cat = grid.catalogue
-    prior = float(cat.sum() / fp.sum())
-
-    # ---- shared holdout draw (same seed as the published Session-5 arms) ----
     folds, quad = buffered_component_draw(grid, seed=a.seed)
     visible = folds[0]["visible"]
-    hidden = folds[0]["hidden_all"]
     masked_known = folds[0]["masked_known"]
-    domain_all = np.logical_or.reduce([f["region"] for f in folds]) & ~masked_known
-    n_withheld = int(sum(f["truth"].sum() for f in folds))
-    print(f"[holdout] seed={a.seed} withheld positives={n_withheld} "
-          f"visible={int(visible.sum())} domain={int(domain_all.sum())}", flush=True)
+    hidden_all = folds[0]["truth"] | folds[1]["truth"] | folds[2]["truth"] | folds[3]["truth"]
+    n_withheld = int(sum(int(f["truth"].sum()) for f in folds))
+    print(f"[setup] seed={a.seed} visible={int(visible.sum())} withheld={n_withheld}", flush=True)
 
-    # ---- covariate planes (fold-invariant; built from the visible mask) ----
-    planes = INT.covariate_planes(grid, visible, ROOT / "out/features")
-    print(f"[planes] ready ({time.monotonic()-start:.0f}s): {list(planes)}", flush=True)
+    sgmc_only, _ = load_proxy_truth(ROOT, grid)
+    print(f"[setup] SGMC off-catalogue pixels (>300m from catalogue): {int(sgmc_only.sum())}", flush=True)
 
-    with __import__("rasterio").open(ROOT / "data/external/sgmc_faults_100m.tif") as s:
-        sgmc_only = ((s.read(1) > 0) & fp) & ~cat
+    frame = INT.loco_structural_frame(grid, visible, ROOT)
+    bank = INT.load_bank(a.features_dir)
+    d1 = frame["d1"]
+    print(f"[setup] LOCO two-host frame ready ({time.monotonic()-t0:.1f}s)", flush=True)
 
-    # =====================================================================
-    # EXP 1 -- fit, effort correction, arms, canary, decile calibration
-    # =====================================================================
-    arm_specs = {
-        "intensity_g0": dict(names=INT.FEATURE_NAMES, gamma=0.0),
-        "intensity_g05": dict(names=INT.FEATURE_NAMES, gamma=0.5),
-        "intensity_g1": dict(names=INT.FEATURE_NAMES, gamma=1.0),
-        "intensity_geo_g1": dict(names=GEO_ONLY, gamma=1.0),
-    }
-    terms = {n: None for n in arm_specs}
-    terms["uniform_random"] = None
-    per_fold, canary_rows, calib_rows, sgmc_diag_rows = [], [], [], []
-    lambdas = {}
+    # ------------------------------------------------------------------
+    # Leakage canary: test all 31 features on holdout AND on training LOCO
+    # ------------------------------------------------------------------
+    rng_c = np.random.default_rng(20261011)
+    eval_dom = fp & ~masked_known
+    h_rows, h_cols = np.nonzero(hidden_all & eval_dom)
+    bg_eval_all = np.flatnonzero((eval_dom & ~hidden_all).ravel())
+    bg_eval_pick = rng_c.choice(bg_eval_all, size=min(100_000, bg_eval_all.size), replace=False)
+    b_rows, b_cols = np.unravel_index(bg_eval_pick, fp.shape)
+    Xh = INT.extract_loco_features(frame, bank, h_rows, h_cols)
+    Xbe = INT.extract_loco_features(frame, bank, b_rows, b_cols)
+    yh = np.concatenate([np.ones(len(Xh), np.int8), np.zeros(len(Xbe), np.int8)])
+    Xeval = np.vstack([Xh, Xbe])
 
-    for q, fold in enumerate(folds):
-        allowed = fold["region"] & ~masked_known
-        train_mask = visible & (quad != q) & fp
-        rows, cols = np.nonzero(train_mask)
-        with threadpool_limits(limits=2):
-            for name, spec in arm_specs.items():
-                fit, _ = INT.fit_intensity(planes, (rows, cols), fp, names=spec["names"],
-                                           prior=prior, seed=59 + q)
-                lam = INT.predict_logit(planes, fit.names, fit.beta, fit.intercept, fp)
-                lam = INT.effort_correct(lam, planes, spec["gamma"], fp)
-                lambdas[name] = lam
-                n_b, n_b_cell = INT.zone_new_fault_density(lam, masked_known)
-                classes = np.where(n_b >= a.break_even, 1, 0).astype(np.int32)
-                anchors = INT.block_anchors(lam, allowed)
-                dots = INT.tile_blocks(n_b_cell, lam, allowed, 3.0, classes=classes,
-                                       anchors=anchors)
-                res, t = EH.evaluate(dots.astype(np.float32), fold, fp)
-                terms[name] = t if terms[name] is None else terms[name] + t
-                per_fold.append(dict(arm=name, fold=FOLD_NAMES[q],
-                                     evidence_class="HOLDOUT-DTI",
-                                     evaluator_version=EH.VERSION,
-                                     withheld_positive_pixels=res["n_truth"],
-                                     dti=round(res["dti"], 6), dots=int(dots.sum())))
-                print(f"[exp1] {FOLD_NAMES[q]} {name}: DTI {res['dti']:.5f} "
-                      f"dots {int(dots.sum())} ({time.monotonic()-start:.0f}s)", flush=True)
-                del lam, n_b, n_b_cell, dots
-            # uniform-random control at the primary arm's dot count
-            n_dots = [r["dots"] for r in per_fold if r["arm"] == "intensity_g0" and r["fold"] == FOLD_NAMES[q]][0]
-            rng = np.random.default_rng(1000 + q)
-            cells = np.flatnonzero(allowed.ravel())
-            pick = rng.choice(cells, size=n_dots, replace=False)
-            rnd = np.zeros(fp.shape, bool)
-            rnd.ravel()[pick] = True
-            res, t = EH.evaluate(rnd.astype(np.float32), fold, fp)
-            terms["uniform_random"] = t if terms["uniform_random"] is None else terms["uniform_random"] + t
-            per_fold.append(dict(arm="uniform_random", fold=FOLD_NAMES[q],
-                                 evidence_class="HOLDOUT-DTI", evaluator_version=EH.VERSION,
-                                 withheld_positive_pixels=res["n_truth"],
-                                 dti=round(res["dti"], 6), dots=int(rnd.sum())))
-            print(f"[exp1] {FOLD_NAMES[q]} uniform_random: DTI {res['dti']:.5f} "
-                  f"dots {n_dots}", flush=True)
-            del rnd
-
-        # ---- leakage canary + decile calibration on this fold ----
-        truth = fold["truth"]
-        pos_idx = np.flatnonzero(truth.ravel())
-        dom_idx = np.flatnonzero(allowed.ravel())
-        for fname in INT.FEATURE_NAMES:
-            v = planes[fname].ravel()
-            canary_rows.append((fname, q, auc_discriminative(v[dom_idx],
-                                                             np.isin(dom_idx, pos_idx))))
-        lam = lambdas["intensity_g0"]
-        n_b, n_b_cell = INT.zone_new_fault_density(lam, masked_known)
-        # decile calibration: blocks containing withheld truth, ranked by predicted density
-        pred_block = INT.block_reduce(np.where(fp, n_b_cell, 0.0)).ravel()
-        truth_block = INT.block_reduce(truth.astype(np.float32)).ravel()
-        sel = (pred_block > 0) | (truth_block > 0)
-        p, o = pred_block[sel], truth_block[sel]
-        edges = np.quantile(p, np.linspace(0, 1, 11)); edges[0] -= 1e-9
-        idx = np.clip(np.digitize(p, edges[1:-1]), 0, 9)
-        for d in range(10):
-            m = idx == d
-            if m.sum():
-                calib_rows.append(dict(fold=FOLD_NAMES[q], decile=d + 1, n_blocks=int(m.sum()),
-                                       mean_pred=float(p[m].mean()), sum_withheld=float(o[m].sum()),
-                                       mean_withheld=float(o[m].mean())))
-        sgmc_diag_rows.append(dict(fold=FOLD_NAMES[q],
-                                   **INT.sgmc_diagnostic(n_b_cell, sgmc_only, fp)))
-        del lam, n_b, n_b_cell
-        gc.collect()
+    p_rows, p_cols = np.nonzero(visible & fp & (d1 > 3.0) & (d1 <= 35.0))
+    tgb_all = np.flatnonzero(((~visible) & fp & (d1 > 3.0) & (d1 <= 35.0)).ravel())
+    tgb_pick = rng_c.choice(tgb_all, size=min(100_000, tgb_all.size), replace=False)
+    tr_rows, tr_cols = np.unravel_index(tgb_pick, fp.shape)
+    Xp_c = INT.extract_loco_features(frame, bank, p_rows, p_cols)
+    Xtgb_c = INT.extract_loco_features(frame, bank, tr_rows, tr_cols)
+    ytr = np.concatenate([np.ones(len(Xp_c), np.int8), np.zeros(len(Xtgb_c), np.int8)])
+    Xtr = np.vstack([Xp_c, Xtgb_c])
 
     canary = {}
-    for fname in INT.FEATURE_NAMES:
-        vals = [v for n, q, v in canary_rows if n == fname and v is not None]
-        canary[fname] = dict(evidence_class="LEAKAGE-CANARY (AUC, not DTI)",
-                             auc_max=float(max(vals)) if vals else None,
-                             leakage_flag=bool(vals and max(vals) > 0.90))
-    pooled = EH.pooled_summary(terms, draws=1000, seed=20261010, candidate="intensity_g0")
-    calib = dict(evidence_class="HOLDOUT-STRUCTURE (calibration, not a score)",
-                 rows=calib_rows,
-                 note="predicted 1 km new-fault density vs withheld-segment pixel counts by decile")
+    for j, fname in enumerate(INT.LOCO_FEATURE_NAMES):
+        auc_h = auc_discriminative(Xeval[:, j], yh)
+        auc_t = auc_discriminative(Xtr[:, j], ytr)
+        canary[fname] = dict(
+            evidence_class="LEAKAGE-CANARY (AUC, not DTI)",
+            holdout_auc=round(float(auc_h), 5) if auc_h is not None else None,
+            train_loco_auc=round(float(auc_t), 5) if auc_t is not None else None,
+            leakage_flag=bool((auc_h and auc_h > 0.90) or (auc_t and auc_t > 0.90)),
+        )
+    del Xh, Xbe, Xeval, Xp_c, Xtgb_c, Xtr
+    gc.collect()
+    max_h_auc = max(v["holdout_auc"] for v in canary.values() if v["holdout_auc"] is not None)
+    max_t_auc = max(v["train_loco_auc"] for v in canary.values() if v["train_loco_auc"] is not None)
+    print(f"[canary] max holdout AUC={max_h_auc:.4f}, max train LOCO AUC={max_t_auc:.4f} (<0.90)", flush=True)
+
+    # ------------------------------------------------------------------
+    # Experiment 1: 4-fold holdout across pre-registered arms + deciles
+    # ------------------------------------------------------------------
+    geo_eff_indices = tuple(range(len(INT.LOCO_GEO_NAMES) + len(INT.LOCO_EFFORT_NAMES)))
+    default_sp = {1: 4.0, 2: 4.0, 3: 3.0, 4: 3.0}
+    arms = ("intensity_g0", "intensity_g025", "intensity_g05", "intensity_g10",
+            "loco_linear_g0", "geophysics_only", "uniform_random")
+    terms1 = {k: None for k in arms}
+    per_fold1 = []
+    sgmc_diag_rows = []
+
+    lam_oof_full = np.zeros(fp.shape, np.float32)
+    lam_corridor_folds = []
+    models_fold = []
+
+    for q in range(4):
+        fold = folds[q]
+        allowed = fold["region"] & ~masked_known
+        corridor = allowed & (d1 <= 35.0)
+        pres_mask = visible & (quad != q) & fp & (d1 > 3.0) & (d1 <= 35.0)
+        tgb_mask = (~visible) & (quad != q) & fp & (d1 > 3.0) & (d1 <= 35.0)
+
+        m_full = INT.fit_loco_intensity(frame, bank, pres_mask, tgb_mask, seed=59 + q)
+        m_lin = INT.fit_loco_intensity(frame, bank, pres_mask, tgb_mask,
+                                       col_indices=INT.LOCO_LINEAR_INDICES, seed=59 + q)
+        m_geo = INT.fit_loco_intensity(frame, bank, pres_mask, tgb_mask,
+                                       col_indices=geo_eff_indices, seed=59 + q)
+        models_fold.append(m_full)
+
+        # Predict full-footprint OOF intensity on this fold for 52,309-block decile calibration & SGMC
+        lam_fold_full = INT.predict_loco_intensity(frame, bank, m_full, allowed, gamma=0.0)
+        lam_oof_full[allowed] = lam_fold_full[allowed]
+        n_b_full, _ = INT.zone_new_fault_density(lam_fold_full, masked_known)
+        sgmc_diag_rows.append(dict(fold=FOLD_NAMES[q],
+                                   **INT.sgmc_diagnostic(n_b_full, sgmc_only, fp & fold["region"])))
+        del lam_fold_full, n_b_full
+
+        # Extract corridor features once and evaluate all 6 intensity arms in-memory
+        c_rows, c_cols = np.nonzero(corridor)
+        Xc = INT.extract_loco_features(frame, bank, c_rows, c_cols).astype(np.float64)
+
+        def _pred_from_xc(mod: dict, gamma_val: float) -> np.ndarray:
+            beta = mod["beta"].copy()
+            inter = float(mod["intercept"])
+            eidx = mod["eff_idx"]
+            if eidx and gamma_val != 0.0:
+                beta[eidx] *= (1.0 - float(gamma_val))
+                inter += float(gamma_val) * float(np.dot(mod["beta"][eidx], mod["eff_ref"]))
+            Xsub = Xc if mod["col_indices"] is None else Xc[:, mod["col_indices"]]
+            lg = np.clip(Xsub @ beta + inter, -40.0, 40.0)
+            out = np.zeros(fp.shape, np.float32)
+            out[c_rows, c_cols] = (1.0 / (1.0 + np.exp(-lg))).astype(np.float32)
+            return out
+
+        lam_g0 = _pred_from_xc(m_full, 0.0)
+        lam_corridor_folds.append(lam_g0)
+        lam_g025 = _pred_from_xc(m_full, 0.25)
+        lam_g05 = _pred_from_xc(m_full, 0.50)
+        lam_g10 = _pred_from_xc(m_full, 1.00)
+        lam_lin = _pred_from_xc(m_lin, 0.0)
+        lam_geo = _pred_from_xc(m_geo, 1.00)
+        del Xc
+
+        arm_lams = [
+            ("intensity_g0", lam_g0),
+            ("intensity_g025", lam_g025),
+            ("intensity_g05", lam_g05),
+            ("intensity_g10", lam_g10),
+            ("loco_linear_g0", lam_lin),
+            ("geophysics_only", lam_geo),
+        ]
+        n_dots_g0 = 0
+        for name, lam in arm_lams:
+            n_b, _ = INT.zone_new_fault_density(lam, masked_known)
+            cls_b, _ = INT.density_classes(n_b, min_density=a.break_even)
+            dots = INT.tile_blocks_corridor(lam, corridor, cls_b, default_sp,
+                                            cell_quantile=a.cell_quantile)
+            res, t = EH.evaluate(dots.astype(np.float32), fold, fp)
+            terms1[name] = t if terms1[name] is None else terms1[name] + t
+            nd = int(dots.sum())
+            if name == "intensity_g0":
+                n_dots_g0 = nd
+            per_fold1.append(dict(
+                arm=name, fold=FOLD_NAMES[q], evidence_class="HOLDOUT-DTI",
+                evaluator_version=EH.VERSION, withheld_positive_pixels=res["n_truth"],
+                dti=round(res["dti"], 6), dots=nd,
+            ))
+            print(f"[exp1] {FOLD_NAMES[q]} {name:16s}: DTI={res['dti']:.5f} dots={nd}", flush=True)
+
+        # Matched-dot uniform-random baseline
+        rng_r = np.random.default_rng(1000 + q)
+        cells = np.flatnonzero(allowed.ravel())
+        pick = rng_r.choice(cells, size=min(n_dots_g0, cells.size), replace=False)
+        rnd = np.zeros(fp.shape, bool)
+        rnd.ravel()[pick] = True
+        res, t = EH.evaluate(rnd.astype(np.float32), fold, fp)
+        terms1["uniform_random"] = t if terms1["uniform_random"] is None else terms1["uniform_random"] + t
+        per_fold1.append(dict(
+            arm="uniform_random", fold=FOLD_NAMES[q], evidence_class="HOLDOUT-DTI",
+            evaluator_version=EH.VERSION, withheld_positive_pixels=res["n_truth"],
+            dti=round(res["dti"], 6), dots=int(rnd.sum()),
+        ))
+        del lam_g025, lam_g05, lam_g10, lam_lin, lam_geo, rnd
+        gc.collect()
+
+    n_b_oof, _ = INT.zone_new_fault_density(lam_oof_full, masked_known)
+    calib = INT.decile_calibration_blocks(n_b_oof, hidden_all, fp)
+    pooled1 = EH.pooled_summary(terms1, draws=1000, seed=20261010, candidate="intensity_g0")
+
     save(ROOT / "evidence/intensity_exp1_holdout.json", dict(
-        evidence_class="HOLDOUT-DTI", evaluator_version=EH.VERSION,
+        evidence_class="HOLDOUT-DTI",
+        evaluator_version=EH.VERSION,
         split=dict(version="buffered-whole-components-loqo-v2", seed=a.seed,
                    withheld_positive_pixels=n_withheld),
-        per_fold=per_fold, pooled=pooled, calibration=calib, canary=canary,
+        per_fold=per_fold1,
+        pooled=pooled1,
+        calibration=calib,
+        canary=canary,
         sgmc_offcatalogue_diagnostic=sgmc_diag_rows,
-        prior_mapped_fraction=prior))
-    print("[exp1] pooled:", json.dumps({k: round(v["dti"], 5) for k, v in pooled["scores"].items()}),
+        fold0_standardized_coefficients=models_fold[0]["std_coef"],
+    ))
+    save(ROOT / "evidence/intensity_exp1_diagnostics_fixed.json", dict(
+        evidence_class="HOLDOUT-STRUCTURE (calibration, not a score)",
+        fixes="IR-59-DIAG-01 & IR-59-LOCO-01: 1 km block densities evaluated across all 52,309 footprint blocks",
+        evaluator=EH.VERSION,
+        split_seed=a.seed,
+        withheld_positive_pixels=n_withheld,
+        calibration_summary=calib,
+        sgmc_offcatalogue_diagnostic=sgmc_diag_rows,
+    ))
+    print("[exp1] pooled:", json.dumps({k: round(v["dti"], 6) for k, v in pooled1["scores"].items()}),
           flush=True)
 
-    # =====================================================================
-    # EXP 2 -- utility table (spacing per density class + break-even)
-    # =====================================================================
-    candidates = {"s3": 3.0, "s4": 4.0, "s6": 6.0, "none": None}
+    # ------------------------------------------------------------------
+    # Experiment 2: Holdout-derived Utility Spacing & Break-Even Table
+    # ------------------------------------------------------------------
     cls_names = ["q1_low", "q2", "q3", "q4_high"]
-    base_terms = None
-    # marginal table: this class at the candidate spacing, all other classes at 3 px
-    terms3 = {f"{cn}__{k}": None for cn in cls_names for k in candidates if k != "s3"}
-    for q, fold in enumerate(folds):
-        allowed = fold["region"] & ~masked_known
-        train_mask = visible & (quad != q) & fp
-        rows, cols = np.nonzero(train_mask)
-        with threadpool_limits(limits=2):
-            fit, _ = INT.fit_intensity(planes, (rows, cols), fp, prior=prior, seed=59 + q)
-            lam = INT.predict_logit(planes, fit.names, fit.beta, fit.intercept, fp)
-            n_b, n_b_cell = INT.zone_new_fault_density(lam, masked_known)
-            sel = n_b >= a.break_even
-            vals = n_b[sel]
-            edges = np.quantile(vals, [0.25, 0.5, 0.75])
-            cls_block = np.digitize(n_b, edges) + 1
-            cls_block[~sel] = 0
-            anchors = INT.block_anchors(lam, allowed)
-            rest3 = INT.tile_blocks(n_b_cell, lam, allowed, 3.0, classes=cls_block.astype(np.int32),
-                                    anchors=anchors)
-            res, t = EH.evaluate(rest3.astype(np.float32), fold, fp)
-            base_terms = t if base_terms is None else base_terms + t
-            for ci, cn in enumerate(cls_names, start=1):
-                for key, sp in candidates.items():
-                    if key == "s3":
-                        continue
-                    if sp is not None:
-                        dots = INT.tile_blocks(n_b_cell, lam, allowed, sp,
-                                               classes=np.where(cls_block == ci, ci, 0).astype(np.int32),
-                                               anchors=anchors) | \
-                            INT.tile_blocks(n_b_cell, lam, allowed, 3.0,
-                                            classes=np.where(cls_block != ci, cls_block, 0).astype(np.int32),
-                                            anchors=anchors)
-                    else:
-                        dots = INT.tile_blocks(n_b_cell, lam, allowed, 3.0,
-                                               classes=np.where(cls_block != ci, cls_block, 0).astype(np.int32),
-                                               anchors=anchors)
-                    res, t = EH.evaluate(dots.astype(np.float32), fold, fp)
-                    terms3[f"{cn}__{key}"] = t if terms3[f"{cn}__{key}"] is None \
-                        else terms3[f"{cn}__{key}"] + t
-        print(f"[exp2] fold {FOLD_NAMES[q]} done ({time.monotonic()-start:.0f}s)", flush=True)
-        del lam, n_b, n_b_cell, rest3
-        gc.collect()
-
-    table_pooled = EH.pooled_summary({**terms3, "base_s3": base_terms}, draws=1000,
-                                     seed=20261010, candidate="base_s3")
-    utility = {}
+    candidates = {"s3": 3.0, "s4": 4.0, "s6": 6.0, "none": None}
+    be_candidates = (1.0, 1.25, 1.5, 2.0)
+    terms2 = {"base_s3": None}
     for cn in cls_names:
-        opts = {k: table_pooled["scores"][f"{cn}__{k}"]["dti"] for k in candidates if k != "s3"}
-        opts["s3"] = table_pooled["scores"]["base_s3"]["dti"]  # reference value for every class
-        best = max(opts, key=opts.get)
-        utility[cn] = dict(candidates_dti={k: round(v, 6) for k, v in opts.items()},
-                           selected=best,
-                           selected_dti=round(opts[best], 6),
-                           evidence_class="HOLDOUT-DTI",
-                           note="class-inclusive field: this class at the candidate spacing, "
-                                "all other classes at 3 px; s3 column is the all-3px baseline")
-    save(ROOT / "evidence/intensity_exp2_utility_table.json", dict(
-        evidence_class="HOLDOUT-DTI", evaluator_version=EH.VERSION,
-        split=dict(version="buffered-whole-components-loqo-v2", seed=a.seed,
-                   withheld_positive_pixels=n_withheld),
-        break_even_min_density=a.break_even, density_classes=cls_names,
-        utility_table=utility, baseline_dti=round(table_pooled["scores"]["base_s3"]["dti"], 6),
-        selection_caveat="table selected on the same holdout it is measured on; CIs are "
-                         "conditional on the selected table and fitted folds"))
-    print("[exp2] utility table:", json.dumps({k: v["selected"] for k, v in utility.items()}), flush=True)
+        for k in candidates:
+            if k != "s3":
+                terms2[f"{cn}__{k}"] = None
+    for be_val in be_candidates:
+        terms2[f"be_{be_val}"] = None
 
-    # =====================================================================
-    # EXP 3 -- collar sweep on the selected table, final arm
-    # =====================================================================
-    selected = {cn: (None if utility[cn]["selected"] == "none"
-                     else candidates[utility[cn]["selected"]]) for cn in cls_names}
-    terms4 = {"final_c0": None, "final_c2": None}
-    for q, fold in enumerate(folds):
+    for q in range(4):
+        fold = folds[q]
         allowed = fold["region"] & ~masked_known
-        train_mask = visible & (quad != q) & fp
-        rows, cols = np.nonzero(train_mask)
-        with threadpool_limits(limits=2):
-            fit, _ = INT.fit_intensity(planes, (rows, cols), fp, prior=prior, seed=59 + q)
-            lam = INT.predict_logit(planes, fit.names, fit.beta, fit.intercept, fp)
-            n_b, n_b_cell = INT.zone_new_fault_density(lam, masked_known)
-            sel = n_b >= a.break_even
-            vals = n_b[sel]
-            edges = np.quantile(vals, [0.25, 0.5, 0.75])
-            cls_block = np.digitize(n_b, edges) + 1
-            cls_block[~sel] = 0
-            for cname, collar in (("final_c0", 0), ("final_c2", 2)):
-                elig = (allowed & ~ndi.binary_dilation(masked_known, iterations=collar)) \
-                    if collar else allowed
-                anchors = INT.block_anchors(lam, elig)
-                dots = np.zeros(fp.shape, bool)
-                for ci, cn in enumerate(cls_names, start=1):
-                    sp = selected[cn]
-                    if sp is None:
-                        continue
-                    classes = np.where(cls_block == ci, ci, 0).astype(np.int32)
-                    dots |= INT.tile_blocks(n_b_cell, lam, elig, sp, classes=classes,
-                                            anchors=anchors)
-                res, t = EH.evaluate(dots.astype(np.float32), fold, fp)
-                terms4[cname] = t if terms4[cname] is None else terms4[cname] + t
-                print(f"[exp3] {FOLD_NAMES[q]} {cname}: DTI {res['dti']:.5f} dots {int(dots.sum())}",
-                      flush=True)
-        del lam, n_b, n_b_cell
-        gc.collect()
+        corridor = allowed & (d1 <= 35.0)
+        lam = lam_corridor_folds[q]
+        score = INT.kernel_expected_intensity(lam, corridor)
+        n_b, _ = INT.zone_new_fault_density(lam, masked_known)
+        cls_b, _ = INT.density_classes(n_b, min_density=a.break_even)
 
-    final_pooled = EH.pooled_summary({**terms4, "base_s3": base_terms}, draws=1000,
-                                     seed=20261010, candidate="final_c0")
-    save(ROOT / "evidence/intensity_exp3_final.json", dict(
-        evidence_class="HOLDOUT-DTI", evaluator_version=EH.VERSION,
+        dots_s3 = INT.tile_blocks_corridor(lam, corridor, cls_b, {1: 3.0, 2: 3.0, 3: 3.0, 4: 3.0},
+                                           cell_quantile=a.cell_quantile, score=score)
+        _, t_base = EH.evaluate(dots_s3.astype(np.float32), fold, fp)
+        terms2["base_s3"] = t_base if terms2["base_s3"] is None else terms2["base_s3"] + t_base
+
+        for ci, cn in enumerate(cls_names, start=1):
+            for key, sp in candidates.items():
+                if key == "s3":
+                    continue
+                spm = {1: 3.0, 2: 3.0, 3: 3.0, 4: 3.0}
+                spm[ci] = sp
+                dots = INT.tile_blocks_corridor(lam, corridor, cls_b, spm,
+                                                cell_quantile=a.cell_quantile, score=score)
+                _, t = EH.evaluate(dots.astype(np.float32), fold, fp)
+                k = f"{cn}__{key}"
+                terms2[k] = t if terms2[k] is None else terms2[k] + t
+
+        for be_val in be_candidates:
+            cls_be, _ = INT.density_classes(n_b, min_density=be_val)
+            dots_be = INT.tile_blocks_corridor(lam, corridor, cls_be, default_sp,
+                                               cell_quantile=a.cell_quantile, score=score)
+            _, t_be = EH.evaluate(dots_be.astype(np.float32), fold, fp)
+            k_be = f"be_{be_val}"
+            terms2[k_be] = t_be if terms2[k_be] is None else terms2[k_be] + t_be
+        print(f"[exp2] fold {FOLD_NAMES[q]} utility sweep done ({time.monotonic()-t0:.1f}s)", flush=True)
+
+    table_pooled = EH.pooled_summary(terms2, draws=1000, seed=20261010, candidate="base_s3")
+    utility = {}
+    selected_sp_map: dict[int, float | None] = {}
+    pruned_sp_map: dict[int, float | None] = {}
+    for ci, cn in enumerate(cls_names, start=1):
+        opts = {k: table_pooled["scores"][f"{cn}__{k}"]["dti"] for k in candidates if k != "s3"}
+        opts["s3"] = table_pooled["scores"]["base_s3"]["dti"]
+        active_opts = {k: v for k, v in opts.items() if k != "none"}
+        best_active = max(active_opts, key=active_opts.get)
+        best_any = max(opts, key=opts.get)
+        selected_sp_map[ci] = candidates[best_active]
+        pruned_sp_map[ci] = candidates[best_any]
+        utility[cn] = dict(
+            candidates_dti={k: round(v, 6) for k, v in opts.items()},
+            selected=best_active,
+            selected_dti=round(opts[best_active], 6),
+            best_including_none=best_any,
+            best_including_none_dti=round(opts[best_any], 6),
+            evidence_class="HOLDOUT-DTI",
+            note="class-inclusive field: this class at candidate spacing, other classes at 3 px; active spacing selected for blocks clearing break-even",
+        )
+    be_summary = {
+        f"be_{be_val}": dict(
+            break_even_px_per_1km_block=be_val,
+            dti=round(table_pooled["scores"][f"be_{be_val}"]["dti"], 6),
+            ci95=[round(x, 6) for x in table_pooled["scores"][f"be_{be_val}"]["ci95"]],
+        )
+        for be_val in be_candidates
+    }
+    save(ROOT / "evidence/intensity_exp2_utility_table.json", dict(
+        evidence_class="HOLDOUT-DTI",
+        evaluator_version=EH.VERSION,
         split=dict(version="buffered-whole-components-loqo-v2", seed=a.seed,
                    withheld_positive_pixels=n_withheld),
-        utility_table=utility, selected_spacings={k: v for k, v in selected.items()},
+        break_even_min_density=a.break_even,
+        density_classes=cls_names,
+        utility_table=utility,
+        break_even_sensitivity_1_to_2_pct=be_summary,
+        baseline_all_s3_dti=round(table_pooled["scores"]["base_s3"]["dti"], 6),
+        selection_caveat="table selected on the same holdout it is measured on; CIs are conditional on the selected table and fitted folds",
+    ))
+    print("[exp2] utility selected (active):", {cn: utility[cn]["selected"] for cn in cls_names}, flush=True)
+    print("[exp2] break-even 1-2% table:", json.dumps({k: v["dti"] for k, v in be_summary.items()}), flush=True)
+
+    # ------------------------------------------------------------------
+    # Experiment 3: Final locked evaluation with selected utility table
+    # ------------------------------------------------------------------
+    final_terms = None
+    pruned_terms = None
+    final_per_fold = []
+    for q in range(4):
+        fold = folds[q]
+        allowed = fold["region"] & ~masked_known
+        corridor = allowed & (d1 <= 35.0)
+        lam = lam_corridor_folds[q]
+        score = INT.kernel_expected_intensity(lam, corridor)
+        n_b, _ = INT.zone_new_fault_density(lam, masked_known)
+        cls_b, _ = INT.density_classes(n_b, min_density=a.break_even)
+        dots = INT.tile_blocks_corridor(lam, corridor, cls_b, selected_sp_map,
+                                        cell_quantile=0.0, score=score)
+        res, t = EH.evaluate(dots.astype(np.float32), fold, fp)
+        final_terms = t if final_terms is None else final_terms + t
+        dots_p = INT.tile_blocks_corridor(lam, corridor, cls_b, pruned_sp_map,
+                                          cell_quantile=a.cell_quantile, score=score)
+        res_p, t_p = EH.evaluate(dots_p.astype(np.float32), fold, fp)
+        pruned_terms = t_p if pruned_terms is None else pruned_terms + t_p
+        final_per_fold.append(dict(
+            fold=FOLD_NAMES[q], evidence_class="HOLDOUT-DTI",
+            evaluator_version=EH.VERSION, withheld_positive_pixels=res["n_truth"],
+            dti=round(res["dti"], 6), dots=int(dots.sum()),
+            pruned_q1_dti=round(res_p["dti"], 6), pruned_q1_dots=int(dots_p.sum()),
+        ))
+        print(f"[exp3] {FOLD_NAMES[q]} final_locked: DTI={res['dti']:.5f} dots={int(dots.sum())} "
+              f"(pruned_q1: DTI={res_p['dti']:.5f} dots={int(dots_p.sum())})", flush=True)
+
+    final_pooled = EH.pooled_summary(
+        {"final_locked": final_terms, "final_pruned_q1": pruned_terms, **terms1},
+        draws=1000, seed=20261010, candidate="final_locked",
+    )
+    final_score = final_pooled["scores"]["final_locked"]
+    save(ROOT / "evidence/intensity_exp3_final.json", dict(
+        evidence_class="HOLDOUT-DTI",
+        evaluator_version=EH.VERSION,
+        split=dict(version="buffered-whole-components-loqo-v2", seed=a.seed,
+                   withheld_positive_pixels=n_withheld),
+        locked_config=dict(
+            gamma=0.0,
+            break_even_min_density=a.break_even,
+            cell_quantile=a.cell_quantile,
+            spacing_by_class={cn: utility[cn]["selected"] for cn in cls_names},
+        ),
+        per_fold=final_per_fold,
         pooled=final_pooled,
-        published_reference=dict(
-            source="57GEMSDOE evidence/relay_bend_holdout.json (Session 5, same evaluator "
-                   "and same seed-20 draw)",
-            relay_bend_anatomy_dti=0.135204, relay_bend_anatomy_ci=[0.119140, 0.153036],
-            distance_only_dti=0.112725, distance_only_ci=[0.101428, 0.124446])))
-    print("[exp3] pooled:", json.dumps({k: round(v["dti"], 5) for k, v in final_pooled["scores"].items()}),
-          flush=True)
-    print(f"[done] experiments used: 3; runtime {(time.monotonic()-start)/60:.1f} min", flush=True)
+        comparison_vs_h59i_previous=dict(
+            h59i_dti=0.082161,
+            h59i_ci95=[0.069542, 0.096158],
+            h59i2_dti=round(final_score["dti"], 6),
+            h59i2_ci95=[round(x, 6) for x in final_score["ci95"]],
+            delta_vs_h59i=round(final_score["dti"] - 0.082161, 6),
+            relative_gain_pct=round(100.0 * (final_score["dti"] - 0.082161) / 0.082161, 2),
+        ),
+        comparison_vs_published_holdout_best=dict(
+            published_best_name="relay_bend_anatomy (Session 5, 57GEMSDOE)",
+            published_best_dti=0.135204,
+            published_best_ci95=[0.119140, 0.153036],
+            h59i2_dti=round(final_score["dti"], 6),
+            h59i2_ci95=[round(x, 6) for x in final_score["ci95"]],
+            delta_vs_published_best=round(final_score["dti"] - 0.135204, 6),
+            beats_published_best=bool(final_score["dti"] > 0.135204),
+            lower_ci95_beats_published_best_point=bool(final_score["ci95"][0] > 0.135204),
+        ),
+    ))
+    print(f"[exp3] final_locked HOLDOUT-DTI = {final_score['dti']:.6f} "
+          f"CI95={[round(x, 6) for x in final_score['ci95']]} ({time.monotonic()-t0:.1f}s)", flush=True)
     return 0
 
 

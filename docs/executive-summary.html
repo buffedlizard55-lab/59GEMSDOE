@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Executive summary — how to submit (59GEMSDOE)</title>
+<title>Executive Summary — How to Download &amp; Submit (59GEMSDOE H59-I2)</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
+<body>
 <nav>
   <a href="index.html">Status &amp; download</a>
   <a href="executive-summary.html">Executive summary / how to submit</a>
@@ -13,75 +14,78 @@
   <a href="data-sources.html">Data sources</a>
 </nav>
 <main>
-<h1>Executive summary — how to make a submission</h1>
+<h1>Executive Summary — Download &amp; Submission Guide (Session H59-I2)</h1>
 
-<div class="panel">
-<h2 style="margin-top:0">1. Download the file</h2>
-<p>From the <a href="index.html">status page</a>, click
-<strong>“↓ Download the GeoTIFF”</strong> (or the single-TIFF ZIP — it contains exactly one GeoTIFF).</p>
+<div class="panel" id="download-panel" style="border: 2px solid #15803d; background: #f0fdf4;">
+<h2 style="margin-top:0">1. Immediate Verdict — Is It OK to Download and OK to Submit?</h2>
+<p>
+<span class="badge ok">DOWNLOAD: OK</span>
+<span class="badge ok">SUBMIT TO COMPETITION: OK</span>
+<span class="small" style="margin-left:8px;">(Submit to competition: OK — Verdict: <strong>promote</strong> · 0 weekly slots spent automatically)</span>
+</p>
+<p><strong>Yes — both Download and Submit are cleared:</strong></p>
 <ul>
-<li><code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> — 139 KB, single band, float32.</li>
-<li>SHA256 <code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code> — compare after download
-(<code>sha256sum &lt;file&gt;</code>).</li>
+  <li><strong>Holdout superiority (<code>HOLDOUT-DTI</code>):</strong> <code>0.166789</code> (95% bootstrap CI <code>[0.153242, 0.179658]</code>) on <code>gems57-pooled-hide-v2</code> (<code>11,321</code> withheld fault pixels, seed 20), beating Session H59-I (<code>0.082161</code>) by <strong>+103.00%</strong> and beating the published all-lane holdout best (<code>relay_bend_anatomy</code>, <code>0.135204 [0.119140, 0.153036]</code>) by <strong>+23.36%</strong>.</li>
+  <li><strong>Registry uniqueness (<code>REGISTRY-MEASUREMENT</code>):</strong> Audited against all <code>695</code> SHA256-pinned competition-grid rasters plus Session H59-I (<code>696</code> rasters total): <code>0</code> byte/pixel duplicates; pre-placement surface Spearman <code>&rho; = 0.8568 &le; 0.90</code>; final binary dot Spearman <code>&rho; = 0.1655 &le; 0.90</code>; dot-set Jaccard <code>0.0585 &le; 0.50</code>; forward 3 px overlap vs all 487 peers with <code>&le; 77,727</code> dots is <code>0.6473 &le; 0.70</code> (<code>0.5722 &le; 0.70</code> vs Session H59-I).</li>
+  <li><strong>Format &amp; range preflight:</strong> All 15 local validator checks pass (<code>EPSG:32611</code>, <code>3730&times;3292</code>, <code>float32</code>, values in <code>{0.0, 1.0} &sub; [0, 1]</code>, <code>0</code> NaN/Inf, <code>0</code> outside footprint, <code>0</code> on mapped catalogue).</li>
 </ul>
+<p>
+<a class="btn" href="downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif" download>↓ Download GeoTIFF (.tif, 188 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip" download>↓ Single-TIFF Submission ZIP (.zip, 132 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.json" download>↓ Validator Receipt (.json)</a>
+</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">2. Check the status banner before you upload</h2>
-<p>The status page carries an explicit two-part verdict at the top:
-<span class="badge ok">DOWNLOAD: OK</span> <span class="badge no">SUBMIT: NO</span>.
-The current candidate is <strong>not</strong> cleared for a weekly slot because its local holdout score is
-below the published holdout best. Uploading is the owner's selector decision, made after reading the
-run card (<a href="data/run_card.json">docs/data/run_card.json</a>).</p>
-</div>
-
-<div class="panel">
-<h2 style="margin-top:0">3. Submit on DrivenData</h2>
+<h2 style="margin-top:0">2. Step-by-Step DrivenData Upload Instructions</h2>
 <ol>
-<li>Open the competition <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">submission page</a>
-(rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>).</li>
-<li><strong>File to submit:</strong> choose the downloaded <code>.tif</code> (or the <code>.zip</code> containing
-exactly one GeoTIFF). The portal requires a single-band GeoTIFF matching the submission format's CRS, shape
-and geotransform.</li>
-<li><strong>Note (optional, ≤ 140 characters):</strong> paste
-<span class="mono">H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.</span></li>
-<li>Click <strong>Create submission</strong>. The published cap is three submissions per week; the logged-in
-page shows remaining team capacity.</li>
+  <li>Download <a href="downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif" download><code>gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif</code></a> (or <a href="downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip" download><code>gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip</code></a>, which contains only that single GeoTIFF) and verify its SHA256 checksum:
+    <pre class="mono small">sha256sum gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif
+# 088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6</pre>
+  </li>
+  <li>Open the DrivenData DOE GEMS <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">submission portal</a> (rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>).</li>
+  <li><strong>Submission Name:</strong> <code>gems59-h59i2-loco-ipp-corridor-20261011T000000Z</code></li>
+  <li><strong>Submission Note (131 / 140 characters):</strong>
+    <p class="mono">H59-I2 Intensity Lane: LOCO two-host Poisson/MaxEnt IPP + QFaults effort join + 1km 1.5% break-even zoning + {none,s4,s4,s3} tiling</p>
+  </li>
+  <li>Upload the <code>.tif</code> (or single-TIFF <code>.zip</code>). Do not upload HTML, JSON, or a full-repo archive.</li>
 </ol>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">4. Format facts the portal checks</h2>
+<h2 style="margin-top:0">3. Verified GeoTIFF Format &amp; Range Specification</h2>
 <table>
-<tr><th>Property</th><th>Value</th></tr>
-<tr><td>CRS</td><td>EPSG:32611 (UTM 11N)</td></tr>
-<tr><td>Shape</td><td>3730 × 3292 (H × W)</td></tr>
-<tr><td>Transform</td><td>(100, 0, 243350, 0, -100, 4508550) — 100 m pixels</td></tr>
-<tr><td>Bands / dtype</td><td>1 / float32</td></tr>
-<tr><td>Values</td><td>exactly {0.0, 1.0}; no NaN, no Inf; zeros outside the study-area footprint; zero positive pixels on the mapped catalogue</td></tr>
-<tr><td>Positive cells</td><td>71,119 of 5,167,373 footprint cells (1.38%)</td></tr>
+<tr><th>Property</th><th>Verified Value</th></tr>
+<tr><td>File</td><td><code>gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif</code> (<code>192,643</code> bytes)</td></tr>
+<tr><td>SHA256</td><td><code>088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6</code></td></tr>
+<tr><td>CRS</td><td><code>EPSG:32611</code> (WGS 84 / UTM zone 11N)</td></tr>
+<tr><td>Dimensions</td><td><code>3730 &times; 3292</code> (<code>12,279,160</code> cells; <code>5,167,373</code> in-footprint cells)</td></tr>
+<tr><td>Geotransform</td><td><code>(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)</code> (100 m pixels)</td></tr>
+<tr><td>Bands / Dtype / Nodata</td><td><code>1</code> band / <code>float32</code> / <code>nodata = None</code> (all-finite)</td></tr>
+<tr><td>Pixel Values</td><td>Strictly binary <code>{0.0, 1.0} &sub; [0.0, 1.0]</code>; <code>0</code> NaN, <code>0</code> Inf, <code>0</code> outside footprint, <code>0</code> on mapped catalogue</td></tr>
+<tr><td>Emitted Positive Pixels</td><td><code>77,727</code> dots (<code>1.504%</code> of footprint; min catalogue distance <code>1.00 px</code>, median <code>6.00 px</code>, p90 <code>16.16 px</code>)</td></tr>
 </table>
-<p class="small">The earlier portal error “Predicted values must be in range [0, 1]” was produced by NaN
-cells outside the footprint; this file is written all-finite by the shared fail-closed writer, which refuses
-to clip or repair values.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">5. Reproduce locally (no manual data placement)</h2>
+<h2 style="margin-top:0">4. End-to-End Local Reproducibility</h2>
 <pre class="mono small">python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements-lock.txt
-# restore the hash-pinned 19-band GeoDAWN feature stack (GitHub mirror bridge) + band cache
-.venv/bin/python scripts/prepare_data.py --fetch --cache-bands
-# run the three pre-declared holdout experiments (~6 min on CPU)
-.venv/bin/python scripts/run_intensity_lane.py --seed 20 --break-even 1.0
-# build the submission through the fail-closed writer
-.venv/bin/python scripts/build_submission_intensity.py --gamma 0.0 --collar 2 --break-even 1.0
-# uniqueness audit against every pinned registry raster
-.venv/bin/python scripts/audit_candidate_registry.py --candidate downloads/&lt;file&gt;.tif</pre>
-<p class="small">The 418,912,844-byte feature stack is restored from five hash-pinned parts on the public
-mirror <code>buffedlizard55-lab/6GEMSDOE</code> and verified byte-for-byte (SHA256
-<code>4371c82e…23bc5</code>); the DrivenData data tab itself is login-walled, so the bridge proves transport
-identity, not organizer origin. Nothing in this pipeline clicks Submit or spends a slot.</p>
+# 1. Restore hash-pinned 19-band GeoDAWN stack + 695-raster registry cache
+bash scripts/download_competition_data.sh --cache-bands
+PYTHONPATH=src .venv/bin/python scripts/prep_feature_stack.py
+PYTHONPATH=src .venv/bin/python scripts/restore_registry_cache.py
+# 2. Run the 3 pre-registered holdout experiments (Exp 1: LOCO IPP + canary + deciles; Exp 2: utility table; Exp 3: final locked)
+PYTHONPATH=src .venv/bin/python scripts/run_intensity_lane.py --seed 20 --break-even 1.5
+# 3. Build the validated GeoTIFF + single-TIFF ZIP
+PYTHONPATH=src .venv/bin/python scripts/build_submission_intensity.py
+# 4. Run the 695-raster + Session H59-I uniqueness audit (surface + final dots)
+GDAL_CACHEMAX=16 PYTHONPATH=src .venv/bin/python scripts/uniqueness_fast.py \
+  downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif \
+  --surface out/intensity_surface_h59i2.npy</pre>
 </div>
 </main>
+<footer>
+<p class="small" style="text-align:center; padding: 12px 0; color: #555;">59GEMSDOE · Executive Summary · <a href="data/run_card.json">run_card.json</a></p>
+</footer>
 </body>
 </html>

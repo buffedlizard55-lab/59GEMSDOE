@@ -1,1 +1,30 @@
-{"files": []}
+{
+  "files": [
+    {
+      "name": "gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif",
+      "zip": "gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip",
+      "receipt": "gems59-h59i2-loco-ipp-corridor-20261011T000000Z.json",
+      "sha256": "088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6",
+      "bytes": 192643,
+      "dots": 77727,
+      "holdout_dti": 0.166789,
+      "holdout_ci95": [0.153242, 0.179658],
+      "okay_to_download": true,
+      "okay_to_submit": true,
+      "verdict": "promote"
+    },
+    {
+      "name": "gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+      "zip": "gems59-h59i-intensity-lattice-20261011T000000Z.zip",
+      "receipt": "gems59-h59i-intensity-lattice-20261011T000000Z.json",
+      "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+      "bytes": 142754,
+      "dots": 71119,
+      "holdout_dti": 0.082161,
+      "holdout_ci95": [0.069542, 0.096158],
+      "okay_to_download": true,
+      "okay_to_submit": false,
+      "verdict": "negative (previous session baseline)"
+    }
+  ]
+}

@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data sources (59GEMSDOE)</title>
+<title>Data Sources — Pinned, Hashed, Auditable (59GEMSDOE H59-I2)</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
+<body>
 <nav>
   <a href="index.html">Status &amp; download</a>
   <a href="executive-summary.html">Executive summary / how to submit</a>
@@ -13,37 +14,36 @@
   <a href="data-sources.html">Data sources</a>
 </nav>
 <main>
-<h1>Data sources — pinned, hashed, auditable</h1>
+<h1>Data Sources — Pinned, Hashed, Auditable</h1>
 <p class="small">Bridge hashes prove byte identity with the pinned bridge copies, not independent
 organizer origin. The DrivenData data tab is login-walled from this sandbox; no credentials are requested or
 stored.</p>
 <table>
-<tr><th>File</th><th>Bytes</th><th>SHA256 (prefix)</th><th>Role</th></tr>
+<tr><th>File</th><th>Bytes</th><th>SHA256 (prefix)</th><th>Role in Session H59-I2</th></tr>
 <tr><td><code>data/official/training_features.tif</code></td><td>418,912,844</td><td><code>4371c82e…23bc5</code></td><td>19-band GeoDAWN numerical feature stack (magnetic, radiometric, gravity, geodetic, elevation, basement, conductivity). Restored from five hash-pinned parts on the public mirror <code>buffedlizard55-lab/6GEMSDOE</code>; verified byte-for-byte before use.</td></tr>
-<tr><td><code>data/official/labels.tif</code></td><td>425,830</td><td><code>7ba308cc…4093</code></td><td>Mapped-fault catalogue raster; byte-identical to <code>existing_faults.tif</code> (the public “labels” are the catalogue; the scored truth is not published).</td></tr>
-<tr><td><code>data/official/sample_submission.tif</code></td><td>1,599,597</td><td><code>2176d08e…5cbc</code></td><td>Grid template: EPSG:32611, 3730×3292, transform (100, 0, 243350, 0, -100, 4508550); NaN nodata defines the 5,167,373-cell footprint.</td></tr>
-<tr><td><code>data/external/sgmc_faults_100m.tif</code></td><td>213,034</td><td><code>26d142c4…1b5c</code></td><td>State Geologic Map Compilation faults; 78,433 cells off-catalogue — used only as an independent zoning diagnostic.</td></tr>
-<tr><td><code>data/external/trace_segments_utm11.csv</code></td><td>5,283,577</td><td><code>c5edf9df…8513</code></td><td>INGENIOUS/QFault vector traces (1,126 records, sense of slip, slip rate) in UTM 11.</td></tr>
-<tr><td><code>data/external/qfault_attributes.csv</code></td><td>5,786,456</td><td><code>3b8745f0…9507</code></td><td>QFaults attributes (FCODE location-reliability class, MAPSCALE, recency, slip-rate codes).</td></tr>
+<tr><td><code>data/official/labels.tif</code></td><td>425,830</td><td><code>7ba308cc…4093</code></td><td>Mapped-fault catalogue raster (<code>60,988</code> positive pixels); byte-identical to <code>existing_faults.tif</code>.</td></tr>
+<tr><td><code>data/official/sample_submission.tif</code></td><td>1,599,597</td><td><code>2176d08e…5cbc</code></td><td>Grid template: <code>EPSG:32611</code>, <code>3730&times;3292</code>, transform <code>(100, 0, 243350, 0, -100, 4508550)</code>; NaN nodata defines the <code>5,167,373</code>-cell footprint.</td></tr>
+<tr><td><code>data/external/trace_segments_utm11.csv</code></td><td>5,283,577</td><td><code>c5edf9df…8513</code></td><td>INGENIOUS/QFault vector traces (<code>84,331</code> segments across <code>1,126</code> <code>record_id</code>s in UTM 11N). Joined via 0-based row index <code>record_id</code> to <code>qfault_attributes.csv</code>, matching <code>60,988 / 60,988</code> (<code>100.0%</code>) of mapped catalogue pixels.</td></tr>
+<tr><td><code>data/external/qfault_attributes.csv</code></td><td>5,786,456</td><td><code>3b8745f0…9507</code></td><td>USGS/INGENIOUS QFaults attribute table (<code>22,956</code> records): provides official mapping-effort covariates <code>FCODE2023</code> (location reliability: <code>1=accurate</code>, <code>2=approximate</code>, <code>3=inferred/concealed</code>) and <code>MAPSCALE</code> (<code>1:100,000</code> vs <code>1:250,000</code>).</td></tr>
+<tr><td><code>data/external/sgmc_faults_100m.tif</code></td><td>213,034</td><td><code>26d142c4…1b5c</code></td><td>State Geologic Map Compilation faults; <code>78,433</code> cells off-catalogue (&gt;300 m from catalogue) — used strictly as an independent zoning diagnostic, never as a feature or placement input.</td></tr>
 </table>
 
-<h2>Official, verified references</h2>
+<h2>Official, Verified References</h2>
 <table>
 <tr><th>Source</th><th>Link</th><th>Used for</th></tr>
-<tr><td>Competition overview &amp; problem description</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a></td><td>Task, metric (distance-weighted Tversky index, α 0.2 / β 0.8, 300 m triangular kernel), new-fault definition</td></tr>
+<tr><td>Competition overview &amp; problem description</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a></td><td>Task, metric (distance-weighted Tversky index, &alpha; = 0.2 / &beta; = 0.8, 300 m triangular kernel), new-fault definition</td></tr>
 <tr><td>Competition about / data / rules</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/">page 968</a></td><td>Rules, submission format, three-per-week cap</td></tr>
 <tr><td>Reference solution</td><td><a href="https://github.com/drivendataorg/gems-prize-reference-solution">drivendataorg/gems-prize-reference-solution</a></td><td>Baseline approach, environment</td></tr>
 <tr><td>Official rules PDF (FY26 OSTI 96647)</td><td><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">96647.pdf</a></td><td>Entrant eligibility, third-party licensing, AI-use disclosure, reproducibility</td></tr>
-<tr><td>USGS GeoDAWN surveys (NW Great Basin)</td><td><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS data page</a> · <a href="https://doi.org/10.5066/P93LGLVQ">ScienceBase DOI 10.5066/P93LGLVQ</a></td><td>Acquisition-block geometry (needed, not obtainable from this sandbox — IR-59-EFFORT-02)</td></tr>
-<tr><td>INGENIOUS compilation (GDR 1391)</td><td><a href="https://gdr.openei.org/submissions/1391">gdr.openei.org/submissions/1391</a></td><td>Catalogue provenance, licensing review</td></tr>
-<tr><td>EPSG:32611</td><td><a href="https://epsg.io/32611">epsg.io/32611</a></td><td>Grid CRS</td></tr>
-<tr><td>Phillips et al. 2009</td><td><a href="https://doi.org/10.1890/07-2153.1">doi:10.1890/07-2153.1</a> (Ecol. Appl. 19:181–197)</td><td>Sample-selection bias / target-group background</td></tr>
-<tr><td>Fithian &amp; Hastie 2013</td><td><a href="https://doi.org/10.1214/13-AOAS610">doi:10.1214/13-AOAS610</a> (Ann. Appl. Stat. 7)</td><td>MaxEnt ≡ Poisson point-process equivalence</td></tr>
+<tr><td>USGS GeoDAWN surveys (NW Great Basin)</td><td><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS data page</a> · <a href="https://doi.org/10.5066/P93LGLVQ">ScienceBase DOI 10.5066/P93LGLVQ</a></td><td>Airborne magnetic &amp; radiometric survey context</td></tr>
+<tr><td>INGENIOUS compilation (GDR 1391)</td><td><a href="https://gdr.openei.org/submissions/1391">gdr.openei.org/submissions/1391</a></td><td>Catalogue provenance, QFaults field definitions (<code>FCODE2023</code>, <code>MAPSCALE</code>)</td></tr>
+<tr><td>EPSG:32611</td><td><a href="https://epsg.io/32611">epsg.io/32611</a></td><td>Grid CRS (WGS 84 / UTM zone 11N)</td></tr>
+<tr><td>Phillips et al. 2009</td><td><a href="https://doi.org/10.1890/07-2153.1">doi:10.1890/07-2153.1</a> (<em>Ecol. Appl.</em> 19:181–197)</td><td>Sample-selection bias / target-group background &amp; effort covariates</td></tr>
+<tr><td>Fithian &amp; Hastie 2013</td><td><a href="https://doi.org/10.1214/13-AOAS610">doi:10.1214/13-AOAS610</a> (<em>Ann. Appl. Stat.</em> 7:1917–1939)</td><td>Finite-sample equivalence of MaxEnt and inhomogeneous Poisson point processes</td></tr>
 </table>
-<p class="small">Verification status: every hash above was recomputed from the bytes in this repository
-(<code>scripts/prepare_data.py --fetch</code> verifies on restore). Scientific citations were checked against
-publisher records. Sandbox egress is limited to GitHub, npm and PyPI hosts, so no external data were
-downloaded this session.</p>
 </main>
+<footer>
+<p class="small" style="text-align:center; padding: 12px 0; color: #555;">59GEMSDOE · Data Sources · <a href="data/run_card.json">run_card.json</a></p>
+</footer>
 </body>
 </html>

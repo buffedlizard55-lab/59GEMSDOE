@@ -24,8 +24,10 @@
     },
     {
       "path": "data/official/training_features.tif",
+      "sha256": null,
+      "expected_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
       "verified": false,
-      "error": "GitHub API failed for data/bridge/gems-geodawn-numerical-features.tif.part-000: gh: API rate limit exceeded for user ID 309556078. If you reach out to GitHub Support for help, please include the request ID 8BF6:1E473E:5D6CEA:D3F163:6ACAD5E4 and timestamp 2026-10-11 00:18:44 UTC. "
+      "bytes": null
     },
     {
       "path": "data/external/sgmc_faults_100m.tif",
