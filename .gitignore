@@ -1,0 +1,14 @@
+# --- large / regenerable artefacts (never commit) ---
+# feature stack memmap, per-fold fields, emission masks, registry download cache
+work/
+# restored competition bytes; pinned by sha256 in registry/data_manifest.json
+data/
+# scratch
+inputs/
+*.f32
+*.part
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/

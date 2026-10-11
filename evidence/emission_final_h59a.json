@@ -1,0 +1,15 @@
+{
+ "dots_file": "/home/user/59GEMSDOE/work/dots_final_h59a_s3.0_n38593.npy",
+ "n_dots": 38593,
+ "spacing": 3.0,
+ "nms_half": 2,
+ "tau": 0.00011460712960595265,
+ "budget": 40000,
+ "flank_px": 2,
+ "support_px": 4761049,
+ "delta_max": 1.8613392114639282,
+ "delta_mean": 0.07532515376806259,
+ "on_catalogue": 0,
+ "within_2px_of_catalogue": 0,
+ "generated_utc": "2026-10-11T02:05:23Z"
+}

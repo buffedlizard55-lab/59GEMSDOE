@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary — how to submit</title>
+<link rel="stylesheet" href="assets/site.css"></head><body>
+<header><div class="wrap">
+<h1>Executive summary — how to submit</h1>
+<div class="dim">The shortest possible path from this page to a scored submission.</div>
+<nav><a href="index.html" class="">Home</a><a href="executive-summary.html" class="on">Executive summary / how to submit</a><a href="hypotheses.html" class="">Hypotheses</a><a href="research.html" class="">Research &amp; method</a><a href="leaderboard.html" class="">Leaderboard</a><a href="sources.html" class="">Sources</a><a href="geothermal-knowledge.html" class="">Geothermal knowledge</a><a href="irregularities.html" class="">Irregularities</a></nav>
+</div></header>
+<div class="wrap">
+
+<div class="card big">
+<h2 style="margin-top:0;border:0;padding:0">⬇ Submission file — one click</h2>
+<p><span class="pill ok">OK TO DOWNLOAD</span>
+&nbsp;<span class="pill ok">OK TO SUBMIT</span></p>
+<p><a class="btn" href="downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif">⬇ Download gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif</a>
+<a class="btn alt" href="downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip">⬇ ZIP (one GeoTIFF inside)</a></p>
+<table>
+<tr><th>property</th><th>value</th></tr>
+<tr><td>bytes</td><td class="n">795,960</td></tr>
+<tr><td>sha256</td><td class="mono">8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842</td></tr>
+<tr><td>emitted pixels</td><td class="n">38,593</td></tr>
+<tr><td>dots on / within 2 px of the mapped catalogue</td><td class="n">0</td></tr>
+<tr><td>CRS / shape / geotransform</td><td>EPSG:32611 · 3730x3292 · (100,0,243350,0,-100,4508550)</td></tr>
+<tr><td>value range</td><td class="n">min 0.0 max 1.0</td></tr>
+</table>
+<h3>Validator output (re-read from the bytes on disk)</h3>
+<table><tr><th>check</th><th class="n">result</th></tr><tr><td>single_band</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>dtype_float32</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>crs_epsg32611</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>shape_3730x3292</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>transform_matches</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>all_finite</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>min_ge_0</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>max_le_1</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>no_nan_inside_footprint</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>inside_range_0_1</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>outside_is_zero</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>n_positive</td><td class='n'>38593</td></tr></table>
+<h3>Paste these two strings into the portal form</h3>
+<table>
+<tr><th style="width:190px">field</th><th>value</th></tr>
+<tr><td>submission&nbsp;name</td><td class="mono">GEMSDOE59-H59A-IZBT</td></tr>
+<tr><td>note (optional)</td><td class="mono">1 km new-fault-density zoning then break-even tiling: 38,593 dots, min sep 3.16 px, 0 within 200 m of the mapped catalogue. UNSCORED. <span class="dim">(133/140)</span></td></tr>
+</table>
+</div>
+
+<h2>Exactly how to submit — four steps</h2>
+<div class="card">
+<ol>
+<li><b>Download.</b> Click the green button above and save <code>gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif</code>. A
+<code>.zip</code> containing exactly one GeoTIFF is offered as well; the portal accepts either.</li>
+<li><b>Open the submission page.</b>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">drivendata.org/competitions/306/competition-doe-gems/submissions/</a>
+→ <b>New submission</b>.</li>
+<li><b>Choose the file.</b> <code>File to submit</code> → pick the <code>.tif</code> (or the
+<code>.zip</code>). Do <b>not</b> upload an HTML page, a JSON receipt, a PDF, or a zip of this
+repository — those are rejected.</li>
+<li><b>Paste the name and the note</b> shown above, then submit.</li>
+</ol>
+</div>
+<h2>The error we hit, and why this file cannot hit it</h2>
+<div class="banner"><b>"Predicted values must be in range [0, 1]"</b> is returned when the array
+contains a value outside <code>[0, 1]</code>. A raster that stores <code>NaN</code> outside the
+bounds satisfies the <i>rules</i> ("data outside the bounds is null or nan") but <b>fails the
+portal</b>, whose range check reads every cell. This release therefore writes <b>0.0 outside the
+footprint</b>, so every cell is finite and inside the range;
+<code>scripts/submission_writer.py</code> re-reads and re-validates the file it wrote, and the
+result is printed on this page.</div>
+<h2>What the file is</h2>
+<table>
+<tr><th>property</th><th>value</th></tr>
+<tr><td>format</td><td>single-band GeoTIFF, <code>float32</code></td></tr>
+<tr><td>CRS</td><td>EPSG:32611 (WGS 84 / UTM 11N)</td></tr>
+<tr><td>shape</td><td>3730 × 3292</td></tr>
+<tr><td>geotransform</td><td class="mono">(100, 0, 243350, 0, −100, 4508550)</td></tr>
+<tr><td>values</td><td>0 or 1 inside the footprint; 0 outside; every cell finite</td></tr>
+</table>
+<h2>Submission slots</h2>
+<p>This project <b>never clicks Submit</b> and <b>never spends a weekly slot</b>. Promotion to a
+real slot is a separate selector decision, inside the weekly cap shown on the submission page.
+Publishing a candidate here is not a submission.</p>
+
+<footer>59GEMSDOE · DOE GEMS Prize (DrivenData #306) · every number on these pages is read from a
+receipt in <code>evidence/</code> or <code>registry/</code>. Nothing here is a competition score
+unless it is labelled <span class="pill ok">ORGANIZER-CONFIRMED</span>.
+Generated 2026-10-11T03:00:31Z.</footer>
+</div></body></html>

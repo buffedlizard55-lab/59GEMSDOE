@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>59GEMSDOE — intensity-zoned fault discovery (DOE GEMS Prize #306)</title>
+<link rel="stylesheet" href="assets/site.css"></head><body>
+<header><div class="wrap">
+<h1>59GEMSDOE — intensity-zoned fault discovery (DOE GEMS Prize #306)</h1>
+<div class="dim">A unique, validated GeoTIFF for the DOE GEMS Prize — download it, submit it, and check every claim.</div>
+<nav><a href="index.html" class="on">Home</a><a href="executive-summary.html" class="">Executive summary / how to submit</a><a href="hypotheses.html" class="">Hypotheses</a><a href="research.html" class="">Research &amp; method</a><a href="leaderboard.html" class="">Leaderboard</a><a href="sources.html" class="">Sources</a><a href="geothermal-knowledge.html" class="">Geothermal knowledge</a><a href="irregularities.html" class="">Irregularities</a></nav>
+</div></header>
+<div class="wrap">
+
+<div class="card big">
+<h2 style="margin-top:0;border:0;padding:0">⬇ Submission file — one click</h2>
+<p><span class="pill ok">OK TO DOWNLOAD</span>
+&nbsp;<span class="pill ok">OK TO SUBMIT</span></p>
+<p><a class="btn" href="downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif">⬇ Download gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif</a>
+<a class="btn alt" href="downloads/gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.zip">⬇ ZIP (one GeoTIFF inside)</a></p>
+<table>
+<tr><th>property</th><th>value</th></tr>
+<tr><td>bytes</td><td class="n">795,960</td></tr>
+<tr><td>sha256</td><td class="mono">8c0c614231b381c2c1af759cee0776eabf13b73d5ce8ca7bd45563f90d0ef842</td></tr>
+<tr><td>emitted pixels</td><td class="n">38,593</td></tr>
+<tr><td>dots on / within 2 px of the mapped catalogue</td><td class="n">0</td></tr>
+<tr><td>CRS / shape / geotransform</td><td>EPSG:32611 · 3730x3292 · (100,0,243350,0,-100,4508550)</td></tr>
+<tr><td>value range</td><td class="n">min 0.0 max 1.0</td></tr>
+</table>
+<h3>Validator output (re-read from the bytes on disk)</h3>
+<table><tr><th>check</th><th class="n">result</th></tr><tr><td>single_band</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>dtype_float32</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>crs_epsg32611</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>shape_3730x3292</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>transform_matches</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>all_finite</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>min_ge_0</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>max_le_1</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>no_nan_inside_footprint</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>inside_range_0_1</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>outside_is_zero</td><td class='n'><span class="pill ok">PASS</span></td></tr><tr><td>n_positive</td><td class='n'>38593</td></tr></table>
+<h3>Paste these two strings into the portal form</h3>
+<table>
+<tr><th style="width:190px">field</th><th>value</th></tr>
+<tr><td>submission&nbsp;name</td><td class="mono">GEMSDOE59-H59A-IZBT</td></tr>
+<tr><td>note (optional)</td><td class="mono">1 km new-fault-density zoning then break-even tiling: 38,593 dots, min sep 3.16 px, 0 within 200 m of the mapped catalogue. UNSCORED. <span class="dim">(133/140)</span></td></tr>
+</table>
+</div>
+
+<h2>What this repository does</h2>
+<p>It fits a <b>presence-only Poisson point-process intensity</b> for faults from the published
+catalogue, corrects it for <b>mapping effort</b>, aggregates it to <b>1 km blocks</b>, and then
+tiles only the blocks whose predicted fault density clears the <b>break-even bar implied by the
+organizer's own scoring equation</b>. Nothing else.</p>
+<div class="card"><h3 style="margin-top:0">The one equation</h3>
+<p class="mono">DTI = TP_w / (TP_w + 0.2·FP_w + 0.8·FN_w), FN_w = |G| − TP_w
+&nbsp;⟹&nbsp; DTI = TP_w / (0.2·TP_w + 0.2·FP_w + 0.8·|G|)</p>
+<p>Differentiating with respect to the mass emitted at one pixel: <b>emit a pixel iff its expected
+kernel weight Δ(x) ≥ 0.2 × DTI</b>. At the group's incumbent 0.2778 that bar is <b>0.0556</b>; for a
+1 km block it means <b>1.85 px of fault trace per 100 px block</b> — the "a lattice only pays above
+~1–2 % density" rule, derived rather than assumed. See
+<a href="research.html">Research &amp; method</a>.</p></div>
+<div class="grid2">
+<div class="card"><h3 style="margin-top:0">Leakage canary</h3>
+<p>CLEAN — no single channel separates withheld fault pixels
+from background above AUC <b>0.90</b> on the screening fold. Highest single channel:
+<b>trace_density 0.5801</b>.</p>
+<p class="dim">A clean screen is not proof of zero leakage; it is one necessary check.</p></div>
+<div class="card"><h3 style="margin-top:0">Uniqueness (parallel-run drift gate)</h3>
+<p>Compared against <b>696</b> registered prior rasters
+(696 downloaded and hash-verified).</p>
+<p><b>Surface phase</b> (the continuous field before placement): max Spearman
+<b>0.6718</b> vs the 0.90 gate →
+<span class="pill ok">PASS</span></p>
+<p><b>Dots phase</b> (the 38,593 emitted pixels): the literal “>70 % of my dots within 3 px” rule is
+tripped by <b>20</b> of 696
+registered rasters — but those are dense continuous surfaces, several of them positive over every
+footprint pixel, so <i>any</i> dot pattern trips it. The honest test is the chance-corrected lift:
+max <b>1.999×</b> vs a 3.0× gate →
+<span class="pill ok">NO DRIFT</span></p>
+<p class="small">max chance-corrected lift 1.999, and that is on a 244-dot registry raster with raw overlap 0.0012. The literal &gt;0.70 rule is tripped by 20 of 696 rasters, but those are dense continuous surfaces: the maximum lift among them is 1.068 (272,853-dot raster covering 69.6% of the footprint within 3 px) and several have lift exactly 1.000 because they are positive over all 5,167,373 footprint pixels, so any dot pattern trips the literal rule against them.</p></div>
+</div>
+<h2>Honest status</h2>
+<ul class="tight">
+<li><b>No organizer score exists for anything in this repository.</b> Every local number is
+<code>HOLDOUT-DTI</code> or <code>PROXY</code>, measured on the published catalogue — which is
+exactly the population the prize does <i>not</i> score.</li>
+<li>The public board leader is <b>ORGANIZER-PUBLISHED 0.3774</b>; the group's best owner-reported
+artifact is <b>0.2778</b>. Those are the numbers to beat and neither is beaten here — they are not
+comparable to a holdout number.</li>
+<li>This session's measured findings are the <b>leakage ablation</b> and the <b>break-even emission
+sweep</b>. Both are on <a href="research.html">Research &amp; method</a>, including the two things
+that did not work.</li>
+</ul>
+
+<footer>59GEMSDOE · DOE GEMS Prize (DrivenData #306) · every number on these pages is read from a
+receipt in <code>evidence/</code> or <code>registry/</code>. Nothing here is a competition score
+unless it is labelled <span class="pill ok">ORGANIZER-CONFIRMED</span>.
+Generated 2026-10-11T03:00:31Z.</footer>
+</div></body></html>

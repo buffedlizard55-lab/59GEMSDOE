@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "retrieved_utc": "2026-10-11T00:00:00Z",
+  "note": ("Context only. ORGANIZER-PUBLISHED rows were read from the public leaderboard; "
+           "OWNER-REPORTED rows were pasted by the owner from a submission page. Neither is "
+           "comparable to a HOLDOUT-DTI measured in this repository: the truth population, its "
+           "size and the emission support all differ."),
+  "rows": [
+    {"score": "0.3774", "artifact": "xiaofanhu (public leaderboard #1)", "site": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/", "evidence_class": "ORGANIZER-PUBLISHED"},
+    {"score": "0.3418", "artifact": "JerryDataWorks (#2)", "site": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/", "evidence_class": "ORGANIZER-PUBLISHED"},
+    {"score": "0.3361", "artifact": "alexoktaba (#3)", "site": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/", "evidence_class": "ORGANIZER-PUBLISHED"},
+    {"score": "0.3300", "artifact": "Batik Shirt Brothers (#4)", "site": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/", "evidence_class": "ORGANIZER-PUBLISHED"},
+    {"score": "0.3262", "artifact": "nchuzhoy (#5)", "site": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/", "evidence_class": "ORGANIZER-PUBLISHED"},
+    {"score": "0.2778", "artifact": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros (group best)", "site": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.2750", "artifact": "anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros", "site": "https://buffedlizard55-lab.github.io/GEMSDOE36/docs/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.2710", "artifact": "h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan", "site": "https://buffedlizard55-lab.github.io/GEMSDOE28/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.2708", "artifact": "h27-4-solo-d28-20261004-8acb75e1-nan", "site": "https://buffedlizard55-lab.github.io/GEMSDOE31/docs/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.2632", "artifact": "h33d-analog-tip-stepover-r30-20261004-cb490425926e", "site": "https://buffedlizard55-lab.github.io/GEMSDOE33/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.2600", "artifact": "d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca", "site": "https://buffedlizard55-lab.github.io/GEMSDOE30/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.2477", "artifact": "h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan", "site": "https://buffedlizard55-lab.github.io/GEMSDOE24/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.2376", "artifact": "gate_ortho_w0.25-40k-20261006T213721Z-nan", "site": "https://buffedlizard55-lab.github.io/GEMSDOE49/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.2296", "artifact": "h59-cover-ds-belief-b2xh33d-20261008T184547Z-b79c4c61d8d8", "site": "https://buffedlizard55-lab.github.io/GEMSDOE48/docs/index.html", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.1922", "artifact": "h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan", "site": "https://buffedlizard55-lab.github.io/19GEMSDOE/docs/index.html", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.1894", "artifact": "h19-4-multiline-corroborated-openness-thermal-pop-20260930-691e4dfa-nan", "site": "https://buffedlizard55-lab.github.io/19GEMSDOE/docs/index.html", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.1855", "artifact": "h16-1-topo-geophys-baseline-ridges-20260930-df20f65e-nan", "site": "https://buffedlizard55-lab.github.io/16GEMSDOE/docs/index.html", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.1839", "artifact": "h28-dotted-ridge-20260928T020256236880Z-6452ae1d00", "site": "https://buffedlizard55-lab.github.io/GEMSDOE10/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.1563", "artifact": "gems-submission-20260925T001403Z-7f00890a", "site": "https://buffedlizard55-lab.github.io/GEMSDOE/docs/index.html", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.1461", "artifact": "lidarscarp-ridge-top2pct-36c3a3f341c8", "site": "https://buffedlizard55-lab.github.io/7GEMSDOE/", "evidence_class": "OWNER-REPORTED"},
+    {"score": "0.1294", "artifact": "r7-nms3-dem10-scarp_0c9199f14e62", "site": "https://buffedlizard55-lab.github.io/12GEMSDOE/docs/index.html", "evidence_class": "OWNER-REPORTED"}
+  ],
+  "live_anchored_structural_evidence": {
+    "source": "https://github.com/buffedlizard55-lab/57GEMSDOE (n = 15 owner-reported live scores)",
+    "spearman_with_live_score": {
+      "dot_count_log": -0.81,
+      "dots_at_0_to_5_deg_relative_strike": -0.81,
+      "dots_at_25_to_30_deg_relative_strike": 0.864,
+      "dots_within_2px_of_a_mapped_fault": -0.544,
+      "median_distance_to_catalogue": 0.766
+    },
+    "reading": ("These are measured correlations over the group's own scored artifacts. They are the "
+                "reason the released emission keeps 0 dots within 2 px of the mapped catalogue and "
+                "spends its budget at ~38-40k dots. They are OWNER-REPORTED evidence, not a local "
+                "measurement, and they are correlations, not demonstrated causation.")
+  }
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Research &amp; method</title>
+<link rel="stylesheet" href="assets/site.css"></head><body>
+<header><div class="wrap">
+<h1>Research &amp; method</h1>
+<div class="dim">What was implemented, what was measured, and what failed.</div>
+<nav><a href="index.html" class="">Home</a><a href="executive-summary.html" class="">Executive summary / how to submit</a><a href="hypotheses.html" class="">Hypotheses</a><a href="research.html" class="on">Research &amp; method</a><a href="leaderboard.html" class="">Leaderboard</a><a href="sources.html" class="">Sources</a><a href="geothermal-knowledge.html" class="">Geothermal knowledge</a><a href="irregularities.html" class="">Irregularities</a></nav>
+</div></header>
+<div class="wrap">
+
+<h2>Method</h2>
+<ol>
+<li><b>Presence-only Poisson point process.</b> Mapped fault pixels are a realisation of
+<code>lambda_obs(x) = lambda(x)·b(x)·rho</code> — true fault intensity times detection probability.
+MaxEnt with target-group background is equivalent in form to this model
+(<a href="https://projecteuclid.org/journals/annals-of-applied-statistics/volume-7/issue-3/10.1214/13-AOAS667">Fithian &amp; Hastie 2013</a>),
+and presence-only data are biased by where surveyors looked
+(<a href="https://doi.org/10.1890/07-2153.1">Phillips et al. 2009</a>), so effort channels enter the
+fit explicitly. We fit the discriminant with a case–control design and convert back with the odds
+(<a href="https://doi.org/10.1093/biomet/66.3.403">Prentice &amp; Pyke 1979</a>):
+<code>lambda ∝ p/(1−p)</code>.</li>
+<li><b>Effort correction.</b> Bias channels are clamped to a common "fully mapped" reference and the
+model re-evaluated, giving <code>lambda_new = lambda_ref − lambda_obs</code>: the faults that are
+really there minus the ones the catalogue already has.</li>
+<li><b>1 km zoning.</b> The intensity is aggregated to 10 × 10 px blocks. 1 km deliberately exceeds
+the ~400 m registration error between published traces and true surface traces, so a block-level
+<i>count</i> is robust to misregistration in a way a per-pixel posterior is not.</li>
+<li><b>Break-even tiling.</b> Blocks predicted below <code>100·0.2·DTI*/3</code> trace pixels per
+block are not tiled; inside a surviving block, dots go on the highest-Δ pixels at a minimum
+separation read from the sweep below.</li>
+</ol>
+<h2>Finding 1 — three channels were pure leakage (measured, then removed)</h2>
+<p><code>dist_visible_fault</code>, <code>visible_fault_dens_5k</code> and
+<code>visible_fault_dens_20k</code> are computed from the <i>visible</i> catalogue and are exactly
+zero (or maximal) on the catalogue pixels that form the training presence set. A model that sees
+them separates the training data almost perfectly — train loss ≈ 0.02 — and then scores
+<b>AUC 0.500</b> on withheld segments. Measured:</p>
+<table><tr><th>channel set</th><th class="n">channels</th><th class="n">holdout AUC (withheld segments)</th></tr>
+<tr><td>all channels</td><td class="n">55</td><td class="n">0.5000 <span class="pill bad">leakage</span></td></tr>
+<tr><td>geophysics only (still has the catalogue channels)</td><td class="n">51</td><td class="n">0.5000 <span class="pill bad">leakage</span></td></tr>
+<tr><td><b>catalogue channels removed</b></td><td class="n">52</td><td class="n"><b>0.8354</b> <span class="pill ok">kept</span></td></tr>
+</table>
+<p>Every model in this repository now excludes them. This is the single largest measured effect of
+the session and it is a <i>removal</i>, not an addition.</p>
+<h2>Finding 2 — counterfactual clamping of the effort channels does not work here</h2>
+<p>Clamping <code>dist_lidar → 0</code>, <code>mapscale_field → 2.0</code> and the two density
+channels → p95 produces a design that is out-of-distribution for a histogram gradient-boosting
+model, and the resulting counterfactual field came out <b>anti-correlated</b> with the withheld
+faults (AUC 0.0122, i.e. 0.988 in the wrong direction). The arm is retained in
+<code>src/gems59/intensity.py</code> and reported as <b>negative</b>. The released field uses the
+fitted intensity without the counterfactual gap.</p>
+<h2>Emission sweep on the holdout</h2>
+<p>h59a · arm <code>with_trace</code> ·
+top of the (spacing × break-even bar) grid, fold 0:</p>
+<table><tr><th class="n">spacing (px)</th><th class="n">bar τ</th><th class="n">dots</th>
+<th class="n">HOLDOUT-DTI</th></tr><tr><td class='n'>2.5</td><td class='n'>0.03</td><td class='n'>13,947</td><td class='n'>0.0891</td></tr><tr><td class='n'>3.0</td><td class='n'>0.03</td><td class='n'>13,947</td><td class='n'>0.0891</td></tr><tr><td class='n'>2.5</td><td class='n'>0.045</td><td class='n'>10,812</td><td class='n'>0.0853</td></tr><tr><td class='n'>3.0</td><td class='n'>0.045</td><td class='n'>10,812</td><td class='n'>0.0853</td></tr><tr><td class='n'>2.5</td><td class='n'>0.056</td><td class='n'>9,007</td><td class='n'>0.0810</td></tr><tr><td class='n'>3.0</td><td class='n'>0.056</td><td class='n'>9,007</td><td class='n'>0.0810</td></tr><tr><td class='n'>4.0</td><td class='n'>0.03</td><td class='n'>10,843</td><td class='n'>0.0750</td></tr><tr><td class='n'>2.5</td><td class='n'>0.07</td><td class='n'>7,173</td><td class='n'>0.0746</td></tr><tr><td class='n'>3.0</td><td class='n'>0.07</td><td class='n'>7,173</td><td class='n'>0.0746</td></tr><tr><td class='n'>4.0</td><td class='n'>0.045</td><td class='n'>8,550</td><td class='n'>0.0718</td></tr><tr><td class='n'>4.0</td><td class='n'>0.056</td><td class='n'>7,196</td><td class='n'>0.0679</td></tr><tr><td class='n'>5.0</td><td class='n'>0.03</td><td class='n'>8,550</td><td class='n'>0.0654</td></tr><tr><td class='n'>2.5</td><td class='n'>0.09</td><td class='n'>5,164</td><td class='n'>0.0640</td></tr><tr><td class='n'>3.0</td><td class='n'>0.09</td><td class='n'>5,164</td><td class='n'>0.0640</td></tr></table>
+<p>Best fold mean <b>0.08811</b> at <b>13998.0</b>
+dots on a holdout truth of <b>13994.5</b> withheld pixels. The sweep optimum
+is <b>2.5–3.0 px in both folds</b>, and DTI was still rising at the largest count tested (N ≈ G),
+so the holdout gives a <i>spacing</i> but not a trustworthy <i>budget</i>: its truth population is
+about a third of the catalogue, whereas deployment is scored on the whole thing.</p>
+<p>Carrying it to deployment: the bisection that produced the sweep block targeted
+N·(G<sub>assumed</sub>/G<sub>holdout</sub>) = <b>28967</b> dots at spacing
+<b>2.75</b> px. <b>That is not what was shipped.</b> The released emission is
+<b>38593</b> dots at spacing <b>3.0</b> px with an
+explicit 2-px non-maximum window, τ = 0.00011460712960595265:</p>
+<ol>
+<li>The sweep's τ bisection saturates — the field simply does not contain 28967
+distinct peaks at the spacing the sweep validated, so the bisection runs to the floor of the field
+and returns fewer dots than asked for.</li>
+<li>The budget is therefore taken from <b>OWNER-REPORTED live evidence</b> instead: over the
+group's 15 scored artifacts, log dot-count correlates <b>−0.81</b> with the live score and the
+artifacts that scored 0.2376–0.2778 carried <b>~38–40k</b> dots. Spacing stays on our own sweep.</li>
+<li>Decoupling the non-maximum window from the inhibition radius is what makes ~38.6k reachable at
+the validated 3.0 px separation. Measured minimum pairwise distance on the release is
+<b>3.162 px</b>, and 0 dots fall on or within 2 px of the mapped catalogue.</li>
+</ol>
+<p class="dim">The dot count is anchored to live evidence and the spacing to our holdout —
+<b>the two are anchored differently, and this is stated rather than hidden</b>.</p>
+<p class="dim">These are <code>HOLDOUT-DTI</code> values on the published catalogue. They are not
+competition scores and are not comparable to the leaderboard: the truth population, its size and
+the support all differ.</p>
+<h2>Highest single-channel AUCs (deployment-matched fold)</h2>
+<p>The three channels at the top of this screen are the leakage channels, and their high single-channel
+score is exactly the leakage signature: they rank well because they are computed from the catalogue
+itself. They are <b>excluded</b> from every model here. The first channel that is actually in the
+model is <code>trace_density</code>.</p>
+<table><tr><th>channel</th><th class="n">max(AUC, 1−AUC)</th></tr><tr><td class='mono'>dist_visible_fault <span class='pill bad'>excluded — leakage</span></td><td class='n'>0.7725</td></tr><tr><td class='mono'>visible_fault_dens_20k <span class='pill bad'>excluded — leakage</span></td><td class='n'>0.7425</td></tr><tr><td class='mono'>visible_fault_dens_5k <span class='pill bad'>excluded — leakage</span></td><td class='n'>0.7422</td></tr><tr><td class='mono'>trace_density</td><td class='n'>0.7306</td></tr><tr><td class='mono'>l_lappos_max</td><td class='n'>0.5977</td></tr><tr><td class='mono'>l_lapneg_max</td><td class='n'>0.5934</td></tr><tr><td class='mono'>l_relief</td><td class='n'>0.5924</td></tr><tr><td class='mono'>l_step_max</td><td class='n'>0.5884</td></tr><tr><td class='mono'>l_ex_max</td><td class='n'>0.5847</td></tr><tr><td class='mono'>ridge_det_elev</td><td class='n'>0.5808</td></tr><tr><td class='mono'>l_upface_max</td><td class='n'>0.58</td></tr><tr><td class='mono'>l_ex_mean</td><td class='n'>0.5727</td></tr><tr><td class='mono'>geod_2ndinv</td><td class='n'>0.5717</td></tr><tr><td class='mono'>det_elev_slope</td><td class='n'>0.5703</td></tr><tr><td class='mono'>geod_shearrate</td><td class='n'>0.5673</td></tr><tr><td class='mono'>l_downface_max</td><td class='n'>0.5664</td></tr></table>
+<h2>Uniqueness</h2>
+<p>Surface phase: max Spearman <b>0.6718</b>. Dots phase: max
+chance-corrected lift <b>1.999×</b>, over 696 registered
+rasters.</p>
+
+<footer>59GEMSDOE · DOE GEMS Prize (DrivenData #306) · every number on these pages is read from a
+receipt in <code>evidence/</code> or <code>registry/</code>. Nothing here is a competition score
+unless it is labelled <span class="pill ok">ORGANIZER-CONFIRMED</span>.
+Generated 2026-10-11T03:00:31Z.</footer>
+</div></body></html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leaderboard context</title>
+<link rel="stylesheet" href="assets/site.css"></head><body>
+<header><div class="wrap">
+<h1>Leaderboard context</h1>
+<div class="dim">Every score we can cite, with its evidence class and what it does and does not license.</div>
+<nav><a href="index.html" class="">Home</a><a href="executive-summary.html" class="">Executive summary / how to submit</a><a href="hypotheses.html" class="">Hypotheses</a><a href="research.html" class="">Research &amp; method</a><a href="leaderboard.html" class="on">Leaderboard</a><a href="sources.html" class="">Sources</a><a href="geothermal-knowledge.html" class="">Geothermal knowledge</a><a href="irregularities.html" class="">Irregularities</a></nav>
+</div></header>
+<div class="wrap">
+
+<h2>Leaderboard context</h2>
+<div class="banner"><b>Numbers below are not ours and not comparable to our holdout.</b>
+<span class="pill warn">ORGANIZER-PUBLISHED</span> values come from the public leaderboard;
+<span class="pill warn">OWNER-REPORTED</span> values were pasted by the owner from a submission
+page. A <code>HOLDOUT-DTI</code> measured here on the published catalogue cannot be ranked against
+either.</div>
+<table><tr><th class="n">score</th><th>artifact</th><th>site</th><th>evidence class</th></tr></table>
+<h2>Why 0.2778 was the group's best — and what that implies</h2>
+<p>The published lineage is a <b>sequence of emissions over one base field</b>, not a sequence of
+better models: <code>h25-1-dotted-h19-5-d1-5</code> 0.2477 → <code>d28-poisson300m-offcat</code>
+0.2600 → <code>h27-4-solo-d28</code> 0.2708 → <code>h33-h33-2-b2</code> 0.2778. The 0.2778 file is
+the 0.2708 dot set with every dot within <b>2 px of the published catalogue removed</b> — a pure
+emission change worth +0.0070. That is consistent with the algebra above: the metric charges
+<code>α = 0.2</code> per emitted pixel, so removing dots that cannot score is free money, and the
+catalogue-adjacent ones are exactly those.</p>
+<p>Our reading: the marginal gains available in this family are in <b>where the dots go and how many
+there are</b>, not in a better classifier. That is what the break-even rule and the spacing sweep
+target.</p>
+
+<footer>59GEMSDOE · DOE GEMS Prize (DrivenData #306) · every number on these pages is read from a
+receipt in <code>evidence/</code> or <code>registry/</code>. Nothing here is a competition score
+unless it is labelled <span class="pill ok">ORGANIZER-CONFIRMED</span>.
+Generated 2026-10-11T03:00:31Z.</footer>
+</div></body></html>
