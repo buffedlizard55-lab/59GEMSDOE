@@ -1,0 +1,142 @@
+{
+  "file": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+  "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+  "bytes": 131274,
+  "submission_name": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z",
+  "note": "H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 35k budget.",
+  "note_chars": 124,
+  "validator": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+    "bytes": 131274,
+    "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.0025095364544540644,
+    "emitted_positive_pixels": 30815,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 30815,
+    "footprint_fraction": 0.005963378296863803
+  },
+  "template_report": {
+    "path": "/home/user/59GEMSDOE/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+    "bytes": 131274,
+    "sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+    "bands": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "width": 3292,
+    "height": 3730,
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "ref_bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "blocksize": [
+      256,
+      256
+    ],
+    "fixture_grid": false,
+    "has_validity_mask": false,
+    "nan_pixels": 0,
+    "infinity_pixels": 0,
+    "n_nan": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.0025095364544540644,
+    "n_nonzero": 30815,
+    "mass": 30815.0,
+    "mass_outside_footprint": 0,
+    "problems": [],
+    "ok": true,
+    "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+  },
+  "zip_file": "gems59-h59j-coherence-consensus-dotted-20261011T043000Z.zip",
+  "zip_sha256": "79144a64774d6eb3f4d8a309f6b11b891905f2e5d171493438a9272315605f81",
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "submission_slots_used": 0,
+  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "metadata": {
+    "lane": "intensity/coherence",
+    "hypothesis": "H59-J",
+    "physics": [
+      "det_elev",
+      "rtp",
+      "iso_grav_anom"
+    ],
+    "scales_px": [
+      2.0,
+      5.0
+    ],
+    "collar_px": 2,
+    "budget": 36000,
+    "n_sites": 19187,
+    "n_sites_kept": 12000,
+    "n_dots": 30815,
+    "fragment": 3,
+    "fragment_step_px": 2,
+    "consensus_at_catalogue": 0.4840976893901825,
+    "live_calibration": "evidence/h59j_live_calibration.json",
+    "generated_utc": "2026-10-11T01:54:47Z"
+  }
+}

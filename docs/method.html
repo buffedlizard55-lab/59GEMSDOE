@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Method &amp; evidence (59GEMSDOE H59-I)</title>
+<title>Method &amp; evidence (59GEMSDOE H59-J)</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <nav>
@@ -13,7 +13,13 @@
   <a href="data-sources.html">Data sources</a>
 </nav>
 <main>
-<h1>Method &amp; evidence — intensity lane (H59-I)</h1>
+<h1>Method &amp; evidence — intensity lane (current candidate H59-J)</h1>
+<p class="small">This page records the lane's method. The <strong>current</strong> candidate is H59-J
+(structure-tensor ridge coherence consensus, 30,815 dots): its run card is
+<a href="data/run_card.json">docs/data/run_card.json</a>, its method is hypothesis H1 in
+<a href="research.html">docs/research/hypotheses-v2.md</a>, and its clearance numbers are in the panel below.
+The H59-I intensity lattice described in the next panel is an <strong>archived negative</strong> (holdout
+0.08216 &lt; the 0.135204 comparator) that is kept on the record, not promoted.</p>
 
 <div class="panel">
 <h2 style="margin-top:0">Hypothesis</h2>
@@ -74,22 +80,29 @@ is used here only as this structural check.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">Registry uniqueness (all 695 accessible rasters, 0 errors)</h2>
+<h2 style="margin-top:0">Registry uniqueness — current candidate H59-J (all 695 pinned rasters, 0 errors)</h2>
 <p>Screen: <code>scripts/uniqueness_fast.py</code> — a KD-tree re-implementation of the template audit
-(<code>scripts/audit_candidate_registry.py</code>) with identical statistics and thresholds, run because the
-template's full-grid distance transforms did not finish in this sandbox's 3 GB RAM. Full evidence:
-<a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a> (per-row numbers kept).</p>
+(<code>scripts/audit_candidate_registry.py</code>) with identical statistics and thresholds. Full evidence:
+<a href="data/uniqueness_h59j.json">docs/data/uniqueness_h59j.json</a> (clearance view),
+<code>evidence/uniqueness_h59j.json</code> (every per-raster row).</p>
 <table class="table">
-<tr><th>Statistic</th><th>Limit</th><th>Measured</th><th>Operative?</th></tr>
+<tr><th>Statistic</th><th>Limit</th><th>Measured (H59-J)</th><th>Operative?</th></tr>
 <tr><td>Identical decoded predictions</td><td>0</td><td>0 of 695</td><td>yes — byte-unique</td></tr>
-<tr><td>Spearman ρ, full footprint</td><td>≤ 0.90</td><td>0.176 (worst, <code>7GEMSDOE …halo15-gbt-v1</code>)</td><td>yes</td></tr>
-<tr><td>Jaccard of dot sets</td><td>≤ 0.50</td><td>0.042 (worst, <code>57GEMSDOE-PR6 …lean-offset</code>)</td><td>yes</td></tr>
-<tr><td>3-px overlap, peers of ≤ my support (418)</td><td>≤ 0.70</td><td>0.724 worst</td><td>no — see below</td></tr>
-<tr><td>3-px reverse overlap, peers of &gt; my support (223)</td><td>≤ 0.70</td><td>0.736 worst</td><td>no — see below</td></tr>
-<tr><td>3-px forward overlap, continuous-surface peers (54)</td><td>≤ 0.70</td><td>1.000 for every one</td><td>no — IR-57-REPR-01</td></tr>
+<tr><td>Spearman ρ, full footprint</td><td>≤ 0.90</td><td><strong>0.0475</strong> (worst, GEMSDOE51 <code>ste-hd-w035</code>)</td><td>yes</td></tr>
+<tr><td>Jaccard of dot sets</td><td>≤ 0.50</td><td><strong>0.0270</strong> (worst, 56GEMSDOE <code>corridor-b2to5</code>)</td><td>yes</td></tr>
+<tr><td>Mutual 3-px coincidence, support-matched peers (641)</td><td>≤ 0.70</td><td><strong>0.256</strong> (worst, GEMSDOE49 <code>xgrad-coupled</code>, 40,000 dots)</td><td>yes</td></tr>
+<tr><td>Forward 3-px overlap, literal</td><td>≤ 0.70</td><td>1.000 on 86 rasters — every one with a chance level ≥ 0.79</td><td>no — chance saturation, IR-57-REPR-01</td></tr>
+<tr><td>Reverse 3-px overlap, peers with ≥ 30 dots</td><td>≤ 0.70</td><td>0.377 (worst informative peer)</td><td>yes</td></tr>
+<tr><td>Reverse 3-px overlap, peers with &lt; 30 dots</td><td>≤ 0.70</td><td>1.0 on a 1-dot raster, 0.5 on a 14-dot raster</td><td>no — a 1-dot peer overlaps by chance with probability ≈ 0.17</td></tr>
 </table>
-<p><strong>Registry leg verdict: no duplication identified</strong> (byte-unique, ρ 0.176, Jaccard 0.042).
-The overall verdict stays <em>negative</em> because of the holdout leg (0.0822 &lt; 0.1352).</p>
+<p><strong>Registry leg verdict (H59-J): no duplication identified.</strong>
+<code>scripts/check_site.py</code> re-checks all four legs from the run card and passes end to end.
+The session verdict on the file is <em>slot-eligible</em>: format and uniqueness clear, no slot spent; the
+score expectation is a PROJECTION of 0.24–0.29 and the placement quality is not locally certifiable
+(IR-59J-01).</p>
+<p class="small">Archived H59-I clearance, for the record: byte-unique, worst Spearman ρ 0.176,
+worst Jaccard 0.042, over the same 695 rasters; the session verdict on that file was negative on the
+holdout leg, not on clearance.</p>
 <p class="small"><strong>Why the 3-px legs are not operative, stated per row rather than by silent
 exclusion.</strong> (1) IR-57-REPR-01: a continuous-surface peer has positive values over more than half the
 footprint, so <em>every</em> non-empty candidate has forward overlap 1.0 with it — the template's own shipped

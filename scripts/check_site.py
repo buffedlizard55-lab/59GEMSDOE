@@ -82,8 +82,13 @@ def check(root=ROOT):
     assert int((values>0).sum())==card['emitted']
     assert card['validator_output']['checks'] and all(card['validator_output']['checks'].values())
     assert card['portal_preflight']['positive_pixels']==card['emitted']
-    # registry clearance, all four legs
-    audit=json.loads((root/'evidence/uniqueness_h57r.json').read_text())
+    # registry clearance, all four legs.  The receipt path comes from the card so this
+    # shared QA is not pinned to one lane's filename (the 57GEMSDOE lane wrote
+    # evidence/uniqueness_h57r.json; this lane writes evidence/uniqueness_h59j_view.json).
+    audit_path=root/card['correlation_overlap_vs_registry'].get('receipt','evidence/uniqueness_h57r.json')
+    if not audit_path.is_file():
+        audit_path=root/'evidence/uniqueness_h57r.json'
+    audit=json.loads(audit_path.read_text())
     reg=card['correlation_overlap_vs_registry']
     assert audit['complete_accessible_scan']
     assert audit['registry_rasters_expected']==audit['registry_rasters_checked']

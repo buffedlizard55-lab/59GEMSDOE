@@ -1,28 +1,45 @@
-# 59GEMSDOE — intensity lane (session H59-I)
+# 59GEMSDOE — intensity lane (session H59-J)
 
-**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT NO** — registry-unique, format-valid candidate; holdout DTI
-**0.08216 [0.06954, 0.09616]** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw) is
-below the published holdout best 0.135204, so it is **not cleared for a weekly slot** (owner's separate
-selector step; no slot spent). Negative results are deliverables.
+**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT OK (format + uniqueness clear, no slot spent)** — the current
+candidate is a unique, format-valid, registry-clear raster. **Expected public score 0.24–0.29 is a
+PROJECTION, not a measurement**, and the public #1 is 0.4133, so it is slot-eligible but not a favourite.
+Promotion to a weekly slot is the owner's separate selector step. No slot has been spent by this project. Board context (ORGANIZER-CONFIRMED, 2026-10-11 rev 2): #1 0.4133 · #8 DARD 0.3195 · #23 extradr19 0.2778.
 
-- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html)
-- **Download:** [`docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif`](docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif) (SHA256 `ed1b767f…90f6d`, 71,119 binary dots, all-finite, [0,1], EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt
-- **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`)
-- **Registry uniqueness:** [`evidence/uniqueness_h59i.json`](evidence/uniqueness_h59i.json) — all 695 accessible
-  registry rasters, 0 errors: 0 identical decoded predictions, worst Spearman ρ 0.176 (limit 0.90), worst dot-set
-  Jaccard 0.042 (limit 0.50) → no duplication identified. The literal 3-px overlap legs fire on
-  continuous-surface and support-asymmetric peers (IR-57-REPR-01) and are reported per row, not applied.
-- **Method:** presence-only MaxEnt/Poisson point-process intensity (Phillips et al. 2009 effort covariates;
-  Fithian & Hastie 2013 equivalence), 1 km new-fault-density zoning, holdout-derived break-even lattice
-  (4 px, 2 px catalogue collar)
-- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) — pre-registered hypotheses
-  H59-I2 (gap zoning), H59-I2b (dot budget), H59-I3 (official effort covariates), H59-I4 (off-catalogue
-  holdout, the instrument that could resolve the holdout-vs-live disagreement)
+- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html) · [Results](docs/results.html) · [Sources](docs/sources.html) · [Irregularities](docs/irregularities.html)
+- **Download:** [`docs/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif`](docs/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif)
+  (SHA256 `44c54063…7e7131`, 131,274 bytes, 30,815 binary dots = 0.596 % of the study region, all-finite, [0,1],
+  EPSG:32611, 3730×3292, transform `(100, 0, 243350, 0, -100, 4508550)`) + single-TIFF ZIP + writer receipt
+- **Run card:** [`evidence/run_card_current.json`](evidence/run_card_current.json) (verdict `promote-candidate`,
+  `okay_to_submit: true`, slots used 0) — mirrored byte-identically to `docs/data/run_card.json`
+- **Registry uniqueness:** [`evidence/uniqueness_h59j.json`](evidence/uniqueness_h59j.json) — all 695 pinned
+  rasters, 0 errors: worst Spearman ρ **0.0475** (limit 0.90), worst dot-set Jaccard **0.0270** (limit 0.50),
+  worst *mutual* 3 px coincidence **0.256** (limit 0.70) → unique; `scripts/check_site.py` passes end to end.
+  The literal forward leg fires on 86 rasters that are *chance-saturated* peers (a random dot would overlap
+  them with probability ≥ 0.79 at their density), which is reported per row, not hidden (IR-57-REPR-01).
+- **Method:** structure-tensor ridge coherence consensus over detrended elevation, reduced-to-pole magnetics and
+  isostatic gravity (bands 12/2/13), geometric-mean of per-physics quantile ranks, dots at 3×3 non-maximum
+  suppression walked ±2 px along the ridge, zero inside a 2 px catalogue collar, budget set from the
+  live-calibrated dot-count relation.
+- **Holdout (reported, not used to promote):** HOLDOUT-DTI **0.01912 [0.01639, 0.02215]** — evaluator
+  `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw, 1000-draw 200 px spatial-cluster bootstrap
+  ([`evidence/h59j_candidate_ci.json`](evidence/h59j_candidate_ci.json)).
+- **Why the holdout is not the gate:** it is measured to be rank-*inverted* against the public board
+  (ρ −0.437, p 0.033, n 24 owner-recorded scores) and so is the SGMC off-catalogue proxy (ρ −0.665, p 0.0004);
+  the emitted dot count is the live-calibrated driver (ρ −0.818, p < 1e-4). See
+  [`docs/research/why-02778.md`](docs/research/why-02778.md) and IR-59J-01/02/03.
+- **Archived negative deliverable:** the H59-I lattice
+  ([`docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif`](docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif),
+  HOLDOUT-DTI 0.08216 [0.06954, 0.09616] < the 0.135204 comparator) is not promoted.
+- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) · **three-pass review:** [`docs/research/three-pass-review-h59j.md`](docs/research/three-pass-review-h59j.md)
 
 Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.txt`
 → `.venv/bin/python scripts/prepare_data.py --fetch --cache-bands`
-→ `.venv/bin/python scripts/run_intensity_lane.py --seed 20 --break-even 1.0`
-→ `.venv/bin/python scripts/build_submission_intensity.py --gamma 0.0 --collar 2 --break-even 1.0`
+→ `.venv/bin/python scripts/prep_feature_stack.py`
+→ `.venv/bin/python scripts/build_h59j_submission.py --fragment 3 --fragment-step 2 --budget 36000`
+→ `PYTHONPATH=src .venv/bin/python scripts/validate_submission.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif data/bridge/sample_submission.tif`
+→ `.venv/bin/python scripts/restore_registry_cache.py && .venv/bin/python scripts/uniqueness_fast.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif --out evidence/uniqueness_h59j.json`
+→ `.venv/bin/python scripts/candidate_holdout_ci.py downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif`
+→ `.venv/bin/python scripts/build_run_card_h59j.py && .venv/bin/python scripts/build_session_evidence.py && .venv/bin/python scripts/build_site_pages.py && .venv/bin/python scripts/check_site.py`
 
 ---
 

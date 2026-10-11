@@ -1,0 +1,294 @@
+{
+ "evidence_class": "INVENTORY (sibling sites named in TASK_PROMPT.md)",
+ "generated_utc": "2026-10-11T02:18:01Z",
+ "source": "TASK_PROMPT.md (the standing brief, read at the start of this session)",
+ "caveat": "scores are OWNER-REPORTED as written in the brief; they are site-reported bests, not organizer receipts, and this session did not re-fetch every site",
+ "n_repos": 57,
+ "repos": [
+  {
+   "repo": "11GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/11GEMSDOE/",
+   "best_recorded_score": 0.0202
+  },
+  {
+   "repo": "12GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/12GEMSDOE/",
+   "best_recorded_score": 0.1294
+  },
+  {
+   "repo": "13GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/13GEMSDOE/",
+   "best_recorded_score": 0.0904
+  },
+  {
+   "repo": "14GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/14GEMSDOE/",
+   "best_recorded_score": 0.002
+  },
+  {
+   "repo": "15GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/15GEMSDOE/",
+   "best_recorded_score": 0.0782
+  },
+  {
+   "repo": "16GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/16GEMSDOE/",
+   "best_recorded_score": 0.1855
+  },
+  {
+   "repo": "17GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/17GEMSDOE/",
+   "best_recorded_score": 0.0187
+  },
+  {
+   "repo": "18GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/18GEMSDOE/",
+   "best_recorded_score": 0.0297
+  },
+  {
+   "repo": "19GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/19GEMSDOE/",
+   "best_recorded_score": 0.1894
+  },
+  {
+   "repo": "20GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/20GEMSDOE/",
+   "best_recorded_score": 0.189
+  },
+  {
+   "repo": "55GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/55GEMSDOE/",
+   "best_recorded_score": null
+  },
+  {
+   "repo": "56GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/56GEMSDOE/",
+   "best_recorded_score": null
+  },
+  {
+   "repo": "57GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/57GEMSDOE/",
+   "best_recorded_score": null
+  },
+  {
+   "repo": "5GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/5GEMSDOE/",
+   "best_recorded_score": 0.1563
+  },
+  {
+   "repo": "6GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/6GEMSDOE/",
+   "best_recorded_score": 0.0286
+  },
+  {
+   "repo": "7GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/7GEMSDOE/",
+   "best_recorded_score": 0.1461
+  },
+  {
+   "repo": "8GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/8GEMSDOE/",
+   "best_recorded_score": 0.1563
+  },
+  {
+   "repo": "GEMSDOE",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE/",
+   "best_recorded_score": 0.1563
+  },
+  {
+   "repo": "GEMSDOE10",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE10/",
+   "best_recorded_score": 0.0461
+  },
+  {
+   "repo": "GEMSDOE2",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE2/",
+   "best_recorded_score": 0.156
+  },
+  {
+   "repo": "GEMSDOE21",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE21/",
+   "best_recorded_score": 0.1894
+  },
+  {
+   "repo": "GEMSDOE22",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE22/",
+   "best_recorded_score": 0.1002
+  },
+  {
+   "repo": "GEMSDOE23",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE23/",
+   "best_recorded_score": 0.1352
+  },
+  {
+   "repo": "GEMSDOE24",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE24/",
+   "best_recorded_score": 0.2477
+  },
+  {
+   "repo": "GEMSDOE25",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE25/",
+   "best_recorded_score": 0.26
+  },
+  {
+   "repo": "GEMSDOE26",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE26/",
+   "best_recorded_score": 0.1223
+  },
+  {
+   "repo": "GEMSDOE27",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE27/",
+   "best_recorded_score": 0.2449
+  },
+  {
+   "repo": "GEMSDOE28",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE28/",
+   "best_recorded_score": 0.2708
+  },
+  {
+   "repo": "GEMSDOE29",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE29/",
+   "best_recorded_score": 0.26
+  },
+  {
+   "repo": "GEMSDOE3",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE3/",
+   "best_recorded_score": 0.1193
+  },
+  {
+   "repo": "GEMSDOE30",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE30/",
+   "best_recorded_score": 0.26
+  },
+  {
+   "repo": "GEMSDOE31",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE31/",
+   "best_recorded_score": 0.2708
+  },
+  {
+   "repo": "GEMSDOE32",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE32/",
+   "best_recorded_score": 0.2778
+  },
+  {
+   "repo": "GEMSDOE33",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE33/",
+   "best_recorded_score": 0.2632
+  },
+  {
+   "repo": "GEMSDOE34",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE34/",
+   "best_recorded_score": 0.0778
+  },
+  {
+   "repo": "GEMSDOE35",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE35/",
+   "best_recorded_score": 0.0418
+  },
+  {
+   "repo": "GEMSDOE36",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE36/",
+   "best_recorded_score": 0.275
+  },
+  {
+   "repo": "GEMSDOE37",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE37/",
+   "best_recorded_score": 0.1193
+  },
+  {
+   "repo": "GEMSDOE38",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE38/",
+   "best_recorded_score": 0.0763
+  },
+  {
+   "repo": "GEMSDOE39",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE39/",
+   "best_recorded_score": 0.0339
+  },
+  {
+   "repo": "GEMSDOE4",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE4/",
+   "best_recorded_score": 0.0343
+  },
+  {
+   "repo": "GEMSDOE40",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE40/",
+   "best_recorded_score": 0.0355
+  },
+  {
+   "repo": "GEMSDOE41",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE41/",
+   "best_recorded_score": 0.0245
+  },
+  {
+   "repo": "GEMSDOE42",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE42/",
+   "best_recorded_score": 0.0581
+  },
+  {
+   "repo": "GEMSDOE43",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE43/",
+   "best_recorded_score": 0.0424
+  },
+  {
+   "repo": "GEMSDOE44",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE44/",
+   "best_recorded_score": 0.0715
+  },
+  {
+   "repo": "GEMSDOE45",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE45/",
+   "best_recorded_score": 0.0106
+  },
+  {
+   "repo": "GEMSDOE46",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE46/",
+   "best_recorded_score": 0.1589
+  },
+  {
+   "repo": "GEMSDOE47",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE47/",
+   "best_recorded_score": 0.043
+  },
+  {
+   "repo": "GEMSDOE48",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE48/",
+   "best_recorded_score": 0.2296
+  },
+  {
+   "repo": "GEMSDOE49",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE49/",
+   "best_recorded_score": 0.2376
+  },
+  {
+   "repo": "GEMSDOE50",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE50/",
+   "best_recorded_score": null
+  },
+  {
+   "repo": "GEMSDOE51",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE51/",
+   "best_recorded_score": null
+  },
+  {
+   "repo": "GEMSDOE52",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE52/",
+   "best_recorded_score": null
+  },
+  {
+   "repo": "GEMSDOE53",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE53/",
+   "best_recorded_score": null
+  },
+  {
+   "repo": "GEMSDOE54",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE54/",
+   "best_recorded_score": 0.3195
+  },
+  {
+   "repo": "GEMSDOE9",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE9/",
+   "best_recorded_score": 0.0107
+  }
+ ]
+}
