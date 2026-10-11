@@ -4,10 +4,15 @@ __pycache__/
 .pytest_cache/
 .venv/
 out/
+outputs/
+*.npy
+*.npz
+*.download
+*.partial
 # Large source rasters and generated feature caches are restored by hash, never committed.
+# The pinned bridge files under data/bridge, data/external and data/official are committed
+# on purpose: they are the hash-verified inputs every session re-verifies on restore.
 data/official/training_features.tif
 data/official/*.partial
 data/raw/
 registry/cache/
-*.download
-*.partial

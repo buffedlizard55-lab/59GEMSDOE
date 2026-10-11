@@ -75,3 +75,15 @@ over stale claims there.)
   distinguish representations; preserve real weekly slots (none spent).
 - **Own the Outcome:** restore data by hash, repair shared tools once and report, publish complete negative
   evidence, keep download/submission status unmistakable. No silent protocol relaxation.
+
+---
+
+## Preserved parallel-session record
+
+A concurrent 59GEMSDOE run (branch `arena/94956c66`, merged to `main` as PR #1/#2) built the
+organizer-metric tooling and a summary site but could not place the competition data from this sandbox
+(no DrivenData auth, Dropbox off-allow-list) and therefore shipped no validated TIF. Its record is
+preserved verbatim at `evidence/run_card_arena94956c66.json`, and its pages remain in `docs/`. This
+session restored the hash-pinned 19-band feature stack through the public GitHub mirror bridge
+(`scripts/download_features.sh`, `scripts/prepare_data.py`) and therefore supersedes it on data
+availability. Re-read `TASK_PROMPT.md` (verbatim standing brief) alongside this file.

@@ -1,0 +1,41 @@
+{
+  "label": "SYNTHETIC - not a competition or holdout score",
+  "alpha": 0.2,
+  "identity_check": {
+    "trials": 500,
+    "sign_agreements": 500,
+    "all_agree": true
+  },
+  "spacing_sweep_dti_by_spacing_px": {
+    "perpendicular_offset_px=0": {
+      "1": 1.0,
+      "2": 0.8621,
+      "3": 0.8091,
+      "4": 0.7041,
+      "5": 0.6364,
+      "6": 0.539,
+      "7": 0.4887,
+      "8": 0.4373
+    },
+    "perpendicular_offset_px=1": {
+      "1": 0.6667,
+      "2": 0.6272,
+      "3": 0.6089,
+      "4": 0.5316,
+      "5": 0.4817,
+      "6": 0.4068,
+      "7": 0.3682,
+      "8": 0.3288
+    },
+    "perpendicular_offset_px=2": {
+      "1": 0.3333,
+      "2": 0.3177,
+      "3": 0.3084,
+      "4": 0.2515,
+      "5": 0.2155,
+      "6": 0.1809,
+      "7": 0.1632,
+      "8": 0.1453
+    }
+  }
+}
