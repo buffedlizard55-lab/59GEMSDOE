@@ -3,64 +3,93 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Executive summary — 59GEMSDOE H59-I</title>
+<title>Executive summary — how to submit (59GEMSDOE H59-J)</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <nav>
   <a href="index.html">Status &amp; download</a>
-  <a href="executive-summary.html">Executive summary</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
   <a href="method.html">Method &amp; evidence</a>
   <a href="data-sources.html">Data sources</a>
 </nav>
 <main>
-<h1>Executive summary — status and safe handling</h1>
+<h1>Executive summary — how to make a submission</h1>
 
-<div class="panel">
-<h2 style="margin-top:0">1. Download status is not submission clearance</h2>
-<p><span class="badge ok">DOWNLOAD-VALID FOR INSPECTION</span>
-<span class="badge no">CLEARED TO SUBMIT: NO</span></p>
-<p>The existing artifact is a single-band GeoTIFF that passes local format/value checks. Its literal final-dot registry comparison failed, its pre-placement surface was not gated, the newest saved registry was not compared to it, and its historical holdout result is exploratory. <strong>Do not upload it or spend a weekly slot.</strong> The file is linked from the <a href="index.html">status page</a> only for research inspection.</p>
-</div>
-
-<div class="panel">
-<h2 style="margin-top:0">2. Artifact identity and local validator</h2>
-<table>
-<tr><th>Property</th><th>Measured local value</th></tr>
-<tr><td>File</td><td><code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code></td></tr>
-<tr><td>SHA256</td><td><code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code></td></tr>
-<tr><td>Size / grid</td><td>142,754 bytes; 1 band; float32; EPSG:32611; 3730 × 3292; 100 m</td></tr>
-<tr><td>Values / footprint</td><td>All finite, in [0,1], binary 0/1; zero outside footprint; no positive cells on mapped catalogue</td></tr>
-<tr><td>Positive cells</td><td>71,119 (file-level count; not a score)</td></tr>
-<tr><td>Local format validator</td><td>PASS; does not override registry failure or grant submit clearance</td></tr>
-</table>
-<p><a href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json">Local writer receipt</a> · <a href="data/run_card.json">Full JSON run card</a>. No organizer submission-page receipt is present for this TIFF.</p>
-</div>
-
-<div class="panel">
-<h2 style="margin-top:0">3. Why the decision is negative</h2>
+<div class="panel" id="download-panel">
+<h2 style="margin-top:0">1. Current status: do not submit these artifacts</h2>
+<p><span class="badge ok">DOWNLOAD: VALID FOR INSPECTION</span> <span class="badge no">CLEARED TO SUBMIT: NO</span>
+<strong>Decision: NEGATIVE / STOP.</strong> H59-J has 86 literal forward-overlap hits above 0.70 on its 695-raster scan; the literal protocol requires STOP. Its previous “submit OK” verdict is superseded. Do not upload it or spend a weekly slot.</p>
+<p>
+<a class="btn" href="downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif" download>↓ Download the GeoTIFF (128 KB)</a>
+<a class="btn alt" href="downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.zip" download>↓ Single-TIFF ZIP (94 KB)</a>
+</p>
 <ul>
-<li><strong>Literal registry failure.</strong> The historical final-dot scan found 85 rows with more than 70% of candidate positives within 3 px of a prior raster, among 695 scanned rasters. Any literal firing is a duplicate/STOP. The later 696-raster index was not checked against this file. Exact full-grid Spearman was not verified: an older stride/tie implementation is withdrawn.</li>
-<li><strong>No historical surface gate.</strong> The former H59-I construction did not run the required pre-placement surface gate. The experiment and build scripts are now wired to fail closed on surface and final-dot checks.</li>
-<li><strong>Historical holdout is exploratory.</strong> HOLDOUT-DTI 0.082161 [0.069542, 0.096158], evaluator <code>gems57-pooled-hide-v2</code>, 11,321 withheld positives, seed 20, is below the local comparator. The historical case-control prior used full-catalogue prevalence; the code correction was not rerun.</li>
-<li><strong>Requested target-group background is missing.</strong> The model used uniform background plus catalogue-derived proxies, not an independent same-effort target group.</li>
-<li><strong>No slot.</strong> The three-experiment budget is exhausted. No weekly competition slot was used or authorized.</li>
+<li><code>gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif</code> — 131,274 bytes, single band,
+float32, EPSG:32611, 3730 × 3292, 30,815 dots, values exactly 0.0 or 1.0.</li>
+<li>SHA256 <code>44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131</code> — compare after
+download (<code>sha256sum &lt;file&gt;</code>). ZIP SHA256
+<code>79144a64774d6eb3f4d8a309f6b11b891905f2e5d171493438a9272315605f81</code>.</li>
+<li>The ZIP contains exactly one GeoTIFF and nothing else. This file is linked for inspection only; do not upload it. For a future cleared artifact, upload only its <code>.tif</code> or single-TIFF <code>.zip</code>, never a repository ZIP or JSON receipt.</li>
 </ul>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">4. Score-source caution</h2>
-<p>The public leaderboard snapshot records 0.3195 for DARD at rank 8 and 0.2778 for extradr19 at rank 22. These are ORGANIZER-PUBLISHED participant-level public-board values; neither is linked to a specific file by a captured submission-page receipt. The 0.2778 ↔ GEMSDOE32 H33-2-B2 file mapping is unverified. The owner-maintained GEMSDOE32 page labels H33-2-B2 UNSCORED; its audit's <code>predicted_leaderboard_dti</code> is a projection, not a score.</p>
-<p><a href="research/leaderboard-analysis.md">Full attribution review</a>.</p>
+<h2 style="margin-top:0">2. Why the previous clearance was withdrawn</h2>
+<p>The H59-J screen found 86 literal forward 3-px overlap hits above the 0.70 threshold. The earlier report excluded these as chance-saturated / representation-aware cases, but the standing protocol has no such exemption. The later 696-raster index was not scanned against this file, and no pre-placement surface-gate receipt is available. Full card: <a href="data/run_card_current.json">current H59-J JSON run card</a>; audit: <a href="data/uniqueness_h59j.json">literal registry reinterpretation</a>. H59-I is separately archived at <a href="h59i-status.html">its negative status page</a>.</p>
 </div>
 
 <div class="panel">
-<h2 style="margin-top:0">5. Reproducibility and future work</h2>
-<p>Data setup (bridge hashes verified, not an organizer receipt):</p>
-<pre class="mono small">./.venv/bin/python scripts/prepare_data.py --fetch --cache-bands</pre>
-<p><strong>Do not run another holdout or build command under the exhausted budget.</strong> A future authorized run first needs a defensible independent target-group source and a current dated registry. It must use visible-only label-derived features and prevalence, the shared evaluator/writer, feature-alone leakage canaries, a surface gate before placement and final-dot gate before export. A new candidate requires a spatially blocked holdout and a separate selector decision before any slot use.</p>
-<p><a href="research/hypotheses.md">Five ranked geological hypotheses</a> · <a href="review_passes.md">Three review passes</a> · <a href="method.html">Method and limitations</a>.</p>
+<h2 style="margin-top:0">3. General portal procedure — only after a separate candidate is cleared</h2>
+<ol>
+<li>Open the competition <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">submission page</a>
+(rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>).</li>
+<li><strong>File to submit:</strong> only the GeoTIFF or single-TIFF ZIP named in a future, cleared run card. The current H59-J and archived H59-I files are not cleared.</li>
+<li><strong>Name:</strong> copy the name from the future cleared run card; do not use the historical H59-J name without a new selector decision.</li>
+<li><strong>Note (≤ 140 characters):</strong> use only the note paired with the future cleared candidate; the H59-J note below is archived for provenance and is not authorized for use.
+<span class="mono">H59-J: structure-tensor ridge coherence consensus (topography+magnetics+gravity), dotted, 2 px catalogue collar, 36k budget.</span>
+(Historical note: 124 characters. It is not authorized for use with the current file.)</li>
+<li>Only after separate selector authorization, click <strong>Create submission</strong>. The published cap is three submissions per week; the logged-in
+page shows the team's remaining capacity. This project has spent zero slots so far.</li>
+</ol>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">4. Format facts the portal checks</h2>
+<table>
+<tr><th>Property</th><th>Value</th></tr>
+<tr><td>CRS</td><td>EPSG:32611 (UTM 11N)</td></tr>
+<tr><td>Shape / resolution</td><td>3730 × 3292 (H × W) at 100 m</td></tr>
+<tr><td>Transform / bounds</td><td>(100, 0, 243350, 0, -100, 4508550) — identical to the sample submission</td></tr>
+<tr><td>Bands / dtype</td><td>1 / float32</td></tr>
+<tr><td>Values</td><td>exactly {0.0, 1.0}; no NaN, no Inf, no sentinel; finite everywhere with zeros outside the study region; zero positive pixels on the mapped catalogue</td></tr>
+<tr><td>Positive cells</td><td>30,815 of 5,167,373 study-region cells (0.596 %)</td></tr>
+<tr><td>Local gates</td><td>15/15 format checks pass (<code>gems59.validate</code>) and the portal preflight passes (<code>gems59.gates.format_report</code>)</td></tr>
+</table>
+<p class="small">On the outside-region convention: the official page says “Your submission has the same bounds
+as the training data, and data outside the bounds is null or nan” (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967</a>,
+fetched 2026-10-11) — it <em>permits</em> null/NaN there; it does not forbid a legal confidence value of 0. Of
+the 26 scored rasters this session could read, 18 carry NaN outside the study region and 8 are all-finite with
+zeros, and the latter group includes the family's best recorded public score (0.2778). This file uses the
+all-finite zeros pattern, which the portal has accepted repeatedly. IR-59J-03 records the discrepancy between
+the two local writers that produced that split.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">5. Safe local verification (no candidate build, no submission)</h2>
+<p>The H59-J and H59-I run budgets are closed. Do not rebuild either candidate or treat a new scan as a clearance. The saved historical scan already fails the literal gate, so no further experiment or slot is authorized by this page.</p>
+<pre class="mono small"># Verify that the published pages, artifact bytes, local format checks,
+# and negative run-card verdict agree. This does not build or submit a TIFF.
+python scripts/check_site.py
+python scripts/verify_session_claims.py</pre>
+<p class="small">If you are reviewing the science, read the run cards and registry receipts linked above. H59-J's 86 literal forward-overlap hits require DUPLICATE / STOP; the newer 696-raster index has not been checked against it. A separate selector decision would be required before any future slot.</p>
 </div>
 </main>
+<footer class="small">
+<p>Evidence labels used across this site: <strong>HOLDOUT-DTI</strong> (local instrument, evaluator
+<code>gems57-pooled-hide-v2</code>), <strong>OWNER-REPORTED</strong> (score recorded by the owner in a file
+name), <strong>ORGANIZER-CONFIRMED</strong> (public leaderboard page), <strong>VERIFIED-FILE</strong> (read
+from a public raster), <strong>PROJECTION</strong> (estimate, never written as a score).</p>
+</footer>
 </body>
 </html>

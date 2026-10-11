@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT))
 from scripts import session7_verify as S7  # noqa: E402
 
 
+@pytest.mark.skipif(not S7.DOWNLOAD.is_file(), reason="Session-7 H57M release TIFF is absent from this checkout")
 def test_download_is_float32_unit_interval_and_zero_filled_outside_footprint():
     d = S7.check_download()
     assert d["meta"]["dtype"] == "float32" and d["meta"]["count"] == 1
@@ -36,6 +37,7 @@ def test_0_2778_is_subset_of_0_2708_and_removed_dots_sit_within_2px_of_catalogue
     assert r["removed_all_within_2px"] is True and r["kept_none_within_2px"] is True
 
 
+@pytest.mark.skipif(not S7.HOLDOUT.is_file(), reason="Session-5 relay-bend holdout receipt is absent from this checkout")
 def test_holdout_receipts_recompute_and_collar_blind_zone_is_reported():
     h = S7.check_holdout()
     assert h["max_abs_recompute_error"] < 1e-12
@@ -46,8 +48,9 @@ def test_holdout_receipts_recompute_and_collar_blind_zone_is_reported():
 
 @pytest.mark.skipif(
     not (ROOT / "data/official/training_features.tif").exists()
-    or not (ROOT / "evidence/feature_cache.json").exists(),
-    reason="training_features.tif / band cache are gitignored and absent in CI; run scripts/prepare_data.py --fetch --cache-bands to check pins",
+    or not (ROOT / "evidence/feature_cache.json").exists()
+    or not (ROOT / "evidence/session7_verification.json").exists(),
+    reason="Session-7 H57M source/cache/verification receipts are absent in this checkout; do not synthesize them",
 )
 def test_pins_match_and_evidence_file_is_current():
     p = S7.check_pins()

@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sources</title><style>
+:root{--bg:#0f1216;--card:#171c22;--ink:#e8edf2;--dim:#9fb0c0;--ok:#2fbf71;--warn:#e8a33d;
+--bad:#e0574f;--line:#26303a;--link:#7cc4ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header,main,footer{max-width:1000px;margin:0 auto;padding:0 20px}
+nav{background:#12171c;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:22px}
+nav a{color:var(--dim);margin-right:16px;text-decoration:none;font-size:14px}
+nav a.on,nav a:hover{color:var(--ink)}
+h1{font-size:26px;margin:18px 0 6px}h2{font-size:20px;margin:30px 0 8px}
+h3{font-size:16px;margin:20px 0 6px}
+p,li{color:var(--ink)}small,.dim{color:var(--dim)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:600;font-size:13px}
+.ok{background:rgba(47,191,113,.15);color:var(--ok);border:1px solid rgba(47,191,113,.4)}
+.warn{background:rgba(232,163,61,.15);color:var(--warn);border:1px solid rgba(232,163,61,.4)}
+.bad{background:rgba(224,87,79,.15);color:var(--bad);border:1px solid rgba(224,87,79,.4)}
+a{color:var(--link)}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:600}
+code,pre{background:#0b0e11;border:1px solid var(--line);border-radius:6px;padding:2px 5px;font-size:13px}
+pre{padding:12px;overflow:auto}
+.dl{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.button{display:inline-block;background:var(--ok);color:#08120c;font-weight:700;padding:10px 16px;
+border-radius:8px;text-decoration:none}
+.button.alt{background:#2b3b49;color:var(--ink)}
+footer{color:var(--dim);font-size:13px;padding:30px 20px}
+</style></head><body>
+<nav><header><a href="index.html">Overview</a><a href="executive-summary.html">Download &amp; submit</a><a href="evidence.html">Evidence</a><a href="audit.html">Audit</a><a href="sources.html" class=on>Sources</a></header></nav><main><h1>Sources</h1>
+<h2>Competition</h2><ul>
+<li>DrivenData “DOE GEMS”, competition 306 — <a href="https://www.drivendata.org/competitions/306/">
+drivendata.org/competitions/306</a> (login-walled from this sandbox; the problem statement, the
+distance-weighted Tversky metric and the rule facts used here were transcribed from page 967 and
+cross-checked against the sibling repositories' receipts).</li>
+<li>Official rules (NLR FY26 OSTI 96647) — <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">
+docs.nlr.gov/docs/fy26osti/96647.pdf</a> (not reachable from the sandbox; end date, prize structure
+and submission cap come from the sibling clones' transcription and are labelled OWNER-REPORTED).</li>
+</ul>
+<h2>Data</h2><ul>
+<li>GeoDAWN / DOE GEMS feature stack and the competition grid — public bridge mirror
+(<code>buffedlizard55-lab/6GEMSDOE</code>), hashes in <code>docs/replication/data/data_preparation_lane1ac8.json</code>.</li>
+<li>USGS QFFD / INGENIOUS — the label source named by the problem statement.</li>
+<li>USGS State Geologic Map Compilation (SGMC) faults — used only as the off-catalogue proxy frame:
+<a href="https://ngmdb.usgs.gov/">ngmdb.usgs.gov</a>.</li>
+<li>California Geological Survey QFaults v2.0 — external cross-check only:
+<a href="https://www.conservation.ca.gov/cgs/qfaults">conservation.ca.gov/cgs/qfaults</a>.</li>
+</ul>
+<h2>Methods</h2><ul>
+<li>Phillips et al. 2009, “Sample selection bias and presence-only distribution models”,
+<i>Ecological Applications</i> — <a href="https://doi.org/10.1890/08-2025.1">doi:10.1890/08-2025.1</a>
+(target-group background).</li>
+<li>Fithian &amp; Hastie 2013, “Finite-sample equivalence in statistical models for presence-only
+data”, <i>Annals of Applied Statistics</i> — <a href="https://doi.org/10.1214/13-AOAS667">
+doi:10.1214/13-AOAS667</a> (MaxEnt ⟺ Poisson point process).</li>
+<li>Hermant et al. 2025 (SGW) — registration error context for the 1 km block size.</li>
+<li>Mattéo et al. 2021 (JGR) — fault detection from potential-field derivatives.</li>
+</ul></main>
+<footer>59GEMSDOE intensity lane · built 2026-10-11 01:31 UTC from
+the JSON receipts in <a href="data/run_card_lane_v1.json">docs/replication/data/</a> (one file per gate) · every number carries its evidence class ·
+no competition slot was used by this repository.</footer></body></html>

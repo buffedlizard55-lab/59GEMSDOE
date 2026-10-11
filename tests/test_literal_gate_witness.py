@@ -4,10 +4,15 @@ Reads only committed evidence; does not need the 19 MB witness or training featu
 """
 import json
 from pathlib import Path
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 EVID = ROOT / "evidence" / "literal_gate_witness_verification_20261010.json"
 WITNESS_SHA = "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be"
+pytestmark = pytest.mark.skipif(
+    not EVID.is_file(),
+    reason="prior universal-witness verification receipt is absent from this checkout; do not fabricate it",
+)
 
 
 def _load():

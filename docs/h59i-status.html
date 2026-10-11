@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>59GEMSDOE — H59-I research status</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+</nav>
+<main>
+<h1>59GEMSDOE — H59-I intensity research</h1>
+<p class="small">Status reviewed 2026-10-11 UTC · local research only · no organizer receipt for this TIFF · no competition slot used.</p>
+
+<div class="panel">
+<h2 style="margin-top:0">Status — read before downloading</h2>
+<p><span class="badge ok">DOWNLOAD: VALID FOR INSPECTION</span>
+<span class="badge no">CLEARED TO SUBMIT: NO</span></p>
+<p><strong>Decision: NEGATIVE / STOP.</strong> The saved H59-I GeoTIFF passes local format/value validation, but the historical final-dot registry scan found <strong>85 literal forward-overlap firings above 70%</strong> on its 695-raster snapshot. The standing rule requires stopping on any such firing; no dense-surface or representation exemption is permitted. A later 696-raster inventory was not scanned against this file. The old pre-placement surface gate was not run. Do not upload this artifact or use a weekly slot.</p>
+<p>The H59-I holdout result is exploratory and does not clear the method: its old case-control prior used full-catalogue prevalence, and the requested independent target-group background was not implemented. The runner has been corrected to use visible-only prevalence but was not rerun. The three-experiment budget is exhausted.</p>
+<a class="btn" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif" download>↓ Download for inspection only</a>
+<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.zip" download>Single-TIFF ZIP (inspection only)</a>
+<a class="btn alt" href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json" download>Local writer receipt</a>
+<p class="small">File <code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code> · SHA256
+<code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code> · 142,754 bytes · 71,119 binary positive cells. The ZIP contains exactly this one GeoTIFF. “Download-valid” describes the local artifact only; it is not organizer acceptance or submit clearance.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Historical spatial holdout (not a leaderboard score)</h2>
+<p><strong>HOLDOUT-DTI 0.082161 [0.069542, 0.096158]</strong> — evaluator <code>gems57-pooled-hide-v2</code>, seed-20 buffered whole-component draw, 11,321 withheld positives, α=0.2, β=0.8, 300 m triangular kernel. The same-evaluator local reference <code>relay_bend_anatomy</code> is HOLDOUT-DTI 0.135204 [0.119140, 0.153036]. The historical H59-I value is lower and exploratory; it is not an organizer-confirmed score.</p>
+<p class="small">A previous report gave a Spearman estimate near 0.176. It used stride-3 sampling with incorrect tie ranking, so the exact full-footprint rank correlation is now reported as <strong>not verified</strong>. The final-dot scan's literal overlap failure remains sufficient to stop.</p>
+<p><a href="data/run_card_h59i.json">Full JSON run card</a> · <a href="data/uniqueness_h59i.json">Registry audit and strict-gate reinterpretation</a> · <a href="review_passes.md">Three review passes</a></p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">What the 0.2778 and 0.3195 figures mean</h2>
+<p>The 2026-10-11 public leaderboard snapshot shows 0.3195 for DARD at rank 8 and 0.2778 for extradr19 at rank 22. They are participant-level ORGANIZER-PUBLISHED public-board values, not file-linked submission-page receipts. The mapping from the GEMSDOE32 H33-2-B2 TIFF to 0.2778 is unverified. The owner-maintained GEMSDOE32 page calls H33-2-B2 <strong>UNSCORED</strong>; its audit's <code>predicted_leaderboard_dti</code> is a model projection, not a score.</p>
+<p><a href="research/leaderboard-analysis.md">Full score-provenance review</a></p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Requested intensity method: outstanding requirement</h2>
+<p>H59-I used presence-only point-process form, uniform background and catalogue-derived trace-density/relief proxies; it did <strong>not</strong> implement the requested Phillips et al. independent target-group background. No pinned, independent same-effort non-target mapping inventory was found. The existing prototype must not be described as target-group corrected.</p>
+<p>Five geological research hypotheses are ranked in <a href="research/hypotheses.md">the research plan</a>. None is newly tested or validated in this review. A future top candidate requires data provenance, split-safe features, leakage canary and spatially blocked HOLDOUT-DTI before any selector or slot recommendation.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Evidence and review</h2>
+<ul>
+<li><a href="executive-summary.html">Executive summary and status distinctions</a></li>
+<li><a href="method.html">Method, holdout limitations and literal registry gate</a></li>
+<li><a href="research/hypotheses.md">Five ranked geological hypotheses</a></li>
+<li><a href="review_passes.md">Three review passes</a></li>
+<li><a href="research/leaderboard-analysis.md">Leaderboard provenance review</a></li>
+</ul>
+</div>
+</main>
+</body>
+</html>

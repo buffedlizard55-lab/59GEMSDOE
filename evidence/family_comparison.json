@@ -1,0 +1,42 @@
+{
+  "evidence_class": "HOLDOUT-DTI",
+  "experiment": "family choice at matched budget",
+  "budget": 44000,
+  "table": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "l2": 0.1,
+  "holdout": {
+    "withheld_positive_pixels": 11354
+  },
+  "sgmc": {
+    "novelty_pixels": 61664
+  },
+  "arms": {
+    "proximity_only": {
+      "dots": 44004,
+      "blocks_used": 4450,
+      "dti_catalogue": 0.2342613118959019,
+      "dti_sgmc": 0.035484798692754706
+    },
+    "catalogue_family": {
+      "dots": 44001,
+      "blocks_used": 4545,
+      "dti_catalogue": 0.23233885098444534,
+      "dti_sgmc": 0.035562832474180475
+    },
+    "ground_family": {
+      "dots": 44002,
+      "blocks_used": 4295,
+      "dti_catalogue": 0.031647521199947126,
+      "dti_sgmc": 0.05708415009214205
+    }
+  },
+  "best_on_catalogue_frame": "proximity_only",
+  "best_on_offcatalogue_frame": "ground_family",
+  "arbiter_note": "The off-catalogue (SGMC-novelty) frame is the arbiter because the scored target is faults absent from the catalogue and the catalogue frame mechanically rewards near-catalogue placement (IR-30-039). If the two frames disagree, the release follows the off-catalogue frame and reports the catalogue-frame cost explicitly."
+}

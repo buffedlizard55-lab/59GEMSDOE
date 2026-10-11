@@ -1,0 +1,426 @@
+{
+  "schema": "gems59.run-card.v2",
+  "evidence_class": "RUN-CARD (local research; no organizer submission receipt)",
+  "session": "59GEMSDOE / H59-I / arena/a4652e26-59gemsdoe",
+  "lane": "Presence-only point-process intensity, new-fault-density zoning, break-even lattice",
+  "hypothesis": "Geophysical and catalogue-proxy covariates may rank where additional mapped-fault pixels occur within 1 km blocks. This historical prototype did not implement the requested target-group background, so the hypothesis is not fully tested.",
+  "mechanism": "Historical H59-I: MaxEnt-form logistic fit on 60,988 catalogue presences vs 120,000 uniform background cells, 13 geophysical/cat-proxy covariates, 1 km new-fault-density zoning, holdout-derived 4 px spacing and 2 px catalogue collar. Mapping-effort covariates were trace density and relief; no independent target-group background was available. The prior H59-I run also used the full-catalogue prevalence in its case-control correction; the runner has been corrected to use visible-only prevalence, but no rerun was performed.",
+  "named_non_fault_mimic": "Mapping-effort bias / survey footprint: access, map-sheet boundaries, and survey flight-line levelling can create correlated traces or geophysical lineaments without a fault.",
+  "requested_target_group_background": {
+    "status": "NOT IMPLEMENTED",
+    "reason": "No pinned independent same-effort non-target fault/mapping inventory exists; using the response catalogue itself would be circular.",
+    "requirement": "Obtain a defensible independent mapping-effort source, pin and grid-check it, derive it split-safely, then rerun the leakage canary and spatial holdout."
+  },
+  "holdout_result": {
+    "evidence_class": "HOLDOUT-DTI (historical exploratory run; not a leaderboard score)",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "split": {
+      "version": "buffered-whole-components-loqo-v2",
+      "seed": 20,
+      "withheld_positive_pixels": 11321
+    },
+    "alpha": 0.2,
+    "beta": 0.8,
+    "triangular_radius_m": 300.0,
+    "selected_arm": "final_c2",
+    "dti": 0.0821614893369186,
+    "ci95": [
+      0.06954156553038209,
+      0.09615807827655379
+    ],
+    "withheld_positive_pixels": 11321,
+    "best_comparable_holdout_reference": 0.135204,
+    "reference_ci95": [
+      0.11914,
+      0.153036
+    ],
+    "beats_reference": false,
+    "protocol_caveat": "Historical fit used a case-control prior computed from the full catalogue; the repaired visible-only prior has not been rerun. The requested target-group background is also absent. Treat this as exploratory, not selection evidence.",
+    "old_collar0": {
+      "dti": 0.07471697186732723,
+      "ci95": [
+        0.06325073894880864,
+        0.08697020330259767
+      ]
+    },
+    "old_3px_baseline": {
+      "dti": 0.07051664710078623,
+      "ci95": [
+        0.05942272998604159,
+        0.08218033348475501
+      ]
+    }
+  },
+  "leakage_canary": {
+    "evidence_class": "LEAKAGE-CANARY (AUC; historical exploratory receipt)",
+    "features_tested": 13,
+    "maximum_auc": 0.7756632898429333,
+    "any_feature_over_0_90": false,
+    "caveat": "Canary does not repair the full-catalogue case-control prior or supply a target-group background."
+  },
+  "zoning_utility": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "break_even_min_density": 1.0,
+    "selected_spacings": {
+      "q1_low": "s4",
+      "q2": "s4",
+      "q3": "s4",
+      "q4_high": "s4"
+    },
+    "caveat": "table selected on the same holdout it is measured on; CIs are conditional on the selected table and fitted folds"
+  },
+  "registry_comparison": {
+    "evidence_class": "REGISTRY-MEASUREMENT (literal protocol interpretation)",
+    "support_definition": "finite prediction value > 0 within the valid footprint",
+    "rho_limit": 0.9,
+    "forward_overlap_limit": 0.7,
+    "overlap_radius_px": 3.0,
+    "rank_correlation_method": "NOT VERIFIED: the historical screen used stride-3 sampling and incorrect tie ranking; exact shared-gate rho was not rerun",
+    "historical_registry_rows_expected": 695,
+    "latest_index_rows_expected": 696,
+    "latest_index_rows_checked_against_candidate": 0,
+    "latest_index_file": "evidence/registry_refreshed_20261010T2001.json",
+    "registry_rows_checked": 695,
+    "registry_snapshot_scope": "Final-dot overlap rows measured against historical 695-raster scan; the later 696-raster inventory has not been scanned against this candidate. The 85 historical literal overlap firings alone trigger the required stop.",
+    "complete_accessible_scan": false,
+    "rho_hit_count": null,
+    "exact_rank_correlation_rerun": false,
+    "overlap_hit_count": 85,
+    "identical_prediction_hit_count": 0,
+    "total_unique_hit_count": 85,
+    "worst_overlap": 1.0,
+    "worst_overlap_submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+    "worst_rank_correlation": null,
+    "rank_correlation_submission": null,
+    "historical_stride_rho_estimate": 0.17581757238896253,
+    "historical_stride_rho_is_operative": false,
+    "passes": false,
+    "stop_required": true,
+    "decision": "DUPLICATE / INCOMPLETE \u2014 STOP; no slot or production export",
+    "representation_aware_exemptions_applied": false,
+    "prior_witness_claim": {
+      "evidence_class": "PRIOR-SESSION CLAIM (not independently verified in this checkout)",
+      "source": "17GEMSDOE:docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+      "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+      "latest_index_entry_present": true,
+      "raster_available_locally": false,
+      "verification_receipts_present": false,
+      "universal_coverage_confirmed": null,
+      "relied_on_for_current_stop": false,
+      "status": "NOT VERIFIED: witness TIFF and/or its verification receipts are absent; do not rely on the universal-blocker claim. The 85 retained historical literal overlap firings independently require STOP."
+    },
+    "note": "The previous representation-aware interpretation was unauthorized by the standing protocol. It is retained only as a diagnostic; it does not override any literal hit."
+  },
+  "raster": {
+    "file": "gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+    "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+    "bytes": 142754,
+    "positive_pixels": 71119,
+    "download_status": "DOWNLOAD-VALID FOR INSPECTION ONLY; NOT CLEARED TO SUBMIT",
+    "validator_result": {
+      "file": "/home/user/59GEMSDOE/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+      "bytes": 142754,
+      "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+      "meta": {
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "count": 1,
+        "nodata": null,
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "profile_compress": "deflate"
+      },
+      "band_description": [
+        null
+      ],
+      "n_finite": 12279160,
+      "n_nan": 0,
+      "n_infinite": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.005791845731437206,
+      "emitted_positive_pixels": 71119,
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "dimensions_3730x3292": true,
+        "crs_epsg_32611": true,
+        "transform_matches_sample_submission": true,
+        "no_nan_anywhere": true,
+        "no_inf_anywhere": true,
+        "no_sentinel_values": true,
+        "range_0_1_guaranteed": true,
+        "min_ge_0": true,
+        "max_le_1": true,
+        "in_footprint_all_finite": true,
+        "in_footprint_range_0_1": true,
+        "outside_footprint_zero": true,
+        "zero_dots_on_mapped_catalogue": true
+      },
+      "all_checks_passed": true,
+      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+      "on_catalogue_positive_pixels": 0,
+      "in_footprint_positive_pixels": 71119,
+      "footprint_fraction": 0.013763086194861489
+    }
+  },
+  "leaderboard_context": {
+    "evidence_class": "ORGANIZER-CONFIRMED (public leaderboard page)",
+    "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "fetched": "2026-10-11",
+    "rows": [
+      {
+        "rank": 1,
+        "participant": "xiaofanhu",
+        "best_public_dw_tversky": 0.3774,
+        "submissions": 15
+      },
+      {
+        "rank": 2,
+        "participant": "JerryDataWorks",
+        "best_public_dw_tversky": 0.3418,
+        "submissions": 18
+      },
+      {
+        "rank": 8,
+        "participant": "DARD",
+        "best_public_dw_tversky": 0.3195,
+        "submissions": 17
+      },
+      {
+        "rank": 22,
+        "participant": "extradr19",
+        "best_public_dw_tversky": 0.2778,
+        "submissions": 14,
+        "file_link": "NOT CONFIRMED (IR-2)"
+      },
+      {
+        "rank": 50,
+        "participant": "MSU-Laskowski-GEMS",
+        "best_public_dw_tversky": 0.2448,
+        "submissions": 12
+      }
+    ],
+    "note": "These are participant-level public-board values, not H59-I file receipts and not private-set scores. H33-2-B2 file-to-score attribution is unverified; the owner-maintained H33 page calls it UNSCORED and says no organizer score exists for artifacts in that repository.",
+    "h33_audit_projection": {
+      "evidence_class": "PROJECTION (not a score)",
+      "field": "predicted_leaderboard_dti",
+      "value": 0.27467315976932155,
+      "source": "GEMSDOE32 owner-maintained audit at commit 3ae286af599fdf86dbb0f333591f8273efcee806"
+    }
+  },
+  "submission": {
+    "name": "gems59-h59i-intensity-lattice-20261011",
+    "note": "H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.",
+    "note_chars": 124,
+    "download_status": "DOWNLOAD-VALID FOR INSPECTION ONLY",
+    "cleared_to_submit": false,
+    "submit_status": "NO \u2014 literal 3-px registry overlap gate fails; latest known 696-raster index was not scanned against this candidate; historical HOLDOUT-DTI is below the comparator and exploratory only; target-group background is not implemented; no slot spent",
+    "weekly_slot_used": false,
+    "weekly_slot_authorized": false
+  },
+  "review_passes": [
+    {
+      "pass_number": 1,
+      "scope": "Evidence provenance",
+      "result": "Leaderboard values separated from file attribution; owner projection is not called a score."
+    },
+    {
+      "pass_number": 2,
+      "scope": "Scientific / holdout validity",
+      "result": "Historical result retained with leakage and target-group limitations; no new experiment run."
+    },
+    {
+      "pass_number": 3,
+      "scope": "Registry / delivery governance",
+      "result": "85 literal overlap firings trigger STOP; current index incomplete for candidate; download-only."
+    }
+  ],
+  "limitations": [
+    "Target-group background is not implemented; no independent same-effort source is pinned.",
+    "The historical holdout case-control prior used full-catalogue prevalence; corrected runner not rerun.",
+    "Historical final-dot comparison found literal overlap failures on the 695-raster scan; latest known 696-raster index was not scanned against this candidate.",
+    "The previous rho statistic was stride-sampled with incorrect tie ranks; exact full-footprint rank correlation is not reported.",
+    "No pre-placement surface gate was performed for the historical candidate; gated scripts now stop before new placement.",
+    "A prior-session universal-support-witness claim is not verified here: its TIFF and three referenced verification receipts are absent from this checkout; the current STOP does not rely on it.",
+    "The old feature cache is full-catalogue geometry; holdout lanes must rebuild catalogue features from visible faults. The active intensity runner does so for its trace-density planes."
+  ],
+  "experiments_used": 3,
+  "experiment_budget": "3 experiments or 2 hours; exhausted for this run. No competition slot used.",
+  "verdict": "negative",
+  "decision": "STOP \u2014 no selector promotion and no weekly slot recommendation",
+  "generated_utc": "2026-10-11T02:17:56Z",
+  "data_preparation": {
+    "evidence_class": "DATA-MEASUREMENT",
+    "files": [
+      {
+        "path": "data/official/labels.tif",
+        "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+        "expected_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+        "verified": true,
+        "bytes": 425830
+      },
+      {
+        "path": "data/official/existing_faults.tif",
+        "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+        "expected_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+        "verified": true,
+        "bytes": 425830
+      },
+      {
+        "path": "data/official/sample_submission.tif",
+        "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+        "expected_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+        "verified": true,
+        "bytes": 1599597
+      },
+      {
+        "path": "data/official/training_features.tif",
+        "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+        "expected_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+        "verified": true,
+        "bytes": 418912844
+      },
+      {
+        "path": "data/external/sgmc_faults_100m.tif",
+        "sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+        "expected_sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+        "verified": true,
+        "bytes": 213034
+      },
+      {
+        "path": "data/external/derived_sgmc_faults_100m.tif",
+        "sha256": "643cbe992ef4ba37588fb469163ed8291e3ceb23d6c1f78a3cfaa462430c2da0",
+        "expected_sha256": "643cbe992ef4ba37588fb469163ed8291e3ceb23d6c1f78a3cfaa462430c2da0",
+        "verified": true,
+        "bytes": 198602
+      },
+      {
+        "path": "data/external/trace_segments_utm11.csv",
+        "sha256": "c5edf9df3e0e1413c52784884fc38e5b9ca54627b27c6f8baf7713e908f48513",
+        "expected_sha256": "c5edf9df3e0e1413c52784884fc38e5b9ca54627b27c6f8baf7713e908f48513",
+        "verified": true,
+        "bytes": 5283577
+      },
+      {
+        "path": "data/external/qfault_attributes.csv",
+        "sha256": "3b8745f0086a57b8255f6679afa1bf1168c10b5573491666c75cf53217029507",
+        "expected_sha256": "3b8745f0086a57b8255f6679afa1bf1168c10b5573491666c75cf53217029507",
+        "verified": true,
+        "bytes": 5786456
+      }
+    ],
+    "provenance": "hash-verified public bridge, not an organizer receipt",
+    "feature_cache_ready": false,
+    "all_pins_verified": true
+  },
+  "feature_bank": {
+    "source_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "bank_shape": [
+      38,
+      3730,
+      3292
+    ],
+    "cache_build_receipt": "evidence/feature_bank.json",
+    "catalogue_geometry_warning": "geo_f32.npy and dtip_f32.npy were derived from the full catalogue and are not valid inside a hide-and-recover fold; rebuild from visible faults only."
+  },
+  "mechanism_summary": "Historical H59-I: MaxEnt-form logistic fit on 60,988 catalogue presences vs 120,000 uniform background cells, 13 geophysical/cat-proxy covariates, 1 km new-fault-density zoning, holdout-derived 4 px spacing and 2 px catalogue collar. Mapping-effort covariates were trace density and relief; no independent target-group background was available. The prior H59-I run also used the full-catalogue prevalence in its case-control correction; the runner has been corrected to use visible-only prevalence, but no rerun was performed.",
+  "holdout_dti_ci95": {
+    "evidence_class": "HOLDOUT-DTI (historical exploratory run; not a leaderboard score)",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 11321,
+    "dti": 0.0821614893369186,
+    "ci95": [
+      0.06954156553038209,
+      0.09615807827655379
+    ]
+  },
+  "correlation_overlap_vs_registry": {
+    "exact_spearman": "not verified; historical stride/tie implementation withdrawn",
+    "historical_stride_rho_estimate": 0.17581757238896253,
+    "literal_forward_overlap_hits": 85,
+    "worst_dot_overlap": 1.0,
+    "worst_overlap_peer": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+    "latest_known_index_rows": 696,
+    "latest_known_index_scanned": false,
+    "strict_gate_passes": false
+  },
+  "raster_sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+  "validator_output": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+    "bytes": 142754,
+    "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.005791845731437206,
+    "emitted_positive_pixels": 71119,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 71119,
+    "footprint_fraction": 0.013763086194861489
+  },
+  "submission_name": "gems59-h59i-intensity-lattice-20261011",
+  "submission_note": "H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.",
+  "download_status": "DOWNLOAD-VALID FOR INSPECTION ONLY; NOT CLEARED TO SUBMIT",
+  "okay_to_submit": false,
+  "submission_slots_used": 0,
+  "approved_for_weekly_slot": false,
+  "submission_status": "NOT AUTHORIZED; separate selector decision not made",
+  "submission_note_chars": 124,
+  "submission_metadata_status": "Historical name and note retained for provenance only; not authorized for portal use.",
+  "verdict_scope": "Negative exploratory result: the 85 historical literal forward-overlap hits require DUPLICATE / STOP; latest 696-raster index was not scanned. No slot recommendation or authorization."
+}

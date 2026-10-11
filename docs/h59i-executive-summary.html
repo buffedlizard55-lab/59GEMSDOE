@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive summary — 59GEMSDOE H59-I</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+</nav>
+<main>
+<h1>Executive summary — status and safe handling</h1>
+
+<div class="panel">
+<h2 style="margin-top:0">1. Download status is not submission clearance</h2>
+<p><span class="badge ok">DOWNLOAD-VALID FOR INSPECTION</span>
+<span class="badge no">CLEARED TO SUBMIT: NO</span></p>
+<p>The existing artifact is a single-band GeoTIFF that passes local format/value checks. Its literal final-dot registry comparison failed, its pre-placement surface was not gated, the newest saved registry was not compared to it, and its historical holdout result is exploratory. <strong>Do not upload it or spend a weekly slot.</strong> The file is linked from the <a href="index.html">status page</a> only for research inspection.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">2. Artifact identity and local validator</h2>
+<table>
+<tr><th>Property</th><th>Measured local value</th></tr>
+<tr><td>File</td><td><code>gems59-h59i-intensity-lattice-20261011T000000Z.tif</code></td></tr>
+<tr><td>SHA256</td><td><code>ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d</code></td></tr>
+<tr><td>Size / grid</td><td>142,754 bytes; 1 band; float32; EPSG:32611; 3730 × 3292; 100 m</td></tr>
+<tr><td>Values / footprint</td><td>All finite, in [0,1], binary 0/1; zero outside footprint; no positive cells on mapped catalogue</td></tr>
+<tr><td>Positive cells</td><td>71,119 (file-level count; not a score)</td></tr>
+<tr><td>Local format validator</td><td>PASS; does not override registry failure or grant submit clearance</td></tr>
+</table>
+<p><a href="downloads/gems59-h59i-intensity-lattice-20261011T000000Z.json">Local writer receipt</a> · <a href="data/run_card_h59i.json">Full JSON run card</a>. No organizer submission-page receipt is present for this TIFF.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">3. Why the decision is negative</h2>
+<ul>
+<li><strong>Literal registry failure.</strong> The historical final-dot scan found 85 rows with more than 70% of candidate positives within 3 px of a prior raster, among 695 scanned rasters. Any literal firing is a duplicate/STOP. The later 696-raster index was not checked against this file. Exact full-grid Spearman was not verified: an older stride/tie implementation is withdrawn.</li>
+<li><strong>No historical surface gate.</strong> The former H59-I construction did not run the required pre-placement surface gate. The experiment and build scripts are now wired to fail closed on surface and final-dot checks.</li>
+<li><strong>Historical holdout is exploratory.</strong> HOLDOUT-DTI 0.082161 [0.069542, 0.096158], evaluator <code>gems57-pooled-hide-v2</code>, 11,321 withheld positives, seed 20, is below the local comparator. The historical case-control prior used full-catalogue prevalence; the code correction was not rerun.</li>
+<li><strong>Requested target-group background is missing.</strong> The model used uniform background plus catalogue-derived proxies, not an independent same-effort target group.</li>
+<li><strong>No slot.</strong> The three-experiment budget is exhausted. No weekly competition slot was used or authorized.</li>
+</ul>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">4. Score-source caution</h2>
+<p>The public leaderboard snapshot records 0.3195 for DARD at rank 8 and 0.2778 for extradr19 at rank 22. These are ORGANIZER-PUBLISHED participant-level public-board values; neither is linked to a specific file by a captured submission-page receipt. The 0.2778 ↔ GEMSDOE32 H33-2-B2 file mapping is unverified. The owner-maintained GEMSDOE32 page labels H33-2-B2 UNSCORED; its audit's <code>predicted_leaderboard_dti</code> is a projection, not a score.</p>
+<p><a href="research/leaderboard-analysis.md">Full attribution review</a>.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">5. Reproducibility and future work</h2>
+<p>Data setup (bridge hashes verified, not an organizer receipt):</p>
+<pre class="mono small">./.venv/bin/python scripts/prepare_data.py --fetch --cache-bands</pre>
+<p><strong>Do not run another holdout or build command under the exhausted budget.</strong> A future authorized run first needs a defensible independent target-group source and a current dated registry. It must use visible-only label-derived features and prevalence, the shared evaluator/writer, feature-alone leakage canaries, a surface gate before placement and final-dot gate before export. A new candidate requires a spatially blocked holdout and a separate selector decision before any slot use.</p>
+<p><a href="research/hypotheses.md">Five ranked geological hypotheses</a> · <a href="review_passes.md">Three review passes</a> · <a href="method.html">Method and limitations</a>.</p>
+</div>
+</main>
+</body>
+</html>

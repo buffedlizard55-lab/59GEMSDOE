@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method &amp; evidence — 59GEMSDOE H59-I</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+</nav>
+<main>
+<h1>Method &amp; evidence — intensity lane (H59-I)</h1>
+
+<div class="panel">
+<h2 style="margin-top:0">Hypothesis and method status</h2>
+<p>The tested prototype asks whether a presence-only point-process intensity, zoned by expected new-fault pixels in 1 km blocks and then lattice-tiled above a holdout-derived break-even, can rank where the published fault catalogue is incomplete. The requested method is not complete: H59-I used uniform background and catalogue-derived trace-density/relief proxies. It did <strong>not</strong> implement an independent, same-effort target-group background per Phillips et al. (2009), because no defensible source was pinned. Do not call the historical result target-group corrected.</p>
+<p class="small"><strong>Historical mechanism.</strong> MaxEnt-form logistic model (Poisson point-process equivalence in form, Fithian &amp; Hastie 2013) on 60,988 mapped presences and 120,000 uniform-background cells, using 13 geophysical/cat-proxy covariates. 1 km is the zoning block; expected new-fault intensity was summed over non-catalogue cells; the historical selected arm used a 4 px lattice and 2 px catalogue collar.</p>
+<p class="small"><strong>Named non-fault mimic.</strong> Mapmaking effort/survey footprint (access, map-sheet boundaries, flight-line levelling), plus lithologic contacts and basin hydrology that can generate lineaments without a fault.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Historical holdout — exploratory only</h2>
+<p>All values in the first three rows are <strong>HOLDOUT-DTI</strong>, evaluator <code>gems57-pooled-hide-v2</code>, seed-20 buffered whole-component draw, <strong>11,321 withheld positives</strong>, pooled α=0.2, β=0.8, 300 m triangular kernel. These are local hide-and-recover results, never public leaderboard scores.</p>
+<table>
+<tr><th>Arm</th><th>HOLDOUT-DTI</th><th>95% CI</th><th>Protocol status</th></tr>
+<tr><td>Historical selected final: 4 px lattice + 2 px collar</td><td>0.082161</td><td>[0.069542, 0.096158]</td><td>Exploratory; full-catalogue prevalence was used in the prior.</td></tr>
+<tr><td>Historical final without collar</td><td>0.074717</td><td>[0.063251, 0.086970]</td><td>Same caveat.</td></tr>
+<tr><td>Historical 3 px baseline, no collar</td><td>0.070517</td><td>[0.059423, 0.082180]</td><td>Same caveat.</td></tr>
+</table>
+<p>The comparator <code>relay_bend_anatomy</code> is **HOLDOUT-DTI 0.135204 [0.119140, 0.153036]** on the same evaluator and seed-20 draw (11,321 withheld positives). The H59-I point estimate is lower; more importantly, its prior was corrected in code but not rerun, the target-group background is absent, and the registry gate fails. No selection or slot recommendation follows.</p>
+<p class="small">The 4 px classwise utility table was derived on the same historical holdout that selected it; its selection caveat is in <a href="data/intensity_exp2_utility_table.json">the JSON receipt</a>. It is not an independent test.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Leakage canary and provenance caveats</h2>
+<p>The historical receipt labelled its per-feature test <strong>LEAKAGE-CANARY (AUC)</strong>; the maximum reported AUC was 0.776 (<code>e_dens5</code>), below the 0.90 rule. This is a screen for individual features, not proof of external validity and not a fix for the historical case-control prior.</p>
+<ul>
+<li>The current runner now calculates case-control prevalence from training-visible presences only. No rerun occurred after that correction.</li>
+<li>The requested target-group background is <strong>NOT IMPLEMENTED</strong>; the response fault catalogue cannot be its own independent effort sample.</li>
+<li>The historical full-catalogue geometry caches are not allowed as fold features. Holdout catalogue-derived features must be rebuilt from the visible mask.</li>
+<li>The bridge raster hash is verified against a public GitHub mirror, not an independent organizer receipt.</li>
+</ul>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Literal registry result — stop</h2>
+<p><strong>REGISTRY-MEASUREMENT:</strong> the historical final-dot scan measured 85 forward-overlap rows above the literal 0.70 threshold among 695 hash-pinned rasters. Its worst forward overlap was 1.0, which alone is a stop. The previous representation-aware override was removed; the rule applies to dense surfaces and support-asymmetric rasters too.</p>
+<p>The old rank-correlation value near 0.176 is withdrawn: the old screen used stride-3 samples and incorrect tie ranking. Exact full-footprint Spearman was not rerun. The latest saved index contains 696 rasters, one more than the historical scan; it was not compared against this candidate. The old candidate was not gated at the surface before placement.</p>
+<p>A prior session asserted that a positive-support witness covers every allowed cell within 3 px, but its TIFF and verification receipts are absent from this checkout; that universal-blocker claim is not independently confirmed here. The measured 85 historical literal overlap firings already require STOP. The current shared comparison in <code>gems59.gates.lane_uniqueness_report</code> is wired into experiment and build scripts before placement and before export; it fails closed on missing index/cache data.</p>
+<p>Full record: <a href="data/uniqueness_h59i.json">strict-gate audit</a>.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Public-board context is not file attribution</h2>
+<p>The saved <strong>ORGANIZER-PUBLISHED public leaderboard</strong> snapshot lists 0.3195 for DARD at rank 8 and 0.2778 for extradr19 at rank 22. It does not link either row to a specific TIFF. The public H33-2-B2 file-to-0.2778 mapping remains unverified; the owner-maintained GEMSDOE32 page calls that artifact UNSCORED. The owner audit's predicted leaderboard field is a PROJECTION, not a score. See <a href="research/leaderboard-analysis.md">the attribution review</a>.</p>
+</div>
+
+<div class="panel">
+<h2 style="margin-top:0">Research and review record</h2>
+<ul>
+<li><a href="research/hypotheses.md">Five ranked geological hypotheses</a> — layers, physical signatures, mimics, overlap, data needs, expected research value and cost.</li>
+<li><a href="review_passes.md">Three review passes</a> — evidence, science/holdout, registry/delivery.</li>
+<li><a href="data/run_card_h59i.json">Machine-readable run card</a>.</li>
+</ul>
+</div>
+</main>
+</body>
+</html>

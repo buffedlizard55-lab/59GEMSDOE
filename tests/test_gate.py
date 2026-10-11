@@ -1,9 +1,9 @@
-"""Historical candidate format checks and the writer's fail-closed contract.
+"""Current H59-J format checks and the writer's fail-closed contract.
 
-The historical raster passes local format checks but is not cleared by the
-literal full-registry uniqueness gate and must not be downloaded/submitted.
-The writer rejects out-of-range values, NaN, positive mass outside the footprint,
-and over-long names/notes; it never silently repairs model output.
+The current raster passes local format checks but is not cleared by the strict
+literal registry gate and is for inspection only. The writer rejects out-of-range
+values, NaN, positive mass outside the footprint, and over-long names/notes; it
+never silently repairs model output.
 """
 import json
 
@@ -17,21 +17,14 @@ from gems59.submission_writer import write_submission
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DL = ROOT / "docs" / "downloads"
 SAMPLE = ROOT / "data" / "official" / "sample_submission.tif"
-BUILD = ROOT / "evidence" / "submission_build_all.json"
+CARD = ROOT / "evidence" / "run_card_current.json"
 
 
 def _shipped_submission() -> Path:
-    """The shipped artifact is whatever the latest build receipt says.
-
-    Resolving it from ``evidence/submission_build_all.json`` (instead of a
-    hard-coded timestamped filename) is what keeps these gates from going
-    stale every time the lane rebuilds -- see ``REMAINING_WORK.md`` item 7.
-    """
-    assert BUILD.exists(), "missing evidence/submission_build_all.json (run build_submission.py)"
-    name = json.loads(BUILD.read_text())["submission_name"]
-    return DL / f"{name}-zeros.tif"
+    """Resolve the current inspection-only artifact from the authoritative card."""
+    assert CARD.exists(), "missing current H59-J run card"
+    return ROOT / json.loads(CARD.read_text())["file"]
 
 
 def test_shipped_submission_passes_format_gate():
@@ -48,7 +41,7 @@ def test_shipped_submission_passes_format_gate():
     assert rep["min"] >= 0.0 and rep["max"] <= 1.0
     assert rep["mass_outside_footprint"] == 0
     rec = json.loads(SUB.with_suffix(".json").read_text())
-    assert rep["n_nonzero"] == rec["validator"]["n_nonzero"] > 0
+    assert rep["n_nonzero"] == rec["validator"]["emitted_positive_pixels"] > 0
     with rasterio.open(SUB) as ds:
         vals = np.unique(ds.read(1))
     assert set(vals) <= {0.0, 1.0}

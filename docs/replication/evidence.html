@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evidence</title><style>
+:root{--bg:#0f1216;--card:#171c22;--ink:#e8edf2;--dim:#9fb0c0;--ok:#2fbf71;--warn:#e8a33d;
+--bad:#e0574f;--line:#26303a;--link:#7cc4ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header,main,footer{max-width:1000px;margin:0 auto;padding:0 20px}
+nav{background:#12171c;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:22px}
+nav a{color:var(--dim);margin-right:16px;text-decoration:none;font-size:14px}
+nav a.on,nav a:hover{color:var(--ink)}
+h1{font-size:26px;margin:18px 0 6px}h2{font-size:20px;margin:30px 0 8px}
+h3{font-size:16px;margin:20px 0 6px}
+p,li{color:var(--ink)}small,.dim{color:var(--dim)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:600;font-size:13px}
+.ok{background:rgba(47,191,113,.15);color:var(--ok);border:1px solid rgba(47,191,113,.4)}
+.warn{background:rgba(232,163,61,.15);color:var(--warn);border:1px solid rgba(232,163,61,.4)}
+.bad{background:rgba(224,87,79,.15);color:var(--bad);border:1px solid rgba(224,87,79,.4)}
+a{color:var(--link)}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:600}
+code,pre{background:#0b0e11;border:1px solid var(--line);border-radius:6px;padding:2px 5px;font-size:13px}
+pre{padding:12px;overflow:auto}
+.dl{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.button{display:inline-block;background:var(--ok);color:#08120c;font-weight:700;padding:10px 16px;
+border-radius:8px;text-decoration:none}
+.button.alt{background:#2b3b49;color:var(--ink)}
+footer{color:var(--dim);font-size:13px;padding:30px 20px}
+</style></head><body>
+<nav><header><a href="index.html">Overview</a><a href="executive-summary.html">Download &amp; submit</a><a href="evidence.html" class=on>Evidence</a><a href="audit.html">Audit</a><a href="sources.html">Sources</a></header></nav><main><h1>Evidence</h1>
+<p class="dim">Every number carries its class. HOLDOUT-DTI values name the evaluator; a projection is
+never written as a score.</p>
+<h2>EXP-1 — catalogue hide-and-recover (the checkable instrument)</h2>
+<p class="dim">4 spatially blocked folds, whole fault components withheld with a 3 px buffer,
+11,354 withheld positive pixels, evaluator
+<code>gems57-pooled-hide-v2</code>, 1000 paired bootstrap draws.</p>
+<table><tr><th>arm</th><th>dots</th><th>HOLDOUT-DTI</th><th>95 % CI</th><th>wTP / wFP / wFN (300 m triangle)</th></tr><tr><td>table0</td><td>50,422</td><td>0.03339</td><td>[0.02282, 0.04447]</td><td>603.7 / 44380.2 / 10750.3</td></tr><tr><td>proximity_only</td><td>48,916</td><td>0.23490</td><td>[0.22011, 0.24839]</td><td>4383.9 / 43513.4 / 6970.1</td></tr><tr><td>random_blocks</td><td>22,145</td><td>0.01678</td><td>[0.01204, 0.02171]</td><td>222.7 / 20709.7 / 11131.3</td></tr><tr><td>uniform_same_count</td><td>50,422</td><td>0.03468</td><td>[0.0303, 0.03875]</td><td>648.6 / 47448.7 / 10705.4</td></tr></table>
+<p class="dim">The catalogue frame is <b>structurally biased</b> toward near-catalogue placement
+(withheld catalogue segments sit next to visible catalogue). It is kept because it is the only frame
+with a fixed, checkable truth, and it is never used to claim a live score.</p>
+<h2>Design rule (declared before use)</h2>
+<p>q = 0.04 — smallest q whose emitted dots reach the bottom of the owner-reported live-optimal band; interpolated in log-count space and rounded up to 0.005 (38,854-44,090 dots (OWNER-REPORTED, 57GEMSDOE README)),
+spacing table [3, 3, 3, 3, 3] px. Emitted dots: 50,651 in
+4,924 of 123,090 blocks, 0 on the
+mapped catalogue.</p>
+<h2>EXP-2 — off-catalogue frame (the arbiter)</h2>
+<p class="dim">Truth is the USGS State Geologic Map Compilation inventory of traces more than 300 m from the competition catalogue. It is an independent inventory of Quaternary-and-older faults that the catalogue does not contain -- the closest available stand-in for the scored new faults. It is NOT the organizer truth and its DTI is NOT a forecast of any leaderboard score.</p>
+<table><tr><th>arm</th><th>dots</th><th>HOLDOUT-DTI</th><th>95 % CI</th></tr>
+<tr><td>lane</td><td>50,651</td><td>0.04399</td><td>[0.03231, 0.05601]</td></tr><tr><td>proximity_only</td><td>48,916</td><td>0.03914</td><td>[0.03301, 0.04594]</td></tr></table>
+<p class="dim">Paired difference (lane − proximity): 0.0048459811769795 … see the receipt for the CI.</p>
+<h2>EXP-3 — leakage canary and robustness</h2>
+<p>Worst single-feature AUC 0.5299 (neg_deq),
+limit 0.9, flags: {}. Robustness over seeds
+59/101/202 × q × 0.6/1.0/1.6: span 0.01156 –
+0.03908 (spread 0.02753).</p>
+<table><tr><th>arm</th><th>dots</th><th>HOLDOUT-DTI (catalogue frame)</th></tr><tr><td>seed101_qx0.6</td><td>29,202</td><td>0.01357</td></tr><tr><td>seed101_qx1.0</td><td>50,875</td><td>0.02189</td></tr><tr><td>seed101_qx1.6</td><td>83,447</td><td>0.02848</td></tr><tr><td>seed202_qx0.6</td><td>32,280</td><td>0.01156</td></tr><tr><td>seed202_qx1.0</td><td>53,771</td><td>0.01755</td></tr><tr><td>seed202_qx1.6</td><td>86,079</td><td>0.02877</td></tr><tr><td>seed59_qx0.6</td><td>28,928</td><td>0.02286</td></tr><tr><td>seed59_qx1.0</td><td>50,422</td><td>0.03339</td></tr><tr><td>seed59_qx1.6</td><td>82,640</td><td>0.03908</td></tr></table>
+<h2>Uniqueness against the registry</h2>
+<p class="dim">Registry rows are prior public rasters; absence from the registry is not evidence of uniqueness against unpublished work.</p>
+<table><tr><th>leg</th><th>scope</th><th>worst rank correlation (dot field)</th><th>worst 3 px overlap</th></tr>
+<tr><td>literal</td><td>all 710 registry rasters</td><td>0.1142 (5GEMSDOE — [&#x27;5GEMSDOE:data/derived/context_detector_prob_u8.tif&#x27;])</td>
+<td>0.9952 (13GEMSDOE — [&#x27;13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif&#x27;, &#x27;13GEMSDOE:)</td></tr>
+<tr><td>representation-aware</td><td>sparse peers only (support &lt;= 20 % of footprint)</td><td>0.0954 (GEMSDOE37 — [&#x27;GEMSDOE37:docs/downloads/gemsdoe37-rankmix-strain-topo-20261005T030338376116Z-52bf89742e)</td>
+<td>0.9952 (13GEMSDOE — [&#x27;13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif&#x27;, &#x27;13GEMSDOE:)</td></tr>
+<tr><td><b>comparable peers</b> (≤ 2 % of footprint)</td><td>490 rasters</td>
+<td>0.0468 (GEMSDOE51 — [&#x27;GEMSDOE51:archive/submissions/2026-10-06/gemsdoe51-strainbudget-s1-v1.tif&#x27;])</td>
+<td>0.5129 (GEMSDOE51 — [&#x27;GEMSDOE51:archive/submissions/2026-10-06/gemsdoe51-strainbudget-s1-v1.tif&#x27;])</td></tr></table>
+<p>Verdict: drift by rank correlation = <b>False</b>,
+drift by overlap against sparse peers = <b>True</b>
+(the literal leg trips on a full-footprint uniform lattice, which sits within 3 px of any dot
+field), drift by overlap against comparable peers =
+<b>False</b>.
+the literal/representation-aware trip (0.9952 against 13GEMSDOE) is a uniform-lattice saturation artefact: that prior is a regular lattice covering the whole footprint (206,895 dots), within 3 px of almost any candidate dot; only 0.1204 of ITS dots are within 3 px of ours, and the rank correlation is -0.003. See IR-59-REPR-01.</p>
+<h2>Family comparison (matched budget)</h2>
+<table><tr><th>field</th><th>dots</th><th>catalogue frame</th><th>off-catalogue frame</th></tr>
+<tr><td>proximity_only</td><td>44,004</td><td>0.23426</td><td>0.03548</td></tr><tr><td>catalogue_family</td><td>44,001</td><td>0.23234</td><td>0.03556</td></tr><tr><td>ground_family</td><td>44,002</td><td>0.03165</td><td>0.05708</td></tr></table>
+<p class="dim">The off-catalogue (SGMC-novelty) frame is the arbiter because the scored target is faults absent from the catalogue and the catalogue frame mechanically rewards near-catalogue placement (IR-30-039). If the two frames disagree, the release follows the off-catalogue frame and reports the catalogue-frame cost explicitly.</p></main>
+<footer>59GEMSDOE intensity lane · built 2026-10-11 01:31 UTC from
+the JSON receipts in <a href="data/run_card_lane_v1.json">docs/replication/data/</a> (one file per gate) · every number carries its evidence class ·
+no competition slot was used by this repository.</footer></body></html>

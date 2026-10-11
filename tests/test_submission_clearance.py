@@ -13,8 +13,13 @@ def test_retired_publisher_fails_without_writing_anything(publisher, capsys, tmp
     assert publisher.main() == 2
     captured = capsys.readouterr()
     notice = captured.err + captured.out
-    assert "HOLD — NOT OK TO DOWNLOAD OR SUBMIT" in notice
-    assert "not organizer-complete" in " ".join(notice.split())
+    normalized = " ".join(notice.split())
+    if publisher is build_submission:
+        assert "DUPLICATE / STOP" in notice
+        assert "NOT CLEARED TO SUBMIT" in notice
+    else:
+        assert "HOLD — NOT OK TO DOWNLOAD OR SUBMIT" in notice
+    assert "organizer-complete" in normalized
     assert set(tmp_path.iterdir()) == before
 
 

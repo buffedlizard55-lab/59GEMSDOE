@@ -1,9 +1,15 @@
 import json
 from pathlib import Path
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
+@pytest.mark.skipif(
+    not (ROOT/'evidence/h6_1_proximity_pruning_holdout.json').is_file()
+    or not (ROOT/'docs/data/h6_1_proximity_pruning_holdout.json').is_file(),
+    reason="H6-1 Session-7 receipts are not present in this checkout",
+)
 def test_h6_1_negative_receipt_is_fail_closed_and_public_copy_matches():
     source = ROOT / "evidence/h6_1_proximity_pruning_holdout.json"
     public = ROOT / "docs/data/h6_1_proximity_pruning_holdout.json"
@@ -27,6 +33,11 @@ def test_h6_1_negative_receipt_is_fail_closed_and_public_copy_matches():
         assert fold["arms"]["random_prune"]["n_emitted"] == fold["allocated"] - fold["removed"]
 
 
+@pytest.mark.skipif(
+    not (ROOT/'evidence/run_card_session7_h6_1.json').is_file()
+    or not (ROOT/'docs/data/run_card_session7_h6_1.json').is_file(),
+    reason="H6-1 Session-7 run card is not present in this checkout",
+)
 def test_session7_run_card_has_no_fabricated_submission_clearance():
     source = ROOT / "evidence/run_card_session7_h6_1.json"
     public = ROOT / "docs/data/run_card_session7_h6_1.json"

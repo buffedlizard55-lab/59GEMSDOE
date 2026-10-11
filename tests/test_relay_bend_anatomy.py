@@ -115,6 +115,12 @@ def test_build_relay_bend_geometry_hidden_invariance(tmp_path: Path):
     assert float(ga.X[sel, i_ratio][0]) == pytest.approx(11.0 / 22.0, abs=1e-4)
 
 
+@pytest.mark.skipif(
+    not (Path(__file__).resolve().parents[1]/"evidence/relay_bend_holdout.json").is_file()
+    or not (Path(__file__).resolve().parents[1]/"evidence/relay_bend_canary.json").is_file()
+    or not (Path(__file__).resolve().parents[1]/"evidence/relay_bend_surface_uniqueness.json").is_file(),
+    reason="Session-5 relay-bend receipts are not present in this checkout",
+)
 def test_session5_relay_bend_holdout_and_surface_receipts():
     import hashlib
     import json

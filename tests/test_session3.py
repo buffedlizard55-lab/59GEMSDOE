@@ -21,6 +21,10 @@ def test_shared_canary_rejects_mislabelled_feature_columns():
         canary([g], feature_names=('wrong',))
 
 
+@pytest.mark.skipif(
+    not EXP.is_file() or not INDEX.is_file() or not (ROOT/'evidence/run_card_legacy_width.json').is_file(),
+    reason="Session-3 H57R raster/index receipts are not present in this checkout",
+)
 def test_new_research_raster_is_distinct_and_fail_closed():
     e = json.loads(EXP.read_text())
     ras = e['research_raster']
@@ -45,6 +49,10 @@ def test_new_research_raster_is_distinct_and_fail_closed():
     assert card['slot_used'] is False
 
 
+@pytest.mark.skipif(
+    not EXP.is_file() or not INDEX.is_file(),
+    reason="Session-3 H57R registry witness receipts are not present in this checkout",
+)
 def test_witnesses_are_exact_indexed_files_and_why_literal_gate_is_blocked():
     e = json.loads(EXP.read_text())
     idx = {r['sha256']:r for r in json.loads(INDEX.read_text())['rasters']}

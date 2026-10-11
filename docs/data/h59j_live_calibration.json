@@ -1,0 +1,362 @@
+{
+ "evidence_class": "HOLDOUT-DTI + OWNER-REPORTED",
+ "generated_utc": "2026-10-11T01:44:56Z",
+ "evaluator_version": "gems57-pooled-hide-v2",
+ "evaluator_hashes": {
+  "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+  "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+  "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+  "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+ },
+ "holdout_split": "buffered-whole-components-loqo-v2",
+ "seed": 20,
+ "alpha": 0.2,
+ "beta": 0.8,
+ "kernel_radius_px": 3.0,
+ "n_files": 26,
+ "n_labelled": 24,
+ "spearman_holdout_vs_live": {
+  "rho": -0.43737757105384134,
+  "p_value": 0.03257227254419616,
+  "n": 24
+ },
+ "spearman_holdout_vs_live_name_tier": {
+  "rho": -0.48265695800902053,
+  "p_value": 0.05827718795384446,
+  "n": 16
+ },
+ "spearman_log_emitted_vs_live": {
+  "rho": -0.8182632015984325,
+  "p_value": 1.0338370899322476e-06,
+  "n": 24
+ },
+ "spearman_log_emitted_vs_live_name_tier": {
+  "rho": -0.8594683960086155,
+  "p_value": 1.9854534040158788e-05,
+  "n": 16
+ },
+ "spearman_emitted_vs_live": {
+  "rho": -0.8182632015984325,
+  "p_value": 1.0338370899322476e-06,
+  "n": 24
+ },
+ "rows": [
+  {
+   "key": "a_verified_01563",
+   "file": "a_verified_01563__44e9eff9.tif",
+   "live_score": 0.1563,
+   "holdout_dti": 0.08066881354927351,
+   "tp": 3250.8264615131975,
+   "fp": 152957.31892175513,
+   "fn": 8070.173538486801,
+   "n_truth": 11321,
+   "emitted": 172974,
+   "mean_value": 0.03347426245405547
+  },
+  {
+   "key": "anderson_pinn_02750",
+   "file": "anderson_pinn_02750__e79b7bdb.tif",
+   "live_score": 0.275,
+   "holdout_dti": 0.003803592886769665,
+   "tp": 62.2062815298701,
+   "fp": 36426.84801437949,
+   "fn": 11258.79371847013,
+   "n_truth": 11321,
+   "emitted": 38854,
+   "mean_value": 0.0075191010983724224
+  },
+  {
+   "key": "c0_scored_reference",
+   "file": "c0_scored_reference__2a2861be.tif",
+   "live_score": null,
+   "holdout_dti": 0.02906717356319919,
+   "tp": 483.738872318774,
+   "fp": 37442.77199262766,
+   "fn": 10837.261127681224,
+   "n_truth": 11321,
+   "emitted": 40199,
+   "mean_value": 0.007779388095266202
+  },
+  {
+   "key": "d15_02477",
+   "file": "d15_02477__cc1752f2.tif",
+   "live_score": 0.2477,
+   "holdout_dti": 0.08880836836369757,
+   "tp": 1816.533927305649,
+   "fp": 55172.1437930182,
+   "fn": 9504.46607269435,
+   "n_truth": 11321,
+   "emitted": 60069,
+   "mean_value": 0.0116246688597862
+  },
+  {
+   "key": "dotted_b2_prune_02778",
+   "file": "dotted_b2_prune_02778__17a76895.tif",
+   "live_score": 0.2778,
+   "holdout_dti": 0.003698680598708719,
+   "tp": 59.6544108441081,
+   "fp": 35299.17112123157,
+   "fn": 11261.345589155892,
+   "n_truth": 11321,
+   "emitted": 37654,
+   "mean_value": 0.007286874781441169
+  },
+  {
+   "key": "dotted_d2_8_02600",
+   "file": "dotted_d2_8_02600__bfb7e86d.tif",
+   "live_score": 0.26,
+   "holdout_dti": 0.09188832467218279,
+   "tp": 1605.8846605759331,
+   "fp": 40492.52579826227,
+   "fn": 9715.115339424065,
+   "n_truth": 11321,
+   "emitted": 44090,
+   "mean_value": 0.00853238192791579
+  },
+  {
+   "key": "dotted_d2_8_02708",
+   "file": "dotted_d2_8_02708__12b0a4dd.tif",
+   "live_score": 0.2708,
+   "holdout_dti": 0.02906717356319919,
+   "tp": 483.738872318774,
+   "fp": 37442.77199262766,
+   "fn": 10837.261127681224,
+   "n_truth": 11321,
+   "emitted": 40199,
+   "mean_value": 0.007779388095266202
+  },
+  {
+   "key": "gems6-hgb88-topk03",
+   "file": "gems6-hgb88-topk03__3957f33a.tif",
+   "live_score": 0.0286,
+   "holdout_dti": 0.16991203626162996,
+   "tp": 5493.983734410872,
+   "fp": 110893.42740538782,
+   "fn": 5827.016265589125,
+   "n_truth": 11321,
+   "emitted": 155021,
+   "mean_value": 0.029999963230833152
+  },
+  {
+   "key": "gemsdoe1-ens12",
+   "file": "gemsdoe1-ens12__812e61b7.tif",
+   "live_score": 0.1563,
+   "holdout_dti": 0.08066881354927351,
+   "tp": 3250.8264615131975,
+   "fp": 152957.31892175513,
+   "fn": 8070.173538486801,
+   "n_truth": 11321,
+   "emitted": 172974,
+   "mean_value": 0.03347426245405547
+  },
+  {
+   "key": "gemsdoe2-dual-union",
+   "file": "gemsdoe2-dual-union__fd56d5c4.tif",
+   "live_score": 0.156,
+   "holdout_dti": 0.08095708912966314,
+   "tp": 3396.648409222834,
+   "fp": 161100.14075568074,
+   "fn": 7924.351590777165,
+   "n_truth": 11321,
+   "emitted": 183642,
+   "mean_value": 0.035538754411574315
+  },
+  {
+   "key": "gemsdoe3-pindrop-discovery",
+   "file": "gemsdoe3-pindrop-discovery__32a4a6d2.tif",
+   "live_score": 0.083,
+   "holdout_dti": 0.06945530472724708,
+   "tp": 2683.4959330326346,
+   "fp": 145213.99996355863,
+   "fn": 8637.504066967358,
+   "n_truth": 11321,
+   "emitted": 155021,
+   "mean_value": 0.029999963230833152
+  },
+  {
+   "key": "gemsdoe3-pindrop-nodes",
+   "file": "gemsdoe3-pindrop-nodes__fdd93116.tif",
+   "live_score": 0.1193,
+   "holdout_dti": 0.08099293907583326,
+   "tp": 3135.290261308914,
+   "fp": 145134.01803223003,
+   "fn": 8185.709738691081,
+   "n_truth": 11321,
+   "emitted": 155021,
+   "mean_value": 0.029999963230833152
+  },
+  {
+   "key": "gemsdoe3-pindrop-ridge",
+   "file": "gemsdoe3-pindrop-ridge__b298154c.tif",
+   "live_score": 0.1152,
+   "holdout_dti": 0.07545638485747125,
+   "tp": 2897.0886474308313,
+   "fp": 143789.98529834,
+   "fn": 8423.911352569166,
+   "n_truth": 11321,
+   "emitted": 155021,
+   "mean_value": 0.029999963230833152
+  },
+  {
+   "key": "gemsdoe3-sgmc-gap",
+   "file": "gemsdoe3-sgmc-gap__9380203f.tif",
+   "live_score": null,
+   "holdout_dti": 0.0,
+   "tp": 0.0,
+   "fp": 59044.0,
+   "fn": 11321.0,
+   "n_truth": 11321,
+   "emitted": 61664,
+   "mean_value": 0.011933336339373992
+  },
+  {
+   "key": "gemsdoe4-combined-237f0063",
+   "file": "gemsdoe4-combined-237f0063__3604c845.tif",
+   "live_score": 0.0343,
+   "holdout_dti": 0.03597954050671599,
+   "tp": 2094.842606612461,
+   "fp": 243736.96614328458,
+   "fn": 9226.157393387537,
+   "n_truth": 11321,
+   "emitted": 264247,
+   "mean_value": 0.05113758964177736
+  },
+  {
+   "key": "h19_5_01922",
+   "file": "h19_5_01922__5d1a920f.tif",
+   "live_score": 0.1922,
+   "holdout_dti": 0.06542296628139585,
+   "tp": 2075.6199138834722,
+   "fp": 111271.21202943297,
+   "fn": 9245.380086116525,
+   "n_truth": 11321,
+   "emitted": 121131,
+   "mean_value": 0.023441504996833014
+  },
+  {
+   "key": "h32_prethin_tip_02649",
+   "file": "h32_prethin_tip_02649__6d9717d7.tif",
+   "live_score": 0.2649,
+   "holdout_dti": 0.06128709905476462,
+   "tp": 1046.9219685371818,
+   "fp": 39080.36235425957,
+   "fn": 10274.078031462817,
+   "n_truth": 11321,
+   "emitted": 42294,
+   "mean_value": 0.008184816540242015
+  },
+  {
+   "key": "h36_rung30_02710",
+   "file": "h36_rung30_02710__d0fc9ebb.tif",
+   "live_score": 0.271,
+   "holdout_dti": 0.027082363222193116,
+   "tp": 437.8373900650714,
+   "fp": 35112.576223123215,
+   "fn": 10883.162609934927,
+   "n_truth": 11321,
+   "emitted": 37660,
+   "mean_value": 0.007288035913025826
+  },
+  {
+   "key": "hedge_v2_01563",
+   "file": "hedge_v2_01563__a941209b.tif",
+   "live_score": 0.1563,
+   "holdout_dti": 0.2701105823377282,
+   "tp": 11321.0,
+   "fp": 152957.31892175513,
+   "fn": 0.0,
+   "n_truth": 11321,
+   "emitted": 227507,
+   "mean_value": 0.04402759390506549
+  },
+  {
+   "key": "lb_anchor_h16_1_01855",
+   "file": "lb_anchor_h16_1_01855__2d4e3ae4.tif",
+   "live_score": 0.1855,
+   "holdout_dti": 0.0653579809249051,
+   "tp": 2108.4324939277753,
+   "fp": 113906.345718814,
+   "fn": 9212.567506072224,
+   "n_truth": 11321,
+   "emitted": 123939,
+   "mean_value": 0.023984914578452147
+  },
+  {
+   "key": "lb_anchor_h19_4_01894",
+   "file": "lb_anchor_h19_4_01894__7765426a.tif",
+   "live_score": 0.1894,
+   "holdout_dti": 0.06580478479238147,
+   "tp": 2122.5760890205047,
+   "fp": 113871.67257613165,
+   "fn": 9198.423910979494,
+   "n_truth": 11321,
+   "emitted": 123779,
+   "mean_value": 0.023953951069527978
+  },
+  {
+   "key": "lb_anchor_h19_5_01922",
+   "file": "lb_anchor_h19_5_01922__5d1a920f.tif",
+   "live_score": 0.1922,
+   "holdout_dti": 0.06542296628139585,
+   "tp": 2075.6199138834722,
+   "fp": 111271.21202943297,
+   "fn": 9245.380086116525,
+   "n_truth": 11321,
+   "emitted": 121131,
+   "mean_value": 0.023441504996833014
+  },
+  {
+   "key": "probe_S1_anchor_02600",
+   "file": "probe_S1_anchor_02600__30cbb06f.tif",
+   "live_score": 0.26,
+   "holdout_dti": 0.09188832467218279,
+   "tp": 1605.8846605759331,
+   "fp": 40492.52579826227,
+   "fn": 9715.115339424065,
+   "n_truth": 11321,
+   "emitted": 44090,
+   "mean_value": 0.00853238192791579
+  },
+  {
+   "key": "r13_lattice_s5_00904",
+   "file": "r13_lattice_s5_00904__81c80261.tif",
+   "live_score": 0.0904,
+   "holdout_dti": 0.0879706722615128,
+   "tp": 4246.000842904472,
+   "fp": 191800.47519814878,
+   "fn": 7074.999157095526,
+   "n_truth": 11321,
+   "emitted": 206895,
+   "mean_value": 0.04003871986790967
+  },
+  {
+   "key": "sgmc44k_00512",
+   "file": "sgmc44k_00512__e5099b92.tif",
+   "live_score": 0.0512,
+   "holdout_dti": 0.04405707860839618,
+   "tp": 767.9512507466536,
+   "fp": 41102.1764176618,
+   "fn": 10553.048749253347,
+   "n_truth": 11321,
+   "emitted": 44090,
+   "mean_value": 0.00853238192791579
+  },
+  {
+   "key": "tip_stepover_r30_02632",
+   "file": "tip_stepover_r30_02632__901d9db3.tif",
+   "live_score": 0.2632,
+   "holdout_dti": 0.05307829366244614,
+   "tp": 901.9522202261663,
+   "fp": 38778.367277511745,
+   "fn": 10419.047779773833,
+   "n_truth": 11321,
+   "emitted": 41865,
+   "mean_value": 0.008101795631939092
+  }
+ ],
+ "labels": {
+  "holdout_dti": "HOLDOUT-DTI (local instrument, evaluator gems57-pooled-hide-v2, draw seed 20) -- NOT an organizer score",
+  "live_score": "OWNER-REPORTED: score recorded by the owner in a sibling-repo file name (GEMSDOE48/data/raw/scored, 7GEMSDOE/external/scored); no organizer receipt is reachable from this session"
+ },
+ "note": "This is an instrument-calibration measurement, not a submission score."
+}

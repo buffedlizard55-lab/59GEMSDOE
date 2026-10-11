@@ -1,6 +1,7 @@
 # Utility derivation — when does adding a dot raise the score?
 
-Status: **algebra verified on synthetic trials** (500/500, `scripts/utility_table.py`, `evidence/utility_table_synthetic.json`). The numeric rows below are scenario inputs to the identity, not measured candidate scores. A HOLDOUT-DTI is only one carrying its evaluator, withheld-positive count and 95% CI; public-board values are participant context and do not establish file attribution.
+Status: **algebra verified** (500/500 random trials, `scripts/utility_table.py`, `evidence/utility_table_synthetic.json`).
+Labels: all numbers here are `SYNTHETIC` or `PROJECTION`. None is a holdout or organizer score.
 
 ## 1. Exact identity
 
@@ -27,13 +28,13 @@ Proof: `ΔD = [ΔT·(αS+βG) − T·α·ΔS] / (αS+βG)²` and `T = D·(αS+β
 For an isolated dot whose only effect is on one truth pixel at kernel credit `k = 1 − d/R`:
 `ΔT = k`, `ΔFP = 1 − k`, so `ΔS = 1`, and the dot pays iff `k > α·D`.
 
-| Assumed D input for this algebra scenario (not a candidate score) | Derived break-even credit k* = 0.2·D | Derived distance d* = 3·(1 − k*) | Derived metres |
+| DTI (score level) | break-even credit k* = 0.2·DTI | break-even distance d* = 3·(1 − k*) | in metres |
 | ---: | ---: | ---: | ---: |
-| 0.10 (illustrative) | 0.0200 | 2.94 px | 294 m |
-| 0.2778 (illustrative; public-board participant row only; H33 file mapping unverified) | 0.0556 | 2.83 px | 283 m |
-| 0.3195 (illustrative; DARD public-board row, rank 8, no TIFF link) | 0.0639 | 2.81 px | 281 m |
-| 0.3774 (illustrative; public-board rank 1, not a GEMSDOE file receipt) | 0.0755 | 2.77 px | 277 m |
-| 0.50 (illustrative) | 0.1000 | 2.70 px | 270 m |
+| 0.10 | 0.0200 | 2.94 px | 294 m |
+| 0.2778 (the 0.2778 figure) | 0.0556 | 2.83 px | 283 m |
+| 0.3774 (public #1 at revision 1) | 0.0755 | 2.77 px | 277 m |
+| 0.4133 (public #1 at revision 2, 2026-10-11) | 0.0827 | 2.75 px | 275 m |
+| 0.50 | 0.1000 | 2.70 px | 270 m |
 
 Reading: at any plausible score level the single-dot break-even sits just inside the 300 m kernel.
 A dot further than about 280–295 m from a true fault is worth nothing in this simple case.
@@ -67,7 +68,6 @@ background is required, and until one exists the spacing rule is **unconfirmed**
 
 ## 6. What is still needed
 
-1. A protocol-qualified spatial holdout after the independent target-group source is established and the case-control prior is computed from visible training labels only. A historical H59-I holdout exists, but its prior used full-catalogue prevalence and it did not use target-group background; it is exploratory and must not set a promotion threshold.
-2. Estimate the credit distribution `E[k | x]` for candidate pixels from a defensible training design, then compare complete emission sets on the blocked holdout with confidence intervals.
-3. Apply the strict surface registry check before placement and final-dot check after; a literal `rho > 0.90` or forward 3 px overlap `> 0.70` is STOP. A prior session's universal-support-witness claim is unverified in this checkout because its TIFF and verification receipts are absent; the 85 retained historical final-dot overlap firings independently trigger STOP.
-4. Only after those gates, choose emission by thresholding `E[k | x]` at `α·D*`, where `D*` is a protocol-qualified HOLDOUT-DTI of the chosen set. This algebra is not a score projection and does not itself authorize a weekly slot.
+1. A holdout on which `TP`, `FP` and `FN` can be measured for real emission sets (blocked until the data is placed).
+2. The estimated credit distribution `E[k | x]` for each candidate pixel, which the model must supply.
+3. Only then, choose emission by thresholding `E[k | x]` at `α·D*`, where `D*` is the holdout DTI of the chosen set (fixed point).

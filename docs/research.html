@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research notes (59GEMSDOE)</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+  <a href="research.html">Research</a>
+  <a href="results.html">Results</a>
+  <a href="sources.html">Sources</a>
+  <a href="irregularities.html">Irregularities</a>
+</nav>
+<main>
+<h1>Research notes</h1>
+<p class="small">Rendered from <code>docs/research/*.md</code> at build time; the markdown files are the source.</p>
+<h2 id="why-02778">why-02778</h2>
+<h2>Why <code>h33-h33-2-b2-…-zeros</code> scored 0.2778 — and what it would take to beat it</h2>
+<p><strong>Evidence classes used below.</strong> <code>ORGANIZER-CONFIRMED</code> = read off the DrivenData public leaderboard. <code>OWNER-RECORDED</code> = the score is written into the <em>file name</em> by the owner in a sibling repository (<code>GEMSDOE48/data/raw/scored/<em>.tif</code>, <code>GEMSDOE48/data/families/</em>.tif</code>, <code>17GEMSDOE/<em></code>, <code>GEMSDOE54/registry/</em></code>); this is the strongest tier reachable without a DrivenData login, and it is <strong>not</strong> an organizer receipt. <code>VERIFIED-FILE</code> = measured by this project's own reader on a public file. <code>DERIVED</code> = algebra from the official metric. <code>PROJECTION</code> = an estimate, never a score.</p>
+<p>---</p>
+<h3>1. The current board (ORGANIZER-CONFIRMED, fetched 2026-10-11)</h3>
+<table><tr><th>Rank</th><th>Participant</th><th>Best public DW-Tversky</th><th>Submissions</th></tr>
+<tr><td>#1</td><td>xiaofanhu</td><td><strong>0.4133</strong></td><td>16</td></tr>
+<tr><td>#2</td><td>JerryDataWorks</td><td>0.3418</td><td>18</td></tr>
+<tr><td>#3</td><td>alexoktaba</td><td>0.3361</td><td>27</td></tr>
+<tr><td>#8</td><td>DARD</td><td>0.3195</td><td>17</td></tr>
+<tr><td>#23</td><td>extradr19</td><td><strong>0.2778</strong></td><td>15</td></tr>
+<tr><td>#50+</td><td>…</td><td></td><td></td></tr>
+</table>
+<p>Source: &lt;https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/&gt;. The repository's stored snapshot (<code>evidence/leaderboard_snapshot_2026-10-11.json</code>) recorded #1 at 0.3774 earlier the same day; the board has since moved to 0.4133. Both figures are public-test scores; the Initial Prize Round is decided on the <strong>private</strong> test set (problem page, "Competition structure").</p>
+<h3>2. What the 0.2778 file is (VERIFIED-FILE)</h3>
+<p><code>GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code>, blob <code>17a76895</code>, sha256 <code>c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9</code>, 219,065 B. The owner also ships it as <code>GEMSDOE48/data/families/dotted_b2_prune_02778.tif</code> and <code>GEMSDOE54/registry/registry_rasters/dotted_b2_prune_02778.tif</code> — i.e. the owner's own file name <strong>records the score 0.2778</strong> next to the design name <code>dotted b2 prune</code> (OWNER-RECORDED). Measured properties: single band float32, EPSG:32611, 3730 × 3292, 100 m, no nodata tag, values exactly {0, 1}, <strong>37,654 positive cells</strong>, all 12,279,160 cells finite (zeros outside the study footprint — this exact byte pattern was accepted and scored by the portal).</p>
+<p>Geometry (VERIFIED-FILE, measured here):</p>
+<table><tr><th>property</th><th>value</th></tr>
+<tr><td>positive cells</td><td>37,654 (0.729 % of the 5,167,373-cell footprint)</td></tr>
+<tr><td>median nearest-neighbour spacing</td><td>3.0 px (p10 2.83, p90 5.1)</td></tr>
+<tr><td>dominant neighbour offsets</td><td>(2,2), (2,−2), (3,0), (3,±1), (0,3) — 3-px steps in the eight compass directions</td></tr>
+<tr><td>1 km blocks containing ≥ 1 dot</td><td>15,976 of 122,717 (13.0 %)</td></tr>
+<tr><td>mean dots per occupied 1 km block</td><td>2.36</td></tr>
+<tr><td>median distance to a mapped catalogue pixel</td><td>19.6 px (1.96 km)</td></tr>
+<tr><td>dots within 1 px of the catalogue</td><td><strong>0</strong> (the "prune")</td></tr>
+<tr><td>dots within 3 px of the catalogue</td><td>5.8 %</td></tr>
+</table>
+<p>So the highest recorded sibling design is <strong>not</strong> a coverage lattice and <strong>not</strong> a catalogue-hugger: it is ≈ 15,000 short 2–3-dot fragments (3-px steps along a local direction), scattered over ~13 % of the 1 km blocks, with every dot pulled at least 2 px away from the mapped catalogue.</p>
+<h3>3. Why that geometry wins under the official metric (DERIVED)</h3>
+<p>The official metric is <code>DTI = TP_w / (TP_w + 0.2·FP_w + 0.8·FN_w)</code> with a 300 m (3 px) triangular kernel (problem page 967; implementation <code>src/gems_dti/metric.py</code>, transcribed and unit-tested here). Because <code>TP_w + FN_w = G</code> exactly, <code>DTI = TP_w / (0.2·S_w + 0.8·G)</code> with <code>S_w = TP_w + FP_w</code>, and adding one non-redundant dot of kernel credit <code>k</code> raises the score iff</p>
+<p><strong>k &gt; 0.2 · DTI</strong>  (proof in <code>docs/research/utility-derivation.md</code>; algebra verified 500/500 synthetic)</p>
+<p>At the 0.2778 level the bar is <code>k &gt; 0.0556</code>, i.e. <strong>a dot pays only if it lands within ≈ 2.83 px (283 m) of a truth pixel</strong>. Three consequences decide the whole competition:</p>
+<ol><li><strong>Dot count is the primary risk.</strong> Every dot that misses the 283 m corridor costs the same as a</li></ol>
+<p>truthful dot earns. A sparse, high-precision set beats a dense, low-precision one at equal hit rate.</p>
+<ol><li><strong>Dots on already-mapped faults are free but worthless.</strong> DrivenData staff (2026-09-16) confirmed</li></ol>
+<p>that known USGS/INGENIOUS fault pixels are masked out of scoring entirely, so a dot there neither earns nor costs. The "prune" therefore removes only the <em>flanks</em> (unmasked cells 1–2 px off a known trace, which can never be truth and always cost).</p>
+<ol><li><strong>Coverage lattices need the tiled area to contain most of the truth.</strong> If a block lattice covers a</li></ol>
+<p>fraction <code>a</code> of the truth and the dots are placed on a 4 px lattice, <code>TP ≈ 0.44·a·G</code>; with <code>G ≈ 30,000</code>, <code>n = 35,000</code> that is <code>DTI ≈ 0.05</code> unless <code>a</code> is very large. This is exactly why the family's <em>block-tiled</em> designs stall around 0.25–0.28 while the point-precision designs advance.</p>
+<h3>4. The measurement that changes everything: our own holdout is inverted</h3>
+<p>Two instruments were calibrated this session against the 24 rasters whose public score the owner recorded (<code>scripts/exp_live_calibration.py</code>, <code>scripts/exp_corridor_calibration.py</code>; evidence <code>evidence/h59j_live_calibration.json</code>, <code>evidence/h59j_corridor_calibration.json</code>):</p>
+<table><tr><th>instrument</th><th>Spearman vs recorded public score</th><th>p</th><th>n</th></tr>
+<tr><td>shared hide-and-recover holdout, <code>gems57-pooled-hide-v2</code>, seed 20</td><td><strong>−0.437</strong></td><td>0.033</td><td>24</td></tr>
+<tr><td>same, file-name-tier scores only</td><td><strong>−0.483</strong></td><td>0.058</td><td>16</td></tr>
+<tr><td>corridor-restricted variant (truth ≥ 6 px from any visible trace)</td><td>−0.427</td><td>0.038</td><td>24</td></tr>
+<tr><td>corridor-restricted variant (truth ≥ 10 px)</td><td>−0.383</td><td>0.064</td><td>24</td></tr>
+<tr><td><strong>log10(emitted dots)</strong></td><td><strong>−0.818</strong></td><td>&lt; 1e-4</td><td>24</td></tr>
+<tr><td>log10(emitted dots), file-name tier</td><td><strong>−0.859</strong></td><td>&lt; 1e-4</td><td>16</td></tr>
+</table>
+<p>The mechanism is structural, not statistical noise: the hide-and-recover truth <em>is</em> the mapped catalogue, so (a) designs that decorate the visible traces score on it, and (b) a design that prunes its dots away from the catalogue — the very thing the live scorer rewards — collapses on it (the 0.2778 raster scores <code>TP_w = 59.7</code> out of 11,321 withheld truth pixels on that instrument, i.e. DTI 0.0037, essentially last of the 24).</p>
+<p><strong>Irregularity for review (IR-59J-01):</strong> <code>REMAINING_WORK.md</code> §1 called this the "central unresolved tension"; it is now measured, and it invalidates the promotion gate that required a candidate to beat the 0.135 holdout best. Any candidate judged by that gate is being judged by an instrument that ranks the field's best recorded submission near the bottom.</p>
+<h3>5. Answering the standing question: can we beat 0.2778?</h3>
+<p><strong>Not proven, and not provable from this sandbox</strong> (no DrivenData account, no private labels, no GPU). What the evidence <em>does</em> support:</p>
+<ul><li>The recorded score is a monotone decreasing function of emitted dot count across every design family</li></ul>
+<p>in the owner's own record — <code>264k → 0.034</code>, <code>207k 5-px lattice → 0.090</code>, <code>155k → 0.083–0.119</code>, <code>121k → 0.192</code>, <code>60k → 0.248</code>, <code>42k → 0.265</code>, <code>40k → 0.271</code>, <code>37.7k → 0.271/0.278</code>.</p>
+<ul><li>The leaderboard's 0.41-class entries sit 0.10–0.13 above the best sibling design; closing that gap</li></ul>
+<p>needs either a materially better <em>place</em>-ment model (a trained CNN on the 19 bands, or the 1 m DEM that this sandbox cannot download) or a materially better <em>geometry</em>. Nothing in the local evidence says the geometry is exhausted: the 0.2778 raster only covers 13 % of 1 km blocks with 2.4 dots each.</p>
+<ul><li>Therefore the defensible next step is a <strong>precision-first, budget-capped emission</strong> whose geometry is</li></ul>
+<p>validated against the live-calibrated relation (dot count) while its <em>placement</em> is stated as a projection — which is what the H59-J candidate shipped alongside this memo does (<code>docs/downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif</code>).</p>
+<p><strong>Projection, explicitly not a score.</strong> A design in the 30–38k-dot band, built from catalogue-independent lineament evidence with a 2 px catalogue collar, would be expected to land in the same 0.24–0.29 band as the recorded siblings of that size; a materially higher position requires placement skill this project has not yet demonstrated. No local number on any page of this site is a competition score.</p>
+<h2 id="hypotheses-v2">hypotheses-v2</h2>
+<h2>Candidate hypotheses, session H59-J — five ranked, with overlap and obtainability checks</h2>
+<p><strong>Status labels.</strong> <code>BUILT / HELD</code> (a raster exists but fails or has an incomplete strict gate; inspection only), <code>MEASURED</code> (a number was produced here, with its instrument named), <code>PROJECTION</code> (judgement, never a score), <code>BLOCKED</code> (cannot be tested here, with the reason and the source that is missing).</p>
+<p>Nothing in this page is a competition score. Evidence classes are the ones defined in <code>docs/research/why-02778.md</code>. The participant-level public board snapshot is #1 0.4133 / #8 0.3195 / #23 extradr19 0.2778 (ORGANIZER-CONFIRMED, fetched 2026-10-11); no row is a file-linked receipt for H59-J or H59-I.</p>
+<p>---</p>
+<h3>What the measurement in <code>why-02778.md</code> rules out</h3>
+<p>The session's owner-maintained calibration record shows that emitted dot count and the shared hide-and-recover holdout are strongly associated with participant-level public-board values, but the file-to-score attribution is not authenticated by a submission-page receipt. The holdout/public-board rank relation is negative (IR-59J-01), so a local holdout is not used as a promotion criterion. A new hypothesis therefore has to clear three bars at once:</p>
+<ol><li>it must produce a <strong>precision</strong> point set (dots within ≈ 2.83 px of an unmapped fault), because at</li></ol>
+<p>DTI ≈ 0.28 a dot beyond that radius is a net loss (<code>docs/research/utility-derivation.md</code>);</p>
+<ol><li>it must not be a catalogue-echo (the truth is by construction <em>not</em> in the catalogue, and dots on</li></ol>
+<p>the catalogue are masked and worthless);</p>
+<ol><li>it must be rank-distinguishable from the 695 registry rasters, or it is a duplicate by protocol</li></ol>
+<p>rule 1.</p>
+<p>---</p>
+<h3>H1 — Multi-physics structure-tensor coherence consensus, dotted at a live-calibrated budget (BUILT / STOP)</h3>
+<ul><li><strong>Layers:</strong> band 12 <code>det_elev</code> (topographic scarps), band 2 <code>rtp</code> (basement/contact lineaments),</li></ul>
+<p>band 13 <code>iso_grav_anom</code> (density-contrast lineaments) — all from the official 19-band GeoDAWN stack (sha256 <code>4371c82e…23bc5</code>), all catalogue-independent.</p>
+<ul><li><strong>Physical signature:</strong> the <em>structure tensor</em> of each field at two scales (σ = 2, 5 px), reduced to</li></ul>
+<p>gradient energy × coherence <code>((Jxx−Jyy)² + 4Jxy²)^0.5 / (Jxx+Jyy)</code>. A fault trace is an anisotropic gradient feature: high energy <strong>and</strong> high coherence. Isotropic texture (alluvial roughness, radiometric speckle) has high energy but low coherence.</p>
+<ul><li><strong>Why it can catch a fault the catalogue lacks:</strong> the detector never sees the catalogue; the</li></ul>
+<p>consensus requires agreement between topography, magnetics and gravity, so a single-physics mimic (a drainage line, a flight-line levelling step, a gravity datum seam) cannot fire on its own. The emission is additionally pulled ≥ 2 px off every mapped trace.</p>
+<ul><li><strong>How it differs from what already exists:</strong> the registry's own "multi-physics lineament consensus"</li></ul>
+<p>(GEMSDOE32 H33-A, rank 1 of its set) is documented only by name; the previous lanes here used isotropic 9×9 local-contrast ranks (<code>gems59.intensity</code>) and block-tiled lattices. This is the first emission in the record gated on <em>coherence</em> (anisotropy), emitted as 2–3-dot fragments along the ridge direction, and budgeted from the live-calibrated dot-count relation rather than from the (inverted) holdout.</p>
+<ul><li><strong>Named non-fault process that could mimic it:</strong> long-wavelength sediment fabric and playa margins in</li></ul>
+<p>the gravity/topography pair; magnetic dyke swarms and survey-line levelling residuals in <code>rtp</code>. Control: consensus across three independent physics + the collar + a budget cap.</p>
+<ul><li><strong>Measured here:</strong> 19,187 eligible ridge sites → 12,000 strongest sites × ≤3 dots = <strong>30,815 dots</strong></li></ul>
+<p>(0.596 % of the footprint); consensus mean 0.4221, at mapped catalogue 0.4841; 0 dots on the catalogue; 0 cells outside the footprint. HOLDOUT-DTI <strong>0.019124 [0.016393, 0.022148]</strong> — evaluator <code>gems57-pooled-hide-v2</code>, seed 20, 11,321 withheld positives. A separate corridor-6 diagnostic used 8,062 withheld positives but has no 95% CI in its receipt, so no corridor score is reported as a qualified result. The qualified holdout instrument is anti-correlated with the live score (IR-59J-01) and does not clear this candidate.</p>
+<ul><li><strong>Cost:</strong> 20 s of CPU (3 band reads + 12 Gaussian filters + ranking). No new data.</li><li><strong>Verdict:</strong> Artifact built and held for inspection only; the strict literal registry gate records 86</li></ul>
+<p>forward-overlap hits above 0.70 (DUPLICATE / STOP), and the newer 696-raster index was not scanned. Placement quality remains a <code>PROJECTION</code>, not a validated claim or competition score.</p>
+<h3>H2 — Instrumental-seismicity lineaments × geodetic strain co-location (not run)</h3>
+<ul><li><strong>Layers:</strong> band 10 <code>deq_n100a15</code> and band 16 <code>ieq_n100a15</code> (earthquake distance/density),</li></ul>
+<p>band 4 <code>geod_2ndinv</code>, band 7 <code>geod_shearrate</code> (strain-rate tensor invariants).</p>
+<ul><li><strong>Physical signature:</strong> lineaments formed by <em>declustered</em> hypocenters, weighted by moment or count,</li></ul>
+<p>intersected with the second invariant of the geodetic strain-rate tensor. Active faults concentrate both.</p>
+<ul><li><strong>Why it catches a fault the catalogue lacks:</strong> the catalogue is a <strong>surface-geology</strong> compilation —</li></ul>
+<p>it records what a mapper could see. A seismogenic structure under basin fill can be missing from it while still producing earthquakes and measurable strain.</p>
+<ul><li><strong>Why it is not just what already exists:</strong> the previous lane used <code>deq</code>/<code>ieq</code> as *intensity</li></ul>
+<p>covariates*; the registry's GEMSDOE32 H62-3 used strain "raw". An explicit seismicity-lineament transform (declustering → linear-cluster extraction → strain gate) does not appear in the record.</p>
+<ul><li><strong>Supporting (weak) evidence, n = 24 rasters, partial Spearman controlling for dot count:</strong></li></ul>
+<p><code>geod_2ndinv</code> rank under the dots <strong>+0.700 (p &lt; 0.001)</strong>, <code>deq_n100a15</code> <strong>+0.636 (p = 0.001)</strong> — i.e. the designs whose dots sit in high-strain, earthquake-dense ground are, conditional on size, the ones that scored higher. <code>n = 24</code> non-independent rasters; hypothesis-generating only.</p>
+<ul><li><strong>Obtainability:</strong> all layers are already in the official stack; a declustered catalogue would ideally</li></ul>
+<p>come from USGS ComCat (&lt;https://earthquake.usgs.gov/fdsnws/event/1/&gt;), which this sandbox cannot reach (egress allow-list). The provided <code>deq</code>/<code>ieq</code> grids are a usable stand-in.</p>
+<ul><li><strong>Cost:</strong> medium (cluster extraction + a strain co-location rule + a budget). <strong>Expected gain:</strong></li></ul>
+<p>PROJECTION, unknown.</p>
+<h3>H3 — Official mapping-scale completeness prior from the QFaults attribute table (not run)</h3>
+<ul><li><strong>Layer/data:</strong> <code>data/external/qfault_attributes.csv</code> — 22,956 records of the USGS/INGENIOUS QFaults</li></ul>
+<p>compilation; measured here: <code>MAPSCALE</code> has 12 values, dominated by 10 (11,334 records), 24 (3,025), 100 (1,856) and <strong>250 (2,229)</strong>.</p>
+<ul><li><strong>Physical signature:</strong> none — this is a <em>completeness</em> prior, not a geophysical one. It</li></ul>
+<p>parameterises where the existing map is allowed to be wrong: a 1:250,000 compilation cannot record scarps shorter than a few hundred metres, while a 1:24,000 quadrangle map can.</p>
+<ul><li><strong>Why it catches a fault the catalogue lacks:</strong> it predicts where a <em>missing</em> fault can be at all,</li></ul>
+<p>independently of any geophysical response. This is the one candidate whose information is about the mapping process rather than the geology.</p>
+<ul><li><strong>Difference from existing work:</strong> the previous lane's effort covariates were <em>derived</em> (1 km / 5 km</li></ul>
+<p>trace density, relief). The official scale attribute has not been used, precisely because the join from <code>trace_segments_utm11.csv</code> (84,331 segments, field <code>record_id</code>) to the attribute table (field <code>NUM</code>, e.g. <code>829a</code>, <code>2351g</code>) is unresolved — a prior session measured only 349/1,126 intersecting names and 1.9 %/0 % agreement on a positional join.</p>
+<ul><li><strong>Irregularity for review (IR-59J-02):</strong> the join is a data-engineering problem, not a scientific one,</li></ul>
+<p>and it must be solved before this hypothesis can be tested. Until then it is NOT viable.</p>
+<ul><li><strong>Cost:</strong> medium; <strong>expected gain:</strong> PROJECTION, low-to-medium.</li></ul>
+<h3>H4 — Doubly-unknown structures: lineaments that neither the catalogue nor the state compilation records (falsification-first, not run)</h3>
+<ul><li><strong>Data:</strong> <code>data/external/sgmc_faults_100m.tif</code> (82,151 positive cells, measured) versus the catalogue</li></ul>
+<p>(60,988 cells) — the set difference is 78,433 cells (measured).</p>
+<ul><li><strong>Physical signature:</strong> ridge coherence high <strong>and</strong> distance to the nearest SGMC fault large.</li><li><strong>Why it is contrarian:</strong> the recorded live scores say the opposite of "chase SGMC" — coverage of the</li></ul>
+<p>SGMC-only population is the <em>most negative</em> correlate of the recorded score (<code>cov_sgmc</code> ρ = −0.699, p = 0.011, n = 24; the SGMC-designed raster <code>sgmc44k_00512.tif</code> scored 0.0512, OWNER-RECORDED). So the only defensible use of SGMC is subtractive: use it to <em>remove</em> lineaments from the emission, on the theory that a structure already captured by a state compilation is likely to be old/inactive and is not what the expert panel added.</p>
+<ul><li><strong>Difference from existing work:</strong> the registry's <code>sgmc-gap</code>, <code>sgmc44k</code>, <code>sgmc-off-catalogue-44k</code> and</li></ul>
+<p>GEMSDOE41's <code>statemap-lattice</code> all <em>emit on</em> SGMC-derived structure; none uses SGMC as an exclusion.</p>
+<ul><li><strong>Measured this session (the falsification already ran):</strong> scoring all 24 owner-labelled rasters against</li></ul>
+<p>an off-catalogue proxy truth (SGMC pixels ≥ 3 px from the mapped catalogue) with the official metric gives Spearman(live score, proxy DTversky) = <strong>−0.665 (p = 0.0004, n = 24)</strong>; the raster that covers the proxy best (<code>sgmc44k</code>, proxy 0.56) has one of the worst live scores (0.0512), and the family's best live raster covers the proxy worst. So "chase the state compilation" is not merely risky, it is <strong>measured backwards</strong>; the only surviving form of H4 is the <em>subtractive</em> one (use SGMC distance as an exclusion term), which is still untested. Receipt: <a href="data/offcat_instrument_check.json"><code>../../evidence/offcat_instrument_check.json</code></a>.</p>
+<ul><li><strong>Cost:</strong> low. <strong>Expected gain:</strong> PROJECTION, unknown. This is the cheapest falsifiable test left, and its</li></ul>
+<p>additive form is now falsified.</p>
+<h3>H5 — 1 m DEM scarp curvature (BLOCKED — not proposed as viable)</h3>
+<ul><li><strong>What it would add:</strong> the expert panel almost certainly worked with sub-metre topography; a 1 m DEM</li></ul>
+<p>resolves scarplets that the 100 m <code>det_elev</code> band smears out.</p>
+<ul><li><strong>Named source:</strong> <code>1m_DEM_links.csv</code> on the DrivenData data tab</li></ul>
+<p>(&lt;https://www.drivendata.org/competitions/306/competition-doe-gems/data/&gt; — verified to redirect to login), whose entries point at USGS 3DEP / OpenTopography hosts that this sandbox's egress allow-list cannot reach. <strong>Obtainability check: FAILED here.</strong> No claim is made that it would help.</p>
+<ul><li><strong>Cost:</strong> high (tens of GB of tiles, registration to the 100 m grid, scarp morphology).</li></ul>
+<p>---</p>
+<h3>Ranking summary</h3>
+<table><tr><th>Rank</th><th>Hypothesis</th><th>Overlap with the 695-raster registry</th><th>Data obtainable here</th><th>Cost</th><th>Expected gain</th></tr>
+<tr><td>1</td><td><strong>H1</strong> coherence consensus, dotted, budget-capped</td><td><strong>FAIL / STOP:</strong> 86 literal forward 3-px overlaps above 0.70 on the historical 695-raster scan; the later 696-raster index was not checked, and no surface-stage receipt is available</td><td>yes (official stack)</td><td>20 s (historical)</td><td>BUILT / HELD for inspection only; 0.24–0.29 remains a low-confidence PROJECTION, not a score; no slot authorized</td></tr>
+<tr><td>2</td><td><strong>H2</strong> seismicity × strain lineaments</td><td>not built</td><td>yes, but ComCat is blocked</td><td>medium</td><td>PROJECTION</td></tr>
+<tr><td>3</td><td><strong>H4</strong> doubly-unknown (SGMC-exclusion; additive form <strong>falsified</strong> this session, ρ −0.665)</td><td>not built</td><td>yes, local</td><td>low</td><td>PROJECTION</td></tr>
+<tr><td>4</td><td><strong>H3</strong> official map-scale completeness prior</td><td>not built</td><td>attribute table local, <strong>join unresolved</strong> (IR-59J-02)</td><td>medium</td><td>PROJECTION</td></tr>
+<tr><td>5</td><td><strong>H5</strong> 1 m DEM scarps</td><td>not built</td><td><strong>no (blocked)</strong></td><td>high</td><td>unknown</td></tr>
+</table>
+<p>No weekly slot was spent. Validation on the shared holdout is reported for every arm but, per the calibration in <code>why-02778.md</code>, it is no longer used as a promotion gate.</p>
+<h2 id="leaderboard-analysis">leaderboard-analysis</h2>
+<h2>Leaderboard analysis — why 0.2778, and can we beat it?</h2>
+<p>Evidence labels: <code>ORGANIZER-CONFIRMED</code> (copied from the DrivenData leaderboard page, fetched 2026-10-11), <code>VERIFIED-FILE</code> (checked by our own reader on a public file), <code>DERIVED</code> (algebra from the official formula), <code>UNVERIFIED</code> (claim we could not check), <code>PROJECTION</code> (estimate, not a score).</p>
+<h3>1. The numbers, with their status</h3>
+<table><tr><th>Item</th><th>Value</th><th>Label</th><th>Source</th></tr>
+<tr><td>Public leaderboard #1 (xiaofanhu, 16 submissions)</td><td>0.4133</td><td>ORGANIZER-CONFIRMED (re-fetched 2026-10-11, revision 2)</td><td>&lt;https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/&gt;</td></tr>
+<tr><td>Same row earlier the same day (revision 1)</td><td>0.3774</td><td>ORGANIZER-CONFIRMED at the earlier read</td><td>same page, <code>evidence/leaderboard_snapshot_2026-10-11.json</code> <code>revision_1_rows</code></td></tr>
+<tr><td>#2 JerryDataWorks</td><td>0.3418</td><td>ORGANIZER-CONFIRMED</td><td>same</td></tr>
+<tr><td>#8 DARD</td><td>0.3195</td><td>ORGANIZER-CONFIRMED</td><td>same. This is the "0.3195 highest right now" figure in the brief.</td></tr>
+<tr><td>#23 extradr19</td><td>0.2778</td><td>ORGANIZER-CONFIRMED (participant name only)</td><td>same; ranked #22 at revision 1</td></tr>
+<tr><td>#50 MSU-Laskowski-GEMS</td><td>0.2448</td><td>ORGANIZER-CONFIRMED</td><td>same</td></tr>
+<tr><td>File <code>h33-h33-2-b2-…-zeros.tif</code> (GEMSDOE32)</td><td>scored 0.2778 per the brief</td><td><strong>UNVERIFIED mapping</strong></td><td>the leaderboard shows a participant, not a file</td></tr>
+<tr><td>Gap, #1 minus the 0.2778 entry</td><td>0.1355</td><td>DERIVED</td><td>0.4133 − 0.2778 (revision-1 gap was 0.0996)</td></tr>
+</table>
+<p><strong>Irregularity:</strong> the brief calls 0.3774 the "GEMSDOE high score". It is the overall #1 (a different team), not a GEMSDOE entry. Nothing on the public board ties 0.2778 to GEMSDOE32's file, so the mapping is an assumption until the owner confirms it.</p>
+<h3>2. What the 0.2778 file is (VERIFIED-FILE)</h3>
+<p>Read directly from <code>GEMSDOE32/docs/downloads/…-zeros.tif</code> with our own reader (<code>gems_dti.submission.validate_file</code>, self-template):</p>
+<ul><li>single band, float32, EPSG:32611, 3730 × 3292, 100 m, no nodata tag</li><li>values exactly {0, 1}; <strong>37,654 positive cells</strong></li><li>sha256 <code>c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9</code> (matches the repo's own record)</li><li>the NaN-outside twin has <strong>5,167,373 finite cells</strong> (the footprint); the zeros twin has all 12,279,160 cells finite. 37,654 ÷ 5,167,373 = <strong>0.729 %</strong> of the footprint.</li><li>transform (100, 0, 243350, 0, −100, 4508550), as reported by the repo. <strong>UNVERIFIED against the official template</strong>; our writer copies the transform from the official file instead.</li></ul>
+<h3>3. Why would a binary file at ~0.7 % of the footprint score this well? (DERIVED + judgement)</h3>
+<p>From the exact rule (see <code>utility-derivation.md</code>), the score is <code>DTI = TP / (α·S + β·G)</code>. Four consequences:</p>
+<ol><li><strong>Recall dominates.</strong> β = 0.8 against α = 0.2 means a missed fault costs four times a wrong dot. A sparse, confident set can still score if its hits are well placed.</li><li><strong>Break-even is about credit per dot, not density.</strong> At DTI ≈ 0.28 a dot pays only if its kernel credit exceeds ≈ 0.056, i.e. it sits within ≈ 283 m of a true fault. Dots beyond that are pure cost.</li><li><strong>Calibration is not the lever.</strong> Under the exact rule, the best per-pixel choice is a threshold on expected credit, which is why binary 0/1 output is natural. This is a heuristic argument, not a proof: the <code>max</code> over the kernel makes the objective non-linear. The 0.2778 file uses exactly that form.</li><li><strong>The mass budget is set by where the truth probably is.</strong> 0.73 % of the footprint is a deliberate, small set, placed where the model thinks faults are. It is not a random lattice.</li></ol>
+<p>So the most defensible account of <em>why it scored</em> is: a sparse binary set, chosen by a thresholded field, with recall weighted above precision by the official metric. That is judgement, not a measured attribution. We have one public score and no organizer decomposition.</p>
+<h3>4. What the 0.2778 file's own story gets wrong (IRREGULARITY, review)</h3>
+<ul><li>The GEMSDOE32 README says the scorer "masks out" catalogue pixels <strong>and</strong> that dots on the</li></ul>
+<p>catalogue "cost α = 0.2 each and can earn nothing". Those two statements contradict each other.</p>
+<ul><li>DrivenData staff (2026-09-16) answered that pixels on known faults are "masked / excluded from</li></ul>
+<p>evaluation, so they do not count towards penalty terms." <strong>A dot on a known fault costs nothing.</strong></p>
+<ul><li>So GEMSDOE32's pruning of catalogue dots ("0 dots within 200 m of the catalogue") does not change the</li></ul>
+<p>official score. Its own instrument (<code>IR-32-INSTR-01</code>, a 47 % discontinuity) appears to come from charging catalogue dots. That instrument is therefore miscalibrated against the official rule.</p>
+<ul><li>Consequence for us: any proxy that penalises known-fault dots will mis-rank candidates. Our holdout</li></ul>
+<p>must apply the same mask the organizers use.</p>
+<h3>5. Can we beat 0.2778? (honest answer)</h3>
+<p><strong>Not demonstrated, and not testable in this sandbox.</strong> To beat it we need, in order:</p>
+<ol><li>The organizer data (blocked, section 5 of the README).</li><li>A holdout that reproduces the official mask, with withheld whole segments and a buffer.</li><li>A candidate whose holdout DTI exceeds the holdout DTI of a 0.7 %-footprint binary baseline built the same way. The baseline matters: without it, a number like 0.2778 cannot be interpreted.</li></ol>
+<p>Any statement that we "can exceed 0.2778" before step 3 would be a <code>PROJECTION</code>, and we have not made one.</p>
+<h3>6. Recommendations for the next session (ranked by P(Win) per hour)</h3>
+<ol><li><strong>Place the data and build the holdout with the official mask</strong> (highest value; blocks everything).</li><li><strong>Build the binary baseline first</strong> (same mass as 0.7 % of footprint, placed by a plain field). It calibrates the holdout before any idea is judged.</li><li><strong>Test threshold choice on the holdout</strong> against the marginal rule in <code>utility-derivation.md</code> (emit where expected credit &gt; 0.2·DTI).</li><li><strong>Confirm the 0.2778 participant-to-file mapping</strong> with the owner before citing it as a GEMSDOE result.</li><li><strong>Ask DrivenData (community forum) whether the public leaderboard uses the same mask as the private set.</strong> The staff answer covers "known faults"; it does not say whether public and private sets are scored the same way.</li></ol>
+<h2 id="utility-derivation">utility-derivation</h2>
+<h2>Utility derivation — when does adding a dot raise the score?</h2>
+<p>Status: <strong>algebra verified</strong> (500/500 random trials, <code>scripts/utility_table.py</code>, <code>evidence/utility_table_synthetic.json</code>). Labels: all numbers here are <code>SYNTHETIC</code> or <code>PROJECTION</code>. None is a holdout or organizer score.</p>
+<h3>1. Exact identity</h3>
+<p>Let <code>G</code> be the number of ground-truth pixels (after the known-fault mask), <code>TP</code>, <code>FP</code>, <code>FN</code> the distance-weighted quantities from the official problem page, and <code>S = TP + FP</code>.</p>
+<ul><li><code>TP + FN = G</code> exactly, because <code>TP = Σ_g M(g)</code> and <code>FN = Σ_g (1 − M(g))</code>, where <code>M(g)</code> is the best kernel-weighted prediction within 300 m of truth pixel g.</li><li>Therefore the denominator <code>TP + α·FP + β·FN = α·S + β·G</code> (using <code>α + β = 1</code>).</li></ul>
+<p>So <strong>DTI = TP / (α·S + β·G)</strong>, with α = 0.2, β = 0.8 (official).</p>
+<h3>2. Marginal rule (exact)</h3>
+<p>Write <code>D = DTI</code>. Adding mass changes <code>TP</code> by <code>ΔT</code> and <code>S</code> by <code>ΔS</code>. Then</p>
+<p><code>sign(ΔD) = sign(ΔT − α·D·ΔS)</code>.</p>
+<p>Proof: <code>ΔD = [ΔT·(αS+βG) − T·α·ΔS] / (αS+βG)²</code> and <code>T = D·(αS+βG)</code>, so the numerator is <code>(αS+βG)·(ΔT − αD·ΔS)</code>.</p>
+<p><strong>Consequence:</strong> a dot pays iff its gain in TP exceeds <code>α·D</code> times its gain in <code>(TP+FP)</code>.</p>
+<h3>3. The single-pixel special case</h3>
+<p>For an isolated dot whose only effect is on one truth pixel at kernel credit <code>k = 1 − d/R</code>: <code>ΔT = k</code>, <code>ΔFP = 1 − k</code>, so <code>ΔS = 1</code>, and the dot pays iff <code>k &gt; α·D</code>.</p>
+<table><tr><th>DTI (score level)</th><th>break-even credit k* = 0.2·DTI</th><th>break-even distance d<em> = 3·(1 − k</em>)</th><th>in metres</th></tr>
+<tr><td>0.10</td><td>0.0200</td><td>2.94 px</td><td>294 m</td></tr>
+<tr><td>0.2778 (the 0.2778 figure)</td><td>0.0556</td><td>2.83 px</td><td>283 m</td></tr>
+<tr><td>0.3774 (public #1 at revision 1)</td><td>0.0755</td><td>2.77 px</td><td>277 m</td></tr>
+<tr><td>0.4133 (public #1 at revision 2, 2026-10-11)</td><td>0.0827</td><td>2.75 px</td><td>275 m</td></tr>
+<tr><td>0.50</td><td>0.1000</td><td>2.70 px</td><td>270 m</td></tr>
+</table>
+<p>Reading: at any plausible score level the single-dot break-even sits just inside the 300 m kernel. A dot further than about 280–295 m from a true fault is worth nothing in this simple case.</p>
+<h3>4. Why this is not "a density of 1–2 %"</h3>
+<p>The 1–2 % figure in the brief is a <em>density</em> heuristic. The rule above is about <strong>credit per dot</strong>, which depends on distance to truth and on overlap. Two consequences:</p>
+<ul><li>A dot can pay even at low density if it sits within ~280 m of a true fault.</li><li>A dense lattice can lose if most of its dots lie further than ~280 m from truth, because each one adds <code>ΔS ≈ 1</code> and almost no <code>ΔT</code>.</li></ul>
+<p>Illustration only (<code>PROJECTION</code>, not measured): if a pixel lies within 300 m of an unmapped fault with probability π, and the average kernel credit given that is c, then expected credit is π·c. With c = 0.5, the break-even is π ≈ 0.11 at D = 0.28. The value of c is unknown until a holdout is run.</p>
+<h3>5. Spacing along a fault (SYNTHETIC toy)</h3>
+<p>A 60-px straight truth line; dots at p = 1 every s px along it.</p>
+<table><tr><th>perpendicular offset</th><th>s = 1</th><th>s = 2</th><th>s = 3</th><th>s = 4</th><th>s = 6</th><th>s = 8</th></tr>
+<tr><td>0 px (on the line)</td><td>1.000</td><td>0.862</td><td>0.809</td><td>0.704</td><td>0.539</td><td>0.437</td></tr>
+<tr><td>1 px</td><td>0.667</td><td>0.627</td><td>0.609</td><td>0.532</td><td>0.407</td><td>0.329</td></tr>
+<tr><td>2 px</td><td>0.333</td><td>0.318</td><td>0.308</td><td>0.252</td><td>0.181</td><td>0.145</td></tr>
+</table>
+<p><strong>Not reproduced:</strong> the brief's "about 3 px when dense, wider as density falls" would predict an interior optimum. This toy has no false-positive mass away from the fault, so denser is monotonically better and no optimum appears. The toy cannot test the claim. A holdout with real off-fault background is required, and until one exists the spacing rule is <strong>unconfirmed</strong>.</p>
+<h3>6. What is still needed</h3>
+<ol><li>A holdout on which <code>TP</code>, <code>FP</code> and <code>FN</code> can be measured for real emission sets (blocked until the data is placed).</li><li>The estimated credit distribution <code>E[k | x]</code> for each candidate pixel, which the model must supply.</li><li>Only then, choose emission by thresholding <code>E[k | x]</code> at <code>α·D<em></code>, where <code>D</em></code> is the holdout DTI of the chosen set (fixed point).</li></ol>
+<h2 id="hypotheses">hypotheses</h2>
+<h2>Ranked geological hypotheses for a future, gated H59 run</h2>
+<p><strong>Status: research plan only; none of these new candidates was run or promoted in this session.</strong> The H59-I holdout budget is exhausted (3 experiments / 2 hours), the historical holdout is not protocol-qualified, the latest known registry has a literal universal-overlap blocker, and no submission slot is authorized. Ranking is qualitative <strong>research priority</strong>, not a DTI forecast. No numerical gain is projected.</p>
+<p>The active modeling lane remains a presence-only point-process intensity → 1 km expected-new-fault density zoning → holdout-derived break-even lattice. Every geological hypothesis below must be tested inside that lane, not by importing a sibling placement map. The requested independent target-group background is a prerequisite, not optional decoration: H59-I did not implement it.</p>
+<h3>Prerequisite: establish a defensible target-group background</h3>
+<p>Phillips et al. (2009) motivate correcting presence-only sample-selection bias. Here, a target-group background must be built from <strong>independent, spatially matched, same-effort non-target mapping records</strong>—not by using the response fault catalogue both as presences and as its own background. The current pins contain the target fault traces, QFault attributes, a state fault compilation, and the 19-band GeoDAWN stack; they do not contain a suitable independent mapper-effort inventory. The official GeoDAWN acquisition blocks and USGS location-reliability/road covariates are also not present in the pinned bundle. ScienceBase is outside this sandbox's host allow-list, so availability has not been verified beyond the listed DOI. Until that source is obtained, hashed, grid-checked, and made split-safe, no result may be called target-group-background corrected.</p>
+<h3>Ranking</h3>
+<table><tr><th>Rank</th><th>Hypothesis</th><th>Expected research value (qualitative, not DTI)</th><th>Cost</th><th>Registry overlap / stop risk</th></tr>
+<tr><td>1</td><td>Independent geothermal-spring / discharge conduits</td><td>Potentially high information because it is an external observation channel; very uncertain until coverage and effort are audited.</td><td>Medium–high; data acquisition and point provenance are the bottlenecks.</td><td>No spring-specific map was identified in the saved 696-raster public-owner inventory, but that inventory is not organizer-complete. Not a uniqueness clearance.</td></tr>
+<tr><td>2</td><td>Persistent basin-margin density boundaries confirmed by independent gravity and magnetic edges</td><td>Medium potential under alluvial cover; geology is directly represented in the supplied grid.</td><td>Low–medium; transforms and holdout rebuild are inexpensive.</td><td>High overlap risk: multi-physics lineament consensus and gravity/magnetic edge lanes are already present in sibling repositories (e.g. H33-A).</td></tr>
+<tr><td>3</td><td>Fault-network relay / secondary-strand density conditioned on observed relative strike and length</td><td>Medium potential if the training segments show a reproducible distribution; must not hard-code a textbook angle.</td><td>High; segment attributes need a validated key join and fold-specific geometry.</td><td>High overlap risk with analog/stepover submissions (e.g. GEMSDOE33 H33D) and catalogue-distance lanes.</td></tr>
+<tr><td>4</td><td>Geodetic strain localization interacting with mapped basin-edge structure</td><td>Low–medium; potentially useful for active structures but the supplied strain fields are coarse and confounded.</td><td>Medium.</td><td>Medium–high overlap with existing geodetic and structural-prior submissions; exact registry scan still required.</td></tr>
+<tr><td>5</td><td>Relocated earthquake lineaments as a point-process covariate</td><td>Potentially high for active faults, but event completeness and induced/aftershock controls dominate uncertainty.</td><td>High; an independently sourced, spatially complete catalogue and provenance are required.</td><td>Some earthquake-lineament work appears in the sibling history (H33-E); current local inventory does not establish novelty.</td></tr>
+</table>
+<h4>Rank 1 — Independent geothermal springs / discharge corridors</h4>
+<ul><li><strong>Layers:</strong> independent hot/warm-spring locations with source, date, temperature/chemistry and positional uncertainty; supplied <code>cond_surf</code> (band 17), <code>depth_to_base_surf</code> (band 15), isostatic gravity / gravity horizontal gradient (bands 13/18), magnetic total field / horizontal gradient (bands 14/3), and detrended elevation / slope (bands 12/19) as conditioning or confounder layers. The official stack is at 100 m; the point inventory must not be upsampled and mistaken for 100 m ground truth.</li><li><strong>Physical signature:</strong> spring clusters or aligned discharge points may mark permeable fault conduits, including structures concealed by basin fill. Support should persist after controlling for terrain, basin depth, mapped hydrothermal areas and observation effort.</li><li><strong>Rationale:</strong> unlike a fault-density transform, a genuinely independent spring inventory can add information where the fault catalogue has no trace. A relationship with active faults is a hypothesis, not a guaranteed consequence.</li><li><strong>Named non-fault mimic:</strong> valley-floor groundwater discharge, playa margins, volcanic heat and basin-margin lithologic contacts can align springs without a new surface fault.</li><li><strong>Overlap:</strong> the saved 696-raster owner-repository inventory did not reveal a spring-point predictor, but it is neither organizer-complete nor evidence of novelty; the strict surface and final-dot literal gate remains mandatory.</li><li><strong>Data / obtainability:</strong> a USGS Science Data Catalog listing for regional hot-spring chemistry is noted in <code>docs/research/sources.md</code>; download, license, coverage and coordinate quality are <strong>not verified</strong>. The sandbox can reach GitHub, npm and PyPI hosts only, not ScienceBase. Do not synthesize a dataset from an unverified map.</li><li><strong>Expected value / cost:</strong> highest priority for information independence, but expected DTI gain is unknown. Medium–high cost: acquire the official table, audit completeness, deduplicate locations, quantify effort/uncertainty, then build a split-safe feature.</li><li><strong>Validation:</strong> pre-register source and covariates; hide whole fault components with a spatial buffer; build every catalogue-derived term from visible faults; fit on a training-visible estimate of prevalence; run a per-feature leakage canary (AUC &gt; 0.90 is leakage until explained); compare pooled HOLDOUT-DTI and 95% CI against a same-budget control. No slot decision before that and both literal registry gates.</li></ul>
+<h4>Rank 2 — Basin-margin density boundaries with cross-physics confirmation</h4>
+<ul><li><strong>Layers:</strong> isostatic gravity anomaly and horizontal gradient (bands 13 and 18), total magnetic intensity and horizontal gradient (bands 14 and 3), tilt derivative (band 6), basement-depth surface (band 15), and detrended elevation / slope (bands 12 and 19).</li><li><strong>Physical signature:</strong> a persistent, spatially coherent density/susceptibility boundary or basin-margin step that aligns across independent physics and remains stable across modest scale changes. Use the edge as an intensity covariate, not as a copied line/placement template.</li><li><strong>Rationale:</strong> buried basin-bounding structures may have weak topographic expression but a geophysical contrast.</li><li><strong>Named non-fault mimic:</strong> lithologic contacts and survey levelling / flight-line artefacts can produce the same aligned gradients.</li><li><strong>Overlap:</strong> high. Multi-physics lineament consensus and gravity/magnetic edge maps are already represented in the accessible sibling-repository history. A high rank or visual resemblance is not novelty; check candidate surface and final dots against the literal gate first.</li><li><strong>Data / obtainability:</strong> all named raster layers are present in the pinned 19-band feature stack. Organizer origin is not independently authenticated from the public bridge. GeoDAWN survey-block metadata are not pinned.</li><li><strong>Expected value / cost:</strong> medium geological plausibility, but lower priority than an independent spring channel because of duplication risk. Low–medium cost.</li><li><strong>Validation:</strong> fold-specific visible-fault features; holdout-derived 1 km expected-new-fault density and utility table; holdout comparison to an effort-only and uniform control; no hard-coded edge thresholds chosen after seeing withheld labels.</li></ul>
+<h4>Rank 3 — Relay / secondary-strand intensity from observed fault geometry</h4>
+<ul><li><strong>Layers:</strong> <code>trace_segments_utm11.csv</code> plus validated QFault attributes, geodetic shear-rate and dilatation bands (7/8), geodetic second-invariant band (4), and geophysical edge planes (3/6/18/19). Use recorded slip sense only where its join is verified.</li><li><strong>Physical signature:</strong> a within-segment distribution of secondary-strand distances, relative strikes, and density that is learned from withheld segments. Fault length may be evaluated as a displacement proxy, but must be treated as uncertain and calibrated rather than assumed. No Riedel angle is hard-coded.</li><li><strong>Rationale:</strong> damage-zone/relay architecture could concentrate additional mapped strands near major systems and at transfer zones.</li><li><strong>Named non-fault mimic:</strong> the mapmaker's habit of tracing parallel lithologic contacts, roads, or survey artefacts; near-catalogue proximity can also look predictive because the holdout is built from the same catalogue.</li><li><strong>Overlap:</strong> high with existing analog/stepover and fault-tip work (including GEMSDOE33 H33D) and other catalogue-proximity fields. Do not treat a different implementation as a new lane.</li><li><strong>Data / obtainability:</strong> segment and attribute CSVs are hash-pinned, but the historical <code>record_id</code> join to FCODE/MAPSCALE was not valid; positional join evidence is documented in <code>REMAINING_WORK.md</code>. Do not use those attributes until a stable key is independently verified.</li><li><strong>Expected value / cost:</strong> medium, conditional on a measured holdout distribution; high implementation cost because of joins, topology, and fold-specific rebuilding.</li><li><strong>Validation:</strong> fit distance/relative-strike distributions on visible training segments; measure withheld nearest-visible distributions independently; shrink the 1 km budget if few withheld positives lie in the learned zone. Compare against a same-budget random/effort-only control.</li></ul>
+<h4>Rank 4 — Geodetic strain localization plus basin structure</h4>
+<ul><li><strong>Layers:</strong> geodetic shear-rate (7), dilatation-rate (8), second invariant (4), plus gravity/magnetic edges and basement depth (13/18/14/3/15).</li><li><strong>Physical signature:</strong> localized strain gradients co-located with an independently supported structural boundary; a broad regional strain maximum by itself is not a fault trace.</li><li><strong>Rationale:</strong> active deformation could distinguish mechanically active structures from old contacts, particularly where combined with a buried basin edge.</li><li><strong>Named non-fault mimic:</strong> geodetic interpolation seams, block-adjustment boundaries, compaction/subsidence and geothermal-fluid deformation.</li><li><strong>Overlap:</strong> medium–high because prior repository work already uses geodetic strain as a prior and the current intensity regime includes it.</li><li><strong>Data / obtainability:</strong> supplied geodetic bands are available in the pinned raster. The underlying product, error covariance and effective resolution need provenance checks before a stronger interpretation.</li><li><strong>Expected value / cost:</strong> low–medium, with high confounding risk; medium cost.</li><li><strong>Validation:</strong> feature-alone canary, ablation against geophysics and mapping effort, spatial-block holdout; keep only interactions that improve pooled DTI beyond uncertainty and pass the gates.</li></ul>
+<h4>Rank 5 — Relocated earthquake lineaments</h4>
+<ul><li><strong>Layers:</strong> an independent, time-stamped relocated seismicity catalogue (not the fault response labels), event uncertainty, and supplied geodetic / magnetic / gravity covariates for confounder controls.</li><li><strong>Physical signature:</strong> persistent linear event clusters along active structures after removing aftershock sequences and accounting for magnitude completeness.</li><li><strong>Rationale:</strong> seismicity is an independent physical observation of active faulting and might identify structures with no mapped surface trace.</li><li><strong>Named non-fault mimic:</strong> aftershock clouds, induced seismicity, geothermal operations, volcanic events and spatially varying station/catalog completeness.</li><li><strong>Overlap:</strong> medium. Sibling notes indicate H33-E explored seismicity but lacked data; no novelty conclusion follows from that absence.</li><li><strong>Data / obtainability:</strong> USGS ComCat / relocated event service access was not available in this sandbox and no event table is pinned. Coverage, licensing and completeness remain unverified.</li><li><strong>Expected value / cost:</strong> potentially useful but uncertain; high cost due to completeness and sequence controls.</li><li><strong>Validation:</strong> only after source audit; train on visible faults, withhold whole components and buffered spatial blocks, assess canary and event-catalogue completeness; no external score projection.</li></ul>
+<h3>Mandatory decision gates for any future candidate</h3>
+<ol><li>Re-establish a complete dated public-owner inventory and preserve organizer-completeness limits. Run literal Spearman and forward 3-px overlap against <strong>every</strong> accessible raster on the candidate surface before placement and the final dots after placement. A single <code>rho &gt; 0.90</code> or forward overlap <code>&gt; 0.70</code> is a duplicate/STOP; do not use representation-based exemptions. A prior session asserted a whole-footprint witness, but its TIFF and verification receipts are absent from this checkout, so that universal-blocker claim is unverified here; the 85 retained historical overlap firings still require STOP.</li><li>Reuse shared <code>evaluate_holdout.py</code>, <code>submission_writer.py</code>, and feature caches. Use whole components with a buffer; rebuild every catalogue-derived feature and training prevalence from visible faults only; mask visible fault pixels exactly; score pooled DTI α=0.2, β=0.8, 300 m triangular kernel.</li><li>Implement target-group background only from an independently documented same-effort source, not from the target catalogue. Run each feature-alone leakage canary; AUC &gt; 0.90 means leakage until explained.</li><li>Label every metric HOLDOUT-DTI with evaluator, withheld-positive count and 95% CI, or ORGANIZER-CONFIRMED only when a matching organizer receipt exists. Projections remain projections.</li><li>The three-experiment / two-hour budget for the historical H59-I run is exhausted. A separate selector decision is required for any future slot; no weekly slot is used or recommended here.</li></ol>
+</main>
+<footer class="small">
+<p>Generated by <code>scripts/build_site_pages.py</code> from the receipts in <code>evidence/</code>. Every
+number is labelled HOLDOUT-DTI (local instrument), OWNER-REPORTED, ORGANIZER-CONFIRMED, VERIFIED-FILE or
+PROJECTION. No local number is a competition score, and nothing on this site submits or spends a slot.</p>
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

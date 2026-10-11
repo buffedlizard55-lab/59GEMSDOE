@@ -57,8 +57,15 @@ def check(root=ROOT):
     public=json.loads((docs/'data/run_card.json').read_text())
     assert card==public,'public card is stale'
     # --- Session-7 release contract -------------------------------------- #
-    assert card['okay_to_submit'] is True and card['submission_slots_used']==0
-    assert card['verdict']=='promote-candidate'
+    assert card['okay_to_submit'] is False and card['submission_slots_used']==0
+    assert card['verdict']=='negative'
+    assert card['download_status'].endswith('NOT CLEARED TO SUBMIT')
+    assert card['submission_status']=='NOT AUTHORIZED; SELECTOR DECISION NOT MADE'
+    phases=card['registry_gate_phases']
+    assert phases['surface_before_placement']['status']=='NOT VERIFIED'
+    assert phases['surface_before_placement']['receipt'] is None
+    assert phases['final_dots']['status']=='STOP'
+    assert phases['final_dots']['literal_forward_overlap_hits']==86
     assert 0<len(card['submission_note'])<=140
     assert card['submission_note_chars']==len(card['submission_note'])
     raster=root/card['file'];archive=root/card['zip_file']
@@ -82,19 +89,31 @@ def check(root=ROOT):
     assert int((values>0).sum())==card['emitted']
     assert card['validator_output']['checks'] and all(card['validator_output']['checks'].values())
     assert card['portal_preflight']['positive_pixels']==card['emitted']
-    # registry clearance, all four legs
-    audit=json.loads((root/'evidence/uniqueness_h57r.json').read_text())
+    # registry clearance, all four legs.  The receipt path comes from the card so this
+    # shared QA is not pinned to one lane's filename (the 57GEMSDOE lane wrote
+    # evidence/uniqueness_h57r.json; this lane writes evidence/uniqueness_h59j_view.json).
+    audit_path=root/card['correlation_overlap_vs_registry'].get('receipt','evidence/uniqueness_h57r.json')
+    if not audit_path.is_file():
+        audit_path=root/'evidence/uniqueness_h57r.json'
+    audit=json.loads(audit_path.read_text())
     reg=card['correlation_overlap_vs_registry']
     assert audit['complete_accessible_scan']
     assert audit['registry_rasters_expected']==audit['registry_rasters_checked']
+    assert audit['unique'] is False
+    assert audit['operational_verdict'].startswith('DUPLICATE / INCOMPLETE')
+    assert audit['strict_literal_gate']['literal_forward_overlap_hits']==86
+    assert audit['strict_literal_gate']['latest_known_index_scanned_against_candidate'] is False
     assert audit['candidate_sha256']==digest
     assert not audit['identical_file_or_pixels']
     assert audit['leg3_scale_free']['passed'], 'scale-free duplicate test failed'
     assert audit['leg4_support_matched']['passed'], 'support-matched overlap test failed'
     assert reg['worst_spearman']<=0.90 and reg['worst_reverse_overlap']<=0.70
     assert reg['worst_jaccard']<=0.50 and reg['worst_dot_overlap_support_matched_peers']<=0.70
-    assert reg['unique'] is True
-    # the unrestricted one-sided leg is reported, not hidden
+    assert reg['unique'] is False
+    assert reg['unique_under_literal_protocol'] is False
+    assert reg['strict_literal_gate_passes'] is False
+    assert reg['strict_literal_forward_overlap_hits']==86
+    # Literal one-sided overlap is the operative rule; other legs are diagnostic only.
     assert 'leg1_literal_passed' in reg and reg['leg1_literal_passed'] is False
     assert reg['overlap_versus_peer_support']
     # the negative instrument result must still be on the record
@@ -111,7 +130,8 @@ def check(root=ROOT):
     assert not errors,'\n'.join(errors)
     for name in ('index.html','executive-summary.html'):
         text=(docs/name).read_text();parser=Links();parser.feed(text)
-        assert 'Submit to competition: OK' in text
+        assert 'CLEARED TO SUBMIT: NO' in text
+        assert 'Submit to competition: OK' not in text
         assert parser.downloads[0]==f'downloads/{raster.name}'
         assert parser.downloads[1]==f'downloads/{archive.name}'
         assert text.index('download-panel')<text.index('footer')
@@ -121,7 +141,8 @@ def check(root=ROOT):
         assert 'ORGANIZER-CONFIRMED numbers as pasted' not in (docs/name).read_text()
     result=dict(pages_checked=len(pages),tiff_sha256=digest,tiff_bytes=raster.stat().st_size,
                 zip_exactly_one_tiff=True,local_format_pass=True,links_pass=True,
-                current_card_consistent=True,submission_cleared=True,
+                current_card_consistent=True,submission_cleared=False,
+                literal_forward_overlap_hits=audit['strict_literal_gate']['literal_forward_overlap_hits'],
                 registry_rasters_checked=audit['registry_rasters_checked'],
                 worst_spearman=reg['worst_spearman'],
                 worst_reverse_overlap=reg['worst_reverse_overlap'],
@@ -142,8 +163,11 @@ def main():
     parser.add_argument('--build',action='store_true')
     args=parser.parse_args()
     if args.build:
-        from build_site import build
-        build()
+        import subprocess
+        import sys
+        # The multi-lane build_site.py belongs to a different release lane. Rebuild
+        # only the H59-J research/results assets whose generator reads this card.
+        subprocess.run([sys.executable, str(ROOT/'scripts'/'build_site_pages.py')], check=True)
     check()
 
 
