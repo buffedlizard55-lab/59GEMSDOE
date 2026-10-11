@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sources (59GEMSDOE)</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Status &amp; download</a>
+  <a href="executive-summary.html">Executive summary / how to submit</a>
+  <a href="method.html">Method &amp; evidence</a>
+  <a href="data-sources.html">Data sources</a>
+  <a href="research.html">Research</a>
+  <a href="results.html">Results</a>
+  <a href="sources.html">Sources</a>
+  <a href="irregularities.html">Irregularities</a>
+  <a href="h59a.html">H59-A candidate</a>
+</nav>
+<main>
+<h1>Sources, with status</h1><h2>Sources — verification log</h2>
+<p>Every row says how it was checked. "fetched" means the page text was read through the fetch tool on 2026-10-11. "search" means it appeared in a search result with the quoted text. "blocked" means the sandbox could not reach it, so it is <strong>not</strong> verified and must not be relied on.</p>
+<h3>Competition (official)</h3>
+<table><tr><th>Source</th><th>URL</th><th>Check</th><th>Used for</th></tr>
+<tr><td>DrivenData competition page</td><td>&lt;https://www.drivendata.org/competitions/306/competition-doe-gems/&gt;</td><td>fetched</td><td>overview, prize structure</td></tr>
+<tr><td>Problem description (metric, format)</td><td>&lt;https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/&gt;</td><td>fetched</td><td>the DTI formula, kernel R = 300 m, CRS/format requirements</td></tr>
+<tr><td>Official rules PDF (NLR, FY26 OSTI 96647)</td><td>&lt;https://docs.nlr.gov/docs/fy26osti/96647.pdf&gt;</td><td>fetched</td><td>prize phases, eligibility, submission process</td></tr>
+<tr><td>Leaderboard</td><td>&lt;https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/&gt;</td><td>fetched 2026-10-11 (rev 2)</td><td>#1 xiaofanhu 0.4133 (16 submissions), #8 DARD 0.3195, #23 extradr19 0.2778; rev 1 earlier the same day read #1 0.3774 — the board moved, both readings are in <code>evidence/leaderboard_snapshot_2026-10-11.json</code></td></tr>
+<tr><td>Data download page</td><td>&lt;https://www.drivendata.org/competitions/306/competition-doe-gems/data/&gt;</td><td>fetched; redirects to login</td><td>confirms login is required</td></tr>
+<tr><td>Staff clarification on masking of known faults (2026-09-16)</td><td>&lt;https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516&gt;</td><td>fetched</td><td>"Pixels corresponding to known USGS/INGENIOUS faults are masked / excluded from evaluation"</td></tr>
+<tr><td>Reference solution (GitHub)</td><td>&lt;https://github.com/drivendataorg/gems-prize-reference-solution&gt;</td><td>cloned; notebook read</td><td>grid facts: EPSG:32611, 100 m, width 3292, height 3730; output written with labels.tif CRS and transform; sigmoid outputs in [0,1]</td></tr>
+<tr><td>Dropbox data links</td><td>listed in the project brief</td><td><strong>blocked</strong> from sandbox (TLS failure)</td><td>official-supplied mirrors; not verified here</td></tr>
+</table>
+<h3>Data source (USGS, official)</h3>
+<table><tr><th>Source</th><th>URL</th><th>Check</th><th>Used for</th></tr>
+<tr><td>GeoDAWN airborne magnetic and radiometric surveys</td><td>&lt;https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and&gt;</td><td>fetched</td><td>DOI 10.5066/P93LGLVQ; CC0; four acquisition blocks (Winnemucca, Fallon, Hawthorne, Tonopah); radiometric and magnetic products; Area 1 rank-1 and Area 2 lower-resolution flight specs</td></tr>
+<tr><td>USGS Geothermal Resource Investigations Project</td><td>&lt;https://www.usgs.gov/centers/gmeg/science/geothermal-resource-investigations-project&gt;</td><td>search</td><td>context: GeoDAWN is part of this program</td></tr>
+<tr><td>Geothermal GIS coverage of the Great Basin (USGS publication)</td><td>&lt;https://www.usgs.gov/publications/geothermal-gis-coverage-great-basin-usa-defining-regional-controls-and-favorable&gt;</td><td>search</td><td>high-temperature systems prefer young NE-trending faults (weights-of-evidence); extensional systems track high strain rate</td></tr>
+<tr><td>USGS Science Data Catalog, geothermal search</td><td>&lt;https://data.usgs.gov/datacatalog/search?otherKeyword=%5B%22geothermal+resources%22%5D&gt;</td><td>search</td><td>lists a 1974 hot-spring chemistry compilation (Mariner et al., OFR 74-1066) and a regional geophysical compilation for the Great Basin. <strong>Download not verified.</strong></td></tr>
+</table>
+<h3>Method literature (checked)</h3>
+<table><tr><th>Citation</th><th>Link</th><th>Check</th><th>Used for</th></tr>
+<tr><td>Phillips, Dudík, Elith, Graham, Lehmann, Leathwick, Ferrier (2009). Sample selection bias and presence-only distribution models: implications for background and pseudo-absence data. <em>Ecological Applications</em> 19(1):181–197. DOI 10.1890/07-2153.1</td><td>&lt;https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1890/07-2153.1&gt;</td><td>search (publisher page)</td><td>target-group background to correct sampling-effort bias</td></tr>
+<tr><td>Fithian &amp; Hastie (2013). Finite-sample equivalence in statistical models for presence-only data. <em>Annals of Applied Statistics</em> 7(4):1917–1939. DOI 10.1214/13-AOAS667</td><td>&lt;https://projecteuclid.org/journals/annals-of-applied-statistics/volume-7/issue-4/Finite-sample-equivalence-in-statistical-models-for-presence-only-data/10.1214/13-AOAS667.full&gt;</td><td>search (publisher page)</td><td>MaxEnt and inhomogeneous Poisson point-process equivalence</td></tr>
+<tr><td>Blakely &amp; Simpson (1986). Approximating edges of source bodies from magnetic or gravity anomalies. <em>Geophysics</em> 51:1494–1498. DOI 10.1190/1.1442197</td><td>cited by Mayhew (1987, <em>Rev. Geophys.</em>) &lt;https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/RG025i005p00971&gt;; method discussed in &lt;https://www.sciencedirect.com/science/article/abs/pii/S0926985117307176&gt;</td><td>search</td><td>horizontal-gradient maxima for body edges</td></tr>
+<tr><td>Hermant et al. (TLS Geothermics), 50th Workshop on Geothermal Reservoir Engineering, Stanford, 2025</td><td>&lt;https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2025/Hermant.pdf&gt;</td><td>search</td><td>states that the distance "between USGS Quaternary faults and TLS fault label can be up to 400m". <strong>This is a discrepancy between two maps, not a measured registration error.</strong> See irregularities.</td></tr>
+</table>
+<h3>Competitor repositories (public GitHub; read for learning only, not copied)</h3>
+<table><tr><th>Repo</th><th>URL</th><th>Check</th><th>Notes</th></tr>
+<tr><td>GEMSDOE32</td><td>&lt;https://github.com/buffedlizard55-lab/GEMSDOE32&gt;</td><td>cloned, README and registry read</td><td>candidate file for the 0.2778 figure (participant mapping unconfirmed). Its README says catalogue pixels are masked from scoring <strong>and</strong> that catalogue dots "cost α"; these two statements contradict each other, and staff's answer supports the masking half. See irregularities IR-1.</td></tr>
+<tr><td>GEMSDOE36</td><td>&lt;https://github.com/buffedlizard55-lab/GEMSDOE36&gt;</td><td>cloned, hypotheses read</td><td>H1–H6 registry</td></tr>
+<tr><td>GEMSDOE46</td><td>&lt;https://github.com/buffedlizard55-lab/GEMSDOE46&gt;</td><td>cloned, hypotheses read</td><td>used GeoDAWN K/Th/U radiometric grids (not novel for us)</td></tr>
+<tr><td>GEMSDOE</td><td>&lt;https://github.com/buffedlizard55-lab/GEMSDOE&gt;</td><td>listed</td><td>contains <code>data/bridge/</code> copies of competition files (see irregularities)</td></tr>
+</table>
+<h3>Blocked from this sandbox (not verified)</h3>
+<ul><li>DrivenData data downloads (login)</li><li>Dropbox mirrors listed in the brief</li><li>OpenEI submission 1391, ScienceBase, USGS ComCat earthquake service, GitHub Pages sites of the competitors</li></ul>
+<p>(the competitor <strong>repositories</strong> are reachable on github.com; their Pages sites are not)</p>
+</main>
+<footer class="small">
+<p>Generated by <code>scripts/build_site_pages.py</code> from the receipts in <code>evidence/</code>. Every
+number is labelled HOLDOUT-DTI (local instrument), OWNER-REPORTED, ORGANIZER-CONFIRMED, VERIFIED-FILE or
+PROJECTION. No local number is a competition score, and nothing on this site submits or spends a slot.</p>
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

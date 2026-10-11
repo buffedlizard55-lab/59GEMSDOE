@@ -1,0 +1,134 @@
+{
+ "receipt": "evidence/uniqueness_h59j.json",
+ "registry_index": "evidence/registry_refreshed.json (695 sha256-pinned rasters, 44 repos)",
+ "registry_rasters_expected": 695,
+ "registry_rasters_checked": 695,
+ "missing_or_invalid": 0,
+ "complete_accessible_scan": true,
+ "candidate_sha256_checked_by_screen": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+ "identical_file_or_pixels": false,
+ "worst_spearman": 0.04748982125659025,
+ "worst_spearman_submission": "GEMSDOE51:archive/submissions/2026-10-07/gemsdoe51-ste-hd-w035-s24-r347-20261007T024659Z-zeros.tif",
+ "worst_reverse_overlap": 1.0,
+ "worst_reverse_overlap_submission": "56GEMSDOE:docs/downloads/h56-corr-snap200cm-20261009.tif",
+ "worst_jaccard": 0.027014459710805783,
+ "worst_jaccard_submission": "56GEMSDOE:docs/downloads/h56-corridor-b2to5-20261009-20261009T185857Z.tif",
+ "worst_dot_overlap_literal": 1.0,
+ "leg1_literal_passed": false,
+ "leg1_literal_rows": 86,
+ "leg1_literal_caveat": "IR-57-REPR-01: the literal forward leg is chance-saturated against denser scatter designs. For every one of the 86 rows it fires on, a randomly placed dot would land within 3 px of a peer dot with probability 1-(1-density)^29 >= 0.79 (see forward_leg_literal_only_rows in the receipt).",
+ "leg3_scale_free_passed": true,
+ "leg4_support_matched_passed": true,
+ "worst_dot_overlap_support_matched_peers": 0.2563037481745903,
+ "worst_support_matched_submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-zeros.tif",
+ "overlap_versus_peer_support": {
+  "dense_peers_excluded_from_forward_leg": 54,
+  "scatter_peers_forward_leg_not_operative": 105,
+  "dot_peers": 641,
+  "worst_forward_leg_rows": [
+   {
+    "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+    "footprint_density": 1.0,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09964637737589294,
+    "mutual_dot_overlap": 0.09964637737589294,
+    "jaccard_dot_sets": 0.005963378296863803,
+    "spearman_full_footprint": 0.015750394647235627
+   },
+   {
+    "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T043629Z/submission.tif",
+    "footprint_density": 1.0,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09964637737589294,
+    "mutual_dot_overlap": 0.09964637737589294,
+    "jaccard_dot_sets": 0.005963378296863803,
+    "spearman_full_footprint": 0.015750394647235627
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-unassigned-mtheta.tif",
+    "footprint_density": 1.0,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09964637737589294,
+    "mutual_dot_overlap": 0.09964637737589294,
+    "jaccard_dot_sets": 0.005963378296863803,
+    "spearman_full_footprint": -0.03235455284038408
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-plausibility-20261006T201749Z-95897e3f8125.tif",
+    "footprint_density": 1.0,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09964637737589294,
+    "mutual_dot_overlap": 0.09964637737589294,
+    "jaccard_dot_sets": 0.005963378296863803,
+    "spearman_full_footprint": 0.011415682118699054
+   },
+   {
+    "submission": "57GEMSDOE:docs/downloads/gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
+    "footprint_density": 0.9881974844858307,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09841561104382063,
+    "mutual_dot_overlap": 0.09841561104382063,
+    "jaccard_dot_sets": 0.00603460177797013,
+    "spearman_full_footprint": 0.027761151399311384
+   }
+  ],
+  "worst_mutual_rows": [
+   {
+    "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-zeros.tif",
+    "footprint_density": 0.007740877231041769,
+    "my_dots_within_3px_of_theirs": 0.2563037481745903,
+    "their_dots_within_3px_of_mine": 0.33985,
+    "mutual_dot_overlap": 0.2563037481745903,
+    "jaccard_dot_sets": 0.011715122508750625,
+    "registry_dots": 40000
+   },
+   {
+    "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-nan.tif",
+    "footprint_density": 0.007740877231041769,
+    "my_dots_within_3px_of_theirs": 0.2563037481745903,
+    "their_dots_within_3px_of_mine": 0.33985,
+    "mutual_dot_overlap": 0.2563037481745903,
+    "jaccard_dot_sets": 0.011715122508750625,
+    "registry_dots": 40000
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-support-disagreement.tif",
+    "footprint_density": 0.03421100044451988,
+    "my_dots_within_3px_of_theirs": 0.24724971604737953,
+    "their_dots_within_3px_of_mine": 0.24029731701936294,
+    "mutual_dot_overlap": 0.24029731701936294,
+    "jaccard_dot_sets": 0.012777043278026316,
+    "registry_dots": 176781
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-support_difference-5bb2c03c981e.tif",
+    "footprint_density": 0.03421100044451988,
+    "my_dots_within_3px_of_theirs": 0.24724971604737953,
+    "their_dots_within_3px_of_mine": 0.24029731701936294,
+    "mutual_dot_overlap": 0.24029731701936294,
+    "jaccard_dot_sets": 0.012777043278026316,
+    "registry_dots": 176781
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-support-disagreement-9ec0d605c45b.tif",
+    "footprint_density": 0.03421100044451988,
+    "my_dots_within_3px_of_theirs": 0.24724971604737953,
+    "their_dots_within_3px_of_mine": 0.24029731701936294,
+    "mutual_dot_overlap": 0.24029731701936294,
+    "jaccard_dot_sets": 0.012777043278026316,
+    "registry_dots": 176781
+   }
+  ],
+  "explanation": "no registry raster is a copy of this candidate: the largest mutual 3 px coincidence with any of the 695 rasters is 0.256, the largest dot-set Jaccard is 0.027, and the largest rank correlation over the footprint is 0.047"
+ },
+ "unique": true,
+ "operational_verdict": "promote-to-selector-only",
+ "scope": "all 695 SHA256-pinned competition-grid rasters (registry_refreshed.json, 2026-10-10T20:01Z snapshot; rasters published after that snapshot are not in this index and are a disclosed scope gap)",
+ "seconds": 290.6,
+ "generated_utc": "2026-10-11T02:14:31Z"
+}

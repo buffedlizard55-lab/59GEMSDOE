@@ -1,0 +1,23 @@
+{
+  "evidence_class": "REGISTRY-MEASUREMENT",
+  "experiment": "overlap against the only other release of the same lane in the family",
+  "note": "the sibling H59-I release is the closest relative this lane has; the protocol's drift trigger is >0.70 of dots within 3 px of a single registry raster or a rank correlation >0.90. Both are far from their limits, so the two releases are independent realisations of the lane, not copies of each other.",
+  "candidate": {
+    "dots": 50651,
+    "sha256": "b25dd620baf4adcdf4fc6ed95d70d105c5c64314f05acb947a784b8563df889c"
+  },
+  "rows": [
+    {
+      "source": "59GEMSDOE (sibling H59-I): docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+      "dots": 71119,
+      "theirs_inside_ours_3px": 0.21184181950998007,
+      "ours_inside_theirs_3px": 0.1234972370252675,
+      "rho_dot_field_stratified_sample": 0.043479834184576814,
+      "sample_size": 249860
+    }
+  ],
+  "verdict": {
+    "drift_by_overlap": false,
+    "drift_by_rho": false
+  }
+}

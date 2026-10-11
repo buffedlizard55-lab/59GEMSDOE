@@ -1,0 +1,238 @@
+{
+ "registry_index": "evidence/registry_refreshed.json (695 sha256-pinned rasters, 44 repos)",
+ "registry_rasters_expected": 695,
+ "registry_rasters_checked": 695,
+ "missing_or_invalid": 0,
+ "complete_accessible_scan": true,
+ "candidate_sha256_checked_by_screen": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+ "identical_file_or_pixels": false,
+ "worst_spearman": 0.04748982125659025,
+ "worst_spearman_submission": "GEMSDOE51:archive/submissions/2026-10-07/gemsdoe51-ste-hd-w035-s24-r347-20261007T024659Z-zeros.tif",
+ "worst_reverse_overlap": 0.3765602592022096,
+ "worst_reverse_overlap_submission": "56GEMSDOE:docs/downloads/h56-corr-snap200cm-20261009.tif",
+ "worst_jaccard": 0.027014459710805783,
+ "worst_jaccard_submission": "56GEMSDOE:docs/downloads/h56-corridor-b2to5-20261009-20261009T185857Z.tif",
+ "worst_dot_overlap_literal": 1.0,
+ "leg1_literal_passed": false,
+ "leg1_literal_rows": 86,
+ "leg1_literal_caveat": "IR-57-REPR-01: the literal forward leg is chance-saturated against denser scatter designs. For every one of the 86 rows it fires on, a randomly placed dot would land within 3 px of a peer dot with probability 1-(1-density)^29 >= 0.79 (see forward_leg_literal_only_rows in the receipt).",
+ "leg3_scale_free_passed": true,
+ "leg4_support_matched_passed": true,
+ "worst_dot_overlap_support_matched_peers": 0.2563037481745903,
+ "worst_support_matched_submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-zeros.tif",
+ "overlap_versus_peer_support": {
+  "dense_peers_excluded_from_forward_leg": 54,
+  "scatter_peers_forward_leg_not_operative": 105,
+  "dot_peers": 641,
+  "worst_forward_leg_rows": [
+   {
+    "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+    "footprint_density": 1.0,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09964637737589294,
+    "mutual_dot_overlap": 0.09964637737589294,
+    "jaccard_dot_sets": 0.005963378296863803,
+    "spearman_full_footprint": 0.015750394647235627
+   },
+   {
+    "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T043629Z/submission.tif",
+    "footprint_density": 1.0,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09964637737589294,
+    "mutual_dot_overlap": 0.09964637737589294,
+    "jaccard_dot_sets": 0.005963378296863803,
+    "spearman_full_footprint": 0.015750394647235627
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-unassigned-mtheta.tif",
+    "footprint_density": 1.0,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09964637737589294,
+    "mutual_dot_overlap": 0.09964637737589294,
+    "jaccard_dot_sets": 0.005963378296863803,
+    "spearman_full_footprint": -0.03235455284038408
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-plausibility-20261006T201749Z-95897e3f8125.tif",
+    "footprint_density": 1.0,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09964637737589294,
+    "mutual_dot_overlap": 0.09964637737589294,
+    "jaccard_dot_sets": 0.005963378296863803,
+    "spearman_full_footprint": 0.011415682118699054
+   },
+   {
+    "submission": "57GEMSDOE:docs/downloads/gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
+    "footprint_density": 0.9881974844858307,
+    "chance_forward_overlap": 1.0,
+    "my_dots_within_3px_of_theirs": 1.0,
+    "their_dots_within_3px_of_mine": 0.09841561104382063,
+    "mutual_dot_overlap": 0.09841561104382063,
+    "jaccard_dot_sets": 0.00603460177797013,
+    "spearman_full_footprint": 0.027761151399311384
+   }
+  ],
+  "worst_mutual_rows": [
+   {
+    "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-zeros.tif",
+    "footprint_density": 0.007740877231041769,
+    "my_dots_within_3px_of_theirs": 0.2563037481745903,
+    "their_dots_within_3px_of_mine": 0.33985,
+    "mutual_dot_overlap": 0.2563037481745903,
+    "jaccard_dot_sets": 0.011715122508750625,
+    "registry_dots": 40000
+   },
+   {
+    "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-nan.tif",
+    "footprint_density": 0.007740877231041769,
+    "my_dots_within_3px_of_theirs": 0.2563037481745903,
+    "their_dots_within_3px_of_mine": 0.33985,
+    "mutual_dot_overlap": 0.2563037481745903,
+    "jaccard_dot_sets": 0.011715122508750625,
+    "registry_dots": 40000
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-support-disagreement.tif",
+    "footprint_density": 0.03421100044451988,
+    "my_dots_within_3px_of_theirs": 0.24724971604737953,
+    "their_dots_within_3px_of_mine": 0.24029731701936294,
+    "mutual_dot_overlap": 0.24029731701936294,
+    "jaccard_dot_sets": 0.012777043278026316,
+    "registry_dots": 176781
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-support_difference-5bb2c03c981e.tif",
+    "footprint_density": 0.03421100044451988,
+    "my_dots_within_3px_of_theirs": 0.24724971604737953,
+    "their_dots_within_3px_of_mine": 0.24029731701936294,
+    "mutual_dot_overlap": 0.24029731701936294,
+    "jaccard_dot_sets": 0.012777043278026316,
+    "registry_dots": 176781
+   },
+   {
+    "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-support-disagreement-9ec0d605c45b.tif",
+    "footprint_density": 0.03421100044451988,
+    "my_dots_within_3px_of_theirs": 0.24724971604737953,
+    "their_dots_within_3px_of_mine": 0.24029731701936294,
+    "mutual_dot_overlap": 0.24029731701936294,
+    "jaccard_dot_sets": 0.012777043278026316,
+    "registry_dots": 176781
+   }
+  ],
+  "explanation": "no registry raster is a copy of this candidate: the largest mutual 3 px coincidence with any of the 695 rasters is 0.256, the largest dot-set Jaccard is 0.027, and the largest rank correlation over the footprint is 0.047"
+ },
+ "unique": true,
+ "operational_verdict": "promote-to-selector-only",
+ "scope": "all 695 SHA256-pinned competition-grid rasters (registry_refreshed.json, 2026-10-10T20:01Z snapshot; rasters published after that snapshot are not in this index and are a disclosed scope gap)",
+ "seconds": 290.6,
+ "generated_utc": "2026-10-11T02:14:31Z",
+ "candidate_sha256": "44c54063451f1162c6613b9ff621f8791a3199bac2f58c172049a0320f7e7131",
+ "candidate": "downloads/gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif",
+ "full_rows_receipt": "evidence/uniqueness_h59j.json",
+ "self": "evidence/uniqueness_h59j_view.json",
+ "leg3_scale_free": {
+  "passed": true,
+  "scope": "all 695 checked registry rasters",
+  "worst_spearman": 0.04748982125659025,
+  "spearman_limit": 0.9,
+  "worst_jaccard": 0.027014459710805783,
+  "jaccard_limit": 0.5
+ },
+ "leg4_support_matched": {
+  "passed": true,
+  "scope": "support-matched peers: the 641 dot-support rasters whose coverage is at or below half the footprint; the statistic is the mutual 3 px coincidence, min(forward, reverse)",
+  "worst_mutual_dot_overlap": 0.2563037481745903,
+  "limit": 0.7,
+  "worst_forward_leg_overlap_literal": 1.0,
+  "note": "the literal forward leg (my dots within 3 px of a peer's dots) fires on 86 rasters, every one of them with an analytic chance level >= 0.79 for a randomly placed dot, so the leg carries no evidence of copying there (IR-57-REPR-01)",
+  "worst_reverse_overlap": 0.3765602592022096,
+  "support_threshold_dots": 30
+ },
+ "support_threshold_dots_for_overlap_legs": 30,
+ "peers_below_support_threshold": [
+  {
+   "submission": "GEMSDOE52:docs/downloads/gems52-h58-coldgeo-consensus-22px-a55b0dee38-research.tif",
+   "registry_dots": 22,
+   "their_dots_within_3px_of_mine": 0.09090909090909091,
+   "reason": "peer has too few dots for the reverse leg to carry evidence"
+  },
+  {
+   "submission": "GEMSDOE50:docs/downloads/gemsdoe50-h53-probe-tmi-pointlineation-20261007-44afc05b.tif",
+   "registry_dots": 0,
+   "their_dots_within_3px_of_mine": 0.0,
+   "reason": "peer has too few dots for the reverse leg to carry evidence"
+  },
+  {
+   "submission": "56GEMSDOE:docs/downloads/h56-corr-snap200cm-20261009.tif",
+   "registry_dots": 1,
+   "their_dots_within_3px_of_mine": 1.0,
+   "reason": "peer has too few dots for the reverse leg to carry evidence"
+  },
+  {
+   "submission": "GEMSDOE21:docs/data/template-mask.tif",
+   "registry_dots": 0,
+   "their_dots_within_3px_of_mine": 0.0,
+   "reason": "peer has too few dots for the reverse leg to carry evidence"
+  },
+  {
+   "submission": "56GEMSDOE:docs/downloads/h56-corr-snap100cm-20261009.tif",
+   "registry_dots": 14,
+   "their_dots_within_3px_of_mine": 0.5,
+   "reason": "peer has too few dots for the reverse leg to carry evidence"
+  }
+ ],
+ "worst_reverse_overlap_informative_peers": 0.3765602592022096,
+ "worst_reverse_overlap_informative_submission": "56GEMSDOE:docs/downloads/h56-corridor-b2to5-20261009-20261009T185857Z.tif",
+ "worst_reverse_overlap_literal_all_peers": 1.0,
+ "nearest_registry_neighbours": [
+  {
+   "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-zeros.tif",
+   "registry_dots": 40000,
+   "my_dots_within_3px_of_theirs": 0.2563037481745903,
+   "their_dots_within_3px_of_mine": 0.33985,
+   "mutual_dot_overlap": 0.2563037481745903,
+   "jaccard_dot_sets": 0.011715122508750625,
+   "spearman_full_footprint": 0.01740408654168265
+  },
+  {
+   "submission": "GEMSDOE49:docs/downloads/gemsdoe49-xgrad-coupled-20261006T203447Z-nan.tif",
+   "registry_dots": 40000,
+   "my_dots_within_3px_of_theirs": 0.2563037481745903,
+   "their_dots_within_3px_of_mine": 0.33985,
+   "mutual_dot_overlap": 0.2563037481745903,
+   "jaccard_dot_sets": 0.011715122508750625,
+   "spearman_full_footprint": 0.01740408654168265
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-support-disagreement.tif",
+   "registry_dots": 176781,
+   "my_dots_within_3px_of_theirs": 0.24724971604737953,
+   "their_dots_within_3px_of_mine": 0.24029731701936294,
+   "mutual_dot_overlap": 0.24029731701936294,
+   "jaccard_dot_sets": 0.012777043278026316,
+   "spearman_full_footprint": 0.019756796118159628
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-support_difference-5bb2c03c981e.tif",
+   "registry_dots": 176781,
+   "my_dots_within_3px_of_theirs": 0.24724971604737953,
+   "their_dots_within_3px_of_mine": 0.24029731701936294,
+   "mutual_dot_overlap": 0.24029731701936294,
+   "jaccard_dot_sets": 0.012777043278026316,
+   "spearman_full_footprint": 0.01931773258214507
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-support-disagreement-9ec0d605c45b.tif",
+   "registry_dots": 176781,
+   "my_dots_within_3px_of_theirs": 0.24724971604737953,
+   "their_dots_within_3px_of_mine": 0.24029731701936294,
+   "mutual_dot_overlap": 0.24029731701936294,
+   "jaccard_dot_sets": 0.012777043278026316,
+   "spearman_full_footprint": 0.01931773258214507
+  }
+ ]
+}

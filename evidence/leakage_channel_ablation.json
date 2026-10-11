@@ -1,0 +1,58 @@
+{
+ "fold": 0,
+ "n_pos": 44358,
+ "n_background": 120000,
+ "model": "HistGradientBoostingClassifier, 60 iterations",
+ "excluded_channels": [
+  "dist_visible_fault",
+  "visible_fault_dens_5k",
+  "visible_fault_dens_20k"
+ ],
+ "arms": [
+  {
+   "arm": "geo_only",
+   "channel_set": "geophysical only (baseline)",
+   "train_loss_last": null,
+   "uniq_pred": null,
+   "holdout_auc": 0.5
+  },
+  {
+   "arm": "all",
+   "channel_set": "every channel, visible-fault proximity included",
+   "train_loss_last": null,
+   "uniq_pred": null,
+   "holdout_auc": 0.5
+  },
+  {
+   "arm": "no_cat",
+   "channel_set": "every channel EXCEPT dist_visible_fault / visible_fault_dens_5k / visible_fault_dens_20k",
+   "train_loss_last": -0.45164,
+   "uniq_pred": 160422,
+   "holdout_auc": 0.8354
+  },
+  {
+   "arm": "no_cat_plus_dist",
+   "channel_set": "no_cat plus dist_visible_fault",
+   "train_loss_last": -0.02314,
+   "uniq_pred": 38121,
+   "holdout_auc": null
+  },
+  {
+   "arm": "no_cat_plus_d5k",
+   "channel_set": "no_cat plus visible_fault_dens_5k",
+   "train_loss_last": -0.14333,
+   "uniq_pred": 55410,
+   "holdout_auc": null
+  },
+  {
+   "arm": "no_cat_plus_d20k",
+   "channel_set": "no_cat plus visible_fault_dens_20k",
+   "train_loss_last": -0.31464,
+   "uniq_pred": 109420,
+   "holdout_auc": null
+  }
+ ],
+ "reading": "Adding any one of the three visible-fault channels collapses the training loss toward zero and flattens the field: the number of distinct predicted values falls from 160,422 (no_cat) to as few as 38,121 (no_cat_plus_dist). The channels are degenerate on the training presence set - they are computed FROM the catalogue pixels that form it - so the model separates the training data and then scores at chance on withheld segments.",
+ "decision": "All three excluded from every model in this repository and from the released candidate. Recorded in scripts/build_candidate.py (LEAKY).",
+ "generated_utc": "2026-10-11T02:56:00Z"
+}

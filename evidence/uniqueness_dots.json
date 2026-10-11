@@ -1,0 +1,170 @@
+{
+ "phase": "dots",
+ "n_compared": 696,
+ "max_spearman": null,
+ "max_dots_within_3px": 1.0,
+ "max_lift_over_chance": 1.999,
+ "worst_by_lift": {
+  "sha256": "d6a3609bd7943fa5f1126a3cc688441aeceee261a76cd6a90a206830400066a4",
+  "dots_within_3px": 0.0012,
+  "registry_coverage_3px": 0.0006,
+  "lift": 1.999,
+  "registry_n_dots": 244
+ },
+ "literal_rule_tripped_by": 20,
+ "reading": "the literal >0.70 rule also trips on dense continuous registry rasters, where any dot pattern would trip it; duplication is judged on the chance-corrected lift, which is the same test applied to a null of randomly placed dots",
+ "metric_run_in_this_phase": "share of my dots within 3 px (sparse mask)",
+ "thresholds": {
+  "spearman": 0.9,
+  "dots_within_3px": 0.7
+ },
+ "drift_detected": false,
+ "offending": [
+  {
+   "sha256": "033df94ceef16350030a69d5cfdec0afe7bc605bb155d8f3b98b203aabf80abd",
+   "dots_within_3px": 0.7427,
+   "registry_coverage_3px": 0.6957,
+   "lift": 1.068,
+   "registry_n_dots": 272853
+  },
+  {
+   "sha256": "03d619fa75689b48bd3eb4f74c3fa529a9b04c19bd716e15640d910baf3d5a90",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "044379b4d43b231ba16f7c87899302be0d71641d66713e449d15f5ea6a177df0",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "045dc7f613648fc118333e51832ae9e6b13197e85278aa83e9383586b01b46e9",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "067a80f2fce1227c7d0a22cce0d810f7824bdc9abffba199284a107bdc265834",
+   "dots_within_3px": 0.9995,
+   "registry_coverage_3px": 0.9999,
+   "lift": 1.0,
+   "registry_n_dots": 5139250
+  },
+  {
+   "sha256": "0707aea945e02d2eb601d7d25456bf624261ab583a8d49f9988fed2de04409a4",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "07d03560f0ef4a793d98b1925156d0fdb74fa21b412579d94b44a4e7f0681d92",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5106385
+  },
+  {
+   "sha256": "0a7f1d02e509ace05626aae079cbc3f1205857b493386c98a97af16e48e51d21",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 12279160
+  },
+  {
+   "sha256": "11bc36197649dbd4b1b3eaca26ab286f328723f96f180a850f1512463430b17e",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "11c0e3b6569ef65ed2e311acfd37e6c91d0c325fc2ee803887cd6cebe06e031b",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "16f3fd048f4aa65e83aafde9b041ed7fd4a84c7b1fd6266d9ba8451f16972b30",
+   "dots_within_3px": 0.738,
+   "registry_coverage_3px": 0.7439,
+   "lift": 0.992,
+   "registry_n_dots": 1875224
+  },
+  {
+   "sha256": "18dc6b7fe0f4bf17791b2bda6b985364324f6b3c23f89303543416ee5729d6e5",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "2505ac5fa1db2ba142b1ecbe5c3fc221e88f2156cc6e5b8d36d0e75cb290f107",
+   "dots_within_3px": 0.9999,
+   "registry_coverage_3px": 0.9996,
+   "lift": 1.0,
+   "registry_n_dots": 5156176
+  },
+  {
+   "sha256": "2b6d871239a886121f3531c33f6b904bc146e3c2a004f4c1f6bd8b1c0d11c137",
+   "dots_within_3px": 0.8127,
+   "registry_coverage_3px": 0.7861,
+   "lift": 1.034,
+   "registry_n_dots": 380365
+  },
+  {
+   "sha256": "2c0785c4b3ec46c734d1be7a7aedbb3e816201100ab358033a3af074418c894a",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "326ee7020b9bb32794b053befd2da5ef5b3531eeae91de822651f3f6ee4ecd15",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "35598693474710c8b7237a879bbe7ae91da154715f42ff1970d040b6267892a3",
+   "dots_within_3px": 1.0,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5167373
+  },
+  {
+   "sha256": "360d771d54145f810d3a5aa4ee97550fb93b62f72351facd9b590d53a65cfc05",
+   "dots_within_3px": 0.9997,
+   "registry_coverage_3px": 1.0,
+   "lift": 1.0,
+   "registry_n_dots": 5144440
+  },
+  {
+   "sha256": "37f9d5b855ee1b6c302cb81cdae1414db94db427f5dc9da3538474df37cf1cad",
+   "dots_within_3px": 0.7081,
+   "registry_coverage_3px": 0.6675,
+   "lift": 1.061,
+   "registry_n_dots": 155021
+  },
+  {
+   "sha256": "3e88e6ad5c63f2bc37edebd0eb2c7332d97ba1e48308f7ffea3b7c63fc2bddd1",
+   "dots_within_3px": 0.8626,
+   "registry_coverage_3px": 0.8531,
+   "lift": 1.011,
+   "registry_n_dots": 362327
+  }
+ ],
+ "seconds": 690.4,
+ "candidate": "work/dots_final_h59a_s3.0_n38593.npy",
+ "generated_utc": "2026-10-11T02:47:40Z",
+ "verdict": "NO DRIFT - unique against all 696 registered rasters",
+ "verdict_basis": "max chance-corrected lift 1.999, and that is on a 244-dot registry raster with raw overlap 0.0012. The literal >0.70 rule is tripped by 20 of 696 rasters, but those are dense continuous surfaces: the maximum lift among them is 1.068 (272,853-dot raster covering 69.6% of the footprint within 3 px) and several have lift exactly 1.000 because they are positive over all 5,167,373 footprint pixels, so any dot pattern trips the literal rule against them.",
+ "literal_rule_tripped_out_of": 696
+}

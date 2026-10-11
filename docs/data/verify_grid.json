@@ -1,0 +1,48 @@
+{
+  "evidence_class": "MEASURED",
+  "generated_utc": "2026-10-11T00:19:33Z",
+  "grid": {
+    "shape": [
+      3730,
+      3292
+    ],
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "pixel_m": 100.0
+  },
+  "files": {
+    "existing_faults.tif": {
+      "bytes": 425830,
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+    },
+    "labels.tif": {
+      "bytes": 425830,
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+    },
+    "sample_submission.tif": {
+      "bytes": 1599597,
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+    },
+    "example_submission.tif": {
+      "bytes": 1599597,
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+    }
+  },
+  "footprint_pixels": 5167373,
+  "catalogue_pixels": 60988,
+  "allowed_pixels": 5106385,
+  "catalogue_fraction_of_footprint": 0.011802515514169385,
+  "catalogue_outside_footprint": 0,
+  "kernel_radius_px": 3.0,
+  "alpha": 0.2,
+  "beta": 0.8,
+  "labels_equals_existing_faults": true,
+  "scope": "Byte-level verification of the bridged competition rasters on the competition grid. The bridge is a hash-pinned transport of the official files; it is not an organizer download receipt (the DrivenData data tab is login-walled)."
+}

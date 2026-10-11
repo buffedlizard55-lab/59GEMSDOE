@@ -1,0 +1,787 @@
+{
+  "release": "lane v1",
+  "generated_utc": "2026-10-11T01:14:02Z",
+  "lane": "intensity: 1 km new-fault-density zoning + presence-only point-process intensity with target-group background; sparse 3 px lattice above break-even",
+  "hypothesis": "Unmapped fault density is predictable at 1 km block scale from the same geophysical and topographic evidence that predicts mapped faults, once the mapping process (observer effort) is absorbed by a target-group background; deploying only the evidence terms and re-deriving the block break-even turns that density into a sparse dot field that is not a re-prediction of the catalogue.",
+  "mechanism": "Presence-only logistic (log) intensity fitted on thinned catalogue pixels vs random background; presence thinning 2 px; 150,000 background points; ridge lambda selected by spatial CV; deployment zeroes the intercept and drops neglog_dist_catalogue / cat_density_1km (EVIDENCE_FAMILY). Block shares -> expected scored-fault pixels per 1 km block -> absolute-density strata (edges 2.5/5/10/20 px) -> spacing table -> lattice sites inside the study-area footprint minus the mapped catalogue.",
+  "named_non_fault_process_that_could_mimic_it": "Map-scale geophysical texture that correlates with structure without being a fault: lithologic and cover contacts, magnetic dike swarms, erosional and range-front lineaments, and flight-line acquisition artefacts; plus the observer process itself -- where the region was mapped well (and at what scale) controls where new faults can be recognised, which the effort covariates only partially absorb.",
+  "experiments_used": 3,
+  "submission_slots_used": 0,
+  "evidence_holdout_catalogue": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "split_version": "buffered-whole-components-loqo-v2",
+    "withheld_positive_pixels": 11354,
+    "dti": 0.03338992040359222,
+    "ci95": [
+      0.022818866056020532,
+      0.04447005894889036
+    ],
+    "arm": "table0",
+    "dots": 50422,
+    "controls": {
+      "proximity_only": 0.23490031545100903,
+      "random_blocks": 0.01678441577164528,
+      "uniform_same_count": 0.03468092249097852
+    },
+    "control_cis": {
+      "table0": [
+        0.022818866056020532,
+        0.04447005894889036
+      ],
+      "proximity_only": [
+        0.22011488887892416,
+        0.24839257647564777
+      ],
+      "random_blocks": [
+        0.01204346651958087,
+        0.021710933626546566
+      ],
+      "uniform_same_count": [
+        0.030300195478840327,
+        0.03875122644519806
+      ]
+    },
+    "note": "Catalogue hide-and-recover; withheld pixels are a subset of the mapped catalogue, so this frame can rank emission rules but cannot rank field quality for the real (off-catalogue) target. Not an organizer score."
+  },
+  "evidence_independent_frame": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "frame": "SGMC novelty = SGMC faults >3 px from the mapped catalogue (61,664 px); a different public catalogue, NOT organizer truth",
+    "arms": {
+      "lane": {
+        "dti": 0.043985640550004465,
+        "ci95": [
+          0.03230977197711009,
+          0.05600928435260789
+        ],
+        "tpw": 2625.877768985981,
+        "fpw": 49210.73665603161
+      },
+      "proximity_only": {
+        "dti": 0.039139659373024965,
+        "ci95": [
+          0.03301348082733446,
+          0.04594262949956486
+        ],
+        "tpw": 2320.5977706705203,
+        "fpw": 47474.34327531561
+      }
+    },
+    "paired_difference": {
+      "proximity_only": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.0048459811769795,
+        "ci95": [
+          -0.008136540884937708,
+          0.018929970922539088
+        ],
+        "withheld_positive_pixels": 61664
+      }
+    }
+  },
+  "leakage_canary": {
+    "evidence_class": "HOLDOUT-DTI",
+    "threshold": 0.9,
+    "worst": {
+      "covariate": "neg_deq",
+      "auc": 0.5298511132860783,
+      "max_auc": 0.5298511132860783
+    },
+    "flags": {}
+  },
+  "robustness": {
+    "evidence_class": "HOLDOUT-DTI",
+    "span": {
+      "min": 0.011555408717360122,
+      "max": 0.03908223307665157,
+      "spread": 0.027526824359291446
+    },
+    "arms": {
+      "seed59_qx0.6": 0.022855683274623555,
+      "seed59_qx1.0": 0.03338992040359222,
+      "seed59_qx1.6": 0.03908223307665157,
+      "seed101_qx0.6": 0.013568943062295953,
+      "seed101_qx1.0": 0.021886593766154355,
+      "seed101_qx1.6": 0.028476202942810277,
+      "seed202_qx0.6": 0.011555408717360122,
+      "seed202_qx1.0": 0.017548102951377327,
+      "seed202_qx1.6": 0.028765046707367962
+    },
+    "note": "seeds 59/101/202 x design-projection multiplier 0.6/1.0/1.6"
+  },
+  "correlation_overlap_vs_registry": {
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "rasters_compared": 710,
+    "literal_leg": {
+      "worst_rho_dot_field": {
+        "rho_dot_field": 0.11419945833321082,
+        "rho_surface": 0.21770753928699205,
+        "repo": "5GEMSDOE",
+        "sha256": "c9155f228cdca724ebaf4fa65984f37637a5b4a710595ca1928f6c896addaa47",
+        "sources": [
+          "5GEMSDOE:data/derived/context_detector_prob_u8.tif"
+        ]
+      },
+      "worst_rho_surface": {
+        "rho_dot_field": 0.11419945833321082,
+        "rho_surface": 0.21770753928699205,
+        "repo": "5GEMSDOE",
+        "sha256": "c9155f228cdca724ebaf4fa65984f37637a5b4a710595ca1928f6c896addaa47",
+        "sources": [
+          "5GEMSDOE:data/derived/context_detector_prob_u8.tif"
+        ]
+      },
+      "dense_support_priors": 61,
+      "note": "overlap leg is 1.0 by construction against dense-support priors; reported with an explicit exclusion note, not exempted (IR-59-REPR-01)"
+    },
+    "representation_aware_leg": {
+      "n_sparse_peers": 647,
+      "worst_rho_dot_field": {
+        "rho_dot_field": 0.0953676090173077,
+        "rho_surface": 0.1158210317905665,
+        "ours_inside_theirs_3px": 0.07668160549643639,
+        "theirs_inside_ours_3px": 0.4462474106336644,
+        "repo": "GEMSDOE37",
+        "sha256": "59cbcc4a15108ff5346b50504c6e5ebb95089f45d18bfe835ed6dcbd5f2bfa17",
+        "sources": [
+          "GEMSDOE37:docs/downloads/gemsdoe37-rankmix-strain-topo-20261005T030338376116Z-52bf89742e.tif"
+        ]
+      },
+      "worst_overlap_ours_inside_theirs": {
+        "rho_dot_field": -0.003002606466814047,
+        "rho_surface": -0.004814455987060035,
+        "ours_inside_theirs_3px": 0.9951827209729324,
+        "theirs_inside_ours_3px": 0.12035573600135334,
+        "repo": "13GEMSDOE",
+        "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+        "sources": [
+          "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+          "13GEMSDOE:docs/downloads/archive/session7-superseded-13gems_20261001_r13-lattice-s5_B_nan-outside.tif",
+          "13GEMSDOE:docs/downloads/latest.tif",
+          "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+          "GEMSDOE54:registry/registry_rasters/r13_lattice_s5_00904.tif"
+        ]
+      },
+      "worst_overlap_theirs_inside_ours": {
+        "rho_dot_field": -0.001029367607997984,
+        "rho_surface": 0.0030509154221253732,
+        "ours_inside_theirs_3px": 0.0004146018834771278,
+        "theirs_inside_ours_3px": 0.45454545454545453,
+        "repo": "GEMSDOE52",
+        "sha256": "130c242e33aef398c44b22cdf247e8a9357d8b402f43f17f0a2da30f2ede1fc7",
+        "sources": [
+          "GEMSDOE52:docs/downloads/gems52-h58-coldgeo-consensus-22px-a55b0dee38-research.tif",
+          "GEMSDOE52:docs/downloads/h58-candidate.tif",
+          "GEMSDOE52:submission/gems52-h58-coldgeo-consensus-22px-a55b0dee38-research.tif"
+        ]
+      }
+    },
+    "comparable_peer_tier": {
+      "n_comparable_peers": 490,
+      "limit": 0.7,
+      "passes": true,
+      "worst_ours_inside_theirs": {
+        "repo": "GEMSDOE51",
+        "sources": [
+          "GEMSDOE51:archive/submissions/2026-10-06/gemsdoe51-strainbudget-s1-v1.tif"
+        ],
+        "support_px": 95927,
+        "support_fraction_of_footprint": 0.018563978253553593,
+        "ours_inside_theirs_3px": 0.5128625298612071,
+        "theirs_inside_ours_3px": 0.20805404109374837,
+        "rho_dot_field": 0.04677359212782611
+      }
+    },
+    "limit_rho": 0.9,
+    "limit_overlap": 0.7,
+    "saturation_note": "the literal/representation-aware trip (0.9952 against 13GEMSDOE) is a uniform-lattice saturation artefact: that prior is a regular lattice covering the whole footprint (206,895 dots), within 3 px of almost any candidate dot; only 0.1204 of ITS dots are within 3 px of ours, and the rank correlation is -0.003. See IR-59-REPR-01.",
+    "verdict": {
+      "drift_by_rho": false,
+      "drift_by_overlap_sparse_peers": true,
+      "note": "literal-leg overlap against dense-support priors is 1.0 by construction for any nonempty candidate and is reported, not exempted (IR-59-REPR-01).",
+      "drift_by_overlap_comparable_peers": false
+    }
+  },
+  "surface_before_placement": {
+    "evidence_class": "MEASURED",
+    "blocks_selected": 4924,
+    "blocks_total": 123090,
+    "blocks_per_level": {
+      "3": 4924,
+      "6": 0,
+      "9": 0,
+      "12": 0
+    },
+    "predicted_mass_share_inside_selected": 0.9999961089857432,
+    "design": {
+      "q": 0.04,
+      "table": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "budget_cap": 1000000000,
+      "g_total": 10000.0
+    },
+    "note": "shares are relative intensity; the absolute conversion uses a stated design projection (g_total), which is sensitivity-tested, never scored"
+  },
+  "final_dots": {
+    "evidence_class": "MEASURED",
+    "dots": 50651,
+    "dots_on_catalogue": 0,
+    "dots_outside_footprint": 0,
+    "spacing_table": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "lattice_phase": 1,
+    "sha256_of_dot_bitmask": "b25dd620baf4adcdf4fc6ed95d70d105c5c64314f05acb947a784b8563df889c"
+  },
+  "raster_sha256": "d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c",
+  "file": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif",
+  "zip_file": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.zip",
+  "bytes": 79553,
+  "validator_output": {
+    "local_validation": {
+      "file": "/home/user/59GEMSDOE/docs/downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif",
+      "bytes": 79553,
+      "sha256": "d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c",
+      "meta": {
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "count": 1,
+        "nodata": null,
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "profile_compress": "deflate"
+      },
+      "band_description": [
+        null
+      ],
+      "n_finite": 12279160,
+      "n_nan": 0,
+      "n_infinite": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.004124956205487251,
+      "emitted_positive_pixels": 50651,
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "dimensions_3730x3292": true,
+        "crs_epsg_32611": true,
+        "transform_matches_sample_submission": true,
+        "no_nan_anywhere": true,
+        "no_inf_anywhere": true,
+        "no_sentinel_values": true,
+        "range_0_1_guaranteed": true,
+        "min_ge_0": true,
+        "max_le_1": true,
+        "in_footprint_all_finite": true,
+        "in_footprint_range_0_1": true,
+        "outside_footprint_zero": true,
+        "zero_dots_on_mapped_catalogue": true
+      },
+      "all_checks_passed": true,
+      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+      "on_catalogue_positive_pixels": 0,
+      "in_footprint_positive_pixels": 50651,
+      "footprint_fraction": 0.009802079315737417
+    },
+    "template_report_ok": true,
+    "template_report_problems": [],
+    "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval"
+  },
+  "submission_name": "59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros",
+  "submission_note": "Zoned 1 km new-fault density, presence-only intensity with mapping-effort background correction; 3 px lattice above break-even.",
+  "submission_note_chars": 127,
+  "decile_calibration": {
+    "experiment": "decile calibration: predicted intensity decile vs withheld-segment counts",
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "split_version": "buffered-whole-components-loqo-v2",
+    "seed": 59,
+    "hide_frac": 0.2,
+    "buffer_px": 3,
+    "l2_selection_used": 0.1,
+    "withheld_positive_pixels": 11354,
+    "blocks_ranked": 52387,
+    "footprint_px": 5167373.0,
+    "deciles": [
+      {
+        "decile": 10,
+        "blocks": 5239,
+        "footprint_px": 523900.0,
+        "withheld_px": 562.0,
+        "withheld_share": 0.0494979742821913,
+        "area_share": 0.10138613953356958,
+        "lift": 0.4882124372217784
+      },
+      {
+        "decile": 9,
+        "blocks": 5238,
+        "footprint_px": 523800.0,
+        "withheld_px": 1074.0,
+        "withheld_share": 0.09459221419763959,
+        "area_share": 0.10136678734049197,
+        "lift": 0.933167723663802
+      },
+      {
+        "decile": 8,
+        "blocks": 5239,
+        "footprint_px": 523900.0,
+        "withheld_px": 957.0,
+        "withheld_share": 0.08428747577946098,
+        "area_share": 0.10138613953356958,
+        "lift": 0.831351071923918
+      },
+      {
+        "decile": 7,
+        "blocks": 5239,
+        "footprint_px": 523900.0,
+        "withheld_px": 1127.0,
+        "withheld_share": 0.09926017262638717,
+        "area_share": 0.10138613953356958,
+        "lift": 0.9790309906564844
+      },
+      {
+        "decile": 6,
+        "blocks": 5239,
+        "footprint_px": 523900.0,
+        "withheld_px": 661.0,
+        "withheld_share": 0.058217368328342435,
+        "area_share": 0.10138613953356958,
+        "lift": 0.5742142722483906
+      },
+      {
+        "decile": 5,
+        "blocks": 5238,
+        "footprint_px": 523800.0,
+        "withheld_px": 1949.0,
+        "withheld_share": 0.17165756561564208,
+        "area_share": 0.10136678734049197,
+        "lift": 1.693430068361965
+      },
+      {
+        "decile": 4,
+        "blocks": 5239,
+        "footprint_px": 523900.0,
+        "withheld_px": 1642.0,
+        "withheld_share": 0.14461863660384006,
+        "area_share": 0.10138613953356958,
+        "lift": 1.4264142738757297
+      },
+      {
+        "decile": 3,
+        "blocks": 5239,
+        "footprint_px": 523900.0,
+        "withheld_px": 1128.0,
+        "withheld_share": 0.09934824731372204,
+        "area_share": 0.10138613953356958,
+        "lift": 0.9798996960607935
+      },
+      {
+        "decile": 2,
+        "blocks": 5238,
+        "footprint_px": 523800.0,
+        "withheld_px": 1381.0,
+        "withheld_share": 0.1216311432094416,
+        "area_share": 0.10136678734049197,
+        "lift": 1.1999111977464716
+      },
+      {
+        "decile": 1,
+        "blocks": 5239,
+        "footprint_px": 452573.0,
+        "withheld_px": 873.0,
+        "withheld_share": 0.07688920204333274,
+        "area_share": 0.08758280077710666,
+        "lift": 0.8779029827900968
+      }
+    ],
+    "reference_rankings": {
+      "neglog_dist_catalogue": {
+        "deciles": [
+          {
+            "decile": 10,
+            "blocks": 5239,
+            "footprint_px": 521601.0,
+            "withheld_px": 9691.0,
+            "withheld_share": 0.8535317949621278,
+            "area_share": 0.10094123261471545,
+            "lift": 8.455729862344656
+          },
+          {
+            "decile": 9,
+            "blocks": 5238,
+            "footprint_px": 516909.0,
+            "withheld_px": 1663.0,
+            "withheld_share": 0.1464682050378721,
+            "area_share": 0.10003322771551425,
+            "lift": 1.4641955316528912
+          },
+          {
+            "decile": 8,
+            "blocks": 5239,
+            "footprint_px": 517517.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10015088904942608,
+            "lift": 0.0
+          },
+          {
+            "decile": 7,
+            "blocks": 5239,
+            "footprint_px": 518557.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10035215185743317,
+            "lift": 0.0
+          },
+          {
+            "decile": 6,
+            "blocks": 5239,
+            "footprint_px": 519245.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10048529494580709,
+            "lift": 0.0
+          },
+          {
+            "decile": 5,
+            "blocks": 5238,
+            "footprint_px": 517878.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10022075046643623,
+            "lift": 0.0
+          },
+          {
+            "decile": 4,
+            "blocks": 5239,
+            "footprint_px": 516977.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10004638720680702,
+            "lift": 0.0
+          },
+          {
+            "decile": 3,
+            "blocks": 5239,
+            "footprint_px": 517165.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10008276932979292,
+            "lift": 0.0
+          },
+          {
+            "decile": 2,
+            "blocks": 5238,
+            "footprint_px": 515507.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.09976190996856624,
+            "lift": 0.0
+          },
+          {
+            "decile": 1,
+            "blocks": 5239,
+            "footprint_px": 506017.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.09792538684550157,
+            "lift": 0.0
+          }
+        ],
+        "summary": {
+          "top_decile_lift": 8.455729862344656,
+          "top_decile_withheld_share": 0.8535317949621278,
+          "top_decile_area_share": 0.10094123261471545,
+          "top_two_deciles": {
+            "withheld_share": 1.0,
+            "area_share": 0.2009744603302297
+          },
+          "monotone_densest_to_sparsest": true,
+          "rank_corr_decile_vs_lift": -0.5951006274667631
+        }
+      },
+      "cat_density_1km": {
+        "deciles": [
+          {
+            "decile": 10,
+            "blocks": 5239,
+            "footprint_px": 521394.0,
+            "withheld_px": 9458.0,
+            "withheld_share": 0.8330103928131055,
+            "area_share": 0.1009011735750448,
+            "lift": 8.255705690019132
+          },
+          {
+            "decile": 9,
+            "blocks": 5238,
+            "footprint_px": 516813.0,
+            "withheld_px": 1896.0,
+            "withheld_share": 0.16698960718689448,
+            "area_share": 0.10001464961015975,
+            "lift": 1.6696514744369133
+          },
+          {
+            "decile": 8,
+            "blocks": 5239,
+            "footprint_px": 518488.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10033879884420963,
+            "lift": 0.0
+          },
+          {
+            "decile": 7,
+            "blocks": 5239,
+            "footprint_px": 520215.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10067301121865985,
+            "lift": 0.0
+          },
+          {
+            "decile": 6,
+            "blocks": 5239,
+            "footprint_px": 522598.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10113417397969916,
+            "lift": 0.0
+          },
+          {
+            "decile": 5,
+            "blocks": 5238,
+            "footprint_px": 522243.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.10106547369427367,
+            "lift": 0.0
+          },
+          {
+            "decile": 4,
+            "blocks": 5239,
+            "footprint_px": 512284.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.09913818878567504,
+            "lift": 0.0
+          },
+          {
+            "decile": 3,
+            "blocks": 5239,
+            "footprint_px": 516102.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.09987705551737798,
+            "lift": 0.0
+          },
+          {
+            "decile": 2,
+            "blocks": 5238,
+            "footprint_px": 512619.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.09920301863248501,
+            "lift": 0.0
+          },
+          {
+            "decile": 1,
+            "blocks": 5239,
+            "footprint_px": 504617.0,
+            "withheld_px": 0.0,
+            "withheld_share": 0.0,
+            "area_share": 0.09765445614241511,
+            "lift": 0.0
+          }
+        ],
+        "summary": {
+          "top_decile_lift": 8.255705690019132,
+          "top_decile_withheld_share": 0.8330103928131055,
+          "top_decile_area_share": 0.1009011735750448,
+          "top_two_deciles": {
+            "withheld_share": 1.0,
+            "area_share": 0.20091582318520457
+          },
+          "monotone_densest_to_sparsest": true,
+          "rank_corr_decile_vs_lift": -0.6056047244414091
+        }
+      },
+      "random_ranking": {
+        "deciles": [
+          {
+            "decile": 10,
+            "blocks": 5239,
+            "footprint_px": 516784.0,
+            "withheld_px": 1047.0,
+            "withheld_share": 0.09221419763959839,
+            "area_share": 0.10000903747416724,
+            "lift": 0.9220586455840823
+          },
+          {
+            "decile": 9,
+            "blocks": 5238,
+            "footprint_px": 516352.0,
+            "withheld_px": 1121.0,
+            "withheld_share": 0.09873172450237802,
+            "area_share": 0.09992543600007199,
+            "lift": 0.9880539775909198
+          },
+          {
+            "decile": 8,
+            "blocks": 5239,
+            "footprint_px": 516246.0,
+            "withheld_px": 1318.0,
+            "withheld_share": 0.11608243790734543,
+            "area_share": 0.09990492267540974,
+            "lift": 1.1619291101850537
+          },
+          {
+            "decile": 7,
+            "blocks": 5239,
+            "footprint_px": 517146.0,
+            "withheld_px": 960.0,
+            "withheld_share": 0.08455169984146556,
+            "area_share": 0.10007909241310817,
+            "lift": 0.8448487871218059
+          },
+          {
+            "decile": 6,
+            "blocks": 5239,
+            "footprint_px": 516942.0,
+            "withheld_px": 1086.0,
+            "withheld_share": 0.09564911044565792,
+            "area_share": 0.10003961393922986,
+            "lift": 0.9561123506910073
+          },
+          {
+            "decile": 5,
+            "blocks": 5238,
+            "footprint_px": 516682.0,
+            "withheld_px": 1217.0,
+            "withheld_share": 0.10718689448652458,
+            "area_share": 0.09998929823722809,
+            "lift": 1.0719836660141362
+          },
+          {
+            "decile": 4,
+            "blocks": 5239,
+            "footprint_px": 517100.0,
+            "withheld_px": 1192.0,
+            "withheld_share": 0.10498502730315308,
+            "area_share": 0.10007019040429248,
+            "lift": 1.0491138957466177
+          },
+          {
+            "decile": 3,
+            "blocks": 5239,
+            "footprint_px": 516368.0,
+            "withheld_px": 1302.0,
+            "withheld_share": 0.11467324290998766,
+            "area_share": 0.09992853235096441,
+            "lift": 1.14755255793448
+          },
+          {
+            "decile": 2,
+            "blocks": 5238,
+            "footprint_px": 516650.0,
+            "withheld_px": 984.0,
+            "withheld_share": 0.0866654923375022,
+            "area_share": 0.09998310553544325,
+            "lift": 0.8668013648243797
+          },
+          {
+            "decile": 1,
+            "blocks": 5239,
+            "footprint_px": 517103.0,
+            "withheld_px": 1127.0,
+            "withheld_share": 0.09926017262638717,
+            "area_share": 0.1000707709700848,
+            "lift": 0.991899749189102
+          }
+        ],
+        "summary": {
+          "top_decile_lift": 0.9220586455840823,
+          "top_decile_withheld_share": 0.09221419763959839,
+          "top_decile_area_share": 0.10000903747416724,
+          "top_two_deciles": {
+            "withheld_share": 0.19094592214197642,
+            "area_share": 0.19993447347423923
+          },
+          "monotone_densest_to_sparsest": false,
+          "rank_corr_decile_vs_lift": 0.0739537998785768
+        }
+      }
+    },
+    "summary": {
+      "top_decile_lift": 0.4882124372217784,
+      "top_decile_withheld_share": 0.0494979742821913,
+      "top_decile_area_share": 0.10138613953356958,
+      "top_two_deciles": {
+        "withheld_share": 0.1440901884798309,
+        "area_share": 0.20275292687406155
+      },
+      "monotone_densest_to_sparsest": false,
+      "rank_corr_decile_vs_lift": 0.4320799829905884,
+      "note": "blocks are ranked by the deployed (evidence-only, intercept-free) relative intensity fitted on the VISIBLE catalogue of fold 0; withheld = hidden_all of the same fold. Lift = withheld share / footprint-area share."
+    },
+    "seconds": 5.5,
+    "scope": "Relative intensity only; no number here is a competition score."
+  },
+  "okay_to_download": true,
+  "okay_to_submit": false,
+  "promotion_requires": "a frame whose truth matches the scored target (a collar-band truth), and a release that beats both trivial controls on it; owner selector step (protocol item 6); 0 slots used in-session",
+  "verdict": "negative",
+  "verdict_reason": "DOWNLOAD OK: format-validated (all-finite, values in [0,1], CRS/shape/transform match the sample submission, 0 dots on the mapped catalogue, 0 outside the footprint), unique against the registry on every meaningful test -- worst rank correlation over all 710 priors 0.1142 against a 0.90 limit, worst 3 px overlap against a comparable prior 0.5129 against a 0.70 limit, and against the only other intensity-lane release 0.1235 (rank correlation 0.0435). SUBMIT: NO. The release's own instruments dominate it on both frames available in this repository, so it is not cleared for a competition slot: (1) catalogue hide-and-recover frame -- release 0.03339 [0.02282, 0.04447] vs proximity-only control 0.23490 and uniform-same-count 0.03468, i.e. the release is the worst of the three; (2) decile calibration on the same frame -- the release's densest decile of 1 km blocks carries 0.0495 of the withheld positives for 0.1014 of the footprint area, a lift of 0.49, i.e. below chance, while the catalogue-distance and catalogue-density rankings reach lifts of 8.46 and 8.26 (random-ranking calibration 0.92, so the method is sound); (3) off-catalogue frame (SGMC novelty) -- release 0.04399 [0.03231, 0.05601] vs proximity 0.03914 [0.03301, 0.04594], paired difference +0.00485 [-0.00814, +0.01893] not significant, and a uniform spread of the same number of dots scores 0.09765, i.e. more than twice the release. Reading: the evidence-only field is not merely catalogue-free by construction, it is anti-aligned with the trunk corridors at 1 km block scale (lift < 1 on a frame whose truth sits on the corridors), and it is beaten by spreading the same budget over the footprint when the truth is spread. Both frames therefore reject the emission rule, not just the ranking. The lane's premise is not supported at this scale by this evidence. What was NOT tested here and is the next step: a frame whose truth is a band 1-3 km from the traces (the scored target is newly mapped geometry beside existing systems -- thread 11536 -- and the owner-reported structure puts winning dots at ~19 px median distance), and an emission that spreads its budget inside the corridors rather than tiling the top 10 % of blocks. Findings and the frame diagnosis are recorded as IR-59-FRAME-01.",
+  "live_profile": {
+    "evidence_class": "MEASURED",
+    "dots": 50651,
+    "median_distance_to_catalogue_px": 19.72308292331602,
+    "fraction_within_2px_of_catalogue": 0.06341434522516831,
+    "fraction_on_catalogue": 0.0,
+    "note": "the owner-reported live structure (n=15) is: log-dot-count -0.810, dots within 2 px of the catalogue -0.544, median distance to the catalogue +0.766; this profile is reported so the release can be compared with that structure, not because it is a score"
+  },
+  "limitations": [
+    "No organizer receipt: every score here is a holdout proxy or owner-reported context.",
+    "Catalogue holdout over-rewards dots (withheld catalogue pixels ~30x denser than the estimated new-fault population); the tie-break to the smaller budget is a declared policy, not a correction.",
+    "SGMC novelty is a different public catalogue, not the organizer's new faults.",
+    "USGS reliability-of-location class cannot be joined to the grid (IR-59-EFFORT-02); no roads dataset was available in any clone.",
+    "Feature stack verified by transport hashes, not by an official provenance receipt.",
+    "Target-group background is implemented as uniform background plus effort covariates (relief, acquisition block); a true target-group background was not available (IR-59-EFFORT-02).",
+    "Both holdout frames' truths differ structurally from the scored target: one sits ON the traces, the other is a different catalogue spread over the region (IR-59-FRAME-01). Neither can rank a catalogue-free field."
+  ],
+  "evidence_files": [
+    "data_preparation_lane1ac8.json",
+    "emit_receipt.json",
+    "exp1_catalogue_holdout.json",
+    "exp2_sgmc_novelty.json",
+    "exp3_canary_robustness.json",
+    "family_comparison.json",
+    "fit_full.json",
+    "planes.json",
+    "registry_refreshed_lane1ac8.json",
+    "site_inventory.json",
+    "uniqueness_lane_v1.json",
+    "verify_grid.json"
+  ]
+}

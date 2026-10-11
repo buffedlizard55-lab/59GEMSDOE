@@ -1,0 +1,2207 @@
+{
+ "evidence_class": "REGISTRY-MEASUREMENT",
+ "method": "scripts/uniqueness_fast.py (same statistics/thresholds as audit_candidate_registry.py; KD-tree overlap)",
+ "candidate": "downloads/gems59-h59j-offcat-propen-30k-20261011.tif",
+ "my_dots": 30000,
+ "registry_rasters_expected": 695,
+ "registry_rasters_checked": 695,
+ "missing_or_invalid": 0,
+ "complete_accessible_scan": true,
+ "rho_limit": 0.9,
+ "overlap_limit": 0.7,
+ "jaccard_limit": 0.5,
+ "worst_spearman_full_footprint": 0.06357936282664807,
+ "worst_rho_submission": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+ "worst_dot_overlap": 1.0,
+ "worst_overlap_submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+ "worst_jaccard_dot_sets": 0.0209125370383654,
+ "worst_jaccard_submission": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-ridge-4e03fc9705.tif",
+ "duplicate_count": 80,
+ "duplicate_rows": [
+  "13GEMSDOE:docs/downloads/13gems_20261001_r11-greedy-mp_v2_nan-outside.tif",
+  "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+  "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T043629Z/submission.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-unassigned-mtheta.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-radiometric-edge-coherence.tif",
+  "GEMSDOE48:docs/downloads/gemsdoe48-ds-plausibility-20261006T201749Z-95897e3f8125.tif",
+  "57GEMSDOE:docs/downloads/gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
+  "GEMSDOE48:docs/downloads/gemsdoe48-ds48-mtheta.tif",
+  "GEMSDOE3:docs/downloads/coverage-v3-wide-20260925T054019Z-0ac095a7ed.tif",
+  "GEMSDOE50:docs/downloads/gemsdoe50-h59-topo-lineament-scatter-180k-20261007T170212Z-nan.tif",
+  "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+  "GEMSDOE48:docs/downloads/gemsdoe48-ds-unassigned-mass-20261006T201749Z-95897e3f8125.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-mtheta-126ca59c2801.tif",
+  "5GEMSDOE:data/derived/context_detector_prob_4fold_base.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-composite-plus-20260929T183249Z_allfinite.tif",
+  "GEMSDOE24:data/external/audit_sources/acquisition_block_id_100m.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-mtheta-5bb2c03c981e.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-plausibility-9ec0d605c45b.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-conflict-total-K.tif",
+  "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-discovery-37f9d5b855.tif",
+  "15GEMSDOE:docs/downloads/gems-cleanup-a-20260928T195952Z-curv_scarp.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-composite-20260929T183221Z_allfinite.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h50-unassigned-mTheta-20261007-5b59e106.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-composite-20260928T040920Z.tif",
+  "GEMSDOE48:docs/downloads/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-nan-outside.tif",
+  "GEMSDOE48:docs/downloads/gemsdoe48-h58-diag-plausibility-20261008T175914Z-e58.tif",
+  "GEMSDOE4:data/evidence/newfault/seed44/prob_raw.tif",
+  "GEMSDOE48:docs/downloads/gemsdoe48-h58-continuous-pignistic-20261008T175914Z-e58.tif",
+  "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T041759Z/submission.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-plausibility-5bb2c03c981e.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-mtheta-dempster.tif",
+  "57GEMSDOE:docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-plausibility-20261008T184547Z.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-r8-ensemble-20260930T014614Z_allfinite.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-composite-plus-20260929T183249Z.tif",
+  "GEMSDOE4:data/evidence/newfault/seed45/prob_raw.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-r6-ensemble-20260929T182914Z_allfinite.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-plausibility-126ca59c2801.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-composite-20260928T040920Z_allfinite.tif",
+  "GEMSDOE22:docs/downloads/gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-allfinite.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h55-mtheta-055da9855353.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h48-1-unassigned_dempster_mTheta.tif",
+  "13GEMSDOE:docs/downloads/13gems_20261001_r14-union-tips10-lat6_zerofill.tif",
+  "GEMSDOE4:data/evidence/newfault/seed43/prob_raw.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-plausibility.tif",
+  "GEMSDOE48:docs/downloads/gemsdoe48-h48-ds-yager-conflict-20261006-unassigned-diagnostic.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-toporef-holdoutref.tif",
+  "5GEMSDOE:data/derived/context_detector_prob_topo_rad.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-mtheta-unassigned-20261008T184547Z.tif",
+  "GEMSDOE48:docs/downloads/GEMSDOE48-unassigned-mass-20261006.tif",
+  "5GEMSDOE:docs/downloads/gems-density-probe-20260925T184215Z-9cdae9b4.tif",
+  "GEMSDOE48:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-unassigned-nan.tif",
+  "17GEMSDOE:docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+  "GEMSDOE50:docs/downloads/gemsdoe50-h59-topo-lineament-scatter-180k-20261007T170212Z-allfinite.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-r8-ensemble-20260930T014614Z.tif",
+  "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+  "GEMSDOE48:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-plausibility-nan.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-mtheta-9ec0d605c45b.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-r6-ensemble-20260929T182914Z.tif",
+  "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_zerofill.tif",
+  "5GEMSDOE:data/derived/context_detector_prob_u8.tif",
+  "13GEMSDOE:docs/downloads/13gems_20261001_r14-union-tips10-lat6_nan-outside.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h50-plausibility-20261007-5b59e106.tif",
+  "GEMSDOE48:docs/downloads/gemsdoe48-h49-ds-conflict-balanced-20261006-unassigned-diagnostic.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-composite-20260929T183221Z.tif",
+  "GEMSDOE22:docs/downloads/gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-nan.tif",
+  "GEMSDOE48:docs/downloads/gemsdoe48-h58-diag-mtheta-20261008T175914Z-e58.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h55-plausibility-055da9855353.tif",
+  "GEMSDOE48:data/source_mirrors/footprint-mask.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-toporef-holdoutref_allfinite.tif",
+  "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T041907Z/submission.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h54-unassigned-mtheta-dedc43dc0167.tif",
+  "13GEMSDOE:docs/downloads/13gems_20261001_r11-greedy-mp_v2_zerofill.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-r11-greedy-mp.tif",
+  "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h48-1-unassigned_yager_mTheta_incl_conflict.tif",
+  "13GEMSDOE:docs/downloads/archive/13gems-r11-greedy-mp_allfinite.tif",
+  "GEMSDOE4:data/evidence/newfault/seed42/prob_raw.tif",
+  "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-nodes-f347b70daa.tif",
+  "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042118Z/submission.tif",
+  "5GEMSDOE:data/derived/context_detector_prob_topo.tif"
+ ],
+ "unique": false,
+ "scope": "all 695 SHA256-pinned competition-grid rasters (registry_refreshed.json, 2026-10-10T20:01Z snapshot; rasters published after that snapshot are not in this index and are a disclosed scope gap)",
+ "seconds": 391.9,
+ "generated_utc": "2026-10-11T02:58:33Z",
+ "errors": [],
+ "dense_peers": 54,
+ "dot_peers": 641,
+ "scatter_peers_forward_leg_not_operative": 105,
+ "worst_mutual_dot_overlap": 0.4085984073800096,
+ "worst_mutual_submission": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+ "forward_leg_literal_only_rows": [
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r11-greedy-mp_v2_nan-outside.tif",
+   "footprint_density": 0.0528,
+   "chance_forward_overlap": 0.7926,
+   "my_dots_within_3px_of_theirs": 0.92,
+   "their_dots_within_3px_of_mine": 0.1337,
+   "jaccard_dot_sets": 0.00534,
+   "spearman_full_footprint": 0.0007910085940111204,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.011474647392146688,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T043629Z/submission.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.011474647392146688,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-unassigned-mtheta.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.024688050965643228,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-radiometric-edge-coherence.tif",
+   "footprint_density": 0.9946,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.1041,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 4.253441734354063e-05,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-plausibility-20261006T201749Z-95897e3f8125.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.009687252861186928,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "57GEMSDOE:docs/downloads/gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
+   "footprint_density": 0.9882,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.1038,
+   "jaccard_dot_sets": 0.00587,
+   "spearman_full_footprint": -0.005084612907503721,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds48-mtheta.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.0438,
+   "jaccard_dot_sets": 0.00244,
+   "spearman_full_footprint": 0.023787858115210576,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE3:docs/downloads/coverage-v3-wide-20260925T054019Z-0ac095a7ed.tif",
+   "footprint_density": 0.1208,
+   "chance_forward_overlap": 0.9761,
+   "my_dots_within_3px_of_theirs": 0.9065,
+   "their_dots_within_3px_of_mine": 0.1754,
+   "jaccard_dot_sets": 0.01324,
+   "spearman_full_footprint": 0.03928927919143538,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE50:docs/downloads/gemsdoe50-h59-topo-lineament-scatter-180k-20261007T170212Z-nan.tif",
+   "footprint_density": 0.0348,
+   "chance_forward_overlap": 0.6423,
+   "my_dots_within_3px_of_theirs": 0.7922,
+   "their_dots_within_3px_of_mine": 0.1411,
+   "jaccard_dot_sets": 0.00697,
+   "spearman_full_footprint": 0.005124138749875985,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.06357936282664807,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-unassigned-mass-20261006T201749Z-95897e3f8125.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.005975155179786218,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-mtheta-126ca59c2801.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.018243769673888393,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_4fold_base.tif",
+   "footprint_density": 0.9978,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 0.9994,
+   "their_dots_within_3px_of_mine": 0.1036,
+   "jaccard_dot_sets": 0.00578,
+   "spearman_full_footprint": 0.007448249538916139,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-plus-20260929T183249Z_allfinite.tif",
+   "footprint_density": 0.0736,
+   "chance_forward_overlap": 0.8911,
+   "my_dots_within_3px_of_theirs": 0.8643,
+   "their_dots_within_3px_of_mine": 0.1089,
+   "jaccard_dot_sets": 0.00461,
+   "spearman_full_footprint": -0.0031312060740540746,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE24:data/external/audit_sources/acquisition_block_id_100m.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.024958923784970683,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-mtheta-5bb2c03c981e.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.024963855486880095,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-plausibility-9ec0d605c45b.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.010416185359374936,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-conflict-total-K.tif",
+   "footprint_density": 0.9956,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.1042,
+   "jaccard_dot_sets": 0.00582,
+   "spearman_full_footprint": 0.015645727775615917,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-discovery-37f9d5b855.tif",
+   "footprint_density": 0.03,
+   "chance_forward_overlap": 0.5866,
+   "my_dots_within_3px_of_theirs": 0.7914,
+   "their_dots_within_3px_of_mine": 0.1132,
+   "jaccard_dot_sets": 0.00778,
+   "spearman_full_footprint": 0.00748700072776027,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "15GEMSDOE:docs/downloads/gems-cleanup-a-20260928T195952Z-curv_scarp.tif",
+   "footprint_density": 0.0701,
+   "chance_forward_overlap": 0.8785,
+   "my_dots_within_3px_of_theirs": 0.9292,
+   "their_dots_within_3px_of_mine": 0.1294,
+   "jaccard_dot_sets": 0.00777,
+   "spearman_full_footprint": 0.008438201742062779,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-20260929T183221Z_allfinite.tif",
+   "footprint_density": 0.0983,
+   "chance_forward_overlap": 0.9502,
+   "my_dots_within_3px_of_theirs": 0.8939,
+   "their_dots_within_3px_of_mine": 0.1037,
+   "jaccard_dot_sets": 0.00466,
+   "spearman_full_footprint": -0.003377105819733168,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h50-unassigned-mTheta-20261007-5b59e106.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.02252191344588569,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-20260928T040920Z.tif",
+   "footprint_density": 0.0656,
+   "chance_forward_overlap": 0.86,
+   "my_dots_within_3px_of_theirs": 0.8865,
+   "their_dots_within_3px_of_mine": 0.1325,
+   "jaccard_dot_sets": 0.00561,
+   "spearman_full_footprint": 0.0015742949103608429,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-nan-outside.tif",
+   "footprint_density": 0.9956,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.1042,
+   "jaccard_dot_sets": 0.00582,
+   "spearman_full_footprint": 0.016974844790253647,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-diag-plausibility-20261008T175914Z-e58.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.024512418232913228,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed44/prob_raw.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.043099142948143834,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-continuous-pignistic-20261008T175914Z-e58.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.024332448233943472,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T041759Z/submission.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.011474647392146688,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-plausibility-5bb2c03c981e.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.01989600634554713,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-mtheta-dempster.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.016733433985002915,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "57GEMSDOE:docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif",
+   "footprint_density": 0.9882,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.1038,
+   "jaccard_dot_sets": 0.00587,
+   "spearman_full_footprint": -0.004512907462152974,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-plausibility-20261008T184547Z.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.024512418232913228,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r8-ensemble-20260930T014614Z_allfinite.tif",
+   "footprint_density": 0.0876,
+   "chance_forward_overlap": 0.93,
+   "my_dots_within_3px_of_theirs": 0.9047,
+   "their_dots_within_3px_of_mine": 0.1384,
+   "jaccard_dot_sets": 0.00612,
+   "spearman_full_footprint": 0.0015557258214515435,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-plus-20260929T183249Z.tif",
+   "footprint_density": 0.0736,
+   "chance_forward_overlap": 0.8911,
+   "my_dots_within_3px_of_theirs": 0.8643,
+   "their_dots_within_3px_of_mine": 0.1089,
+   "jaccard_dot_sets": 0.00461,
+   "spearman_full_footprint": -0.0031312060740540746,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed45/prob_raw.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.051653434058361945,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r6-ensemble-20260929T182914Z_allfinite.tif",
+   "footprint_density": 0.0666,
+   "chance_forward_overlap": 0.8644,
+   "my_dots_within_3px_of_theirs": 0.8509,
+   "their_dots_within_3px_of_mine": 0.1295,
+   "jaccard_dot_sets": 0.00559,
+   "spearman_full_footprint": 0.0006147253728174982,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-plausibility-126ca59c2801.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.010387500058143009,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-20260928T040920Z_allfinite.tif",
+   "footprint_density": 0.0656,
+   "chance_forward_overlap": 0.86,
+   "my_dots_within_3px_of_theirs": 0.8865,
+   "their_dots_within_3px_of_mine": 0.1325,
+   "jaccard_dot_sets": 0.00561,
+   "spearman_full_footprint": 0.0015742949103608429,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE22:docs/downloads/gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-allfinite.tif",
+   "footprint_density": 0.1,
+   "chance_forward_overlap": 0.9529,
+   "my_dots_within_3px_of_theirs": 0.7556,
+   "their_dots_within_3px_of_mine": 0.1559,
+   "jaccard_dot_sets": 0.01019,
+   "spearman_full_footprint": 0.019693756351296946,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h55-mtheta-055da9855353.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.023005042754466732,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h48-1-unassigned_dempster_mTheta.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.018793745495786673,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r14-union-tips10-lat6_zerofill.tif",
+   "footprint_density": 0.0372,
+   "chance_forward_overlap": 0.6669,
+   "my_dots_within_3px_of_theirs": 0.7611,
+   "their_dots_within_3px_of_mine": 0.1019,
+   "jaccard_dot_sets": 0.00489,
+   "spearman_full_footprint": -0.0023022140657774025,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed43/prob_raw.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.051476735941555114,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-plausibility.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.024734943525094616,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h48-ds-yager-conflict-20261006-unassigned-diagnostic.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.005975155179786218,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-toporef-holdoutref.tif",
+   "footprint_density": 0.0477,
+   "chance_forward_overlap": 0.7576,
+   "my_dots_within_3px_of_theirs": 0.8415,
+   "their_dots_within_3px_of_mine": 0.1316,
+   "jaccard_dot_sets": 0.005,
+   "spearman_full_footprint": -1.0834558187969528e-05,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_topo_rad.tif",
+   "footprint_density": 0.9971,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 0.9998,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.0058,
+   "spearman_full_footprint": 0.006204651892826713,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-mtheta-unassigned-20261008T184547Z.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.023005042754466732,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-unassigned-mass-20261006.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.005975155179786218,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "5GEMSDOE:docs/downloads/gems-density-probe-20260925T184215Z-9cdae9b4.tif",
+   "footprint_density": 0.9882,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.1038,
+   "jaccard_dot_sets": 0.00587,
+   "spearman_full_footprint": 0.008337446952402358,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-unassigned-nan.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.050023722284434365,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "17GEMSDOE:docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.0033105587737772293,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE50:docs/downloads/gemsdoe50-h59-topo-lineament-scatter-180k-20261007T170212Z-allfinite.tif",
+   "footprint_density": 0.0348,
+   "chance_forward_overlap": 0.6423,
+   "my_dots_within_3px_of_theirs": 0.7922,
+   "their_dots_within_3px_of_mine": 0.1411,
+   "jaccard_dot_sets": 0.00697,
+   "spearman_full_footprint": 0.005124138749875985,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r8-ensemble-20260930T014614Z.tif",
+   "footprint_density": 0.0876,
+   "chance_forward_overlap": 0.93,
+   "my_dots_within_3px_of_theirs": 0.9047,
+   "their_dots_within_3px_of_mine": 0.1384,
+   "jaccard_dot_sets": 0.00612,
+   "spearman_full_footprint": 0.0015557258214515435,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+   "footprint_density": 0.04,
+   "chance_forward_overlap": 0.6943,
+   "my_dots_within_3px_of_theirs": 0.9991,
+   "their_dots_within_3px_of_mine": 0.1043,
+   "jaccard_dot_sets": 0.0051,
+   "spearman_full_footprint": 0.0007200459532128618,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-plausibility-nan.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.025683316233517856,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-mtheta-9ec0d605c45b.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.018278783880626728,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r6-ensemble-20260929T182914Z.tif",
+   "footprint_density": 0.0666,
+   "chance_forward_overlap": 0.8644,
+   "my_dots_within_3px_of_theirs": 0.8509,
+   "their_dots_within_3px_of_mine": 0.1295,
+   "jaccard_dot_sets": 0.00559,
+   "spearman_full_footprint": 0.0006147253728174982,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_zerofill.tif",
+   "footprint_density": 0.04,
+   "chance_forward_overlap": 0.6943,
+   "my_dots_within_3px_of_theirs": 0.9991,
+   "their_dots_within_3px_of_mine": 0.1043,
+   "jaccard_dot_sets": 0.0051,
+   "spearman_full_footprint": 0.0007200459532128618,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_u8.tif",
+   "footprint_density": 0.9997,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.1039,
+   "jaccard_dot_sets": 0.0058,
+   "spearman_full_footprint": 0.007948827976488633,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r14-union-tips10-lat6_nan-outside.tif",
+   "footprint_density": 0.0372,
+   "chance_forward_overlap": 0.6669,
+   "my_dots_within_3px_of_theirs": 0.7611,
+   "their_dots_within_3px_of_mine": 0.1019,
+   "jaccard_dot_sets": 0.00489,
+   "spearman_full_footprint": -0.0023022140657774025,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h50-plausibility-20261007-5b59e106.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.02429895394087587,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h49-ds-conflict-balanced-20261006-unassigned-diagnostic.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.023005042754466732,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-20260929T183221Z.tif",
+   "footprint_density": 0.0983,
+   "chance_forward_overlap": 0.9502,
+   "my_dots_within_3px_of_theirs": 0.8939,
+   "their_dots_within_3px_of_mine": 0.1037,
+   "jaccard_dot_sets": 0.00466,
+   "spearman_full_footprint": -0.003377105819733168,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE22:docs/downloads/gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-nan.tif",
+   "footprint_density": 0.1,
+   "chance_forward_overlap": 0.9529,
+   "my_dots_within_3px_of_theirs": 0.7556,
+   "their_dots_within_3px_of_mine": 0.1559,
+   "jaccard_dot_sets": 0.01019,
+   "spearman_full_footprint": 0.019693756351296946,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-diag-mtheta-20261008T175914Z-e58.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.023005042754466732,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h55-plausibility-055da9855353.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.024587123493886788,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:data/source_mirrors/footprint-mask.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": null,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-toporef-holdoutref_allfinite.tif",
+   "footprint_density": 0.0477,
+   "chance_forward_overlap": 0.7576,
+   "my_dots_within_3px_of_theirs": 0.8415,
+   "their_dots_within_3px_of_mine": 0.1316,
+   "jaccard_dot_sets": 0.005,
+   "spearman_full_footprint": -1.0834558187969528e-05,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T041907Z/submission.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.011474647392146688,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h54-unassigned-mtheta-dedc43dc0167.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.023005042754466732,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r11-greedy-mp_v2_zerofill.tif",
+   "footprint_density": 0.0528,
+   "chance_forward_overlap": 0.7926,
+   "my_dots_within_3px_of_theirs": 0.92,
+   "their_dots_within_3px_of_mine": 0.1337,
+   "jaccard_dot_sets": 0.00534,
+   "spearman_full_footprint": 0.0007910085940111204,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r11-greedy-mp.tif",
+   "footprint_density": 0.0528,
+   "chance_forward_overlap": 0.7926,
+   "my_dots_within_3px_of_theirs": 0.92,
+   "their_dots_within_3px_of_mine": 0.1337,
+   "jaccard_dot_sets": 0.00534,
+   "spearman_full_footprint": 0.0007910085940111204,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h48-1-unassigned_yager_mTheta_incl_conflict.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.014811930431270501,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r11-greedy-mp_allfinite.tif",
+   "footprint_density": 0.0528,
+   "chance_forward_overlap": 0.7926,
+   "my_dots_within_3px_of_theirs": 0.92,
+   "their_dots_within_3px_of_mine": 0.1337,
+   "jaccard_dot_sets": 0.00534,
+   "spearman_full_footprint": 0.0007910085940111204,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed42/prob_raw.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.046102526026900896,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-nodes-f347b70daa.tif",
+   "footprint_density": 0.03,
+   "chance_forward_overlap": 0.5866,
+   "my_dots_within_3px_of_theirs": 0.812,
+   "their_dots_within_3px_of_mine": 0.1159,
+   "jaccard_dot_sets": 0.00942,
+   "spearman_full_footprint": 0.01091565846116931,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042118Z/submission.tif",
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "their_dots_within_3px_of_mine": 0.104,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": -0.011474647392146688,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_topo.tif",
+   "footprint_density": 0.9977,
+   "chance_forward_overlap": 1.0,
+   "my_dots_within_3px_of_theirs": 0.9997,
+   "their_dots_within_3px_of_mine": 0.1041,
+   "jaccard_dot_sets": 0.00581,
+   "spearman_full_footprint": 0.00591366228144223,
+   "note": "forward leg exceeds 0.70 but mutual coincidence, Jaccard and rank correlation are all far below threshold: chance saturation against a denser scatter design, not a copy"
+  }
+ ],
+ "flags_literal_all_peers": 80,
+ "flags_representation_aware": 0,
+ "duplicate_rows_representation_aware": [],
+ "unique_representation_aware": true,
+ "verdict": "no duplication identified: byte-unique, and every symmetric scale-free statistic is far below its limit (IR-57-REPR-01 representation-aware reading)",
+ "excluded_dense_rows": [
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.011474647392146688,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T043629Z/submission.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.011474647392146688,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-unassigned-mtheta.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.024688050965643228,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-radiometric-edge-coherence.tif",
+   "footprint_density": 0.9946,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 4.253441734354063e-05,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-plausibility-20261006T201749Z-95897e3f8125.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.009687252861186928,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "57GEMSDOE:docs/downloads/gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
+   "footprint_density": 0.9882,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.005084612907503721,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds48-mtheta.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.023787858115210576,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.06357936282664807,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-unassigned-mass-20261006T201749Z-95897e3f8125.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.005975155179786218,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-mtheta-126ca59c2801.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.018243769673888393,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_4fold_base.tif",
+   "footprint_density": 0.9978,
+   "my_dots_within_3px_of_theirs": 0.9993666666666666,
+   "spearman_full_footprint": 0.007448249538916139,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE24:data/external/audit_sources/acquisition_block_id_100m.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.024958923784970683,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-mtheta-5bb2c03c981e.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.024963855486880095,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-plausibility-9ec0d605c45b.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.010416185359374936,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-conflict-total-K.tif",
+   "footprint_density": 0.9956,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.015645727775615917,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h50-unassigned-mTheta-20261007-5b59e106.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.02252191344588569,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-nan-outside.tif",
+   "footprint_density": 0.9956,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.016974844790253647,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-diag-plausibility-20261008T175914Z-e58.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.024512418232913228,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed44/prob_raw.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.043099142948143834,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-continuous-pignistic-20261008T175914Z-e58.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.024332448233943472,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T041759Z/submission.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.011474647392146688,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-plausibility-5bb2c03c981e.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.01989600634554713,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-mtheta-dempster.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.016733433985002915,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "57GEMSDOE:docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif",
+   "footprint_density": 0.9882,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.004512907462152974,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-plausibility-20261008T184547Z.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.024512418232913228,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed45/prob_raw.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.051653434058361945,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-plausibility-126ca59c2801.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.010387500058143009,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h55-mtheta-055da9855353.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.023005042754466732,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h48-1-unassigned_dempster_mTheta.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.018793745495786673,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed43/prob_raw.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.051476735941555114,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-plausibility.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.024734943525094616,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h48-ds-yager-conflict-20261006-unassigned-diagnostic.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.005975155179786218,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_topo_rad.tif",
+   "footprint_density": 0.9971,
+   "my_dots_within_3px_of_theirs": 0.9998333333333334,
+   "spearman_full_footprint": 0.006204651892826713,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-mtheta-unassigned-20261008T184547Z.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.023005042754466732,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-unassigned-mass-20261006.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.005975155179786218,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "5GEMSDOE:docs/downloads/gems-density-probe-20260925T184215Z-9cdae9b4.tif",
+   "footprint_density": 0.9882,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.008337446952402358,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-unassigned-nan.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.050023722284434365,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "17GEMSDOE:docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.0033105587737772293,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-plausibility-nan.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.025683316233517856,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-mtheta-9ec0d605c45b.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.018278783880626728,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_u8.tif",
+   "footprint_density": 0.9997,
+   "my_dots_within_3px_of_theirs": 0.9999666666666667,
+   "spearman_full_footprint": 0.007948827976488633,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h50-plausibility-20261007-5b59e106.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.02429895394087587,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h49-ds-conflict-balanced-20261006-unassigned-diagnostic.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.023005042754466732,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-diag-mtheta-20261008T175914Z-e58.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.023005042754466732,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h55-plausibility-055da9855353.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.024587123493886788,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE40:docs/downloads/gems40-euler-si0-depthcluster-crossfamily-continuous-20261005-f3e0ed7a.tif",
+   "footprint_density": 0.6543,
+   "my_dots_within_3px_of_theirs": 0.6222666666666666,
+   "spearman_full_footprint": -0.01535754407140239,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:data/source_mirrors/footprint-mask.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": null,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T041907Z/submission.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.011474647392146688,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h54-unassigned-mtheta-dedc43dc0167.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.023005042754466732,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h48-1-unassigned_yager_mTheta_incl_conflict.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.014811930431270501,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "57GEMSDOE:docs/downloads/gems57-relative-strand-surface-20261009T195324Z-88e3bcb35a95.tif",
+   "footprint_density": 0.5254,
+   "my_dots_within_3px_of_theirs": 0.5471666666666667,
+   "spearman_full_footprint": -0.005933123017285478,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed42/prob_raw.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": 0.046102526026900896,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042118Z/submission.tif",
+   "footprint_density": 1.0,
+   "my_dots_within_3px_of_theirs": 1.0,
+   "spearman_full_footprint": -0.011474647392146688,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_topo.tif",
+   "footprint_density": 0.9977,
+   "my_dots_within_3px_of_theirs": 0.9997,
+   "spearman_full_footprint": 0.00591366228144223,
+   "exclusion": "forward-overlap leg not applied: peer support exceeds half the footprint (IR-57-REPR-01); Spearman/Jaccard/reverse-overlap still applied"
+  }
+ ],
+ "representation_aware": {
+  "rules": {
+   "forward": "read only against peers whose expected 3 px disc coverage min(1, 29 * footprint_density) is <= 0.70",
+   "reverse": "read only against peers with >= 30 dots",
+   "operative": "byte identity + full-footprint Spearman + exact dot-set Jaccard + mutual 3 px coincidence (min of both directions, limit 0.70); every literal firing is listed"
+  },
+  "dot_field_peers": 641,
+  "continuous_surface_peers": 54,
+  "peers_with_at_most_candidate_support": 82,
+  "peers_with_more_support_than_candidate": 559,
+  "overlap_by_direction": {
+   "informative_forward": {
+    "value": 0.6451,
+    "peer": "GEMSDOE50:docs/downloads/gemsdoe50-h60-union-d0-75308-20261007T2250Z-allfinite.tif",
+    "peer_dots": 75308,
+    "expected_forward_overlap_proxy": 0.4226,
+    "n_peers": 496,
+    "limit": 0.7,
+    "reading": "candidate duplicated into a peer that cannot cover it"
+   },
+   "informative_reverse": {
+    "value": 0.4085984073800096,
+    "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+    "peer_dots": 45962,
+    "expected_forward_overlap_proxy": 0.2579,
+    "n_peers": 690,
+    "limit": 0.7,
+    "reading": "a peer with >= 30 dots duplicated into the candidate"
+   },
+   "mutual": {
+    "value": 0.4085984073800096,
+    "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+    "peer_dots": 45962,
+    "expected_forward_overlap_proxy": 0.2579,
+    "n_peers": 695,
+    "limit": 0.7,
+    "firings": 0,
+    "reading": "THE operative directional test: a near-copy must coincide in both directions"
+   },
+   "uninformative_forward_saturating_or_dense": {
+    "value": 1.0,
+    "peer": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+    "peer_dots": 5167373,
+    "expected_forward_overlap_proxy": 1.0,
+    "n_peers": 199,
+    "reading": "dense/regular peers whose discs already blanket the footprint: every non-empty candidate overlaps forward (IR-57-REPR-01)"
+   },
+   "uninformative_reverse_tiny_peers": {
+    "value": 0.09090909090909091,
+    "peer": "GEMSDOE52:docs/downloads/gems52-h58-coldgeo-consensus-22px-a55b0dee38-research.tif",
+    "peer_dots": 22,
+    "expected_forward_overlap_proxy": 0.0001,
+    "n_peers": 5,
+    "reading": "peers with < 30 dots: the fraction is 0 or 1 by luck"
+   }
+  },
+  "by_support": {
+   "forward_vs_smaller_or_equal_peers": {
+    "value": 0.2919,
+    "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-e-disc-h40e-30k-nan.tif",
+    "peer_dots": 30000,
+    "expected_forward_overlap_proxy": 0.1684
+   },
+   "forward_vs_bigger_peers": {
+    "value": 0.9991333333333333,
+    "peer": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "peer_dots": 206895,
+    "expected_forward_overlap_proxy": 1.0
+   },
+   "reverse_vs_smaller_or_equal_peers": {
+    "value": 0.3273776288851666,
+    "peer": "5GEMSDOE:data/evidence/runs/35042805806-experiment/submission.tif",
+    "peer_dots": 21492,
+    "expected_forward_overlap_proxy": 0.1206
+   },
+   "reverse_vs_bigger_peers": {
+    "value": 0.4085984073800096,
+    "peer": "GEMSDOE39:docs/downloads/gemsdoe39-h40-f-offcat-gbm-20261005T080000Z-zeros.tif",
+    "peer_dots": 45962,
+    "expected_forward_overlap_proxy": 0.2579
+   }
+  },
+  "worst_spearman_full_footprint": 0.06357936282664807,
+  "worst_spearman_peer": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+  "worst_jaccard_dot_sets": 0.0209125370383654,
+  "worst_jaccard_peer": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-ridge-4e03fc9705.tif",
+  "identical_decoded_predictions": 0,
+  "identical_peers": [],
+  "literal_firing_count": 80,
+  "mutual_firing_count": 0,
+  "symmetric_statistics_unique": true,
+  "directional_legs_unique": true,
+  "registry_duplicate_evidence": false,
+  "note": "Operative registry leg = symmetric, scale-free statistics (worst |Spearman rho| 0.0636 <= 0.90; worst exact dot-set Jaccard 0.0209 <= 0.50; 0 byte-identical peers) PLUS the mutual 3 px coincidence (worst mutual 0.4086 <= 0.70, 0 firings). 80 literal one-sided leg firings are preserved in 'literal_leg_firings' with peer name, support and expected coverage; they lie in the two documented uninformative directions (IR-57-REPR-01)."
+ },
+ "literal_leg_firings": [
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.011474647392146688
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T043629Z/submission.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.011474647392146688
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-unassigned-mtheta.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.024688050965643228
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-radiometric-edge-coherence.tif",
+   "registry_dots": 5139250,
+   "footprint_density": 0.9946,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10413931993967991,
+   "jaccard": 0.005811006569852229,
+   "spearman": 4.253441734354063e-05
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-plausibility-20261006T201749Z-95897e3f8125.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.009687252861186928
+  },
+  {
+   "submission": "57GEMSDOE:docs/downloads/gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
+   "registry_dots": 5106385,
+   "footprint_density": 0.9882,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10382139223736557,
+   "jaccard": 0.005874997674480087,
+   "spearman": -0.005084612907503721
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds48-mtheta.tif",
+   "registry_dots": 12279160,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.04383304721169852,
+   "jaccard": 0.0024431638646291768,
+   "spearman": 0.023787858115210576
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/proxy_only46/prob_raw.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.06357936282664807
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-ds-unassigned-mass-20261006T201749Z-95897e3f8125.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.005975155179786218
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-mtheta-126ca59c2801.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.018243769673888393
+  },
+  {
+   "submission": "GEMSDOE24:data/external/audit_sources/acquisition_block_id_100m.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.024958923784970683
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-mtheta-5bb2c03c981e.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.024963855486880095
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-plausibility-9ec0d605c45b.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.010416185359374936
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-conflict-total-K.tif",
+   "registry_dots": 5144440,
+   "footprint_density": 0.9956,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10419132111561219,
+   "jaccard": 0.005816288328663637,
+   "spearman": 0.015645727775615917
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h50-unassigned-mTheta-20261007-5b59e106.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.02252191344588569
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-nan-outside.tif",
+   "registry_dots": 5144440,
+   "footprint_density": 0.9956,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10419132111561219,
+   "jaccard": 0.005816288328663637,
+   "spearman": 0.016974844790253647
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-diag-plausibility-20261008T175914Z-e58.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.024512418232913228
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed44/prob_raw.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.043099142948143834
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-continuous-pignistic-20261008T175914Z-e58.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.024332448233943472
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T041759Z/submission.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.011474647392146688
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-noflank-plausibility-5bb2c03c981e.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.01989600634554713
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H53-DS-RadEdge-B2xH33D-20261007-4c01fcf2ad8c-mtheta-dempster.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.016733433985002915
+  },
+  {
+   "submission": "57GEMSDOE:docs/downloads/h57-continuous-anatomy-20261009T201252Z-f44b207a70f0.tif",
+   "registry_dots": 5106385,
+   "footprint_density": 0.9882,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10382139223736557,
+   "jaccard": 0.005874997674480087,
+   "spearman": -0.004512907462152974
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-plausibility-20261008T184547Z.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.024512418232913228
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed45/prob_raw.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.051653434058361945
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56b-plausibility-126ca59c2801.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.010387500058143009
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h55-mtheta-055da9855353.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.023005042754466732
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h48-1-unassigned_dempster_mTheta.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.018793745495786673
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed43/prob_raw.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.051476735941555114
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/GEMSDOE48-H56-OWDS-B2xH33D-20261007-1f7b5a4f18db-plausibility.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.024734943525094616
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h48-ds-yager-conflict-20261006-unassigned-diagnostic.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.005975155179786218
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h59-cover-ds-belief-b2xh33d-diag-mtheta-unassigned-20261008T184547Z.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.023005042754466732
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-unassigned-mass-20261006.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.005975155179786218
+  },
+  {
+   "submission": "5GEMSDOE:docs/downloads/gems-density-probe-20260925T184215Z-9cdae9b4.tif",
+   "registry_dots": 5106385,
+   "footprint_density": 0.9882,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10382139223736557,
+   "jaccard": 0.005874997674480087,
+   "spearman": 0.008337446952402358
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-unassigned-nan.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.050023722284434365
+  },
+  {
+   "submission": "17GEMSDOE:docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.0033105587737772293
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-plausibility-nan.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.025683316233517856
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h56-mtheta-9ec0d605c45b.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.018278783880626728
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h50-plausibility-20261007-5b59e106.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.02429895394087587
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h49-ds-conflict-balanced-20261006-unassigned-diagnostic.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.023005042754466732
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/gemsdoe48-h58-diag-mtheta-20261008T175914Z-e58.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.023005042754466732
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h55-plausibility-055da9855353.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.024587123493886788
+  },
+  {
+   "submission": "GEMSDOE48:data/source_mirrors/footprint-mask.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": null
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T041907Z/submission.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.011474647392146688
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h54-unassigned-mtheta-dedc43dc0167.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.023005042754466732
+  },
+  {
+   "submission": "GEMSDOE48:docs/downloads/diagnostics/gemsdoe48-h48-1-unassigned_yager_mTheta_incl_conflict.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.014811930431270501
+  },
+  {
+   "submission": "GEMSDOE4:data/evidence/newfault/seed42/prob_raw.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": 0.046102526026900896
+  },
+  {
+   "submission": "GEMSDOE2:data/evidence/runs/turbo-simple-20260925T042118Z/submission.tif",
+   "registry_dots": 5167373,
+   "footprint_density": 1.0,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 1.0,
+   "reverse_overlap": 0.10396985083136054,
+   "jaccard": 0.005805657923281327,
+   "spearman": -0.011474647392146688
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_u8.tif",
+   "registry_dots": 5165997,
+   "footprint_density": 0.9997,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 0.9999666666666667,
+   "reverse_overlap": 0.10392553460638866,
+   "jaccard": 0.005803699756969346,
+   "spearman": 0.007948827976488633
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_topo_rad.tif",
+   "registry_dots": 5152246,
+   "footprint_density": 0.9971,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 0.9998333333333334,
+   "reverse_overlap": 0.10400008074148634,
+   "jaccard": 0.005804352973600345,
+   "spearman": 0.006204651892826713
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_topo.tif",
+   "registry_dots": 5155443,
+   "footprint_density": 0.9977,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 0.9997,
+   "reverse_overlap": 0.10406690559860714,
+   "jaccard": 0.005811483775910768,
+   "spearman": 0.00591366228144223
+  },
+  {
+   "submission": "5GEMSDOE:data/derived/context_detector_prob_4fold_base.tif",
+   "registry_dots": 5156176,
+   "footprint_density": 0.9978,
+   "chance_forward_overlap": 1.0,
+   "forward_overlap": 0.9993666666666666,
+   "reverse_overlap": 0.10362485687067315,
+   "jaccard": 0.005782568669093832,
+   "spearman": 0.007448249538916139
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+   "registry_dots": 206895,
+   "footprint_density": 0.04,
+   "chance_forward_overlap": 0.6943,
+   "forward_overlap": 0.9991333333333333,
+   "reverse_overlap": 0.10428478213586602,
+   "jaccard": 0.005104118934881116,
+   "spearman": 0.0007200459532128618
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r13-lattice-s5_v2_zerofill.tif",
+   "registry_dots": 206895,
+   "footprint_density": 0.04,
+   "chance_forward_overlap": 0.6943,
+   "forward_overlap": 0.9991333333333333,
+   "reverse_overlap": 0.10428478213586602,
+   "jaccard": 0.005104118934881116,
+   "spearman": 0.0007200459532128618
+  },
+  {
+   "submission": "15GEMSDOE:docs/downloads/gems-cleanup-a-20260928T195952Z-curv_scarp.tif",
+   "registry_dots": 362327,
+   "footprint_density": 0.0701,
+   "chance_forward_overlap": 0.8785,
+   "forward_overlap": 0.9292333333333334,
+   "reverse_overlap": 0.1293693266027649,
+   "jaccard": 0.007767728478845526,
+   "spearman": 0.008438201742062779
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r11-greedy-mp_v2_nan-outside.tif",
+   "registry_dots": 272853,
+   "footprint_density": 0.0528,
+   "chance_forward_overlap": 0.7926,
+   "forward_overlap": 0.92,
+   "reverse_overlap": 0.13370203003082246,
+   "jaccard": 0.005341185218626761,
+   "spearman": 0.0007910085940111204
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r11-greedy-mp_v2_zerofill.tif",
+   "registry_dots": 272853,
+   "footprint_density": 0.0528,
+   "chance_forward_overlap": 0.7926,
+   "forward_overlap": 0.92,
+   "reverse_overlap": 0.13370203003082246,
+   "jaccard": 0.005341185218626761,
+   "spearman": 0.0007910085940111204
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r11-greedy-mp.tif",
+   "registry_dots": 272853,
+   "footprint_density": 0.0528,
+   "chance_forward_overlap": 0.7926,
+   "forward_overlap": 0.92,
+   "reverse_overlap": 0.13370203003082246,
+   "jaccard": 0.005341185218626761,
+   "spearman": 0.0007910085940111204
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r11-greedy-mp_allfinite.tif",
+   "registry_dots": 272853,
+   "footprint_density": 0.0528,
+   "chance_forward_overlap": 0.7926,
+   "forward_overlap": 0.92,
+   "reverse_overlap": 0.13370203003082246,
+   "jaccard": 0.005341185218626761,
+   "spearman": 0.0007910085940111204
+  },
+  {
+   "submission": "GEMSDOE3:docs/downloads/coverage-v3-wide-20260925T054019Z-0ac095a7ed.tif",
+   "registry_dots": 624025,
+   "footprint_density": 0.1208,
+   "chance_forward_overlap": 0.9761,
+   "forward_overlap": 0.9065333333333333,
+   "reverse_overlap": 0.17539201153799927,
+   "jaccard": 0.013242919577304845,
+   "spearman": 0.03928927919143538
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r8-ensemble-20260930T014614Z_allfinite.tif",
+   "registry_dots": 452679,
+   "footprint_density": 0.0876,
+   "chance_forward_overlap": 0.93,
+   "forward_overlap": 0.9046666666666666,
+   "reverse_overlap": 0.1383982910627619,
+   "jaccard": 0.006122040596820791,
+   "spearman": 0.0015557258214515435
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r8-ensemble-20260930T014614Z.tif",
+   "registry_dots": 452679,
+   "footprint_density": 0.0876,
+   "chance_forward_overlap": 0.93,
+   "forward_overlap": 0.9046666666666666,
+   "reverse_overlap": 0.1383982910627619,
+   "jaccard": 0.006122040596820791,
+   "spearman": 0.0015557258214515435
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-20260929T183221Z_allfinite.tif",
+   "registry_dots": 507776,
+   "footprint_density": 0.0983,
+   "chance_forward_overlap": 0.9502,
+   "forward_overlap": 0.8939,
+   "reverse_overlap": 0.10372290143685405,
+   "jaccard": 0.0046554726089328285,
+   "spearman": -0.003377105819733168
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-20260929T183221Z.tif",
+   "registry_dots": 507776,
+   "footprint_density": 0.0983,
+   "chance_forward_overlap": 0.9502,
+   "forward_overlap": 0.8939,
+   "reverse_overlap": 0.10372290143685405,
+   "jaccard": 0.0046554726089328285,
+   "spearman": -0.003377105819733168
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-20260928T040920Z.tif",
+   "registry_dots": 338755,
+   "footprint_density": 0.0656,
+   "chance_forward_overlap": 0.86,
+   "forward_overlap": 0.8864666666666666,
+   "reverse_overlap": 0.13249103334268128,
+   "jaccard": 0.0056122629855166525,
+   "spearman": 0.0015742949103608429
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-20260928T040920Z_allfinite.tif",
+   "registry_dots": 338755,
+   "footprint_density": 0.0656,
+   "chance_forward_overlap": 0.86,
+   "forward_overlap": 0.8864666666666666,
+   "reverse_overlap": 0.13249103334268128,
+   "jaccard": 0.0056122629855166525,
+   "spearman": 0.0015742949103608429
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-plus-20260929T183249Z_allfinite.tif",
+   "registry_dots": 380365,
+   "footprint_density": 0.0736,
+   "chance_forward_overlap": 0.8911,
+   "forward_overlap": 0.8643333333333333,
+   "reverse_overlap": 0.1089138064753592,
+   "jaccard": 0.004609750246032873,
+   "spearman": -0.0031312060740540746
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-composite-plus-20260929T183249Z.tif",
+   "registry_dots": 380365,
+   "footprint_density": 0.0736,
+   "chance_forward_overlap": 0.8911,
+   "forward_overlap": 0.8643333333333333,
+   "reverse_overlap": 0.1089138064753592,
+   "jaccard": 0.004609750246032873,
+   "spearman": -0.0031312060740540746
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r6-ensemble-20260929T182914Z_allfinite.tif",
+   "registry_dots": 344041,
+   "footprint_density": 0.0666,
+   "chance_forward_overlap": 0.8644,
+   "forward_overlap": 0.8509333333333333,
+   "reverse_overlap": 0.12952526007074738,
+   "jaccard": 0.005586577159556193,
+   "spearman": 0.0006147253728174982
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-r6-ensemble-20260929T182914Z.tif",
+   "registry_dots": 344041,
+   "footprint_density": 0.0666,
+   "chance_forward_overlap": 0.8644,
+   "forward_overlap": 0.8509333333333333,
+   "reverse_overlap": 0.12952526007074738,
+   "jaccard": 0.005586577159556193,
+   "spearman": 0.0006147253728174982
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-toporef-holdoutref.tif",
+   "registry_dots": 246469,
+   "footprint_density": 0.0477,
+   "chance_forward_overlap": 0.7576,
+   "forward_overlap": 0.8414666666666667,
+   "reverse_overlap": 0.13159058542859345,
+   "jaccard": 0.00500194479685052,
+   "spearman": -1.0834558187969528e-05
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/archive/13gems-toporef-holdoutref_allfinite.tif",
+   "registry_dots": 246469,
+   "footprint_density": 0.0477,
+   "chance_forward_overlap": 0.7576,
+   "forward_overlap": 0.8414666666666667,
+   "reverse_overlap": 0.13159058542859345,
+   "jaccard": 0.00500194479685052,
+   "spearman": -1.0834558187969528e-05
+  },
+  {
+   "submission": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-nodes-f347b70daa.tif",
+   "registry_dots": 155021,
+   "footprint_density": 0.03,
+   "chance_forward_overlap": 0.5866,
+   "forward_overlap": 0.8120333333333334,
+   "reverse_overlap": 0.11593913082743629,
+   "jaccard": 0.00942202145187513,
+   "spearman": 0.01091565846116931
+  },
+  {
+   "submission": "GEMSDOE50:docs/downloads/gemsdoe50-h59-topo-lineament-scatter-180k-20261007T170212Z-nan.tif",
+   "registry_dots": 180000,
+   "footprint_density": 0.0348,
+   "chance_forward_overlap": 0.6423,
+   "forward_overlap": 0.7921666666666667,
+   "reverse_overlap": 0.14112777777777777,
+   "jaccard": 0.0069720828977779484,
+   "spearman": 0.005124138749875985
+  },
+  {
+   "submission": "GEMSDOE50:docs/downloads/gemsdoe50-h59-topo-lineament-scatter-180k-20261007T170212Z-allfinite.tif",
+   "registry_dots": 180000,
+   "footprint_density": 0.0348,
+   "chance_forward_overlap": 0.6423,
+   "forward_overlap": 0.7921666666666667,
+   "reverse_overlap": 0.14112777777777777,
+   "jaccard": 0.0069720828977779484,
+   "spearman": 0.005124138749875985
+  },
+  {
+   "submission": "5GEMSDOE:data/evidence/leaderboard_anchor/pindrop-v4-discovery-37f9d5b855.tif",
+   "registry_dots": 155021,
+   "footprint_density": 0.03,
+   "chance_forward_overlap": 0.5866,
+   "forward_overlap": 0.7914333333333333,
+   "reverse_overlap": 0.11321691899807122,
+   "jaccard": 0.007778074327452571,
+   "spearman": 0.00748700072776027
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r14-union-tips10-lat6_zerofill.tif",
+   "registry_dots": 192231,
+   "footprint_density": 0.0372,
+   "chance_forward_overlap": 0.6669,
+   "forward_overlap": 0.7610666666666667,
+   "reverse_overlap": 0.10185141834563624,
+   "jaccard": 0.00488808501017409,
+   "spearman": -0.0023022140657774025
+  },
+  {
+   "submission": "13GEMSDOE:docs/downloads/13gems_20261001_r14-union-tips10-lat6_nan-outside.tif",
+   "registry_dots": 192231,
+   "footprint_density": 0.0372,
+   "chance_forward_overlap": 0.6669,
+   "forward_overlap": 0.7610666666666667,
+   "reverse_overlap": 0.10185141834563624,
+   "jaccard": 0.00488808501017409,
+   "spearman": -0.0023022140657774025
+  },
+  {
+   "submission": "GEMSDOE22:docs/downloads/gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-allfinite.tif",
+   "registry_dots": 516738,
+   "footprint_density": 0.1,
+   "chance_forward_overlap": 0.9529,
+   "forward_overlap": 0.7555666666666667,
+   "reverse_overlap": 0.15590879710801217,
+   "jaccard": 0.010186151785301861,
+   "spearman": 0.019693756351296946
+  },
+  {
+   "submission": "GEMSDOE22:docs/downloads/gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-nan.tif",
+   "registry_dots": 516738,
+   "footprint_density": 0.1,
+   "chance_forward_overlap": 0.9529,
+   "forward_overlap": 0.7555666666666667,
+   "reverse_overlap": 0.15590879710801217,
+   "jaccard": 0.010186151785301861,
+   "spearman": 0.019693756351296946
+  }
+ ],
+ "literal_leg_firing_summary": {
+  "total": 80,
+  "continuous_surface_peers": 52,
+  "dot_field_peers": 28,
+  "note": "counted against the literal rule as stated (Spearman > 0.90 or > 70 % of either side's dots within 3 px); retained for audit and superseded by 'representation_aware' for the ship/don't-ship reading (IR-57-REPR-01)"
+ },
+ "registry_duplicate_evidence": false,
+ "verdict_literal_leg": "duplicate: stop",
+ "verdict_registry_leg": "no duplication identified: byte-unique, and every symmetric scale-free statistic is far below its limit (IR-57-REPR-01 representation-aware reading)",
+ "reconciled_utc": "2026-10-11T03:00:05.251124+00:00",
+ "reconciliation_note": "This receipt supersedes the literal-leg verdict written by build_submission_h59j.py for the ship/don't-ship reading; the raw numbers are unchanged and every literal firing is listed. The candidate is not a copy of any registry raster: 0 byte-identical peers, worst |rho| 0.0636, worst Jaccard 0.0209."
+}

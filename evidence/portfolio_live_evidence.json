@@ -1,0 +1,228 @@
+{
+ "evidence_class": "OWNER-REPORTED x HOLDOUT-DTI portfolio (instrument calibration input)",
+ "generated_utc": "2026-10-11T02:18:01Z",
+ "scored_rasters": 26,
+ "labelled_rasters": 24,
+ "score_range": [
+  0.0286,
+  0.2778
+ ],
+ "emitted_range": [
+  37654,
+  264247
+ ],
+ "correlations": {
+  "spearman_holdout_vs_live": {
+   "rho": -0.43737757105384134,
+   "p_value": 0.03257227254419616,
+   "n": 24
+  },
+  "spearman_log_emitted_vs_live": {
+   "rho": -0.8182632015984325,
+   "p_value": 1.0338370899322476e-06,
+   "n": 24
+  },
+  "spearman_emitted_vs_live": {
+   "rho": -0.8182632015984325,
+   "p_value": 1.0338370899322476e-06,
+   "n": 24
+  }
+ },
+ "registry_context": {
+  "rasters_checked": 695,
+  "complete_accessible_scan": true
+ },
+ "rows": [
+  {
+   "key": "dotted_b2_prune_02778",
+   "cached_file": ".cache/scored/dotted_b2_prune_02778__17a76895.tif",
+   "owner_recorded_public_score": 0.2778,
+   "holdout_dti": 0.003698680598708719,
+   "emitted": 37654
+  },
+  {
+   "key": "anderson_pinn_02750",
+   "cached_file": ".cache/scored/anderson_pinn_02750__e79b7bdb.tif",
+   "owner_recorded_public_score": 0.275,
+   "holdout_dti": 0.003803592886769665,
+   "emitted": 38854
+  },
+  {
+   "key": "h36_rung30_02710",
+   "cached_file": ".cache/scored/h36_rung30_02710__d0fc9ebb.tif",
+   "owner_recorded_public_score": 0.271,
+   "holdout_dti": 0.027082363222193116,
+   "emitted": 37660
+  },
+  {
+   "key": "dotted_d2_8_02708",
+   "cached_file": ".cache/scored/dotted_d2_8_02708__12b0a4dd.tif",
+   "owner_recorded_public_score": 0.2708,
+   "holdout_dti": 0.02906717356319919,
+   "emitted": 40199
+  },
+  {
+   "key": "h32_prethin_tip_02649",
+   "cached_file": ".cache/scored/h32_prethin_tip_02649__6d9717d7.tif",
+   "owner_recorded_public_score": 0.2649,
+   "holdout_dti": 0.06128709905476462,
+   "emitted": 42294
+  },
+  {
+   "key": "tip_stepover_r30_02632",
+   "cached_file": ".cache/scored/tip_stepover_r30_02632__901d9db3.tif",
+   "owner_recorded_public_score": 0.2632,
+   "holdout_dti": 0.05307829366244614,
+   "emitted": 41865
+  },
+  {
+   "key": "dotted_d2_8_02600",
+   "cached_file": ".cache/scored/dotted_d2_8_02600__bfb7e86d.tif",
+   "owner_recorded_public_score": 0.26,
+   "holdout_dti": 0.09188832467218279,
+   "emitted": 44090
+  },
+  {
+   "key": "probe_S1_anchor_02600",
+   "cached_file": ".cache/scored/probe_S1_anchor_02600__30cbb06f.tif",
+   "owner_recorded_public_score": 0.26,
+   "holdout_dti": 0.09188832467218279,
+   "emitted": 44090
+  },
+  {
+   "key": "d15_02477",
+   "cached_file": ".cache/scored/d15_02477__cc1752f2.tif",
+   "owner_recorded_public_score": 0.2477,
+   "holdout_dti": 0.08880836836369757,
+   "emitted": 60069
+  },
+  {
+   "key": "h19_5_01922",
+   "cached_file": ".cache/scored/h19_5_01922__5d1a920f.tif",
+   "owner_recorded_public_score": 0.1922,
+   "holdout_dti": 0.06542296628139585,
+   "emitted": 121131
+  },
+  {
+   "key": "lb_anchor_h19_5_01922",
+   "cached_file": ".cache/scored/lb_anchor_h19_5_01922__5d1a920f.tif",
+   "owner_recorded_public_score": 0.1922,
+   "holdout_dti": 0.06542296628139585,
+   "emitted": 121131
+  },
+  {
+   "key": "lb_anchor_h19_4_01894",
+   "cached_file": ".cache/scored/lb_anchor_h19_4_01894__7765426a.tif",
+   "owner_recorded_public_score": 0.1894,
+   "holdout_dti": 0.06580478479238147,
+   "emitted": 123779
+  },
+  {
+   "key": "lb_anchor_h16_1_01855",
+   "cached_file": ".cache/scored/lb_anchor_h16_1_01855__2d4e3ae4.tif",
+   "owner_recorded_public_score": 0.1855,
+   "holdout_dti": 0.0653579809249051,
+   "emitted": 123939
+  },
+  {
+   "key": "a_verified_01563",
+   "cached_file": ".cache/scored/a_verified_01563__44e9eff9.tif",
+   "owner_recorded_public_score": 0.1563,
+   "holdout_dti": 0.08066881354927351,
+   "emitted": 172974
+  },
+  {
+   "key": "gemsdoe1-ens12",
+   "cached_file": ".cache/scored/gemsdoe1-ens12__812e61b7.tif",
+   "owner_recorded_public_score": 0.1563,
+   "holdout_dti": 0.08066881354927351,
+   "emitted": 172974
+  },
+  {
+   "key": "hedge_v2_01563",
+   "cached_file": ".cache/scored/hedge_v2_01563__a941209b.tif",
+   "owner_recorded_public_score": 0.1563,
+   "holdout_dti": 0.2701105823377282,
+   "emitted": 227507
+  },
+  {
+   "key": "gemsdoe2-dual-union",
+   "cached_file": ".cache/scored/gemsdoe2-dual-union__fd56d5c4.tif",
+   "owner_recorded_public_score": 0.156,
+   "holdout_dti": 0.08095708912966314,
+   "emitted": 183642
+  },
+  {
+   "key": "gemsdoe3-pindrop-nodes",
+   "cached_file": ".cache/scored/gemsdoe3-pindrop-nodes__fdd93116.tif",
+   "owner_recorded_public_score": 0.1193,
+   "holdout_dti": 0.08099293907583326,
+   "emitted": 155021
+  },
+  {
+   "key": "gemsdoe3-pindrop-ridge",
+   "cached_file": ".cache/scored/gemsdoe3-pindrop-ridge__b298154c.tif",
+   "owner_recorded_public_score": 0.1152,
+   "holdout_dti": 0.07545638485747125,
+   "emitted": 155021
+  },
+  {
+   "key": "r13_lattice_s5_00904",
+   "cached_file": ".cache/scored/r13_lattice_s5_00904__81c80261.tif",
+   "owner_recorded_public_score": 0.0904,
+   "holdout_dti": 0.0879706722615128,
+   "emitted": 206895
+  },
+  {
+   "key": "gemsdoe3-pindrop-discovery",
+   "cached_file": ".cache/scored/gemsdoe3-pindrop-discovery__32a4a6d2.tif",
+   "owner_recorded_public_score": 0.083,
+   "holdout_dti": 0.06945530472724708,
+   "emitted": 155021
+  },
+  {
+   "key": "sgmc44k_00512",
+   "cached_file": ".cache/scored/sgmc44k_00512__e5099b92.tif",
+   "owner_recorded_public_score": 0.0512,
+   "holdout_dti": 0.04405707860839618,
+   "emitted": 44090
+  },
+  {
+   "key": "gemsdoe4-combined-237f0063",
+   "cached_file": ".cache/scored/gemsdoe4-combined-237f0063__3604c845.tif",
+   "owner_recorded_public_score": 0.0343,
+   "holdout_dti": 0.03597954050671599,
+   "emitted": 264247
+  },
+  {
+   "key": "gems6-hgb88-topk03",
+   "cached_file": ".cache/scored/gems6-hgb88-topk03__3957f33a.tif",
+   "owner_recorded_public_score": 0.0286,
+   "holdout_dti": 0.16991203626162996,
+   "emitted": 155021
+  },
+  {
+   "key": "c0_scored_reference",
+   "cached_file": ".cache/scored/c0_scored_reference__2a2861be.tif",
+   "owner_recorded_public_score": null,
+   "holdout_dti": 0.02906717356319919,
+   "emitted": 40199
+  },
+  {
+   "key": "gemsdoe3-sgmc-gap",
+   "cached_file": ".cache/scored/gemsdoe3-sgmc-gap__9380203f.tif",
+   "owner_recorded_public_score": null,
+   "holdout_dti": 0.0,
+   "emitted": 61664
+  }
+ ],
+ "labels": {
+  "owner_recorded_public_score": "OWNER-REPORTED (written into the raster's file name by the owner in a sibling repository; no organizer receipt is reachable from this session)",
+  "holdout_dti": "HOLDOUT-DTI (local instrument, evaluator gems57-pooled-hide-v2)"
+ },
+ "receipts": [
+  "evidence/h59j_live_calibration.json",
+  "evidence/offcat_instrument_check.json",
+  "evidence/h59j_candidate_ci.json"
+ ]
+}
