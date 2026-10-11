@@ -25,7 +25,9 @@ OWNER-REPORTED / ORGANIZER-PUBLISHED (context only). No local holdout number is 
 <span class="badge ok">DOWNLOAD: OK</span>
 <span class="badge no">SUBMIT TO COMPETITION: NO</span>
 </p>
-<p><strong>Why:</strong> the candidate is unique against the registry, passes every local format/range check
+<p><strong>Why:</strong> the candidate is byte-unique against all 695 registry rasters (0 identical decoded
+predictions; worst Spearman ρ 0.176 ≤ 0.90; worst dot-set Jaccard 0.042 ≤ 0.50 — full audit
+<a href="data/uniqueness_h59i.json">uniqueness_h59i.json</a>), passes every local format/range check
 (single-band float32, EPSG:32611, 3730&times;3292, transform
 <code>(100, 0, 243350, 0, -100, 4508550)</code>, all values exactly 0 or 1, no NaN, zeros outside the
 footprint, zero positive pixels on the mapped catalogue), but its spatially-blocked holdout score is

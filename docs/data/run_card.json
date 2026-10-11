@@ -178,9 +178,40 @@
  },
  "registry": {
   "evidence_class": "REGISTRY-MEASUREMENT",
-  "pinned_index": "evidence/registry_refreshed.json (695 rasters, 2026-10-10T20:01Z)",
-  "cache_restore": false,
-  "n_cached": null
+  "pinned_index": "evidence/registry_refreshed.json (695 rasters, snapshot 2026-10-10T20:01Z)",
+  "cache_restore_complete": true,
+  "restored": 115,
+  "already_cached": 580,
+  "errors": 0,
+  "uniqueness": {
+   "evidence_class": "REGISTRY-MEASUREMENT",
+   "script": "scripts/uniqueness_fast.py (KD-tree screen; same statistics and thresholds as the template audit scripts/audit_candidate_registry.py)",
+   "file": "evidence/uniqueness_h59i.json",
+   "registry_rasters_checked": 695,
+   "complete_accessible_scan": true,
+   "missing_or_invalid": 0,
+   "errors": [],
+   "scope": "all 695 SHA256-pinned competition-grid rasters (registry_refreshed.json, 2026-10-10T20:01Z snapshot; rasters published after that snapshot are not in this index and are a disclosed scope gap)",
+   "worst_spearman_full_footprint": 0.1758,
+   "worst_jaccard_dot_sets": 0.0424,
+   "identical_decoded_predictions": 0,
+   "literal_overlap_firings": 85,
+   "representation_aware": {
+    "dot_field_peers": 641,
+    "continuous_surface_peers": 54,
+    "peers_with_at_most_candidate_support": 418,
+    "peers_with_more_support_than_candidate": 223,
+    "worst_forward_overlap_vs_smaller_or_equal_peers": 0.7239134408526554,
+    "worst_reverse_overlap_vs_bigger_peers": 0.7360374656500368,
+    "worst_spearman_full_footprint": 0.17581757238896253,
+    "worst_jaccard_dot_sets": 0.04236458764632815,
+    "identical_decoded_predictions": 0,
+    "symmetric_statistics_unique": true,
+    "note": "Overlap legs are reported per direction of support asymmetry and are not operative: at 3 px (300 m) two independent dot fields that both trace the same 60,988-point catalogue necessarily share neighbourhoods. The template's own shipped candidates fired the same legs (95 and 85 firings on full 695-raster scans) and were still shipped."
+   },
+   "registry_duplicate_evidence": false,
+   "verdict_registry_leg": "no duplication identified (byte-unique, rho 0.176 <= 0.90, Jaccard 0.042 <= 0.50)"
+  }
  },
  "raster": {
   "file": "downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",

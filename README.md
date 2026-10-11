@@ -1,13 +1,17 @@
 # 59GEMSDOE — intensity lane (session H59-I)
 
-**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT NO** — unique, format-valid candidate; holdout DTI **0.08216
-[0.06954, 0.09616]** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw) is below the
-published holdout best 0.135204, so it is **not cleared for a weekly slot** (owner's separate selector step;
-no slot spent). Negative results are deliverables.
+**Status (2026-10-11):** DOWNLOAD OK · **SUBMIT NO** — registry-unique, format-valid candidate; holdout DTI
+**0.08216 [0.06954, 0.09616]** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed-20 draw) is
+below the published holdout best 0.135204, so it is **not cleared for a weekly slot** (owner's separate
+selector step; no slot spent). Negative results are deliverables.
 
 - **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html)
 - **Download:** [`docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif`](docs/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif) (SHA256 `ed1b767f…90f6d`, 71,119 binary dots, all-finite, [0,1], EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt
 - **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`)
+- **Registry uniqueness:** [`evidence/uniqueness_h59i.json`](evidence/uniqueness_h59i.json) — all 695 accessible
+  registry rasters, 0 errors: 0 identical decoded predictions, worst Spearman ρ 0.176 (limit 0.90), worst dot-set
+  Jaccard 0.042 (limit 0.50) → no duplication identified. The literal 3-px overlap legs fire on
+  continuous-surface and support-asymmetric peers (IR-57-REPR-01) and are reported per row, not applied.
 - **Method:** presence-only MaxEnt/Poisson point-process intensity (Phillips et al. 2009 effort covariates;
   Fithian & Hastie 2013 equivalence), 1 km new-fault-density zoning, holdout-derived break-even lattice
   (4 px, 2 px catalogue collar)
