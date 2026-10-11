@@ -15,6 +15,9 @@ selector step; no slot spent). Negative results are deliverables.
 - **Method:** presence-only MaxEnt/Poisson point-process intensity (Phillips et al. 2009 effort covariates;
   Fithian & Hastie 2013 equivalence), 1 km new-fault-density zoning, holdout-derived break-even lattice
   (4 px, 2 px catalogue collar)
+- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) — pre-registered hypotheses
+  H59-I2 (gap zoning), H59-I2b (dot budget), H59-I3 (official effort covariates), H59-I4 (off-catalogue
+  holdout, the instrument that could resolve the holdout-vs-live disagreement)
 
 Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.txt`
 → `.venv/bin/python scripts/prepare_data.py --fetch --cache-bands`
