@@ -1,0 +1,68 @@
+{
+  "evidence": {
+    "built": [],
+    "reused": [
+      "as_rtp_1.5",
+      "as_rtp_3.0",
+      "as_rtp_6.0",
+      "band_cond_surf",
+      "band_depth_base",
+      "band_det_elev_slope",
+      "band_geod_2ndinv",
+      "band_ieq",
+      "band_tc",
+      "neg_deq",
+      "relief_10",
+      "thd_grav_3.0",
+      "thd_grav_8.0",
+      "theta_rtp_3.0",
+      "tilt_rtp_3.0"
+    ],
+    "cache": "/home/user/59GEMSDOE/.cache/cov"
+  },
+  "structure": [
+    "cat_density_1km",
+    "neglog_dist_catalogue",
+    "neglog_dist_tips"
+  ],
+  "trace_segments": 84331,
+  "trace_planes": {
+    "neglog_dist_sliprated": [
+      -6.649525165557861,
+      -0.0
+    ],
+    "sliprate_max_1km": [
+      0.0,
+      1.7047481536865234
+    ],
+    "trace_sample_points": 250013,
+    "trace_rated_pixels": 169166
+  },
+  "effort": {
+    "acq_block": 0.4206997752189636
+  },
+  "rank_planes": [
+    "as_rtp_1.5",
+    "as_rtp_3.0",
+    "as_rtp_6.0",
+    "theta_rtp_3.0",
+    "tilt_rtp_3.0",
+    "thd_grav_3.0",
+    "thd_grav_8.0",
+    "band_tc",
+    "band_det_elev_slope",
+    "band_ieq",
+    "neg_deq",
+    "band_cond_surf",
+    "band_depth_base",
+    "band_geod_2ndinv",
+    "relief_10",
+    "neglog_dist_catalogue",
+    "neglog_dist_tips",
+    "cat_density_1km",
+    "neglog_dist_sliprated",
+    "sliprate_max_1km",
+    "acq_block"
+  ],
+  "seconds": 11.5
+}

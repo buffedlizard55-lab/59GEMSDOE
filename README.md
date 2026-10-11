@@ -94,3 +94,34 @@ preserved verbatim at `evidence/run_card_arena94956c66.json`, and its pages rema
 session restored the hash-pinned 19-band feature stack through the public GitHub mirror bridge
 (`scripts/download_features.sh`, `scripts/prepare_data.py`) and therefore supersedes it on data
 availability. Re-read `TASK_PROMPT.md` (verbatim standing brief) alongside this file.
+
+---
+
+## Preserved parallel-session record — lane `arena/1ac83927` (PR #4)
+
+A second concurrent 59GEMSDOE session ran the same intensity brief independently, on the
+10 km zoning variant with strictly off-catalogue deployment (`scripts/replication_run_lane.py`,
+`src/gems59/intensity_replication.py`, receipts `*_lane1ac8.json`, its own site at
+[`docs/replication/`](docs/replication/index.html)). It reached the same family of conclusions by a
+different route, and its numbers are worse, so it is preserved as the weaker of the two
+replications — **do not treat it as a submission**: its run card
+([`evidence/run_card_lane_v1.json`](evidence/run_card_lane_v1.json)) is verdict **negative**, download OK /
+submit NO, 0 slots used.
+
+What it adds beyond the primary lane:
+
+* **A decile calibration of the lane's own ranking** (`evidence/decile_calibration_lane1ac8.json`).
+  The densest decile of 1 km blocks holds **0.0495** of the withheld catalogue positives for
+  **0.1014** of the footprint area — a lift of **0.49, below chance** — while ranking blocks by
+  catalogue distance or catalogue density reaches lifts of **8.46** and **8.26** (random-ranking
+  calibration 0.92, so the method is sound). Discipline: the off-catalogue field is *anti-aligned*
+  with the trunk corridors on a frame whose truth sits on them. Recorded as **IR-59-FRAME-01**.
+* **A second release-overlap measurement** (`evidence/sibling_release_overlap_lane1ac8.json`): the
+  two intensity-lane releases of this family are independent realisations, not copies —
+  0.1235 of the sibling's dots within 3 px of this one, rank correlation 0.0435, against a drift
+  limit of 0.70 / 0.90.
+* The same uniqueness receipt methodology (`evidence/uniqueness_lane_v1.json`, 710 rasters) with the
+  saturation artefact of the literal leg called out rather than hidden (IR-59-REPR-01).
+
+Merged additively: the replication's paths are namespaced (`replication_*`, `*_lane1ac8.json`,
+`docs/replication/`) so both sessions' records survive in one tree.
