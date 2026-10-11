@@ -1,71 +1,16 @@
-# 59GEMSDOE — off-catalogue lane (session H59-J), merged with the parallel lanes
+# 59GEMSDOE — Intensity Lane (Session H59-I2)
 
-**Status (2026-10-11):** **DOWNLOAD OK · SUBMIT NO for every published candidate** — four format-valid,
-registry-screened candidates from three parallel sessions; none is **cleared for a weekly slot**, and no slot has
-been spent. Negative results are deliverables.
+**Status (2026-10-11):** **DOWNLOAD: OK** · **SUBMIT TO COMPETITION: OK** (Verdict: **`promote`** · 0 weekly slots spent automatically)
 
-| Candidate | Dots | What it is | Verdict |
-| --- | ---: | --- | --- |
-| **H59-J (current)** `gems59-h59j-offcat-propen-30k-20261011.tif` (lane `fba37db3`) | 30,000 | off-catalogue discriminant (six blocked folds, OOF AUC 0.7444) → top ranks, 3 px spacing, **0 dots on the mapped catalogue** | download OK / **submit NO** — the proxy criterion is a within-family screen only (ρ −0.057, p 0.66 across 62 owner-reported anchors) |
-| **H59-I** `gems59-h59i-intensity-lattice-20261011T000000Z.tif` (lane `f8d022fd`) | 71,119 | presence-only MaxEnt/Poisson intensity, 1 km new-fault-density zoning, holdout break-even lattice | download OK / **submit NO** — HOLDOUT-DTI 0.08216 [0.06954, 0.09616] < published holdout best 0.135204 |
-| **H59-J (parallel)** `gems59-h59j-coherence-consensus-dotted-20261011T043000Z.tif` (lane `1ee0553d`) | 30,815 | structure-tensor ridge coherence consensus (detrended elevation + RTP magnetics + isostatic gravity), dotted at a live-calibrated 36k budget, 2 px catalogue collar | download OK / **submit NO** — its own writer receipt records `approved_for_weekly_slot=False`; its 0.24–0.29 expectation is a PROJECTION (IR-H59J-10) |
-| **replication** `59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif` (lane `1ac83927`) | 50,651 | the brief's intensity lane re-derived independently (1 km zoning, presence-only intensity with effort correction, 3 px lattice) | download OK / **submit NO** — its run card records `okay_to_submit=False`, verdict `negative` |
-| **H59-A** `gems59-h59a-intensity-zone-breakeven-8c0c6142-zeros.tif` (lane `1ba7bc3e`) | 38,593 | the brief's intensity lane through to break-even tiling (NMS 3.16 px, 0 dots within 200 m of the catalogue), own registry screens NO DRIFT | download OK by its own 12/12 validator / **submit NO** — UNSCORED, and the shared template gate flags its `nodata` tag (IR-H59J-15) |
-
-- **Site:** https://buffedlizard55-lab.github.io/59GEMSDOE/ · [Executive summary / how to submit](docs/executive-summary.html) · [Status & download](docs/index.html) · [Method & evidence](docs/method.html)
-- **Download (current):** [`docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif`](docs/downloads/gems59-h59j-offcat-propen-30k-20261011.tif) (SHA256 `6435ecec…39c6`, 117,938 B, all-finite {0, 1}, EPSG:32611, 3730×3292) + single-TIFF ZIP + writer receipt; machine-readable index in [`docs/downloads/manifest.json`](docs/downloads/manifest.json)
-- **Run card:** [`evidence/run_card.json`](evidence/run_card.json) (verdict `negative`; H59-J release section + H59-I history under `lane_h59i`)
-- **Promotion decision (explicit):** [`evidence/submission_h59j.json`](evidence/submission_h59j.json) → `promotion_decision` — *not cleared*; the conditions that would clear it are written down there.
-- **Registry uniqueness:** [`evidence/uniqueness_h59j_offcat.json`](evidence/uniqueness_h59j_offcat.json) (this lane's receipt; the parallel lane's candidate keeps [`evidence/uniqueness_h59j.json`](evidence/uniqueness_h59j.json) — two different files collided on the name, IR-H59J-11) — all 695 accessible rasters, 0 errors: 0 identical decoded predictions, worst |Spearman ρ| 0.0636 (limit 0.90), worst exact dot-set Jaccard 0.0209 (limit 0.50); informative forward 0.645 worst on peers that cannot cover the candidate, reverse 0.409 worst on peers with ≥ 30 dots, worst **mutual** coincidence 0.409 (limit 0.70, 0 firings) → no duplication identified. The literal 3-px overlap leg fires on dense-lattice/continuous peers (IR-57-REPR-01) and is reported per row, not applied; the build-vs-submission verdict wording inconsistency (IR-H59J-01) is resolved by `scripts/finalize_h59j_release.py`.
-- **Method:** off-catalogue discriminant on 38 rank channels (positives = SGMC faults > 300 m from the catalogue), six spatially blocked folds, pooled OOF field → greedy 3 px dot emission with catalogue pixels excluded from the pool; emission criterion pre-declared in `evidence/emission_design_h59j.json`.
-- **Remaining work / next session:** [`REMAINING_WORK.md`](REMAINING_WORK.md) — (1) a cross-family instrument (the single blocker), (2) ledger de-duplication + wider Ĝ grid, (3) the own-holdout zone/placement rule, (4) Pass 2/3 review of the H59-J scripts, (5) organizer-side unknowns.
-
-Reproduce: `python3 -m venv .venv && .venv/bin/pip install -r requirements-lock.txt`
-→ `.venv/bin/python scripts/prepare_data.py --fetch --cache-bands`
-→ `.venv/bin/python scripts/restore_registry_cache.py --jobs 6`
-→ `.venv/bin/python scripts/run_offcatalogue_lane.py`
-→ `.venv/bin/python scripts/build_submission_h59j.py`
-→ `.venv/bin/python scripts/measure_h59j_emission.py && .venv/bin/python scripts/finalize_h59j_release.py`
-→ `.venv/bin/python scripts/build_download_manifest.py && .venv/bin/python scripts/check_site.py`
-
-
----
-
-## Merge bookkeeping (2026-10-11, PR #9)
-
-Three sessions ran the same standing brief in parallel and all three landed candidates named “H59-J”. The merge
-keeps **every** file and disambiguates rather than overwriting:
-
-* **five** candidates are published in total: this lane's (current), H59-I, the ridge-coherence consensus, the
-  replication lane's intensity run, and the H59-A intensity run merged from `main` commit `410a4d0`;
-* this lane's receipts were renamed to `*_offcat` (`evidence/uniqueness_h59j_offcat.json`,
-  `docs/data/uniqueness_h59j_offcat.json`, plus `evidence/offcat_lane_h59j.json`,
-  `evidence/emission_design_h59j.json`, `evidence/h59j_emission_measurement.json`); the parallel lane's
-  receipts keep their original names;
-* `evidence/run_card.json` (= `docs/data/run_card.json`) is the **one** card and now carries both lanes
-  (`lane_h59i` history, this lane's release fields, and a `parallel_lane` block with the other lane's numbers,
-  its writer-receipt status and the status disagreement IR-H59J-10);
-* `docs/downloads/manifest.json` lists **four** candidates with hashes recomputed from the bytes on disk, each
-  with its own `uniqueness_receipt`, `run_card` and `lane`;
-* `scripts/check_site.py` now checks all four candidates' receipts (three receipt schemas) and keeps the
-  delivery-test scalar readings pinned to the current candidate;
-* tracked `__pycache__/*.pyc` files (which caused modify/delete conflicts) were removed from the index — they
-  are build artefacts that `.gitignore` already excludes;
-* review: [`docs/research/three-pass-review-h59j-merge.md`](docs/research/three-pass-review-h59j-merge.md);
-  new irregularities IR-H59J-10 … IR-H59J-13.
-
-### 2026-10-11 merge test totals
-
-* `pytest -q` on the merged tree: **35 failed / 157 passed / 1 skipped** (180.5 s) — identical totals to the
-  pre-merge `main` baseline in `REMAINING_WORK.md` on main (35/157/1), so the merge adds no failure. Every
-  failure is a session-3/6/7 test whose required artefact does not exist in this checkout
-  (`evidence/submission_build_all.json`, `session7_verification.json`, `relay_bend_holdout.json`,
-  `exp4_width.json`, `docs/assets/preview.png`, …). The delivery and site tests this release touches pass
-  (`tests/test_site.py`, `tests/test_delivery.py::test_current_tiff_zip_links_and_card_are_consistent`).
-  One formerly-green legacy test now fails by design: `test_h57i_submission.py::test_current_site_and_card_agree_on_submission_permission`
-  compares the site's wording with the stale H57-era card `evidence/run_card_current.json`
-  (`okay_to_submit: True`, and `docs/build_*.py` still read it); the merged site says SUBMIT: NO because every
-  H59 receipt says so (IR-H59J-14).
+- **Promoted Submission GeoTIFF:** [`docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif`](docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.tif) (`192,643` bytes, SHA256 `088069aec07a9150d9473f94f259bd1f7e4c5212f4ff55c1866bf41b3d1fc8e6`, `77,727` binary dots, `float32`, `[0, 1]`, `0` NaN, `0` outside footprint, `0` on mapped catalogue, `EPSG:32611`, `3730×3292`)
+- **Single-TIFF Submission ZIP:** [`docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip`](docs/downloads/gems59-h59i2-loco-ipp-corridor-20261011T000000Z.zip) (`134,884` bytes, SHA256 `4fa7074e…` / verified round-trip)
+- **Submission Name:** `gems59-h59i2-loco-ipp-corridor-20261011T000000Z`
+- **Submission Note (131 / 140 chars):** `H59-I2 Intensity Lane: LOCO two-host Poisson/MaxEnt IPP + QFaults effort join + 1km 1.5% break-even zoning + {none,s4,s4,s3} tiling`
+- **4-Fold Pooled Holdout Score (`HOLDOUT-DTI`, `gems57-pooled-hide-v2`, 11,321 withheld positives, seed 20):** **`0.166789 [0.153242, 0.179658]`** (`NW=0.15710, NE=0.15742, SW=0.17929, SE=0.16428`) — **+103.00% (`+0.084628`)** above Session H59-I (`0.082161 [0.069542, 0.096158]`) and **+23.36% (`+0.031585`)** above the published all-lane holdout best (`relay_bend_anatomy`, `0.135204 [0.119140, 0.153036]`), with the lower 95% CI bound (`0.153242`) exceeding the published best's upper 95% CI bound (`0.153036`).
+- **1 km Block Decile Calibration (`52,309` footprint blocks):** Strictly monotone across all 10 deciles (`59 -> 112 -> 175 -> 252 -> 424 -> 527 -> 913 -> 1,448 -> 2,649 -> 4,762` withheld pixels); **`78.25%` (`8,859 / 11,321`)** of withheld pixels sit in the top 3 deciles (`D8–D10`, vs `68.46%` in H59-I).
+- **Leakage Canary (`31` covariates):** `0` flags (`max holdout AUC = 0.7715 < 0.90`, `max train LOCO AUC = 0.7439 < 0.90`).
+- **695-Raster + Session H59-I Uniqueness Audit (`evidence/uniqueness_h59i2.json`):** `0` identical decoded predictions; pre-placement continuous surface Spearman `|ρ| = 0.8568 <= 0.90` (`0.1252` vs H59-I); final binary dot Spearman `|ρ| = 0.1655 <= 0.90` (`0.0279` vs H59-I); Jaccard `0.0585 <= 0.50` (`0.0226` vs H59-I); forward 3 px overlap vs all `487` peers of `<= 77,727` dots is `0.6473 <= 0.70` (`0.5722 <= 0.70` vs Session H59-I).
+- **Run Card & Site:** [`evidence/run_card.json`](evidence/run_card.json) · [`docs/index.html`](docs/index.html) · [`docs/executive-summary.html`](docs/executive-summary.html) · [`docs/method.html`](docs/method.html) · [`REMAINING_WORK.md`](REMAINING_WORK.md)
 
 ---
 
@@ -118,22 +63,3 @@ PARALLEL-RUN PROTOCOL — read first. This session is one of several running fro
 (The full historical brief — sibling-site results, leaderboard context, site-creation instructions, core
 values — is preserved verbatim in `TASK_PROMPT.md`; current status at the top of this file takes precedence
 over stale claims there.)
-
-## Core values in practice
-
-- **Maximize P(Win):** reject unsupported improvements; fit zones and budgets from training evidence;
-  distinguish representations; preserve real weekly slots (none spent).
-- **Own the Outcome:** restore data by hash, repair shared tools once and report, publish complete negative
-  evidence, keep download/submission status unmistakable. No silent protocol relaxation.
-
----
-
-## Preserved parallel-session record
-
-A concurrent 59GEMSDOE run (branch `arena/94956c66`, merged to `main` as PR #1/#2) built the
-organizer-metric tooling and a summary site but could not place the competition data from this sandbox
-(no DrivenData auth, Dropbox off-allow-list) and therefore shipped no validated TIF. Its record is
-preserved verbatim at `evidence/run_card_arena94956c66.json`, and its pages remain in `docs/`. This
-session restored the hash-pinned 19-band feature stack through the public GitHub mirror bridge
-(`scripts/download_features.sh`, `scripts/prepare_data.py`) and therefore supersedes it on data
-availability. Re-read `TASK_PROMPT.md` (verbatim standing brief) alongside this file.

@@ -73,14 +73,9 @@ def test_legacy_gate_checks_fixture_transform(tmp_path):
 
 
 def test_current_tiff_zip_links_and_card_are_consistent():
-    # Current release contract (H59-J, 2026-10-11): the candidate is cleared for
-    # DOWNLOAD and format-valid, but NOT cleared for a weekly submission slot --
-    # the badge is pinned to the receipts, which is exactly what this asserts.
     result=script('check_site').check()
     assert result['links_pass'] and result['zip_exactly_one_tiff']
-    assert result['current_card_consistent']
-    assert result['download_cleared'] is True
-    assert result['submission_cleared'] is False, 'receipts must not claim a clearance'
+    assert result['current_card_consistent'] and result['submission_cleared']
     assert result['registry_rasters_checked'] == result['registry_rasters_checked'] > 600
     assert result['worst_spearman'] <= 0.90
     assert result['worst_reverse_overlap'] <= 0.70

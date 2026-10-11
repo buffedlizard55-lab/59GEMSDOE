@@ -82,16 +82,7 @@ def check_name_and_note(name: str, note: str) -> None:
 def validate_array(values: np.ndarray, template: dict, footprint: np.ndarray | None = None) -> dict:
     """Check an in-memory prediction array against the official format. Raises on failure.
 
-    If `footprint` is given, only in-footprint cells must be finite and in [0, 1].
-    Outside the footprint the official text ("data outside the bounds is null or
-    nan", problem page 967, fetched 2026-10-11) *permits* null/NaN; it does not
-    require it, and a value of 0 is itself a legal confidence in [0, 1].  Both
-    byte patterns have been accepted by the portal: of the 26 scored rasters in
-    `.cache/scored/`, 18 carry NaN outside the valid region and 8 are all-finite
-    with zeros (including the family's best recorded score, 0.2778).  So
-    outside-footprint cells are accepted as either NaN or a finite value in
-    [0, 1]; inf, the -3.4028e38 sentinel, and finite values outside [0, 1] are
-    still refused, and nothing inside the footprint is relaxed.
+    If `footprint` is given, only in-footprint cells must be finite and in [0, 1]; the rest must be NaN.
     """
     problems = []
     if values.ndim != 2:
@@ -109,18 +100,8 @@ def validate_array(values: np.ndarray, template: dict, footprint: np.ndarray | N
             problems.append("contains NaN or inf inside the footprint")
         if np.any(inside == np.float32(SENTINEL_NODATA)) or np.any(values == np.float32(SENTINEL_NODATA)):
             problems.append("contains the -3.4028e38 sentinel")
-        if np.isinf(values).any():
-            problems.append("contains infinite values (inf is refused everywhere)")
-        if footprint is not None:
-            outside = values[~fp]
-            finite_out = np.isfinite(outside)
-            if finite_out.any():
-                lo_out = float(outside[finite_out].min())
-                hi_out = float(outside[finite_out].max())
-                if lo_out < 0.0 or hi_out > 1.0:
-                    problems.append(
-                        f"finite values outside the template footprint are out of [0, 1]: "
-                        f"min={lo_out} max={hi_out}")
+        if footprint is not None and np.any(np.isfinite(values[~fp])):
+            problems.append("has finite values outside the template footprint (official: outside must be NaN)")
         if inside.size and (float(inside.min()) < 0.0 or float(inside.max()) > 1.0):
             problems.append(
                 f"values must lie in [0, 1]; found min={float(inside.min())} max={float(inside.max())}"
@@ -129,17 +110,8 @@ def validate_array(values: np.ndarray, template: dict, footprint: np.ndarray | N
         raise SubmissionError("; ".join(problems))
     fp = np.ones(values.shape, dtype=bool) if footprint is None else footprint
     inside = values[fp].astype(np.float64)
-    outside_vals = values[~fp]
-    finite_out_mask = np.isfinite(outside_vals)
     stats = {
         "outside_footprint_cells": int(np.count_nonzero(~fp)),
-        "outside_footprint_nan_cells": int(np.count_nonzero(~finite_out_mask)),
-        "outside_footprint_finite_cells": int(np.count_nonzero(finite_out_mask)),
-        "outside_footprint_nonzero_cells": int(
-            np.count_nonzero(finite_out_mask & (outside_vals > 0))),
-        "outside_footprint_convention": (
-            "nan" if not finite_out_mask.any() else
-            "zero" if not np.any(finite_out_mask & (outside_vals != 0)) else "mixed"),
         "min": float(inside.min()),
         "max": float(inside.max()),
         "mean": float(inside.mean()),
@@ -169,12 +141,8 @@ def write_submission(
 
     values = np.ascontiguousarray(values, dtype=np.float32)
     fp = footprint_mask(template_path)
-    # NaN outside the footprint (the official template's own pattern; zeros inside-only
-    # arrays are written through unchanged, which the portal also accepts - see validate_array)
-    if np.isnan(values[~fp]).all():
-        pass
-    else:
-        values = np.where(fp, values, np.float32(np.nan)).astype(np.float32)
+    # write the template's footprint: values inside, NaN outside (official: outside bounds = null or NaN)
+    values = np.where(fp, values, np.float32(np.nan)).astype(np.float32)
     stats = validate_array(values, template, footprint=fp)
 
     out_path = Path(out_path)
@@ -238,7 +206,7 @@ def validate_file(path: Path, template_path: Path) -> dict:
         "shape": [template["height"], template["width"]],
         "transform": list(template["transform"]),
         "dtype": "float32",
-        "nodata": "NaN" if stats and stats.get("outside_footprint_nan_cells") else None,
+        "nodata": "NaN" if stats and stats["outside_footprint_cells"] else None,
         "validator": "gems_dti.submission.validate_file v2",
         "checks_passed": [
             "single_band",
@@ -249,8 +217,6 @@ def validate_file(path: Path, template_path: Path) -> dict:
             "all_finite_in_footprint",
             "no_sentinel",
             "range_0_1",
-            "outside_footprint_nan_or_zero",
-            "outside_footprint_in_0_1",
         ],
         "stats": stats,
         "all_zero_warning": bool(stats and stats["all_zero"]),

@@ -1,8 +1,10 @@
 {
- "dots": 71119,
- "min_dist_px": 2.23606797749979,
+ "dots": 77727,
+ "min_dist_px": 1.0,
+ "p10_dist_px": 1.0,
  "median_dist_px": 5.0,
- "p90_dist_px": 9.486832980505138,
+ "p90_dist_px": 13.03840446472168,
+ "max_dist_px": 35.0,
  "on_catalogue": 0,
  "nan": 0
 }
