@@ -136,6 +136,24 @@ max-cover DTI, which is a plausible mechanism — but the scores are owner-repor
 file receipt, and this session's holdout cannot confirm a causal gain. The 2 px collar finding here
 (+0.0074 DTI on the holdout) is consistent with that mechanism, nothing more.</p>
 </div>
+
+<div class="panel">
+<h2 style="margin-top:0">Next session — pre-registered, none run</h2>
+<ul>
+<li><strong>H59-I2 — gap zoning.</strong> Zone by <code>c_b = cat_frac_b / λ̄_b</code> (how much of the
+predicted intensity is already mapped) instead of by raw predicted new-fault density; per-block predicted new
+faults become <code>n_b = Σλ·(1 − cat_frac_b/λ̄)</code>. Moves dots off already-mapped blocks.</li>
+<li><strong>H59-I2b — dot budget.</strong> The candidate emits 71,119 dots (1.38% of the footprint) against the
+~38–40k of the owner-reported top scorers; tile the top-N blocks by <code>n_b</code> until the budget is spent.</li>
+<li><strong>H59-I3 — official effort covariates.</strong> USGS reliability-of-location class, distance to roads
+and the GeoDAWN acquisition block (ScienceBase DOI 10.5066/P93LGLVQ) are unobtainable through this sandbox's
+egress allow-list; only trace density and relief were used.</li>
+<li><strong>H59-I4 — off-catalogue holdout.</strong> Withhold whole catalogue components plus a 2 km buffer and
+score against the SGMC/state compilation in the withheld area. This is the instrument that could resolve the
+holdout-rewards-tight-placement vs live-evidence-rewards-distance disagreement.</li>
+</ul>
+<p class="small">Full write-up with all limitations: <code>REMAINING_WORK.md</code> in the repository root.</p>
+</div>
 </main>
 </body>
 </html>
