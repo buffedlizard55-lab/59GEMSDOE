@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Download and submit</title><style>
+:root{--bg:#0f1216;--card:#171c22;--ink:#e8edf2;--dim:#9fb0c0;--ok:#2fbf71;--warn:#e8a33d;
+--bad:#e0574f;--line:#26303a;--link:#7cc4ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header,main,footer{max-width:1000px;margin:0 auto;padding:0 20px}
+nav{background:#12171c;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:22px}
+nav a{color:var(--dim);margin-right:16px;text-decoration:none;font-size:14px}
+nav a.on,nav a:hover{color:var(--ink)}
+h1{font-size:26px;margin:18px 0 6px}h2{font-size:20px;margin:30px 0 8px}
+h3{font-size:16px;margin:20px 0 6px}
+p,li{color:var(--ink)}small,.dim{color:var(--dim)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:600;font-size:13px}
+.ok{background:rgba(47,191,113,.15);color:var(--ok);border:1px solid rgba(47,191,113,.4)}
+.warn{background:rgba(232,163,61,.15);color:var(--warn);border:1px solid rgba(232,163,61,.4)}
+.bad{background:rgba(224,87,79,.15);color:var(--bad);border:1px solid rgba(224,87,79,.4)}
+a{color:var(--link)}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:600}
+code,pre{background:#0b0e11;border:1px solid var(--line);border-radius:6px;padding:2px 5px;font-size:13px}
+pre{padding:12px;overflow:auto}
+.dl{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.button{display:inline-block;background:var(--ok);color:#08120c;font-weight:700;padding:10px 16px;
+border-radius:8px;text-decoration:none}
+.button.alt{background:#2b3b49;color:var(--ink)}
+footer{color:var(--dim);font-size:13px;padding:30px 20px}
+</style></head><body>
+<nav><header><a href="index.html">Overview</a><a href="executive-summary.html" class=on>Download &amp; submit</a><a href="evidence.html">Evidence</a><a href="audit.html">Audit</a><a href="sources.html">Sources</a></header></nav><main><h1>Download &amp; submit</h1>
+<div class="card"><span class="pill ok">DOWNLOAD: OK</span>
+&nbsp;<span class="pill warn">SUBMIT: HOLD</span>
+<p>Nothing in this repository submits anything by itself. No competition slot was used here; the
+weekly cap is shown on the competition's own submission page.</p></div>
+<h2>Step by step</h2>
+<ol>
+<li>Download the ZIP from the <a href="index.html">overview page</a> (it contains exactly one TIFF,
+named <code>59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif</code>).</li>
+<li>Check the integrity if you want to: <code>sha256sum 59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif</code> must print
+<code>d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c</code>.</li>
+<li>Open the competition submission page for <b>DOE GEMS</b> (competition 306) while logged in,
+choose the file, and give it the name and note recorded in the receipt
+(<code>59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.json</code>).</li>
+<li>Submit. The form accepts a single-band GeoTIFF on the official grid with values in
+<b>[0, 1]</b> and no NaN inside the study area — that is exactly the local validator's policy, and
+this file passes it. (An earlier session's upload was rejected with “Predicted values must be in
+range [0, 1]”; this pipeline writes an all-finite float32 field with 0/1 values, never NaN.)</li>
+<li>Record the returned submission-page receipt. Only that receipt makes a score
+ORGANIZER-CONFIRMED; every number in this repository is a HOLDOUT-DTI proxy or owner-reported
+context.</li>
+</ol>
+<h2>Should you spend a slot?</h2>
+<p>The honest position: the file is format-valid, unique against the registry under the
+representation-aware leg, canary-clean, and it beats the proximity control on the off-catalogue
+frame with disjoint CIs. It <i>loses</i> to proximity on the catalogue frame by construction (that
+frame rewards placing dots next to the visible catalogue, which the live evidence penalises). If you
+want the conservative choice, keep the slots and let the selector step compare this file against the
+family's retained candidates; if you want a lottery ticket on the off-catalogue reading, this file is
+ready to submit unchanged.</p>
+<h2>What the numbers mean</h2>
+<table><tr><th>number</th><th>class</th><th>meaning</th></tr>
+<tr><td>0.03339 / 0.04399</td><td>HOLDOUT-DTI</td><td>pooled distance-weighted Tversky index on the
+catalogue hide-and-recover frame and on the off-catalogue (SGMC-novelty) frame, evaluator
+<code>gems57-pooled-hide-v2</code>; never a leaderboard score</td></tr>
+<tr><td>0.2349 / 0.03914</td><td>HOLDOUT-DTI</td><td>the same frames for the proximity-only control</td></tr>
+<tr><td>0.5299</td><td>HOLDOUT-DTI</td><td>worst single-feature leakage canary AUC (limit 0.90)</td></tr>
+<tr><td>0.2600 / 0.2778 / 0.3195</td><td>OWNER-REPORTED</td><td>family and leaderboard context quoted
+from the sibling repository's ledger, not verified receipts</td></tr></table></main>
+<footer>59GEMSDOE intensity lane · built 2026-10-11 01:08 UTC from
+the JSON receipts in <a href="data/">docs/data/</a> · every number carries its evidence class ·
+no competition slot was used by this repository.</footer></body></html>

@@ -1,0 +1,222 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit</title><style>
+:root{--bg:#0f1216;--card:#171c22;--ink:#e8edf2;--dim:#9fb0c0;--ok:#2fbf71;--warn:#e8a33d;
+--bad:#e0574f;--line:#26303a;--link:#7cc4ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header,main,footer{max-width:1000px;margin:0 auto;padding:0 20px}
+nav{background:#12171c;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:22px}
+nav a{color:var(--dim);margin-right:16px;text-decoration:none;font-size:14px}
+nav a.on,nav a:hover{color:var(--ink)}
+h1{font-size:26px;margin:18px 0 6px}h2{font-size:20px;margin:30px 0 8px}
+h3{font-size:16px;margin:20px 0 6px}
+p,li{color:var(--ink)}small,.dim{color:var(--dim)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-weight:600;font-size:13px}
+.ok{background:rgba(47,191,113,.15);color:var(--ok);border:1px solid rgba(47,191,113,.4)}
+.warn{background:rgba(232,163,61,.15);color:var(--warn);border:1px solid rgba(232,163,61,.4)}
+.bad{background:rgba(224,87,79,.15);color:var(--bad);border:1px solid rgba(224,87,79,.4)}
+a{color:var(--link)}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--dim);font-weight:600}
+code,pre{background:#0b0e11;border:1px solid var(--line);border-radius:6px;padding:2px 5px;font-size:13px}
+pre{padding:12px;overflow:auto}
+.dl{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.button{display:inline-block;background:var(--ok);color:#08120c;font-weight:700;padding:10px 16px;
+border-radius:8px;text-decoration:none}
+.button.alt{background:#2b3b49;color:var(--ink)}
+footer{color:var(--dim);font-size:13px;padding:30px 20px}
+</style></head><body>
+<nav><header><a href="index.html">Overview</a><a href="executive-summary.html">Download &amp; submit</a><a href="evidence.html">Evidence</a><a href="audit.html" class=on>Audit</a><a href="sources.html">Sources</a></header></nav><main><h1>Audit</h1>
+<h2>Irregularities</h2>
+<ul>
+<li><b>IR-59-PROMPT-01</b> — the original chat prompt is not machine-recoverable inside the sandbox;
+the README preserves it as requirements and does not claim word-for-word fidelity. The sibling
+repository's preserved prompt is copied to <code>docs/task-prompt-sibling.md</code>.</li>
+<li><b>IR-59-SEP-01</b> — the deployed field's <i>scale</i> is not identified: two Newton stopping
+points of identical code 0.2 % apart in deviance give block peak shares 90× apart. Emission
+therefore selects blocks by rank, never by absolute density.</li>
+<li><b>IR-59-EFFORT-02</b> — the USGS reliability-of-location class cannot be joined to the grid:
+the attribute table keys on <code>NUM</code>, the trace segments on <code>record_id</code>, and no
+join key exists in the published files.</li>
+<li><b>IR-59-SGMC-01</b> — <code>derived_sgmc_faults_100m_u8.tif</code> is byte-identical to
+<code>sgmc_faults_100m.tif</code>; it is not a difference layer.</li>
+<li><b>IR-59-REPR-01</b> — the literal “≥70 % of dots within 3 px of any single prior raster” rule is
+unsatisfiable for <i>any</i> nonempty candidate while dense-support priors are in the registry
+(their support covers every cell, so the overlap is 1.0 by construction). Both legs are measured and
+the ruling is requested; the representation-aware leg is the meaningful one.</li>
+<li><b>IR-30-039 (inherited)</b> — catalogue-proxy DTI ranks the thinning family opposite to the
+live board. The release therefore states which frame each number comes from and never adjudicates
+field choice with the catalogue frame alone.</li>
+<li><b>Driver bug found and fixed this session</b> — the first emission recipe put an absolute
+expected-pixel cut on a field whose scale is unstable (IR-59-SEP-01) and used two different ridge
+values in different stages. Both are fixed; the earlier receipts are superseded and no longer exist
+in the tree.</li>
+</ul>
+<h2>Three review passes</h2>
+<p>(see docs/verification.md, copied below)</p>
+<pre># Verification — three passes
+
+**Pass 1 — implement and verify.** Every stage of the lane was run end to end on
+the pinned data and its receipt written to `evidence/`:
+
+| stage | receipt | result |
+|---|---|---|
+| bridge pins | `data_preparation.json` | ALL PINS VERIFIED (7 files + the 419 MB 19-band stack by transport hash) |
+| grid / catalogue / footprint | `verify_grid.json` | footprint 5,167,373 px, catalogue 60,988 px, 0 px outside |
+| covariates | `planes.json` | 21 planes ranked, cached |
+| full-catalogue fit | `fit_full.json` | 37,307 thinned presence vs 150,000 background |
+| EXP-1 | `exp1_catalogue_holdout.json` | q-sweep, table sweep, 3 controls, pooled with 1,000 bootstrap draws |
+| family comparison | `family_comparison.json` | 3 fields × 2 frames at a matched 44,000-dot budget |
+| EXP-2 | `exp2_sgmc_novelty.json` | lane vs proximity on the off-catalogue frame |
+| EXP-3 | `exp3_canary_robustness.json` | 21 canaries + 3 seeds × 3 q multipliers |
+| emission | `emit_receipt.json` | dots, blocks, spacing histogram, 0 on catalogue |
+| release | `docs/downloads/*.json` | validator + SHA256 + ZIP round-trip |
+
+**Pass 2 — review for bugs, missing requirements and edge cases.** Four real
+defects were found and fixed, each with the evidence that caught it:
+
+1. **Canary sample drawn from the wrong mask.** `cmd_exp3` sampled background
+   points outside the catalogue while the labels were withheld *catalogue*
+   pixels, so the sample was single-class and every AUC was `NaN`; the run then
+   died in `max()`. Fixed by sampling every withheld pixel plus an equal number
+   of visible catalogue pixels. Re-run: worst AUC 0.5299, no flags.
+2. **Receipts were not strict JSON.** The exp-3 crash surfaced as
+   `ValueError: Out of range float values are not JSON compliant: nan` *after*
+   the science had run. `_json()` now sanitises non-finite floats to `null`.
+3. **The deployed field&#x27;s scale is unidentified (IR-59-SEP-01).** Two runs of
+   identical code at Newton stopping points 0.2 % apart in deviance produced
+   block peak shares 90× apart, which silently changed the emitted dot count
+   from ~44,000 to ~570 under an absolute density cut. The emission now selects
+   blocks by **rank** (top-q) and never by an absolute expected-pixel density;
+   the scale instability is recorded in the receipt.
+4. **Two stages used different ridge values.** `exp2`/`emit` refit with the CLI
+   default while `exp1` used its own spatial-CV choice, so the &quot;independent&quot;
+   check scored a different model than the release. All stages now read
+   `exp1.l2_selection.chosen` (0.1) as the single source of truth.
+
+Edge cases checked: empty emission (no dots outside the footprint or on the
+catalogue), dot count under the budget cap, lattice levels restricted to
+`(3, 6, 9, 12)`, single-class canary samples, non-finite receipt fields, and the
+`[0, 1]` / all-finite validator policy that an earlier session&#x27;s upload was
+rejected for.
+
+**Pass 3 — re-check against the original request.**
+
+* *Unique TIF, not copied, uniqueness checked against every earlier raster* —
+  built from the lane&#x27;s own covariates; 710 registry rasters compared on two
+  legs (`uniqueness_lane_v1.json`).
+* *Obvious OK-to-download / OK-to-submit labelling* — the status table is the
+  first thing on the site and at the top of the README, and the labels are read
+  from the run card (`okay_to_download` / `okay_to_submit`) so no page can
+  advertise a decision the card does not record.
+* *Intensity lane exactly as specified* — 1 km blocks, presence-only intensity
+  with target-group background, MaxEnt ⟺ Poisson equivalence, effort covariates
+  (with the reliability-of-location class reported as unobtainable, IR-59-EFFORT-02),
+  break-even tiling with the spacing re-derived on our own holdout.
+* *Parallel-run protocol* — lane restriction, drift check on the surface and the
+  final dots, no private forks (the shared `evaluate_holdout.py`,
+  `submission_writer.py`, `metric.py` are used unchanged), every number labelled,
+  leakage canary run, one JSON run card, 3 experiments, no slot spent.
+* *Hypotheses before implementation* — the family comparison is that register
+  reduced to the one candidate the budget allowed to test (ground-only
+  geophysics + effort), scored on the spatially blocked holdout before any
+  submission slot was considered.
+* *Site* — GitHub Pages, five pages, official links, an executive summary that
+  explains exactly how to make a submission, status at the very top.
+* *Working rules* — autonomous, no hallmarks, irregularities listed, three
+  passes, PR to `main`, remaining work and limitations stated.
+
+**Known limits of the verification.** No organizer receipt exists anywhere in
+the family; the catalogue frame is structurally biased; the off-catalogue frame
+is a different public catalogue, not the hidden truth; the registry snapshot
+certifies the accessible pins only.
+</pre>
+<h2>Reproduce</h2>
+<pre>python3 scripts/prepare_data.py --fetch
+python3 scripts/run_lane.py verify
+python3 scripts/run_lane.py planes
+python3 scripts/run_lane.py fit
+python3 scripts/run_lane.py exp1
+python3 scripts/run_lane.py family
+python3 scripts/run_lane.py exp2
+python3 scripts/run_lane.py exp3
+python3 scripts/run_lane.py emit
+python3 scripts/run_lane.py ship
+python3 scripts/check_uniqueness.py
+python3 scripts/write_run_card.py
+python3 scripts/build_site.py</pre>
+<h2>Data provenance</h2>
+<p>Transport hashes verified: 7 of
+7 bridge pins and the 419 MB 19-band stack
+(<code>4371c82e3b8339b8…</code>). This authenticates
+transport from a public mirror, not an official DrivenData receipt.</p>
+<h2>Validator output</h2>
+<pre>{
+  &quot;local_validation&quot;: {
+    &quot;file&quot;: &quot;/home/user/59GEMSDOE/docs/downloads/59gemsdoe-intensity-lane-50651dots-s3-t33333-20261011T005447Z-b25dd620-zeros.tif&quot;,
+    &quot;bytes&quot;: 79553,
+    &quot;sha256&quot;: &quot;d8e83e1eeae9f8ea82fba4447131e876d3cc601b283df84aaa88303bd7a4f15c&quot;,
+    &quot;meta&quot;: {
+      &quot;crs&quot;: &quot;EPSG:32611&quot;,
+      &quot;shape&quot;: [
+        3730,
+        3292
+      ],
+      &quot;dtype&quot;: &quot;float32&quot;,
+      &quot;count&quot;: 1,
+      &quot;nodata&quot;: null,
+      &quot;transform&quot;: [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      &quot;profile_compress&quot;: &quot;deflate&quot;
+    },
+    &quot;band_description&quot;: [
+      null
+    ],
+    &quot;n_finite&quot;: 12279160,
+    &quot;n_nan&quot;: 0,
+    &quot;n_infinite&quot;: 0,
+    &quot;min&quot;: 0.0,
+    &quot;max&quot;: 1.0,
+    &quot;mean&quot;: 0.004124956205487251,
+    &quot;emitted_positive_pixels&quot;: 50651,
+    &quot;checks&quot;: {
+      &quot;single_band&quot;: true,
+      &quot;dtype_float32&quot;: true,
+      &quot;dimensions_3730x3292&quot;: true,
+      &quot;crs_epsg_32611&quot;: true,
+      &quot;transform_matches_sample_submission&quot;: true,
+      &quot;no_nan_anywhere&quot;: true,
+      &quot;no_inf_anywhere&quot;: true,
+      &quot;no_sentinel_values&quot;: true,
+      &quot;range_0_1_guaranteed&quot;: true,
+      &quot;min_ge_0&quot;: true,
+      &quot;max_le_1&quot;: true,
+      &quot;in_footprint_all_finite&quot;: true,
+      &quot;in_footprint_range_0_1&quot;: true,
+      &quot;outside_footprint_zero&quot;: true,
+      &quot;zero_dots_on_mapped_catalogue&quot;: true
+    },
+    &quot;all_checks_passed&quot;: true,
+    &quot;validation_class&quot;: &quot;local format/range preflight; not organizer acceptance or uniqueness clearance&quot;,
+    &quot;on_catalogue_positive_pixels&quot;: 0,
+    &quot;in_footprint_positive_pixels&quot;: 50651,
+    &quot;footprint_fraction&quot;: 0.009802079315737417
+  },
+  &quot;template_report_ok&quot;: true,
+  &quot;template_report_problems&quot;: [],
+  &quot;status&quot;: &quot;locally validated within separately recorded inventory scope; not organizer acceptance or slot approval&quot;
+}</pre></main>
+<footer>59GEMSDOE intensity lane · built 2026-10-11 01:08 UTC from
+the JSON receipts in <a href="data/">docs/data/</a> · every number carries its evidence class ·
+no competition slot was used by this repository.</footer></body></html>
