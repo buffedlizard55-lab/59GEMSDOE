@@ -1,0 +1,168 @@
+{
+  "file": "gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+  "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+  "bytes": 142754,
+  "submission_name": "gems59-h59i-intensity-lattice-20261011",
+  "note": "H59-I: presence-only MaxEnt/Poisson intensity, effort covariates, 1 km new-fault-density zoning, holdout break-even lattice.",
+  "note_chars": 124,
+  "validator": {
+    "file": "/home/user/59GEMSDOE/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+    "bytes": 142754,
+    "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.005791845731437206,
+    "emitted_positive_pixels": 71119,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 71119,
+    "footprint_fraction": 0.013763086194861489
+  },
+  "template_report": {
+    "path": "/home/user/59GEMSDOE/downloads/gems59-h59i-intensity-lattice-20261011T000000Z.tif",
+    "bytes": 142754,
+    "sha256": "ed1b767f75804048382fc8baf61ff1edad6e9fd7b5b214def715ba5a1e290f6d",
+    "bands": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "width": 3292,
+    "height": 3730,
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "ref_bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "blocksize": [
+      256,
+      256
+    ],
+    "fixture_grid": false,
+    "has_validity_mask": false,
+    "nan_pixels": 0,
+    "infinity_pixels": 0,
+    "n_nan": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.005791845731437206,
+    "n_nonzero": 71119,
+    "mass": 71119.0,
+    "mass_outside_footprint": 0,
+    "problems": [],
+    "ok": true,
+    "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+  },
+  "zip_file": "gems59-h59i-intensity-lattice-20261011T000000Z.zip",
+  "zip_sha256": "9bf4e57b796982bc0a976eaa71a09e374778f6071a3e6b0afee8dce5e9cfc32b",
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "submission_slots_used": 0,
+  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "metadata": {
+    "lane": "intensity",
+    "hypothesis": "H59-I",
+    "gamma": 0.0,
+    "collar_px": 2,
+    "break_even_min_density": 1.0,
+    "utility_spacings": {
+      "q1_low": 4.0,
+      "q2": 4.0,
+      "q3": 4.0,
+      "q4_high": 4.0
+    },
+    "n_blocks_above_break_even": 10634,
+    "expected_new_fault_pixels": 66186.796875,
+    "intensity_names": [
+      "g_tmihg_z",
+      "g_tc_z",
+      "g_gravhg_z",
+      "g_slope_z",
+      "g_tmi_q",
+      "g_cond_q",
+      "g_base_q",
+      "g_strain_q",
+      "g_deq_q",
+      "g_edge_max",
+      "e_dens1",
+      "e_dens5",
+      "e_relief"
+    ],
+    "intensity_beta": {
+      "g_tmihg_z": 0.049194,
+      "g_tc_z": -0.210326,
+      "g_gravhg_z": -0.116245,
+      "g_slope_z": 0.262384,
+      "g_tmi_q": 0.129605,
+      "g_cond_q": -0.029654,
+      "g_base_q": -0.091988,
+      "g_strain_q": -0.243599,
+      "g_deq_q": 0.091841,
+      "g_edge_max": 0.021094,
+      "e_dens1": 3.161084,
+      "e_dens5": -0.630753,
+      "e_relief": -0.074024
+    },
+    "intensity_intercept": -7.934333,
+    "prior_mapped_fraction": 0.011802515514169385,
+    "evaluator": "gems57-pooled-hide-v2",
+    "generated_utc": "2026-10-11T00:46:33Z"
+  }
+}

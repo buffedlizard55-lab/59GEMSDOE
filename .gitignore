@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.cache/
+.pytest_cache/
+.venv/
+out/
+# Large source rasters and generated feature caches are restored by hash, never committed.
+data/official/training_features.tif
+data/official/*.partial
+data/raw/
+registry/cache/
+*.download
+*.partial
