@@ -1,0 +1,39 @@
+{
+  "label": "ORGANIZER-CONFIRMED (public leaderboard page)",
+  "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "fetched": "2026-10-11",
+  "note": "Public test set only. Phase 1 uses the private set (rules PDF section 1.1).",
+  "rows": [
+    {
+      "rank": 1,
+      "participant": "xiaofanhu",
+      "best_public_dw_tversky": 0.3774,
+      "submissions": 15
+    },
+    {
+      "rank": 2,
+      "participant": "JerryDataWorks",
+      "best_public_dw_tversky": 0.3418,
+      "submissions": 18
+    },
+    {
+      "rank": 8,
+      "participant": "DARD",
+      "best_public_dw_tversky": 0.3195,
+      "submissions": 17
+    },
+    {
+      "rank": 22,
+      "participant": "extradr19",
+      "best_public_dw_tversky": 0.2778,
+      "submissions": 14,
+      "file_link": "NOT CONFIRMED (IR-2)"
+    },
+    {
+      "rank": 50,
+      "participant": "MSU-Laskowski-GEMS",
+      "best_public_dw_tversky": 0.2448,
+      "submissions": 12
+    }
+  ]
+}

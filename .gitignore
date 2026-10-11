@@ -1,0 +1,13 @@
+# competition inputs (organizer data is licensed; do not commit)
+data/*
+!data/.gitkeep
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+# scratch and large outputs
+outputs/
+*.npy
+*.npz
+# submissions/ and docs/downloads/ are committed on purpose: the validated TIF must be downloadable from Pages
